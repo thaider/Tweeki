@@ -36,3 +36,60 @@ jQuery(function($) {
   });
 });
 
+		/*
+		 * Skrifo-specific scripts
+		 */
+		jQuery( function( $ ) {
+			var $pCactions = $( '#p-cactions' );
+			$pCactions.find( 'h5 a' )
+				// For accessibility, show the menu when the hidden link in the menu is clicked (bug 24298)
+				.click( function( e ) {
+					$pCactions.find( '.menu' ).toggleClass( 'menuForceShow' );
+					e.preventDefault();
+				})
+				// When the hidden link has focus, also set a class that will change the arrow icon
+				.focus( function() {
+					$pCactions.addClass( 'vectorMenuFocus' );
+				})
+				.blur( function() {
+					$pCactions.removeClass( 'vectorMenuFocus' );
+				});
+	
+			//user-icon vor personal-link in der navigation
+			$( '.pa-user' ).prepend('<i class="icon-user icon-grey"></i> ');
+	
+			//footer nicht fixieren, wenn dokument kleiner als fenstergröße
+			if($(document).height() != $(window).height()) { $( '#footer' ).css('position','static'); }
+			//korrigieren bei resize
+			$(window).resize(function() {
+		  		if($(document).height() != $(window).height()) { $( '#footer' ).css('position','static'); }
+		  		else { $( '#footer' ).css('position','fixed'); }
+			});
+
+		});
+
+
+		/* Move TOC to Sidebar */
+		if( $("#SideTOC").length > 0 ) {
+			$("#toc").appendTo("#SideTOC");
+			$("#toctitle").insertBefore("#SideTOC");
+			$(window).resize(function() {
+				$("#SideTOC").height($(window).height()-$("#SideTOC").position().top-130);
+				}).resize();
+
+			$(document).ready(function() {
+				$("#SideTOC").smoothDivScroll({ 
+					visibleHotSpotBackgrounds: "always",
+					hotSpotScrollingStep: 5,
+					mousewheelScrolling: "vertical",
+					});
+				});
+			}
+		$("#toc").css('display','table');
+
+		/* Add Icon to Editsection-Buttons */
+		$(".editsection a").html("<i class='icon-pencil icon-darkgrey'></i> Abschnitt bearbeiten");
+		$(".editsection a").addClass("btn btn-mini");
+		$(".editsection").html(function() {
+			return $(this).children();
+			});

@@ -1,47 +1,66 @@
 <?php
 /**
- * My Skin skin
+ * Tweeki skin (and hooks)
  *
  * @file
  * @ingroup Skins
- * @author Garrett LeSage
+ * @author Tobias Haider, Garrett LeSage
  */
 
 if( !defined( 'MEDIAWIKI' ) ) die( "This is an extension to the MediaWiki package and cannot be run standalone." );
  
 $wgExtensionCredits['skin'][] = array(
         'path' => __FILE__,
-        'name' => 'Strapping',
-        'url' => "https://github.com/OSAS/strapping-mediawiki",
-        'author' => 'Garrett LeSage',
-        'descriptionmsg' => 'strapping-desc',
+        'name' => 'Tweeki',
+        'version' => '0.1.0',
+        'url' => "http://tweeki.kollabor.at",
+        'author' => 'Tobias Haider (based on the work of Garrett LeSage)',
+        'descriptionmsg' => 'tweeki-desc',
 );
 
-$wgValidSkinNames['strapping'] = 'Strapping';
-$wgAutoloadClasses['SkinStrapping'] = dirname(__FILE__).'/Strapping.skin.php';
-$wgExtensionMessagesFiles['SkinStrapping'] = dirname(__FILE__).'/Strapping.i18n.php';
+$wgValidSkinNames['tweeki'] = 'Tweeki';
+$wgAutoloadClasses['SkinTweeki'] = dirname(__FILE__).'/Tweeki.skin.php';
+$wgAutoloadClasses['TweekiHooks'] = dirname( __FILE__ ) . '/Tweeki.hooks.php';
+$wgExtensionMessagesFiles['SkinTweeki'] = dirname(__FILE__).'/Tweeki.i18n.php';
  
-$wgResourceModules['skins.strapping'] = array(
+$wgDefaultUserOptions['tweeki-poweruser'] = 1;
+
+$wgHooks['GetPreferences'][] = 'TweekiHooks::getPreferences';
+$wgHooks['ParserFirstCallInit'][] = 'TweekiHooks::ButtonsSetup';
+
+$wgResourceModules['skins.tweeki.styles'] = array(
         'styles' => array(
-                'strapping/bootstrap/css/bootstrap.css' => array( 'media' => 'screen' ),
-                'strapping/bootstrap/css/bootstrap-responsive.css' => array( 'media' => 'screen' ),
-                'strapping/bootstrap/awesome/css/font-awesome.css' => array( 'media' => 'screen' ),
-                'strapping/screen.css' => array( 'media' => 'screen' ),
-                'strapping/theme.css' => array( 'media' => 'screen' ),
+                'tweeki/bootstrap/css/bootstrap.css' => array( 'media' => 'screen' ),
+                'tweeki/bootstrap/css/bootstrap-responsive.css' => array( 'media' => 'screen' ),
+                'tweeki/bootstrap/awesome/css/font-awesome.css' => array( 'media' => 'screen' ),
+                'tweeki/screen.css' => array( 'media' => 'screen' ),
+                'tweeki/theme.css' => array( 'media' => 'screen' ),
 	),
+        'remoteBasePath' => &$GLOBALS['wgStylePath'],
+        'localBasePath' => &$GLOBALS['wgStyleDirectory'],
+);
+
+$wgResourceModules['skins.tweeki.scripts'] = array(
 	'scripts' => array(
-		'strapping/bootstrap/js/bootstrap.js',
-		'strapping/strapping.js',
+		'tweeki/bootstrap/js/bootstrap.js',
+		'tweeki/jquery.mousewheel.min.js',
+		'tweeki/jquery.smoothDivScroll-1.3.js',
+		'tweeki/tweeki.js',
+	),
+	'dependencies' => array(
+		'jquery.ui.widget',
 	),
         'remoteBasePath' => &$GLOBALS['wgStylePath'],
         'localBasePath' => &$GLOBALS['wgStyleDirectory'],
 );
 
 # Default options to customize skin
-$wgStrappingSkinLogoLocation = 'bodycontent';
-$wgStrappingSkinLoginLocation = 'footer';
-$wgStrappingSkinAnonNavbar = false;
-$wgStrappingSkinUseStandardLayout = false;
-$wgStrappingSkinDisplaySidebarNavigation = false;
+$wgTweekiSkinUseStandardLayout = false;
+$wgTweekiSkinDisplaySidebarNavigation = false;
 # Show print/export in navbar by default
-$wgStrappingSkinSidebarItemsInNavbar = array( 'coll-print_export' );
+$wgTweekiSkinSidebarItemsInNavbar = array( 'coll-print_export' );
+
+# New Tweeki options
+$wgTweekiSkinHideAnon = array( );
+$wgTweekiSkinHideNonPoweruser = array( 'TOOLBOX', 'EDIT-EXT-special' );
+$wgTweekiSkinFooterIcons = true;
