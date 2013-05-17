@@ -228,7 +228,7 @@ input + label {
   font-size: 0;
 }
 .editsection a {
-  font-size: 14px;
+//  font-size: 14px;
 }
 
 /* Hide the printable footer */
@@ -277,9 +277,10 @@ input, button, select, textarea {
   padding: 0;
 }
 
+/* TODO: warum verstecken? */
 .mw-search-createlink {
   /* Redundant, if there's a page with containing the name anyway */
-  display: none;
+/*  display: none; */
 }
 
 .mw-search-results {
