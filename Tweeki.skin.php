@@ -1,7 +1,9 @@
 <?php
 /**
- * Tweeki - Tweaked version of Vector, using Twitter bootstrap.
+ * Vector - Modern version of MonoBook with fresh look and many usability
+ * improvements.
  *
+ * @todo document
  * @file
  * @ingroup Skins
  */
@@ -11,13 +13,13 @@ if( !defined( 'MEDIAWIKI' ) ) {
 }
 
 /**
- * SkinTemplate class for Tweeki skin
+ * SkinTemplate class for Vector skin
  * @ingroup Skins
  */
-class SkinTweeki extends SkinTemplate {
+class SkinStrapping extends SkinTemplate {
 
-  var $skinname = 'tweeki', $stylename = 'tweeki',
-    $template = 'TweekiTemplate', $useHeadElement = true;
+  var $skinname = 'strapping', $stylename = 'strapping',
+    $template = 'StrappingTemplate', $useHeadElement = true;
 
   /**
    * Initializes output page and sets up skin-specific parameters
@@ -39,7 +41,7 @@ class SkinTweeki extends SkinTemplate {
     );
 
     $out->addHeadItem('responsive', '<meta name="viewport" content="width=device-width, initial-scale=1.0">');
-    $out->addModules( 'skins.tweeki.scripts' );
+    $out->addModuleScripts( 'skins.strapping' );
   }
 
   /**
@@ -49,15 +51,15 @@ class SkinTweeki extends SkinTemplate {
    */
   function setupSkinUserCss( OutputPage $out ){
     parent::setupSkinUserCss( $out );
-    $out->addModuleStyles( 'skins.tweeki.styles' );
+    $out->addModuleStyles( 'skins.strapping' );
   }
 }
 
 /**
- * QuickTemplate class for Tweeki skin
+ * QuickTemplate class for Vector skin
  * @ingroup Skins
  */
-class TweekiTemplate extends BaseTemplate {
+class StrappingTemplate extends BaseTemplate {
 
   /* Functions */
 
@@ -65,16 +67,13 @@ class TweekiTemplate extends BaseTemplate {
    * Outputs the entire contents of the (X)HTML page
    */
   public function execute() {
-  	//additional globals
-		global $wgRequest, $wgContLang, $wgLang, $wgStylePath, $wgServer, $wgSitename, $wgOut, $wgUser, $wgSkrifoSettings;
-
     global $wgGroupPermissions;
     global $wgVectorUseIconWatch;
     global $wgSearchPlacement;
-    global $wgTweekiSkinLogoLocation;
-    global $wgTweekiSkinLoginLocation;
-    global $wgTweekiSkinHideAnon;
-    global $wgTweekiSkinUseStandardLayout;
+    global $wgStrappingSkinLogoLocation;
+    global $wgStrappingSkinLoginLocation;
+    global $wgStrappingSkinAnonNavbar;
+    global $wgStrappingSkinUseStandardLayout;
 
     if (!$wgSearchPlacement) {
       $wgSearchPlacement['header'] = true;
@@ -124,610 +123,186 @@ class TweekiTemplate extends BaseTemplate {
     $this->data['action_urls'] = $nav['actions'];
     $this->data['variant_urls'] = $nav['variants'];
 
-    if ($this->data['loggedin']) {
-      $userStateClass = "user-loggedin";
-    } else {
-      $userStateClass = "user-loggedout";
-    }
-
-
-	//set 'namespace', 'shortnamespace', and 'title_formatted' variables
-	reset($this->data['namespace_urls']);
-	$currentNamespace = current($this->data['namespace_urls']);
-	$this->data[ 'namespace' ] = $currentNamespace['text'];
-	$this->data[ 'shortNamespace' ] = $this->data[ 'namespace' ];
-	if(stripos( $this->data[ 'namespace' ],"fragen") !== false) { $this->data[ 'shortNamespace' ] = "Fragen"; } /* needs some rework */
-	if( $this->data[ 'namespace' ] == "Datei" ) { $this->data[ 'shortNamespace' ] = "Dateiseite"; } /* ugly */
-	$this->data['title_formatted'] = $this->data['title'];
-	if(strpos( $this->data['title'],":") !== false) {
-		$this->data['title_formatted'] = '<span class="namespace">' . str_replace( ":", ":</span> ", $this->data['title'] );
-		}
-
     // Output HTML Page
     $this->html( 'headelement' );
 ?>
 
+<?php if ( $wgGroupPermissions['*']['edit'] || $wgStrappingSkinAnonNavbar || $this->data['loggedin'] ) { ?>
+<div id="userbar" class="navbar navbar-static">
+  <div class="navbar-inner">
+    <div style="width: auto;" class="container">
+
+      <div class="pull-left">
+        <?php
+          if ( $wgStrappingSkinLogoLocation == 'navbar' ) {
+            $this->renderLogo();
+          }
+          # Page header & menu
+          $this->renderNavigation( array( 'PAGE' ) );
+
+          # This content in other languages
+          if ( $this->data['language_urls'] ) {
+            $this->renderNavigation( array( 'LANGUAGES' ) );
+          }
+
+          # Edit button
+          $this->renderNavigation( array( 'EDIT' ) ); 
+          
+          # Actions menu
+          $this->renderNavigation( array( 'ACTIONS' ) ); 
+
+          # Sidebar items to display in navbar
+          $this->renderNavigation( array( 'SIDEBARNAV' ) );
+
+          if ( !isset( $portals['TOOLBOX'] ) ) {
+            $this->renderNavigation( array( 'TOOLBOX' ) ); 
+          }
+        ?>
+      </div>
+
+      <div class="pull-right">
+        <?php
+          if ($wgSearchPlacement['header']) {
+            $this->renderNavigation( array( 'SEARCH' ) ); 
+          }
+
+          # Personal menu (at the right)
+          $this->renderNavigation( array( 'PERSONAL' ) ); 
+        ?>
+      </div>
+
+    </div>
+  </div>
+</div>
+<?php } ?>
+
     <div id="mw-page-base" class="noprint"></div>
     <div id="mw-head-base" class="noprint"></div>
 
+    <!-- Header -->
+    <div id="page-header" class="container">
+      <section class="span12">
+
+      <?php
+      if ( $wgStrappingSkinLogoLocation == 'bodycontent' ) {
+        $this->renderLogo();
+      } ?>
+
+      <ul class="navigation nav nav-pills pull-right searchform-disabled">
+
+      <?php
+      $this->renderNavigation( array( 'SIDEBAR' ) );
+
+      if ($wgSearchPlacement['nav']) {
+        $this->renderNavigation( array( 'SEARCHNAV' ) );
+      }
+
+      ?>
+
+      </ul>
+
+    </section>
+    </div>
+
+    <?php if ($this->data['loggedin']) {
+      $userStateClass = "user-loggedin";
+    } else {
+      $userStateClass = "user-loggedout";
+    } ?>
 
     <!-- content -->
-    <section id="content" class="mw-body container-fluid <?php echo $userStateClass; ?>">
+    <section id="content" class="mw-body container <?php echo $userStateClass; ?>">
+      <div id="top"></div>
+      <div id="mw-js-message" style="display:none;"<?php $this->html( 'userlangattributes' ) ?>></div>
+      <?php if ( $this->data['sitenotice'] ): ?>
+      <!-- sitenotice -->
+      <div id="siteNotice"><?php $this->html( 'sitenotice' ) ?></div>
+      <!-- /sitenotice -->
+      <?php endif; ?>
+      <!-- bodyContent -->
+      <div id="bodyContent">
+        <?php if( $this->data['newtalk'] ): ?>
+        <!-- newtalk -->
+        <div class="usermessage"><?php $this->html( 'newtalk' )  ?></div>
+        <!-- /newtalk -->
+        <?php endif; ?>
+        <?php if ( $this->data['showjumplinks'] ): ?>
+        <!-- jumpto -->
+        <div id="jump-to-nav" class="mw-jump">
+          <?php $this->msg( 'jumpto' ) ?> <a href="#mw-head"><?php $this->msg( 'jumptonavigation' ) ?></a>,
+          <a href="#p-search"><?php $this->msg( 'jumptosearch' ) ?></a>
+        </div>
+        <!-- /jumpto -->
+        <?php endif; ?>
 
-		<?php if( wfMessage( 'tweeki-subnav' )->plain() !== '-' && $this->checkVisibility( 'subnav' ) ) { ?>
-		<!-- subnav -->
-		<div id="page-header" class="row-fluid">
-			<div class="<?php echo ( ( count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( 'sidebar' ) ) ? 'offset3 span9' : 'span12'; ?>">
-				<ul class="navigation nav nav-pills pull-right searchform-disabled">
-				<?php	$this->renderSubnav(); ?>
-				</ul>
-			</div>
-		</div>
-		<!-- /subnav -->
-		<?php } ?>
+        <!-- innerbodycontent -->
+        <?php # Peek into the body content, to see if a custom layout is used
+        if ($wgStrappingSkinUseStandardLayout || preg_match("/class.*row/i", $this->data['bodycontent'])) { 
+          # If there's a custom layout, the H1 and layout is up to the page ?>
+          <div id="innerbodycontent" class="layout">
+            <h1 id="firstHeading" class="firstHeading page-header">
+              <span dir="auto"><?php $this->html( 'title' ) ?></span>
+            </h1>
+            <!-- subtitle -->
+            <div id="contentSub" <?php $this->html( 'userlangattributes' ) ?>><?php $this->html( 'subtitle' ) ?></div>
+            <!-- /subtitle -->
+            <?php if ( $this->data['undelete'] ): ?>
+            <!-- undelete -->
+            <div id="contentSub2"><?php $this->html( 'undelete' ) ?></div>
+            <!-- /undelete -->
+            <?php endif; ?>
+            <?php $this->html( 'bodycontent' ); ?>
+          </div>
+        <?php } else {
+          # If there's no custom layout, then we automagically add one ?>
+          <div id="innerbodycontent" class="row nolayout"><div class="offset1 span10">
+            <h1 id="firstHeading" class="firstHeading page-header">
+              <span dir="auto"><?php $this->html( 'title' ) ?></span>
+            </h1>
+            <!-- subtitle -->
+            <div id="contentSub" <?php $this->html( 'userlangattributes' ) ?>><?php $this->html( 'subtitle' ) ?></div>
+            <!-- /subtitle -->
+            <?php if ( $this->data['undelete'] ): ?>
+            <!-- undelete -->
+            <div id="contentSub2"><?php $this->html( 'undelete' ) ?></div>
+            <!-- /undelete -->
+            <?php endif; ?>
+            <?php $this->html( 'bodycontent' ); ?>
+          </div></div>
+        <?php } ?>
+        <!-- /innerbodycontent -->
 
-    <div class="row-fluid">
-			<div class="<?php echo ( ( count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( 'sidebar' ) ) ? 'offset3 span9' : 'span12'; ?>">
-				<div id="top"></div>
-				<div id="mw-js-message" style="display:none;"<?php $this->html( 'userlangattributes' ) ?>></div>
-				<?php if ( $this->data['sitenotice'] ): ?>
-				<!-- sitenotice -->
-				<div id="siteNotice"><?php $this->html( 'sitenotice' ) ?></div>
-				<!-- /sitenotice -->
-				<?php endif; ?>
-				<!-- bodyContent -->
-				<div id="bodyContent">
-					<?php if( $this->data['newtalk'] ): ?>
-					<!-- newtalk -->
-					<div class="usermessage"><?php $this->html( 'newtalk' )  ?></div>
-					<!-- /newtalk -->
-					<?php endif; ?>
-					<?php if ( $this->data['showjumplinks'] ): ?>
-					<!-- jumpto -->
-					<div id="jump-to-nav" class="mw-jump">
-						<?php $this->msg( 'jumpto' ) ?> <a href="#mw-head"><?php $this->msg( 'jumptonavigation' ) ?></a>,
-						<a href="#p-search"><?php $this->msg( 'jumptosearch' ) ?></a>
-					</div>
-					<!-- /jumpto -->
-					<?php endif; ?>
-
-					<!-- innerbodycontent -->
-					<?php # Peek into the body content, to see if a custom layout is used
-					if ($wgTweekiSkinUseStandardLayout || preg_match("/class.*row/i", $this->data['bodycontent'])) { 
-						# If there's a custom layout, the H1 and layout is up to the page ?>
-						<div id="innerbodycontent" class="layout">
-							<h1 id="firstHeading" class="firstHeading page-header">
-								<span dir="auto"><?php $this->html( 'title_formatted' ) ?></span>
-							</h1>
-							<!-- subtitle -->
-							<div id="contentSub" <?php $this->html( 'userlangattributes' ) ?>><?php $this->html( 'subtitle' ) ?></div>
-							<!-- /subtitle -->
-							<?php if ( $this->data['undelete'] ): ?>
-							<!-- undelete -->
-							<div id="contentSub2"><?php $this->html( 'undelete' ) ?></div>
-							<!-- /undelete -->
-							<?php endif; ?>
-							<?php $this->html( 'bodycontent' ); ?>
-						</div>
-					<?php } else {
-						# If there's no custom layout, then we automagically add one ?>
-						<div id="innerbodycontent" class="nolayout"><div>
-							<h1 id="firstHeading" class="firstHeading page-header">
-								<span dir="auto"><?php $this->html( 'title_formatted' ) ?></span>
-							</h1>
-							<!-- subtitle -->
-							<div id="contentSub" <?php $this->html( 'userlangattributes' ) ?>><?php $this->html( 'subtitle' ) ?></div>
-							<!-- /subtitle -->
-							<?php if ( $this->data['undelete'] ): ?>
-							<!-- undelete -->
-							<div id="contentSub2"><?php $this->html( 'undelete' ) ?></div>
-							<!-- /undelete -->
-							<?php endif; ?>
-							<?php $this->html( 'bodycontent' ); ?>
-						</div></div>
-					<?php } ?>
-					<!-- /innerbodycontent -->
-
-					<?php if ( $this->data['printfooter'] ): ?>
-					<!-- printfooter -->
-					<div class="printfooter">
-					<?php $this->html( 'printfooter' ); ?>
-					</div>
-					<!-- /printfooter -->
-					<?php endif; ?>
-					<?php if ( $this->data['catlinks'] ): ?>
-					<!-- catlinks -->
-					<?php $this->html( 'catlinks' ); ?>
-					<!-- /catlinks -->
-					<?php endif; ?>
-					<?php if ( $this->data['dataAfterContent'] ): ?>
-					<!-- dataAfterContent -->
-					<?php $this->html( 'dataAfterContent' ); ?>
-					<!-- /dataAfterContent -->
-					<?php endif; ?>
-					<div class="visualClear"></div>
-					<!-- debughtml -->
-					<?php $this->html( 'debughtml' ); ?>
-					<!-- /debughtml -->
-				</div>
-				<!-- /bodyContent -->
-			</div>
-    </div>
+        <?php if ( $this->data['printfooter'] ): ?>
+        <!-- printfooter -->
+        <div class="printfooter">
+        <?php $this->html( 'printfooter' ); ?>
+        </div>
+        <!-- /printfooter -->
+        <?php endif; ?>
+        <?php if ( $this->data['catlinks'] ): ?>
+        <!-- catlinks -->
+        <?php $this->html( 'catlinks' ); ?>
+        <!-- /catlinks -->
+        <?php endif; ?>
+        <?php if ( $this->data['dataAfterContent'] ): ?>
+        <!-- dataAfterContent -->
+        <?php $this->html( 'dataAfterContent' ); ?>
+        <!-- /dataAfterContent -->
+        <?php endif; ?>
+        <div class="visualClear"></div>
+        <!-- debughtml -->
+        <?php $this->html( 'debughtml' ); ?>
+        <!-- /debughtml -->
+      </div>
+      <!-- /bodyContent -->
     </section>
     <!-- /content -->
 
-		<?php if ( $this->checkVisibility( 'navbar' ) ) { ?>
-		<!-- navbar -->
-		<div id="userbar" class="navbar navbar-fixed-top">
-			<div class="navbar-inner">
-			<div class="container-fluid">
-				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</a>
-
-				<?php $this->renderBrand(); ?>
-
-				<div class="pull-left nav-collapse collapse">
-					<ul class="nav" role="navigation">
-					<?php $this->renderNavbar( 'left' ); ?>
-				</ul>
-				</div>
-
-				<div class="pull-right nav-collapse collapse">
-					<ul class="nav" role="navigation">
-					<?php $this->renderNavbar( 'right' ); ?>
-					</ul>
-				</div>
-
-			</div>
-			</div>
-		</div>
-		<!-- /navbar -->
-		<?php } ?>
-
-		<?php if ( ( count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( 'sidebar' ) ) { ?>
-		<!-- sidebar -->
-		<div id="sidebar" class="noprint">
-			<!-- firstHeadingSidebar -->
-			<h1 id="firstHeadingSidebar" class="firstHeadingSidebar"><?php echo $this->data[ 'title_formatted' ]; ?></h1>
-			<!-- /firstHeadingSidebar -->			
-			<!-- downloadEdit -->
-			<div id="DownloadEdit">
-			<?php $this->renderSidebar(); ?>
-			</div>
-			<!-- SideTOC -->
-			<div id="SideTOC"></div>
-			<!-- /SideTOC -->
-		</div>
-		<!-- /sidebar -->
-		<?php } ?>
-			
-			<?php if ( $this->checkVisibility( 'footer' ) ) { ?>
       <!-- footer -->
       <div id="footer" class="footer container"<?php $this->html( 'userlangattributes' ) ?>>
-    	<?php $this->renderFooter(); ?>
-      </div>
-      <!-- /footer -->
-			<?php } ?>
-    
-			<?php $this->printTrail(); ?>
-
-  </body>
-</html>
-<?php
-  }
-
-  /**
-   * Render logo
-   */
-  private function renderLogo() {
-        $mainPageLink = $this->data['nav_urls']['mainpage']['href'];
-        $toolTip = Xml::expandAttributes( Linker::tooltipAndAccesskeyAttribs( 'p-logo' ) );
-?>
-        		<a id="p-logo" href="<?php echo htmlspecialchars( $this->data['nav_urls']['mainpage']['href'] ) ?>" <?php echo Xml::expandAttributes( Linker::tooltipAndAccesskeyAttribs( 'p-logo' ) ) ?>>
-        			<img src="<?php $this->text( 'logopath' ); ?>" alt="<?php $this->html('sitename'); ?>" style="height:40px">
-        		</a>
-<?php
-  }
-
-  /**
-   * Render one or more navigations elements by name, automatically reveresed
-   * when UI is in RTL mode
-   *
-   * @param $elements array
-   */
-  private function renderNavigation( $elements ) {
-    global $wgUser,
-    	$wgTweekiSkinHideNonPoweruser, 
-    	$wgParser;
-
-    // If only one element was given, wrap it in an array, allowing more
-    // flexible arguments
-    if ( !is_array( $elements ) ) {
-      $elements = array( $elements );
-    // If there's a series of elements, reverse them when in RTL mode
-    } elseif ( $this->data['rtl'] ) {
-      $elements = array_reverse( $elements );
-    }
-    // Render elements
-    foreach ( $elements as $name => $element ) {
-    	if ( !$this->checkVisibility( $element ) ) {
-    		return array();
-    		}
-      switch ( $element ) {
-
-        case 'EDIT':
-          if ( array_key_exists('edit', $this->data['content_actions']) ) {
-						return array(array( 
-								'href' => '#',
-								'icon' => 'icon-edit',
-								'text' => $this->data['content_actions']['edit']['text'],
-								'id' => 'b-edit'
-								));          
-          }
-        	break;
-
-        case 'EDIT-EXT':
-					if(count($this->data['view_urls']) > 0) {
-						unset($this->data['view_urls']['view']);
-						$link = array_shift($this->data['view_urls']); 
-						if ( $this->checkVisibility( 'EDIT-EXT-special' ) ) {
-							$button = array(
-								'href' => $link['href'],
-								'key' => $link['key'],
-								'href_implicit' => false,
-								'icon' => 'icon-pencil icon-white',
-								// TODO: i18n!!!
-								'text' => $this->data[ 'shortNamespace' ] . ' bearbeiten',
-								'class' => 'btn-primary btn-edit'
-								);
-							$views = $this->renderNavigation( 'VIEWS' );
-							$button['items'] = $views[0]['items'];
-							if(count($this->data['action_urls']) > 0) {
-								$button['items'][] = array(); #divider
-								$actions = $this->renderNavigation( 'ACTIONS' ); 
-								$button['items'] = array_merge( $button['items'], $actions[0]['items'] );
-								}
-							}
-						else {
-							$button = $link;
-							$button['icon'] = 'icon-pencil icon-white';
-							$button['text'] = $this->data[ 'shortNamespace' ] . ' bearbeiten';
-							$button['class'] = 'btn-primary btn-block';
-							}
-						return array($button);
-						}
-					return array();
-					break; 
-
-        case 'PAGE':
-          $items = array_merge($this->data['namespace_urls'], $this->data['view_urls']);
-          $test = wfMessage( 'namespaces' );
-          foreach ( $items as $link ) {
-            if ( array_key_exists( 'context', $link ) && $link['context'] == 'subject' ) {
-            	$text = $link['text'];
-            	}
-            if (preg_match('/^ca-(view|edit)$/', $link['id'])) { 
-            	unset($link); 
-            	}
-            }
-					return array(array( 
-							'href' => '#',
-							'text' => $text,
-							'id' => 'p-namespaces',
-							'items' => $items
-							));          
-        	break;
-
-        case 'TOOLBOX':
-					$items = array_reverse($this->getToolbox());
-					$divideditems = array();
-					$text = (wfMessage( 'tweeki-toolbox' ) == "") ? wfMessage( 'toolbox' ) . " " : wfMessage( 'tweeki-toolbox' );
-					foreach($items as $key => $item) {
-						if(!isset( $item['text'] ) ) {
-							$item['text'] = $this->translator->translate( isset( $item['msg'] ) ? $item['msg'] : $key );
-							} 
-						if(preg_match( '/specialpages|whatlinkshere/', $key )) {
-							$divideditems[] = array();
-							}
-						$divideditems[$key] = $item;
-						}
-					return array(array( 
-							'href' => '#',
-							'text' => $text,
-							'id' => 'p-toolbox',
-							'items' => $divideditems
-							));          
-        	break;
-
-        case 'VARIANTS':
-          $theMsg = 'variants';
-          $items = $this->data['variant_urls'];
-          if (count($items) > 0) { 
-						return array(array( 
-							'href' => '#',
-							'text' => wfMessage( 'variants' ),
-							'id' => 'p-variants',
-							'items' => $items
-							));    
-						}      
-        	break;
-
-        case 'VIEWS':
-          $items = $this->data['view_urls'];
-          if (count($items) > 0) { 
-						return array(array( 
-							'href' => '#',
-							'text' => wfMessage( 'views' ),
-							'id' => 'p-views',
-							'items' => $items
-							));    
-						}      
-        	break;
-
-        case 'ACTIONS':
-          $items = array_reverse($this->data['action_urls']);
-          if (count($items) > 0) { 
-						return array(array(
-							'href' => '#',
-							'text' => wfMessage( 'actions' ),
-							'id' => 'p-actions',
-							'items' => $items
-							));    
-						}      
-        	break;
-
-        case 'PERSONAL':
-          $items = $this->getPersonalTools();
-          $divideditems = array();
-					foreach($items as $key => $item) {
-						if(!isset( $item['text'] ) ) {
-							$item['text'] = $this->translator->translate( isset( $item['msg'] ) ? $item['msg'] : $key );
-							}
-						if(!isset( $item['href'] ) ) {
-							$item['href'] = $item['links'][0]['href'];
-							}
-						if(preg_match( '/preferences|logout/', $key )) {
-							$divideditems[] = array();
-							}
-						$divideditems[$key] = $item;
-						}
-					if ( array_key_exists( 'login', $divideditems ) ) {
-						$divideditems['login']['links'][0]['text'] = wfMessage( 'tweeki-login' );
-						return array( $divideditems['login'] );
-						}
-					if ( array_key_exists( 'anonlogin', $divideditems ) ) {
-						$divideditems['anonlogin']['links'][0]['text'] = wfMessage( 'tweeki-login' );
-						return array( $divideditems['anonlogin'] );
-						}
-          if (count($items) > 0) { 
-						return array(array( 
-								'href' => '#',
-								'text' => $this->data['username'],
-								'icon' => 'icon-user',
-								'id' => 'p-personaltools',
-								'items' => $divideditems
-								));
-						}
-        break;
-
-        case 'LOGIN':
-          $items = $this->getPersonalTools();
-					if ( array_key_exists( 'login', $items ) ) {
-						$items['login']['links'][0]['text'] = wfMessage( 'tweeki-login' );
-						return array( $items['login'] );
-						}
-					if ( array_key_exists( 'anonlogin', $items ) ) {
-						$items['anonlogin']['links'][0]['text'] = wfMessage( 'tweeki-login' );
-						return array( $items['anonlogin'] );
-						}
-          return array();
-        break;
-
-        case 'SIDEBAR':
-        	$sidebar = array();
-          foreach ( $this->data['sidebar'] as $name => $content ) {
-            if ( !$content ) {
-            	# traditional sidebar formatting with pipe character has to be reversed
-            	if( strpos( $name, '|' ) !== false ) {
-              	$name = explode( '|', $name );
-              	$name = array_reverse( $name );
-              	$name = implode( '|', $name );
-              	$sidebarItem = TweekiHooks::parseButtonLink( $name, $wgParser );
-              	$sidebar[] = $sidebarItem[0];
-              	continue;
-              	}
-              # navigational keywords
-              $navigation = $this->renderNavigation( $name );
-              if( is_array( $navigation ) ) {
-              	$sidebar[] = $navigation[0];
-              	continue;
-              	}
-            	}
-            $msgObj = wfMessage( $name );
-            $name = htmlspecialchars( $msgObj->exists() ? $msgObj->text() : $name );
-            $sidebar[] = array(
-            								'href' => '#',
-            								'text' => $name,
-            								'items' => $content
-            								);
-            }
-          return $sidebar;
-        	break;
-
-        case 'LANGUAGES':
-          $items = $this->data['language_urls'];
-          if (count($items) > 0) { 
-						return array(array( 
-							'href' => '#',
-							'text' => wfMessage( 'otherlanguages' ),
-							'id' => 'p-otherlanguages',
-							'items' => $items
-							));    
-						}      
-          break;
-        
-        case 'SEARCH':
-        	return array( 'special' => 'SEARCH' );
-        	break;
-
-        case 'LOGO':
-        	return array( 'special' => 'LOGO' );
-        	break;
-
-				default:
-					return $element;
-					break;
-      }
-    }
-  }
-
-
-  /**
-   * Elements can be hidden for anonymous users or for everybody who has not opted
-   * to be a poweruser in the preferences
-   *
-   * @param $item String
-   */
-	private function checkVisibility( $item ) {
-		global $wgUser, $wgTweekiSkinHideNonPoweruser, $wgTweekiSkinHideAnon;
-		if ( ( !in_array( $item, $wgTweekiSkinHideNonPoweruser ) || $wgUser->getOption( 'tweeki-poweruser' ) ) &&
-			( !in_array( $item, $wgTweekiSkinHideAnon ) || $this->data['loggedin'] ) ) {
-			return true;
-			}
-		else {
-			return false;
-			}
-		}
-
-  /**
-   * Render Subnavigation
-   */
-	private function renderSubnav() {
-		$options = array( 
-					'wrapper' => 'li', 
-					'wrapperclass' => 'nav dropdown', 
-					'dropdownclass' => 'pull-right'
-					);
-		$this->buildItems( wfMessage( 'tweeki-subnav' )->plain(), $options, 'subnav' );
-		}
-		
-	
-  /**
-   * Render Navbar
-   */
-	private function renderNavbar( $side ) {
-		$otherside = ( $side == 'right' ) ? 'left' : 'right';
-		$options = array( 
-					'wrapper' => 'li', 
-					'wrapperclass' => 'nav dropdown', 
-					'dropdownclass' => 'pull-' . $side 
-					);
-		$this->buildItems( wfMessage( 'tweeki-navbar-' . $side )->plain(), $options, 'navbar' );    
-		}
-
-
-  /**
-   * Render Sidebar
-   */
-	private function renderSidebar() {
-		$options = array( 
-					'class' => 'btn',
-					);
-		$this->buildItems( wfMessage ( 'tweeki-sidebar' )->plain(), $options, 'sidebar' );
-    }
-    
-
-  /**
-   * Build Items for navbar, subnav, sidebar
-   *
-   * @param $items String
-   * @param $options Array
-   * @param $context String
-   */
-	private function buildItems( $items, $options, $context ) {
-		$buttons = array();		
-    $customItems = array();
-		$navbarItems = explode( ',', $items );
-		foreach( $navbarItems as $navbarItem ) {
-			$navbarItem = trim( $navbarItem );
-			$navbarItem = $this->renderNavigation( $navbarItem );
-			if ( is_array( $navbarItem ) ) {
-				$this->renderCustomNavigation( $buttons, $customItems );
-				if(count($navbarItem) !== 0) $buttons[] = $navbarItem;
-				}
-			else {
-				$customItems[] = $navbarItem;
-				}
-			}
-		$this->renderCustomNavigation( $buttons, $customItems );
-		foreach( $buttons as $button ) {
-			/* standard button rendering */
-			if( !isset( $button['special'] ) ) {
-				echo TweekiHooks::renderButtons( $button, $options );
-				}
-			/* special cases */
-			else {
-				switch ( $button['special'] ) {
-					case 'SEARCH':
-	          ?>
-            <form class="navbar-search" action="<?php $this->text( 'wgScript' ) ?>" id="searchform">
-              <input id="searchInput" class="search-query" type="search" accesskey="f" title="<?php $this->text('searchtitle'); ?>" placeholder="<?php $this->msg('search'); ?>" name="search" value="<?php echo $this->data['search']; ?>">
-              <?php echo $this->makeSearchButton( 'fulltext', array( 'id' => 'mw-searchButton', 'class' => 'searchButton btn hidden' ) ); ?>
-            </form>
-	          <?php
-						break;
-					case 'LOGO':
-						$this->renderLogo( $context );
-						break;
-					}
-				}
-			}
-		}
-
-
-  /**
-   * Render navigations elements that renderNavigation hasn't dealt with
-   *
-   * @param $buttons Array
-   * @param $customItems Array
-   */
-	private function renderCustomNavigation( &$buttons, &$customItems ) {
-		$localParser = new Parser();		
-		if( count( $customItems ) !== 0 ) {
-			$buttons[] = TweekiHooks::parseButtons( implode( chr(10), $customItems ), $localParser );
-			$customItems = array();
-			}
-		}
-
-		
-  /**
-   * Render brand (linking to mainpage)
-   */
-	private function renderBrand() {
-		$brand = $this->renderNavigation( wfMessage( 'tweeki-navbar-brand' ) );
-		if(!is_array( $brand )) {
-			$brand = array( array( 
-								'text' => wfMessage( 'tweeki-navbar-brand' )->text(), 
-								'href' => $this->data['nav_urls']['mainpage']['href'] 
-								) );
-			}
-		$options = array( 
-								'class' => array('brand'), 
-								'wrapper' => 'li'
-								);
-		echo '<ul class="nav" role="navigation">' . TweekiHooks::renderButtons( $brand, $options ) . '</ul>';
-		}
-
-
-  /**
-   * Render footer
-   */
-  	private function renderFooter() {
-    	global $wgTweekiSkinLoginLocation, $wgSearchPlacement, $wgTweekiSkinFooterIcons;
-    	$footerLinks = $this->getFooterLinks();
+        <div class="row">
+    <?php
+      $footerLinks = $this->getFooterLinks();
 
       if (is_array($footerLinks)) {
         foreach($footerLinks as $category => $links ):
@@ -741,7 +316,7 @@ class TweekiTemplate extends BaseTemplate {
                 if ($category === 'places') {
 
                   # Show sign in link, if not signed in
-                  if ($wgTweekiSkinLoginLocation == 'footer' && !$this->data['loggedin']) {
+                  if ($wgStrappingSkinLoginLocation == 'footer' && !$this->data['loggedin']) {
                     $personalTemp = $this->getPersonalTools();
 
                     if (isset($personalTemp['login'])) {
@@ -771,29 +346,372 @@ class TweekiTemplate extends BaseTemplate {
             <ul id="footer-icons" class="noprint">
     <?php      foreach ( $footericons as $blockName => $footerIcons ): ?>
               <li id="footer-<?php echo htmlspecialchars( $blockName ); ?>ico">
-    <?php        foreach ( $footerIcons as $icon ): 
-    				/* TODO: setting: icons or text only? */
-    				if($wgTweekiSkinFooterIcons) {
-    					echo $this->getSkin()->makeFooterIcon( $icon ); 
-    					}
-    				else {
-						if ( is_string( $icon ) ) {
-							$html = $icon;
-							} 
-						else { // Assuming array
-							$url = isset( $icon["url"] ) ? $icon["url"] : null;
-							unset( $icon["url"] );
-							$html = htmlspecialchars( $icon["alt"] );
-							if ( $url ) {
-								$html = '<span>' . Html::rawElement( 'a', array( "href" => $url ), $html ) . '</span>';
-							 	}
-							}
-							echo $html;
-						}
-    	        endforeach; ?>
+    <?php        foreach ( $footerIcons as $icon ): ?>
+                <?php echo $this->getSkin()->makeFooterIcon( $icon ); ?>
+
+    <?php        endforeach; ?>
               </li>
     <?php      endforeach; ?>
             </ul>
-          <?php endif;
-	}
+          <?php endif; ?>
+        </div>
+      </div>
+      <!-- /footer -->
+
+    <?php $this->printTrail(); ?>
+
+  </body>
+</html>
+<?php
+  }
+
+  /**
+   * Render logo
+   */
+  private function renderLogo() {
+        $mainPageLink = $this->data['nav_urls']['mainpage']['href'];
+        $toolTip = Xml::expandAttributes( Linker::tooltipAndAccesskeyAttribs( 'p-logo' ) );
+?>
+                  <ul class="nav" role="navigation"><li id="p-logo"><a href="<?php echo htmlspecialchars( $this->data['nav_urls']['mainpage']['href'] ) ?>" <?php echo Xml::expandAttributes( Linker::tooltipAndAccesskeyAttribs( 'p-logo' ) ) ?>><img src="<?php $this->text( 'logopath' ); ?>" alt="<?php $this->html('sitename'); ?>"></a><li></ul>
+<?php
+  }
+
+  /**
+   * Render one or more navigations elements by name, automatically reveresed
+   * when UI is in RTL mode
+   *
+   * @param $elements array
+   */
+  private function renderNavigation( $elements ) {
+    global $wgVectorUseSimpleSearch;
+    global $wgStrappingSkinLoginLocation;
+    global $wgStrappingSkinDisplaySidebarNavigation;
+    global $wgStrappingSkinSidebarItemsInNavbar;
+
+    // If only one element was given, wrap it in an array, allowing more
+    // flexible arguments
+    if ( !is_array( $elements ) ) {
+      $elements = array( $elements );
+    // If there's a series of elements, reverse them when in RTL mode
+    } elseif ( $this->data['rtl'] ) {
+      $elements = array_reverse( $elements );
+    }
+    // Render elements
+    foreach ( $elements as $name => $element ) {
+      echo "\n<!-- {$name} -->\n";
+      switch ( $element ) {
+
+        case 'EDIT':
+          if ( !array_key_exists('edit', $this->data['content_actions']) ) {
+            break;
+          }
+          $navTemp = $this->data['content_actions']['edit'];
+
+          if ($navTemp) { ?>
+            <div class="actions pull-left nav">
+                <a id="b-edit" href="<?php echo $navTemp['href']; ?>" class="btn"><i class="icon-edit"></i> <?php echo $navTemp['text']; ?></a>
+            </div>
+          <?php } 
+        break;
+
+
+        case 'PAGE':
+          $theMsg = 'namespaces';
+          $theData = array_merge($this->data['namespace_urls'], $this->data['view_urls']);
+          ?>
+          <ul class="nav" role="navigation">
+            <li class="dropdown" id="p-<?php echo $theMsg; ?>" class="vectorMenu<?php if ( count($theData) == 0 ) echo ' emptyPortlet'; ?>">
+              <?php
+              foreach ( $theData as $link ) {
+                  if ( array_key_exists( 'context', $link ) && $link['context'] == 'subject' ) {
+              ?>
+              <a data-toggle="dropdown" class="dropdown-toggle brand" role="menu"><?php echo htmlspecialchars( $link['text'] ); ?> <b class="caret"></b></a>
+                  <?php } ?>
+              <?php } ?>
+              <ul aria-labelledby="<?php echo $this->msg($theMsg); ?>" role="menu" class="dropdown-menu" <?php $this->html( 'userlangattributes' ) ?>>
+
+                <?php 
+                foreach ( $theData as $link ) {
+                  # Skip a few redundant links
+                  if (preg_match('/^ca-(view|edit)$/', $link['id'])) { continue; }
+
+                  ?><li<?php echo $link['attributes'] ?>><a href="<?php echo htmlspecialchars( $link['href'] ) ?>" <?php echo $link['key'] ?> tabindex="-1"><?php echo htmlspecialchars( $link['text'] ) ?></a></li><?php
+                }
+
+          ?></ul></li></ul><?php
+
+        break;
+
+
+        case 'TOOLBOX':
+
+          $theMsg = 'toolbox';
+          $theData = array_reverse($this->getToolbox());
+          ?>
+
+          <ul class="nav" role="navigation">
+
+            <li class="dropdown" id="p-<?php echo $theMsg; ?>" class="vectorMenu<?php if ( count($theData) == 0 ) echo ' emptyPortlet'; ?>">
+
+              <a data-toggle="dropdown" class="dropdown-toggle" role="button"><?php $this->msg($theMsg) ?> <b class="caret"></b></a>
+
+              <ul aria-labelledby="<?php echo $this->msg($theMsg); ?>" role="menu" class="dropdown-menu" <?php $this->html( 'userlangattributes' ) ?>>
+
+                <?php
+                  foreach( $theData as $key => $item ) {
+                    if (preg_match('/specialpages|whatlinkshere/', $key)) {
+                      echo '<li class="divider"></li>';
+                    }
+
+                    echo $this->makeListItem( $key, $item );
+                  }
+                ?>
+              </ul>
+
+            </li>
+
+          </ul>
+          <?php
+        break;
+
+
+        case 'VARIANTS':
+
+          $theMsg = 'variants';
+          $theData = $this->data['variant_urls'];
+          ?>
+          <?php if (count($theData) > 0) { ?>
+            <ul class="nav" role="navigation">
+              <li class="dropdown" id="p-<?php echo $theMsg; ?>" class="vectorMenu<?php if ( count($theData) == 0 ) echo ' emptyPortlet'; ?>">
+                <a data-toggle="dropdown" class="dropdown-toggle" role="button"><?php $this->msg($theMsg) ?> <b class="caret"></b></a>
+                <ul aria-labelledby="<?php echo $this->msg($theMsg); ?>" role="menu" class="dropdown-menu" <?php $this->html( 'userlangattributes' ) ?>>
+                  <?php foreach ( $theData as $link ): ?>
+                    <li<?php echo $link['attributes'] ?>><a href="<?php echo htmlspecialchars( $link['href'] ) ?>" <?php echo $link['key'] ?> tabindex="-1"><?php echo htmlspecialchars( $link['text'] ) ?></a></li>
+                  <?php endforeach; ?>
+                </ul>
+              </li>
+            </ul>
+          <?php }
+
+        break;
+
+        case 'VIEWS':
+          $theMsg = 'views';
+          $theData = $this->data['view_urls'];
+          ?>
+          <?php if (count($theData) > 0) { ?>
+            <ul class="nav" role="navigation">
+              <li class="dropdown" id="p-<?php echo $theMsg; ?>" class="vectorMenu<?php if ( count($theData) == 0 ) echo ' emptyPortlet'; ?>">
+                <a data-toggle="dropdown" class="dropdown-toggle" role="button"><?php $this->msg($theMsg) ?> <b class="caret"></b></a>
+                <ul aria-labelledby="<?php echo $this->msg($theMsg); ?>" role="menu" class="dropdown-menu" <?php $this->html( 'userlangattributes' ) ?>>
+                  <?php foreach ( $theData as $link ): ?>
+                    <li<?php echo $link['attributes'] ?>><a href="<?php echo htmlspecialchars( $link['href'] ) ?>" <?php echo $link['key'] ?> tabindex="-1"><?php echo htmlspecialchars( $link['text'] ) ?></a></li>
+                  <?php endforeach; ?>
+                </ul>
+              </li>
+            </ul>
+          <?php }
+        break;
+
+
+        case 'ACTIONS':
+
+          $theMsg = 'actions';
+          $theData = array_reverse($this->data['action_urls']);
+          
+          if (count($theData) > 0) {
+            ?><ul class="nav" role="navigation">
+              <li class="dropdown" id="p-<?php echo $theMsg; ?>" class="vectorMenu<?php if ( count($theData) == 0 ) echo ' emptyPortlet'; ?>">
+                <a data-toggle="dropdown" class="dropdown-toggle" role="button"><?php echo $this->msg( 'actions' ); ?> <b class="caret"></b></a>
+                <ul aria-labelledby="<?php echo $this->msg($theMsg); ?>" role="menu" class="dropdown-menu" <?php $this->html( 'userlangattributes' ) ?>>
+                  <?php foreach ( $theData as $link ):
+
+                    if (preg_match('/MovePage/', $link['href'])) {
+                      echo '<li class="divider"></li>';
+                    }
+
+                    ?>
+
+                    <li<?php echo $link['attributes'] ?>><a href="<?php echo htmlspecialchars( $link['href'] ) ?>" <?php echo $link['key'] ?> tabindex="-1"><?php echo htmlspecialchars( $link['text'] ) ?></a></li>
+                  <?php endforeach; ?>
+                </ul>
+              </li>
+            </ul><?php
+          }
+
+        break;
+
+
+        case 'PERSONAL':
+          $theMsg = 'personaltools';
+          $theData = $this->getPersonalTools();
+          $theTitle = $this->data['username'];
+          $showPersonal = false;
+          foreach ( $theData as $key => $item ) {
+            if ( !preg_match('/(notifications|login|createaccount)/', $key) ) {
+              $showPersonal = true;
+            }
+          }
+
+          ?>
+          <ul class="nav pull-right" role="navigation">
+            <li class="dropdown" id="p-notifications" class="vectorMenu<?php if ( count($theData) == 0 ) echo ' emptyPortlet'; ?>">
+            <?php if ( array_key_exists('notifications', $theData) ) {
+              echo $this->makeListItem( 'notifications', $theData['notifications'] );
+            } ?>
+            </li>
+            <?php if ( $wgStrappingSkinLoginLocation == 'navbar' ): ?>
+            <li class="dropdown" id="p-createaccount" class="vectorMenu<?php if ( count($theData) == 0 ) echo ' emptyPortlet'; ?>">
+              <?php if ( array_key_exists('createaccount', $theData) ) {
+                echo $this->makeListItem( 'createaccount', $theData['createaccount'] );
+              } ?>
+            </li>
+            <li class="dropdown" id="p-login" class="vectorMenu<?php if ( count($theData) == 0 ) echo ' emptyPortlet'; ?>">
+            <?php if ( array_key_exists('login', $theData) ) {
+                echo $this->makeListItem( 'login', $theData['login'] );
+            } ?>
+            </li>
+            <?php endif; ?>
+            <?php
+            if ( $showPersonal ):
+            ?>
+            <li class="dropdown" id="p-<?php echo $theMsg; ?>" class="vectorMenu<?php if ( !$showPersonal ) echo ' emptyPortlet'; ?>">
+              <a data-toggle="dropdown" class="dropdown-toggle" role="button">
+                <i class="icon-user"></i>
+                <?php echo $theTitle; ?> <b class="caret"></b></a>
+              <ul aria-labelledby="<?php echo $this->msg($theMsg); ?>" role="menu" class="dropdown-menu" <?php $this->html( 'userlangattributes' ) ?>>
+              <?php foreach( $theData as $key => $item ) {
+
+                if (preg_match('/preferences|logout/', $key)) {
+                  echo '<li class="divider"></li>';
+                } else if ( preg_match('/(notifications|login|createaccount)/', $key) ) {
+                  continue;
+                }
+
+                echo $this->makeListItem( $key, $item );
+              } ?>
+              </ul>
+            </li>
+            <?php endif; ?>
+          </ul>
+          <?php
+        break;
+
+
+        case 'SEARCH':
+          ?>
+            <form class="navbar-search" action="<?php $this->text( 'wgScript' ) ?>" id="searchform">
+              <input id="searchInput" class="search-query" type="search" accesskey="f" title="<?php $this->text('searchtitle'); ?>" placeholder="<?php $this->msg('search'); ?>" name="search" value="<?php echo $this->data['search']; ?>">
+              <?php echo $this->makeSearchButton( 'fulltext', array( 'id' => 'mw-searchButton', 'class' => 'searchButton btn hidden' ) ); ?>
+            </form>
+
+          <?php
+        break;
+
+
+        case 'SEARCHNAV':
+          ?>
+        <li>
+          <a id="n-Search" class="search-link"><i class="icon-search"></i>Search</a>
+          <form class="navbar-search" action="<?php $this->text( 'wgScript' ) ?>" id="nav-searchform">
+                        <input id="nav-searchInput" class="search-query" type="search" accesskey="f" title="<?php $this->text('searchtitle'); ?>" placeholder="<?php $this->msg('search'); ?>" name="search" value="<?php echo $this->data['search']; ?>">
+                        <?php echo $this->makeSearchButton( 'fulltext', array( 'id' => 'mw-searchButton', 'class' => 'searchButton btn hidden' ) ); ?>
+          </form>
+        </li>
+
+          <?php
+        break;
+
+
+        case 'SEARCHFOOTER':
+          ?>
+            <form class="" action="<?php $this->text( 'wgScript' ) ?>" id="footer-search">
+              <i class="icon-search"></i><b class="border"></b><input id="footer-searchInput" class="search-query" type="search" accesskey="f" title="<?php $this->text('searchtitle'); ?>" placeholder="<?php $this->msg('search'); ?>" name="search" value="<?php echo $this->data['search']; ?>">
+              <?php echo $this->makeSearchButton( 'fulltext', array( 'id' => 'mw-searchButton', 'class' => 'searchButton btn hidden' ) ); ?>
+            </form>
+
+          <?php
+        break;
+
+
+        case 'SIDEBARNAV':
+          foreach ( $this->data['sidebar'] as $name => $content ) {
+            if ( !$content ) {
+              continue;
+            }
+            if ( !in_array( $name, $wgStrappingSkinSidebarItemsInNavbar ) ) {
+                    continue;
+            }
+            $msgObj = wfMessage( $name );
+            $name = htmlspecialchars( $msgObj->exists() ? $msgObj->text() : $name ); ?>
+          <ul class="nav" role="navigation">
+          <li class="dropdown" id="p-<?php echo $name; ?>" class="vectorMenu">
+          <a data-toggle="dropdown" class="dropdown-toggle" role="menu"><?php echo htmlspecialchars( $name ); ?> <b class="caret"></b></a>
+          <ul aria-labelledby="<?php echo htmlspecialchars( $name ); ?>" role="menu" class="dropdown-menu" <?php $this->html( 'userlangattributes' ) ?>><?php
+            # This is a rather hacky way to name the nav.
+            # (There are probably bugs here...) 
+            foreach( $content as $key => $val ) {
+              $navClasses = '';
+
+              if (array_key_exists('view', $this->data['content_navigation']['views']) && $this->data['content_navigation']['views']['view']['href'] == $val['href']) {
+                $navClasses = 'active';
+              }?>
+
+                <li class="<?php echo $navClasses ?>"><?php echo $this->makeLink($key, $val); ?></li><?php
+            }
+          }?>
+         </li>
+         </ul></ul><?php
+        break;
+
+
+        case 'SIDEBAR':
+          foreach ( $this->data['sidebar'] as $name => $content ) {
+            if ( !$content ) {
+              continue;
+            }
+            if ( in_array( $name, $wgStrappingSkinSidebarItemsInNavbar ) ) {
+                    continue;
+            }
+            $msgObj = wfMessage( $name );
+            $name = htmlspecialchars( $msgObj->exists() ? $msgObj->text() : $name );
+            if ( $wgStrappingSkinDisplaySidebarNavigation ) { ?>
+              <li class="dropdown">
+                <a data-toggle="dropdown" class="dropdown-toggle" role="button"><?php echo htmlspecialchars( $name ); ?><b class="caret"></b></a>
+                <ul aria-labelledby="<?php echo htmlspecialchars( $name ); ?>" role="menu" class="dropdown-menu"><?php
+            }
+            # This is a rather hacky way to name the nav.
+            # (There are probably bugs here...) 
+            foreach( $content as $key => $val ) {
+              $navClasses = '';
+
+              if (array_key_exists('view', $this->data['content_navigation']['views']) && $this->data['content_navigation']['views']['view']['href'] == $val['href']) {
+                $navClasses = 'active';
+              }?>
+
+                <li class="<?php echo $navClasses ?>"><?php echo $this->makeLink($key, $val); ?></li><?php
+            }
+            if ( $wgStrappingSkinDisplaySidebarNavigation ) {?>                </ul>              </li><?php
+            }          }
+        break;
+
+        case 'LANGUAGES':
+          $theMsg = 'otherlanguages';
+          $theData = $this->data['language_urls']; ?>
+          <ul class="nav" role="navigation">
+            <li class="dropdown" id="p-<?php echo $theMsg; ?>" class="vectorMenu<?php if ( count($theData) == 0 ) echo ' emptyPortlet'; ?>">
+              <a data-toggle="dropdown" class="dropdown-toggle brand" role="menu"><?php echo $this->html($theMsg) ?> <b class="caret"></b></a>
+              <ul aria-labelledby="<?php echo $this->msg($theMsg); ?>" role="menu" class="dropdown-menu" <?php $this->html( 'userlangattributes' ) ?>>
+
+              <?php foreach( $content as $key => $val ) { ?>
+                <li class="<?php echo $navClasses ?>"><?php echo $this->makeLink($key, $val, $options); ?></li><?php
+              }?>
+
+              </ul>            </li>
+          </ul><?php
+          break;
+      }
+      echo "\n<!-- /{$name} -->\n";
+    }
+  }
 }
