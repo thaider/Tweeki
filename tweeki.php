@@ -22,22 +22,23 @@ $wgValidSkinNames['tweeki'] = 'Tweeki';
 $wgAutoloadClasses['SkinTweeki'] = dirname(__FILE__).'/Tweeki.skin.php';
 $wgAutoloadClasses['TweekiHooks'] = dirname( __FILE__ ) . '/Tweeki.hooks.php';
 $wgExtensionMessagesFiles['SkinTweeki'] = dirname(__FILE__).'/Tweeki.i18n.php';
+$wgExtensionMessagesFiles['TweekiMagic'] = dirname( __FILE__ ) . '/Tweeki.i18n.magic.php';
  
-$wgDefaultUserOptions['tweeki-poweruser'] = 1;
-
 $wgHooks['GetPreferences'][] = 'TweekiHooks::getPreferences';
 $wgHooks['ParserFirstCallInit'][] = 'TweekiHooks::ButtonsSetup';
+$wgHooks['ParserFirstCallInit'][] = 'TweekiHooks::TweekiHideSetup';
 
+# Styles and Scripts have to be splitted in order to get the dependencies right
 $wgResourceModules['skins.tweeki.styles'] = array(
-        'styles' => array(
-                'tweeki/bootstrap/css/bootstrap.css' => array( 'media' => 'screen' ),
-                'tweeki/bootstrap/css/bootstrap-responsive.css' => array( 'media' => 'screen' ),
-                'tweeki/bootstrap/awesome/css/font-awesome.css' => array( 'media' => 'screen' ),
-                'tweeki/screen.css' => array( 'media' => 'screen' ),
-                'tweeki/theme.css' => array( 'media' => 'screen' ),
+  'styles' => array(
+		'tweeki/bootstrap/css/bootstrap.css' => array( 'media' => 'screen' ),
+		'tweeki/bootstrap/css/bootstrap-responsive.css' => array( 'media' => 'screen' ),
+		'tweeki/bootstrap/awesome/css/font-awesome.css' => array( 'media' => 'screen' ),
+		'tweeki/screen.css' => array( 'media' => 'screen' ),
+		'tweeki/theme.css' => array( 'media' => 'screen' ),
 	),
-        'remoteBasePath' => &$GLOBALS['wgStylePath'],
-        'localBasePath' => &$GLOBALS['wgStyleDirectory'],
+  'remoteBasePath' => &$GLOBALS['wgStylePath'],
+  'localBasePath' => &$GLOBALS['wgStyleDirectory'],
 );
 
 $wgResourceModules['skins.tweeki.scripts'] = array(
@@ -50,17 +51,13 @@ $wgResourceModules['skins.tweeki.scripts'] = array(
 	'dependencies' => array(
 		'jquery.ui.widget',
 	),
-        'remoteBasePath' => &$GLOBALS['wgStylePath'],
-        'localBasePath' => &$GLOBALS['wgStyleDirectory'],
+  'remoteBasePath' => &$GLOBALS['wgStylePath'],
+  'localBasePath' => &$GLOBALS['wgStyleDirectory'],
 );
 
-# Default options to customize skin
-$wgTweekiSkinUseStandardLayout = false;
-$wgTweekiSkinDisplaySidebarNavigation = false;
-# Show print/export in navbar by default
-$wgTweekiSkinSidebarItemsInNavbar = array( 'coll-print_export' );
-
-# New Tweeki options
-$wgTweekiSkinHideAnon = array( );
+# Default options
+$wgTweekiSkinHideAll = array( 'footer-info' );
+$wgTweekiSkinHideable = array( 'firstHeading' );
+$wgTweekiSkinHideAnon = array( 'navbar' );
 $wgTweekiSkinHideNonPoweruser = array( 'TOOLBOX', 'EDIT-EXT-special' );
 $wgTweekiSkinFooterIcons = true;

@@ -23,10 +23,37 @@ class TweekiHooks {
         $defaultPreferences['tweeki-poweruser'] = array(
                 'type' => 'toggle',
                 'label-message' => 'tweeki-poweruser-preference', // a system message
-                'section' => 'tweeki/poweruser',
+                'section' => 'rendering/poweruser',
         );
 
 		return true;
+	}
+
+	/**
+	 * TweekiHideSetup hook
+	 *
+	 * @param $parser Parser current parser
+	 */
+	static function TweekiHideSetup( Parser $parser ) {
+			$parser->setFunctionHook( 'MAG_TWEEKISKINHIDE', 'TweekiHooks::setHiddenElements' );
+			return true;
+	}
+
+	/**
+	 * Set elements that should be hidden
+	 * @param $parser Parser current parser
+	 * @return String
+	 */
+	static function setHiddenElements( Parser $parser ) {
+			global $wgTweekiSkinHideAll, $wgTweekiSkinHideable;
+			$parser->disableCache();
+			// Argument 0 is $parser, so begin iterating at 1
+			for ( $i = 1; $i < func_num_args(); $i++ ) {
+				if ( in_array ( func_get_arg( $i ), $wgTweekiSkinHideable ) ) {
+					$wgTweekiSkinHideAll[] = func_get_arg( $i );
+					}
+			}
+			return '';
 	}
 
 	/**
@@ -325,7 +352,7 @@ class TweekiHooks {
 		else {
 			$dropdown['class'] .= ' dropdown-toggle';
 			$dropdown['data-toggle'] = 'dropdown';
-			$dropdown['html'] = $dropdown['text'] . '<b class="caret"></b>';
+			$dropdown['html'] = $dropdown['text'] . ' <b class="caret"></b>';
 			$renderedDropdown .= TweekiHooks::makeLink( 'what?', $dropdown);
 			}
 

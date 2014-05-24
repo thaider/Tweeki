@@ -547,3 +547,21 @@ section#content a.external[href $=".mpeg"], section#content a.external[href $=".
 	background: url(images/video-icon.png) center right no-repeat;
 	padding-right: 13px;
 }
+
+/* postedit */
+.postedit {
+	top: 5em !important;
+	}
+
+/* syntaxhighlight */
+div.mw-geshi {
+  padding: 1em; 
+  margin: 1em 0; 
+  border: 1px dashed #2f6fab;
+  background-color: #f9f9f9;
+}
+
+/* Abschnitt bearbeiten-Links: Brackets ausblenden */
+.mw-editsection-bracket {
+	display:none;
+}

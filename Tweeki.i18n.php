@@ -19,9 +19,11 @@ $messages['en'] = array(
 	'tweeki-navbar-brand' => "{{SITENAME}}",
 	'tweeki-toolbox' => "",
 	'tweeki-subnav' => "SIDEBAR",
-	'tweeki-sidebar' => "EDIT-EXT",
+	'tweeki-sidebar' => "EDIT-EXT,TOC",
+	'tweeki-footer' => "",
 	'tweeki-poweruser-preference' => 'Activate Poweruser features',
 	'tweeki-login' => '{{Mediawiki:login}} / {{Mediawiki:createaccount}}',
+	'tweeki-edit-ext' => "Edit $1",
 	'prefs-tweeki' => 'Tweeki',
 	'prefs-poweruser' => 'Poweruser features',
 );
@@ -44,6 +46,7 @@ $messages['de'] = array(
 	'tweeki' => 'Verbesserungen für die Skrifo-Benutzeroberfläche',
 	'tweeki-desc' => 'Tweeki ist eine auf Vector und Twitter Bootstrap basierende Skin.',
 	'tweeki-poweruser-preference' => 'Poweruser-Features einschalten',
+	'tweeki-edit-ext' => "$1 bearbeiten",
 	'prefs-tweeki' => 'Tweeki',
 	'prefs-poweruser' => 'Poweruser-Features',
 );

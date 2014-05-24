@@ -69,16 +69,16 @@ jQuery(function($) {
 		});
 
 
-		/* Move TOC to Sidebar */
-		if( $("#SideTOC").length > 0 ) {
-			$("#toc").appendTo("#SideTOC");
-			$("#toctitle").insertBefore("#SideTOC");
+		/* Move TOC elsewhere */
+		if( $("#tweekiTOC").length = 1 ) {
+			$("#toc").appendTo("#tweekiTOC");
+			$("#toctitle").insertBefore("#tweekiTOC");
 			$(window).resize(function() {
-				$("#SideTOC").height($(window).height()-$("#SideTOC").position().top-130);
+				$("#tweekiTOC").height($(window).height()-$("#tweekiTOC").position().top-130);
 				}).resize();
 
 			$(document).ready(function() {
-				$("#SideTOC").smoothDivScroll({ 
+				$("#tweekiTOC").smoothDivScroll({ 
 					visibleHotSpotBackgrounds: "always",
 					hotSpotScrollingStep: 5,
 					mousewheelScrolling: "vertical",
@@ -88,8 +88,8 @@ jQuery(function($) {
 		$("#toc").css('display','table');
 
 		/* Add Icon to Editsection-Buttons */
-		$(".editsection a").html("<i class='icon-pencil icon-darkgrey'></i> Abschnitt bearbeiten");
-		$(".editsection a").addClass("btn btn-mini");
-		$(".editsection").html(function() {
+		$(".mw-editsection a").html("<i class='icon-pencil icon-darkgrey'></i> Abschnitt bearbeiten");
+		$(".mw-editsection a").addClass("btn btn-mini");
+		$(".mw-editsection").html(function() {
 			return $(this).children();
 			});

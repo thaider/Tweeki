@@ -44,7 +44,6 @@ a:hover .icon-darkgrey {
 /* Korrekturen, damit interne Verweise funktionieren */
 /* TODO: interne Verweise funktionieren nur suboptimal! */
       body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
 	background-color:#f9f9f9;
       }
       .mw-headline {
@@ -172,7 +171,7 @@ a:hover .icon-darkgrey {
 	border-top: 1px dashed #CCCCCC;
 	font-weight:300;
       }
-      #SideTOC {
+      #tweekiTOC {
 	position:relative;
 	height:100%;
 	overflow:hidden;
@@ -537,14 +536,14 @@ line-height:24px;
 		margin: 0;
 	}
 
-.firstHeading, .firstHeadingSidebar { 
+.firstHeading, .tweekiFirstHeading { 
 	text-align:center;
 	margin-bottom:15px;
 	margin-top:10px;
 	font-weight:600;
 	letter-spacing:-.01em;
 }
-.firstHeadingSidebar {
+.tweekiFirstHeading {
 	background-color:#fff;
 	border:1px dashed #ccc;
 	padding:5px;
@@ -778,7 +777,7 @@ input:focus { /* input[type=text]:focus */
 }
 
 /* Buttons */
-input[type=submit] { /* .btn */
+input[type=submit], input[type=button] { /* .btn */
     -moz-box-sizing:content-box;
     -webkit-box-sizing:content-box;
     -ms-box-sizing:content-box;
@@ -808,13 +807,30 @@ input[type=submit] { /* .btn */
     vertical-align: middle;
 }
 
-input[type=submit]:hover { /* .btn:hover */
+input[type=submit]:hover, input[type=button]:hover { /* .btn:hover */
     background-position: 0 -15px;
     color: #333333;
     text-decoration: none;
     transition: background-position 0.1s linear 0s;
     background-color: #E6E6E6;
 }
+
+input[type=submit]:focus, input[type=button]:focus {
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+input[type=submit]:active,
+input[type=button]:active {
+  background-color: #e6e6e6;
+  background-color: #d9d9d9 \9;
+  background-image: none;
+  outline: 0;
+  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
 
 label {
     display:inline-block;
@@ -886,5 +902,27 @@ div.newcourse-steps .next i {
 
 /* editbutton */
 .btn-group .btn-edit:first-child {
-	width:80%
+	width:85%;
+	-moz-box-sizing:border-box;
+	}
+.btn-group .btn-edit+.btn-edit {
+	width:15%;
+	-moz-box-sizing:border-box;
+	}
+
+.with-navbar {
+	padding-top:60px;
+	}
+
+.without-navbar {
+	padding-top:20px;
+	}
+	
+/* footer */
+#footer ul {
+	display:inline-block;
+	}
+
+#footer #footer-icons {
+	display:block;
 	}
