@@ -1,5 +1,6 @@
 /* ANPASSUNGEN BOOTSTRAP */
 /* Graue und weiße Icons */
+/* überflüssig?
 [class^="icon-"], [class*=" icon-"] {
     background-image: url("img/glyphicons-halflings.png");
 }
@@ -20,6 +21,7 @@ a:hover .icon-grey {
 a:hover .icon-darkgrey {
   opacity:1;
 }
+*/
 
 /* überflüssig?
 .well table {
@@ -614,11 +616,6 @@ div.scrollingHotSpotTop
     and occupy 15% of the scrollable area (30% combined). Adjust it to your own taste. */
 	height: 30px;
 	width: 100%;
-	/* There is a big background image and it's used to solve some problems I experienced
-    in Internet Explorer 6. */
-	background-image: url(images/big_transparent.gif);
-	background-repeat: repeat;
-	background-position: center center;
 	position: absolute;
 	z-index: 200;
 	top: 0;
@@ -643,9 +640,6 @@ div.scrollingHotSpotBottom
 {
 	height: 30px;
 	width: 100%;
-	background-image: url(images/big_transparent.gif);
-	background-repeat: repeat;
-	background-position: center center;
 	position: absolute;
 	z-index: 200;
 	bottom: 0;
@@ -766,7 +760,7 @@ input { /* input[type=text] */
     font-size: 14px;
     height: 20px;
     line-height: 20px;
-    margin-bottom: 10px;
+//    margin-bottom: 10px;
     padding: 4px 6px;
     vertical-align: middle;
 }

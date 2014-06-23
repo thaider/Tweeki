@@ -12,8 +12,8 @@ if( !defined( 'MEDIAWIKI' ) ) die( "This is an extension to the MediaWiki packag
 $wgExtensionCredits['skin'][] = array(
         'path' => __FILE__,
         'name' => 'Tweeki',
-        'version' => '0.1.0',
-        'url' => "http://tweeki.kollabor.at",
+        'version' => '0.1.1',
+        'url' => "http://tweeki.thai-land.at",
         'author' => 'Tobias Haider (based on the work of Garrett LeSage)',
         'descriptionmsg' => 'tweeki-desc',
 );
@@ -31,8 +31,8 @@ $wgHooks['ParserFirstCallInit'][] = 'TweekiHooks::TweekiHideSetup';
 # Styles and Scripts have to be splitted in order to get the dependencies right
 $wgResourceModules['skins.tweeki.styles'] = array(
   'styles' => array(
-		'tweeki/bootstrap/css/bootstrap.css' => array( 'media' => 'screen' ),
-		'tweeki/bootstrap/css/bootstrap-responsive.css' => array( 'media' => 'screen' ),
+		'tweeki/bootstrap/css/bootstrap.min.css' => array( 'media' => 'screen' ),
+		'tweeki/bootstrap/css/bootstrap-theme.min.css' => array( 'media' => 'screen' ),
 		'tweeki/bootstrap/awesome/css/font-awesome.css' => array( 'media' => 'screen' ),
 		'tweeki/screen.css' => array( 'media' => 'screen' ),
 		'tweeki/theme.css' => array( 'media' => 'screen' ),

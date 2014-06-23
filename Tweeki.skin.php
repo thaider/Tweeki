@@ -32,7 +32,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  */
 class SkinTweeki extends SkinTemplate {
 
-	protected static $bodyClasses = array( 'vector-animateLayout' );
+	protected static $bodyClasses = array( 'vector-animateLayout' ); // TODO: hier was anderes?
 
   var $skinname = 'tweeki', $stylename = 'tweeki',
     $template = 'TweekiTemplate', $useHeadElement = true;
@@ -189,8 +189,8 @@ class TweekiTemplate extends BaseTemplate {
 
 			<?php if( wfMessage( 'tweeki-subnav' )->plain() !== '-' && $this->checkVisibility( 'subnav' ) ) { ?>
 			<!-- subnav -->
-			<div id="page-header" class="row-fluid">
-				<div class="<?php echo ( ( count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( 'sidebar' ) ) ? 'offset3 span9' : 'span12'; ?>">
+			<div id="page-header" class="row">
+				<div class="<?php echo ( ( count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( 'sidebar' ) ) ? 'col-md-offset-3 col-md-9' : 'col-md-12'; ?>">
 					<ul class="navigation nav nav-pills pull-right">
 					<?php	$this->renderSubnav(); ?>
 					</ul>
@@ -199,8 +199,8 @@ class TweekiTemplate extends BaseTemplate {
 			<!-- /subnav -->
 			<?php } ?>
 
-			<div class="row-fluid">
-				<div role="main" class="<?php echo ( ( count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( 'sidebar' ) ) ? 'offset3 span9' : 'offset1 span10'; ?>">
+			<div class="row">
+				<div role="main" class="<?php echo ( ( count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( 'sidebar' ) ) ? 'col-md-offset-3 col-md-9' : 'col-md-offset-1 col-md-10'; ?>">
 					<a id="top"></a>
 					<div id="mw-js-message" style="display:none;"<?php $this->html( 'userlangattributes' ) ?>></div>
 					<?php if ( $this->data['sitenotice'] ): ?>
@@ -273,36 +273,41 @@ class TweekiTemplate extends BaseTemplate {
 
 		<?php if ( $this->checkVisibility( 'navbar' ) ) { ?>
 		<!-- navbar -->
-		<div id="userbar" class="navbar navbar-fixed-top">
+		<div id="userbar" class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<div class="navbar-inner">
-			<div class="container-fluid">
-				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</a>
+				<div class="container-fluid">
+				
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
 
-				<?php if ( $this->checkVisibility( 'navbar-brand' ) ) { 
-					$this->renderBrand(); 
-					} ?>
+						<?php if ( $this->checkVisibility( 'navbar-brand' ) ) { 
+							$this->renderBrand(); 
+							} ?>
+					
+					</div>
 
-				<?php if ( $this->checkVisibility( 'navbar-left' ) ) { ?>
-				<div id="left-navbar" class="pull-left nav-collapse collapse">
-					<ul class="nav" role="navigation">
-					<?php $this->renderNavbar( 'left' ); ?>
-				</ul>
-				</div>
-				<?php } ?>
-
-				<?php if ( $this->checkVisibility( 'navbar-right' ) ) { ?>
-				<div id="right-navbar" class="pull-right nav-collapse collapse">
-					<ul class="nav" role="navigation">
-					<?php $this->renderNavbar( 'right' ); ?>
+					<?php if ( $this->checkVisibility( 'navbar-left' ) ) { ?>
+					<div id="left-navbar" class="navbar-left navbar-collapse collapse">
+						<ul class="nav navbar-nav">
+						<?php $this->renderNavbar( 'left' ); ?>
 					</ul>
-				</div>
-				<?php } ?>
+					</div>
+					<?php } ?>
 
-			</div>
+					<?php if ( $this->checkVisibility( 'navbar-right' ) ) { ?>
+					<div id="right-navbar" class="navbar-right navbar-collapse collapse">
+						<ul class="nav navbar-nav">
+						<?php $this->renderNavbar( 'right' ); ?>
+						</ul>
+					</div>
+					<?php } ?>
+
+				</div>
 			</div>
 		</div>
 		<!-- /navbar -->
@@ -656,6 +661,7 @@ class TweekiTemplate extends BaseTemplate {
 	private function renderSidebar() {
 		$options = array( 
 					'class' => 'btn',
+					'wrapperclass' => 'btn-group btn-block'
 					);
 		$this->buildItems( wfMessage ( 'tweeki-sidebar' )->plain(), $options, 'sidebar' );
     }
@@ -697,9 +703,11 @@ class TweekiTemplate extends BaseTemplate {
 					case 'SEARCH':
 	          ?>
             <?php if( $context == 'subnav' ) echo '<li class="nav dropdown">'; ?>
-            <form <?php if( $context == 'navbar' ) echo 'class="navbar-search"'; ?> action="<?php $this->text( 'wgScript' ) ?>" id="searchform">
-              <input id="searchInput" class="search-query" type="search" accesskey="f" title="<?php $this->text('searchtitle'); ?>" placeholder="<?php $this->msg('search'); ?>" name="search" value="<?php echo $this->data['search']; ?>">
-              <?php echo $this->makeSearchButton( 'fulltext', array( 'id' => 'mw-searchButton', 'class' => 'searchButton btn hidden' ) ); ?>
+            <form <?php if( $context == 'navbar' ) echo 'class="navbar-form navbar-right"'; ?> action="<?php $this->text( 'wgScript' ) ?>" id="searchform">
+            	<div class="form-group">
+								<input id="searchInput" class="search-query form-control" type="search" accesskey="f" title="<?php $this->text('searchtitle'); ?>" placeholder="<?php $this->msg('search'); ?>" name="search" value="<?php echo $this->data['search']; ?>">
+								<?php echo $this->makeSearchButton( 'go', array( 'id' => 'mw-searchButton', 'class' => 'searchButton btn hidden' ) ); ?>
+            	</div>
             </form>
 	          <?php if( $context == 'subnav' ) echo '</li>'; ?>
 	          <?php
@@ -749,7 +757,9 @@ class TweekiTemplate extends BaseTemplate {
 								'class' => array('brand'), 
 								'wrapper' => 'li'
 								);
-		echo '<ul class="nav" role="navigation">' . TweekiHooks::renderButtons( $brand, $options ) . '</ul>';
+//		echo '<ul class="nav" role="navigation">' . TweekiHooks::renderButtons( $brand, $options ) . '</ul>';
+/* TODO: can we offer the options? */
+		echo '<a href="' . $this->data['nav_urls']['mainpage']['href'] . '" class="navbar-brand">' . wfMessage( 'tweeki-navbar-brand' )->text() . '</a>';
 		}
 
 

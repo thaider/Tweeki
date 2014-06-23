@@ -1,7 +1,8 @@
 /*
  * Strapping-specific scripts
  */
-jQuery(function($) {
+/* was tut dieser code? wir brauchen ihn wohl nicht, oder? */
+/*jQuery(function($) {
   var $nav = $('#page-header ul.navigation'),
       $searchLink = $nav.find('a.search-link'),
       $search = $('#nav-searchform .search-query');
@@ -34,12 +35,14 @@ jQuery(function($) {
       if (ev.keyCode === 27) { this.blur(); }
     }
   });
-});
+});*/
 
 		/*
-		 * Skrifo-specific scripts
+		 * Tweeki-specific scripts
 		 */
 		jQuery( function( $ ) {
+		
+		/* what for?
 			var $pCactions = $( '#p-cactions' );
 			$pCactions.find( 'h5 a' )
 				// For accessibility, show the menu when the hidden link in the menu is clicked (bug 24298)
@@ -54,9 +57,10 @@ jQuery(function($) {
 				.blur( function() {
 					$pCactions.removeClass( 'vectorMenuFocus' );
 				});
+				*/
 	
 			//user-icon vor personal-link in der navigation
-			$( '.pa-user' ).prepend('<i class="icon-user icon-grey"></i> ');
+//			$( '.pa-user' ).prepend('<i class="icon-user icon-grey"></i> ');
 	
 			//footer nicht fixieren, wenn dokument kleiner als fenstergröße
 			if($(document).height() != $(window).height()) { $( '#footer' ).css('position','static'); }
@@ -70,7 +74,7 @@ jQuery(function($) {
 
 
 		/* Move TOC elsewhere */
-		if( $("#tweekiTOC").length = 1 ) {
+		if( $("#tweekiTOC").length == 1 && $("#toc").length == 1 ) {
 			$("#toc").appendTo("#tweekiTOC");
 			$("#toctitle").insertBefore("#tweekiTOC");
 			$(window).resize(function() {
@@ -89,7 +93,7 @@ jQuery(function($) {
 
 		/* Add Icon to Editsection-Buttons */
 		$(".mw-editsection a").html("<i class='icon-pencil icon-darkgrey'></i> Abschnitt bearbeiten");
-		$(".mw-editsection a").addClass("btn btn-mini");
+		$(".mw-editsection a").addClass("btn btn-default btn-mini");
 		$(".mw-editsection").html(function() {
 			return $(this).children();
 			});
