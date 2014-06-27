@@ -82,7 +82,7 @@ class TweekiHooks {
 
 		/* set standard classes for all buttons in the group */
 		if ( !isset( $args['class'] ) ) {
-			$args['class'][] = 'btn';
+			$args['class'][] = 'btn btn-default';
 			}
 		else {
 			$args['class'] = explode( ' ', $args['class'] );
