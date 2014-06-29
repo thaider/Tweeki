@@ -758,7 +758,7 @@ input { /* input[type=text] */
     color: #555555;
     display: inline-block;
     font-size: 14px;
-    height: 20px;
+//    height: 20px;
     line-height: 20px;
 //    margin-bottom: 10px;
     padding: 4px 6px;

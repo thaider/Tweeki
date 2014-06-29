@@ -183,7 +183,7 @@ class TweekiHooks {
 			}
 
 		$line = explode( '|', $line );
-		foreach ( $line as $single_line ) {
+		foreach ( $line as &$single_line ) {
 			$single_line = trim( $single_line );
 			}
 		$msgText = wfMessage( $line[0] )->inContentLanguage();
