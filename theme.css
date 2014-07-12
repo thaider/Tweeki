@@ -70,7 +70,7 @@ a:hover .icon-darkgrey {
 	#content .schmal, #content .breit {
 		margin-right:5%;
 	}
-	#bodyContent {
+	#content {
 		clear:both;
 		background-color:#fff;
 		padding:1em 2em;
@@ -920,3 +920,9 @@ div.newcourse-steps .next i {
 #footer #footer-icons {
 	display:block;
 	}
+
+/* Navigation - Accessibility */
+#mw-navigation h2 {
+    position: absolute;
+    top: -9999px;
+}

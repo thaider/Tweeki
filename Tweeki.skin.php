@@ -32,45 +32,46 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  */
 class SkinTweeki extends SkinTemplate {
 
-	protected static $bodyClasses = array( 'vector-animateLayout' ); // TODO: hier was anderes?
+	protected static $bodyClasses = array( 'tweeki-animateLayout' );
 
   var $skinname = 'tweeki', $stylename = 'tweeki',
     $template = 'TweekiTemplate', $useHeadElement = true;
 
-  /**
-   * Initializes output page and sets up skin-specific parameters
-   * @param $out OutputPage object to initialize
-   */
-  public function initPage( OutputPage $out ) {
-    global $wgLocalStylePath;
+	/**
+	 * Initializes output page and sets up skin-specific parameters
+	 * @param $out OutputPage object to initialize
+	 */
+	public function initPage( OutputPage $out ) {
+		global $wgLocalStylePath;
 
-    parent::initPage( $out );
+		parent::initPage( $out );
 
-    // Append CSS which includes IE only behavior fixes for hover support -
-    // this is better than including this in a CSS fille since it doesn't
-    // wait for the CSS file to load before fetching the HTC file.
-    $min = $this->getRequest()->getFuzzyBool( 'debug' ) ? '' : '.min';
-    $out->addHeadItem( 'csshover',
-      '<!--[if lt IE 7]><style type="text/css">body{behavior:url("' .
-        htmlspecialchars( $wgLocalStylePath ) .
-        "/{$this->stylename}/csshover{$min}.htc\")}</style><![endif]-->"
-    );
+		// Append CSS which includes IE only behavior fixes for hover support -
+		// this is better than including this in a CSS file since it doesn't
+		// wait for the CSS file to load before fetching the HTC file.
+		$min = $this->getRequest()->getFuzzyBool( 'debug' ) ? '' : '.min';
+		$out->addHeadItem( 'csshover',
+			'<!--[if lt IE 7]><style type="text/css">body{behavior:url("' .
+				htmlspecialchars( $wgLocalStylePath ) .
+				"/{$this->stylename}/csshover{$min}.htc\")}</style><![endif]-->"
+		);
 
-//    $out->addHeadItem('responsive', '<meta name="viewport" content="width=device-width, initial-scale=1.0">');
-/* does this work? */
 		$out->addMeta("viewport", "width=device-width, initial-scale=1.0");
     $out->addModules( 'skins.tweeki.scripts' );
   }
 
-  /**
-   * Load skin and user CSS files in the correct order
-   * fixes bug 22916
-   * @param $out OutputPage object
-   */
-  function setupSkinUserCss( OutputPage $out ){
-    parent::setupSkinUserCss( $out );
-    $out->addModuleStyles( 'skins.tweeki.styles' );
-  }
+	/**
+	 * Loads skin and user CSS files.
+	 * @param $out OutputPage object
+	 */
+	function setupSkinUserCss( OutputPage $out ) {
+		parent::setupSkinUserCss( $out );
+
+//		$styles = array( 'mediawiki.skinning.interface', 'skins.tweeki.styles' );
+		$styles = array( 'skins.tweeki.styles' ); /* TODO: something's not working as it should */
+		wfRunHooks( 'SkinTweekiStyleModules', array( $this, &$styles ) );
+		$out->addModuleStyles( $styles );
+	}
 
 	/**
 	 * Adds classes to the body element.
@@ -95,15 +96,15 @@ class TweekiTemplate extends BaseTemplate {
 
 	/* Functions */
 
-  /**
-   * Outputs the entire contents of the (X)HTML page
-   */
-  public function execute() {
-    global $wgVectorUseIconWatch;
-    global $wgTweekiSkinHideAnon;
+	/**
+	 * Outputs the entire contents of the (X)HTML page
+	 */
+	public function execute() {
+		global $wgVectorUseIconWatch;
+		global $wgTweekiSkinHideAnon;
 
-    // Build additional attributes for navigation urls
-    $nav = $this->data['content_navigation'];
+		// Build additional attributes for navigation urls
+		$nav = $this->data['content_navigation'];
 
 		if ( $wgVectorUseIconWatch ) {
 			$mode = $this->getSkin()->getUser()->isWatched( $this->getSkin()->getRelevantTitle() ) ? 'unwatch' : 'watch';
@@ -139,10 +140,10 @@ class TweekiTemplate extends BaseTemplate {
 				}
 			}
 		}
-    $this->data['namespace_urls'] = $nav['namespaces'];
-    $this->data['view_urls'] = $nav['views'];
-    $this->data['action_urls'] = $nav['actions'];
-    $this->data['variant_urls'] = $nav['variants'];
+		$this->data['namespace_urls'] = $nav['namespaces'];
+		$this->data['view_urls'] = $nav['views'];
+		$this->data['action_urls'] = $nav['actions'];
+		$this->data['variant_urls'] = $nav['variants'];
 
     //set userStateClass
     if ($this->data['loggedin']) {
@@ -151,17 +152,20 @@ class TweekiTemplate extends BaseTemplate {
       $userStateClass = "user-loggedout";
     }
 
-	/* TODO: beautify!!! */
-	//set 'namespace', 'shortnamespace', and 'title_formatted' variables
-	reset($this->data['namespace_urls']);
-	$currentNamespace = current($this->data['namespace_urls']);
-	$this->data[ 'namespace' ] = $currentNamespace['text'];
-	$this->data[ 'shortNamespace' ] = $this->data[ 'namespace' ];
-	if(stripos( $this->data[ 'namespace' ],"fragen") !== false) { $this->data[ 'shortNamespace' ] = "Fragen"; } /* needs some rework */
-	if( $this->data[ 'namespace' ] == "Datei" ) { $this->data[ 'shortNamespace' ] = "Dateiseite"; } /* ugly */
-	$this->data['title_formatted'] = $this->data['title'];
-	if(strpos( $this->data['title'],":") !== false) {
-		$this->data['title_formatted'] = '<span class="namespace">' . str_replace( ":", ":</span> ", $this->data['title'] );
+		/* TODO: beautify!!! */
+		//set 'namespace', 'shortnamespace', and 'title_formatted' variables
+		reset( $this->data['namespace_urls'] );
+		$currentNamespace = current( $this->data['namespace_urls'] );
+		$this->data[ 'namespace' ] = $currentNamespace['text'];
+
+		/* TODO: generalize SKRIFO specific parts!!!! */
+		$this->data[ 'shortNamespace' ] = $this->data[ 'namespace' ];
+		if ( stripos( $this->data[ 'namespace' ], "fragen" ) !== false ) { $this->data[ 'shortNamespace' ] = "Fragen"; } /* needs some rework */
+		if ( $this->data[ 'namespace' ] == "Datei" ) { $this->data[ 'shortNamespace' ] = "Dateiseite"; } /* ugly */
+
+		$this->data['title_formatted'] = $this->data['title'];
+		if( strpos( $this->data['title'],":" ) !== false ) { /* does not work for titles in the main namespace with colons! */
+			$this->data['title_formatted'] = '<span class="namespace">' . str_replace( ":", ":</span> ", $this->data['title'] );
 		}
 
 		// Reverse horizontally rendered navigation elements
@@ -173,19 +177,13 @@ class TweekiTemplate extends BaseTemplate {
 			$this->data['personal_urls'] =
 				array_reverse( $this->data['personal_urls'] );
 		}
-
-	/* TODO: what about responsitivity? */
-/*	$this->data[ 'headelement' ] = str_replace( '<meta charset="UTF-8" />', '<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="skins/tweeki/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-', $this->data[ 'headelement' ]);*/
-
-    // Output HTML Page
-    $this->html( 'headelement' );
+		// Output HTML Page
+		$this->html( 'headelement' );
 ?>
-    <div id="mw-page-base" class="noprint"></div>
-    <div id="mw-head-base" class="noprint"></div>
+		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
     <!-- content -->
-    <section id="content" class="mw-body container-fluid <?php echo $userStateClass; echo ( $this->checkVisibility( 'navbar' ) ) ? ' with-navbar' : ' without-navbar'; ?>">
+    <div class="container <?php echo $userStateClass; echo ( $this->checkVisibility( 'navbar' ) ) ? ' with-navbar' : ' without-navbar'; ?>">
 
 			<?php if( wfMessage( 'tweeki-subnav' )->plain() !== '-' && $this->checkVisibility( 'subnav' ) ) { ?>
 			<!-- subnav -->
@@ -200,81 +198,64 @@ class TweekiTemplate extends BaseTemplate {
 			<?php } ?>
 
 			<div class="row">
-				<div role="main" class="<?php echo ( ( count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( 'sidebar' ) ) ? 'col-md-offset-3 col-md-9' : 'col-md-offset-1 col-md-10'; ?>">
+				<div id="content" class="mw-body <?php echo ( ( count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( 'sidebar' ) ) ? 'col-md-offset-3 col-md-9' : 'col-md-offset-1 col-md-10'; ?>" role="main">
 					<a id="top"></a>
 					<div id="mw-js-message" style="display:none;"<?php $this->html( 'userlangattributes' ) ?>></div>
-					<?php if ( $this->data['sitenotice'] ): ?>
+					<?php if ( $this->data['sitenotice'] ) { ?>
 					<!-- sitenotice -->
 					<div id="siteNotice"><?php $this->html( 'sitenotice' ) ?></div>
 					<!-- /sitenotice -->
-					<?php endif; ?>
+					<?php } ?>
+					<?php if ( $this->checkVisibility( 'firstHeading' ) ) { ?>
+					<h1 id="firstHeading" class="firstHeading page-header" lang="<?php
+						$this->data['pageLanguage'] = $this->getSkin()->getTitle()->getPageViewLanguage()->getHtmlCode();
+						$this->text( 'pageLanguage' );
+					?>"><span dir="auto"><?php $this->html( 'title_formatted' ) ?></span></h1>
+					<?php } ?>
+					<?php $this->html( 'prebodyhtml' ) ?>
 					<!-- bodyContent -->
 					<div id="bodyContent">
-						<?php if( $this->data['newtalk'] ): ?>
-						<!-- newtalk -->
-						<div class="usermessage"><?php $this->html( 'newtalk' )  ?></div>
-						<!-- /newtalk -->
-						<?php endif; ?>
-						<?php if ( $this->data['showjumplinks'] ): ?>
-						<!-- jumpto -->
+						<?php if ( $this->data['isarticle'] ) { ?>
+						<div id="siteSub"><?php $this->msg( 'tagline' ) ?></div>
+						<?php } ?>
+						<div id="contentSub"<?php $this->html( 'userlangattributes' ) ?>><?php $this->html( 'subtitle' ) ?></div>
+						<?php if ( $this->data['undelete'] ) { ?>
+						<div id="contentSub2"><?php $this->html( 'undelete' ) ?></div>
+						<?php } ?>
+						<?php if ( $this->data['newtalk'] ) { ?>
+						<div class="usermessage"><?php $this->html( 'newtalk' ) ?></div>
+						<?php } ?>
 						<div id="jump-to-nav" class="mw-jump">
-							<?php $this->msg( 'jumpto' ) ?> <a href="#mw-head"><?php $this->msg( 'jumptonavigation' ) ?></a>,
+							<?php $this->msg( 'jumpto' ) ?>
+							<a href="#mw-navigation"><?php $this->msg( 'jumptonavigation' ) ?></a><?php $this->msg( 'comma-separator' ) ?>
 							<a href="#p-search"><?php $this->msg( 'jumptosearch' ) ?></a>
 						</div>
-						<!-- /jumpto -->
-						<?php endif; ?>
-
-						<!-- innerbodycontent -->
-						<div id="innerbodycontent" class="layout">
-							<?php if ( $this->checkVisibility( 'firstHeading' ) ) { ?>
-							<h1 id="firstHeading" class="firstHeading page-header">
-								<span dir="auto"><?php $this->html( 'title_formatted' ) ?></span>
-							</h1>
-							<?php } ?>
-							<!-- subtitle -->
-							<div id="contentSub" <?php $this->html( 'userlangattributes' ) ?>><?php $this->html( 'subtitle' ) ?></div>
-							<!-- /subtitle -->
-							<?php if ( $this->data['undelete'] ): ?>
-							<!-- undelete -->
-							<div id="contentSub2"><?php $this->html( 'undelete' ) ?></div>
-							<!-- /undelete -->
-							<?php endif; ?>
-							<?php $this->html( 'bodycontent' ); ?>
-						</div>
-						<!-- /innerbodycontent -->
-
+						<?php $this->html( 'bodycontent' ) ?>
 						<?php if ( $this->data['printfooter'] ) { ?>
-						<!-- printfooter -->
 						<div class="printfooter">
 						<?php $this->html( 'printfooter' ); ?>
 						</div>
-						<!-- /printfooter -->
 						<?php } ?>
 						<?php if ( $this->data['catlinks'] ) { ?>
-						<!-- catlinks -->
 						<?php $this->html( 'catlinks' ); ?>
-						<!-- /catlinks -->
 						<?php } ?>
 						<?php if ( $this->data['dataAfterContent'] ) { ?>
-						<!-- dataAfterContent -->
 						<?php $this->html( 'dataAfterContent' ); ?>
-						<!-- /dataAfterContent -->
 						<?php } ?>
 						<div class="visualClear"></div>
-						<!-- debughtml -->
 						<?php $this->html( 'debughtml' ); ?>
-						<!-- /debughtml -->
 					</div>
 					<!-- /bodyContent -->
 				</div>
 			</div>
-    </section>
+    </div>
     <!-- /content -->
 
 		<?php if ( $this->checkVisibility( 'navbar' ) ) { ?>
 		<!-- navbar -->
-		<div id="userbar" class="navbar navbar-default navbar-fixed-top" role="navigation">
-			<div class="navbar-inner">
+		<div id="mw-navigation" class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<h2><?php $this->msg( 'navigation-heading' ) ?></h2>
+			<div id="mw-head" class="navbar-inner">
 				<div class="container-fluid">
 				
 					<div class="navbar-header">
@@ -643,6 +624,8 @@ class TweekiTemplate extends BaseTemplate {
 	
   /**
    * Render Navbar
+   *
+   * @param $side string
    */
 	private function renderNavbar( $side ) {
 		$otherside = ( $side == 'right' ) ? 'left' : 'right';
@@ -730,8 +713,8 @@ class TweekiTemplate extends BaseTemplate {
   /**
    * Render navigations elements that renderNavigation hasn't dealt with
    *
-   * @param $buttons Array
-   * @param $customItems Array
+   * @param $buttons array
+   * @param $customItems array
    */
 	private function renderCustomNavigation( &$buttons, &$customItems ) {
 		$localParser = new Parser();		
