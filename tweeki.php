@@ -27,6 +27,7 @@ $wgExtensionMessagesFiles['TweekiMagic'] = dirname( __FILE__ ) . '/Tweeki.i18n.m
 $wgHooks['GetPreferences'][] = 'TweekiHooks::getPreferences';
 $wgHooks['ParserFirstCallInit'][] = 'TweekiHooks::ButtonsSetup';
 $wgHooks['ParserFirstCallInit'][] = 'TweekiHooks::TweekiHideSetup';
+$wgHooks['DoEditSectionLink'][] = 'TweekiHooks::EditSectionLinkButton';
 
 # Styles and Scripts have to be splitted in order to get the dependencies right
 $wgResourceModules['skins.tweeki.styles'] = array(

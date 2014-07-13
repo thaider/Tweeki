@@ -26,6 +26,9 @@ $messages['en'] = array(
 	'tweeki-edit-ext' => "Edit $1",
 	'prefs-tweeki' => 'Tweeki',
 	'prefs-poweruser' => 'Poweruser features',
+	'tweeki-editsection-text' => 'Edit section',
+	'tweeki-editsection-class' => 'btn btn-default btn-xs',
+	'tweeki-editsection-icon' => '<i class="icon-pencil icon-darkgrey"></i>',
 );
 
 /** Message documentation (Message documentation)
@@ -49,4 +52,5 @@ $messages['de'] = array(
 	'tweeki-edit-ext' => "$1 bearbeiten",
 	'prefs-tweeki' => 'Tweeki',
 	'prefs-poweruser' => 'Poweruser-Features',
+	'tweeki-editsection-text' => 'Abschnitt bearbeiten',
 );

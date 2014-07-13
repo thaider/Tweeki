@@ -102,6 +102,7 @@ class TweekiTemplate extends BaseTemplate {
 	public function execute() {
 		global $wgVectorUseIconWatch;
 		global $wgTweekiSkinHideAnon;
+		global $wgGroupPermissions;
 
 		// Build additional attributes for navigation urls
 		$nav = $this->data['content_navigation'];
@@ -146,12 +147,18 @@ class TweekiTemplate extends BaseTemplate {
 		$this->data['variant_urls'] = $nav['variants'];
 
     //set userStateClass
-    if ($this->data['loggedin']) {
+    if ( $this->data['loggedin'] ) {
       $userStateClass = "user-loggedin";
     } else {
       $userStateClass = "user-loggedout";
     }
-
+    
+		if ( $wgGroupPermissions['*']['edit'] || $this->data['loggedin'] ) {
+			$userStateClass += " editable";
+		} else {
+			$userStateClass += " not-editable";
+		}
+		
 		/* TODO: beautify!!! */
 		//set 'namespace', 'shortnamespace', and 'title_formatted' variables
 		reset( $this->data['namespace_urls'] );
@@ -182,13 +189,14 @@ class TweekiTemplate extends BaseTemplate {
 ?>
 		<div id="mw-page-base" class="noprint"></div>
 		<div id="mw-head-base" class="noprint"></div>
+		<a id="top"></a>
     <!-- content -->
     <div class="container <?php echo $userStateClass; echo ( $this->checkVisibility( 'navbar' ) ) ? ' with-navbar' : ' without-navbar'; ?>">
 
 			<?php if( wfMessage( 'tweeki-subnav' )->plain() !== '-' && $this->checkVisibility( 'subnav' ) ) { ?>
 			<!-- subnav -->
 			<div id="page-header" class="row">
-				<div class="<?php echo ( ( count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( 'sidebar' ) ) ? 'col-md-offset-3 col-md-9' : 'col-md-12'; ?>">
+				<div class="<?php echo ( ( count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( 'sidebar' ) ) ? 'col-md-offset-3 col-md-9' : 'col-md-offset-1 col-md-10'; ?>">
 					<ul class="navigation nav nav-pills pull-right">
 					<?php	$this->renderSubnav(); ?>
 					</ul>
@@ -199,7 +207,6 @@ class TweekiTemplate extends BaseTemplate {
 
 			<div class="row">
 				<div id="content" class="mw-body <?php echo ( ( count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( 'sidebar' ) ) ? 'col-md-offset-3 col-md-9' : 'col-md-offset-1 col-md-10'; ?>" role="main">
-					<a id="top"></a>
 					<div id="mw-js-message" style="display:none;"<?php $this->html( 'userlangattributes' ) ?>></div>
 					<?php if ( $this->data['sitenotice'] ) { ?>
 					<!-- sitenotice -->

@@ -42,7 +42,7 @@ class TweekiHooks {
 	/**
 	 * Set elements that should be hidden
 	 * @param $parser Parser current parser
-	 * @return String
+	 * @return string
 	 */
 	static function setHiddenElements( Parser $parser ) {
 			global $wgTweekiSkinHideAll, $wgTweekiSkinHideable;
@@ -73,7 +73,7 @@ class TweekiHooks {
 	 * @param $args array tag arguments
 	 * @param $parser Parser current parser
 	 * @param $frame PPFrame current frame
-	 * @return String
+	 * @return string
 	 */
 	static function buildButtons( $input, array $args, Parser $parser, PPFrame $frame ) {
 		$renderedButtons = '';
@@ -111,7 +111,7 @@ class TweekiHooks {
 	 * @param $buttons array
 	 * @param $input string
 	 * @param $parser Parser current parser
-	 * @return Array
+	 * @return array
 	 */
 	static function parseButtons( $buttongroup, $parser ) {
 		$buttons = array();
@@ -158,7 +158,7 @@ class TweekiHooks {
 	 * Parse specific link
 	 * @param $line string
 	 * @param $parser Parser current parser
-	 * @return Array
+	 * @return array
 	 */
 	static function parseButtonLink( $line, $parser ) {
 
@@ -514,6 +514,24 @@ class TweekiHooks {
 			$attrs['class'] = trim( $attrs['class'] );
 		}
 		return Html::rawElement( isset( $options['tag'] ) ? $options['tag'] : 'li', $attrs, $html );
+	}
+
+	/**
+	 * Set elements that should be hidden
+	 * @param $parser Parser current parser
+	 * @return string
+	 */
+	 // TODO: does class need sanitation? possibility to enter malign code?
+	static function EditSectionLinkButton( $skin, $nt, $section, $tooltip, &$result, $lang = false ) {
+		$search = array( 
+									wfMessage( 'editsection' )->inLanguage( $lang )->text(), 
+									'<a'
+								);
+		$replace = array( 
+									wfMessage( 'tweeki-editsection-icon' )->inLanguage( $lang )->text() . ' ' . wfMessage( 'tweeki-editsection-text' )->inLanguage( $lang )->text(), 
+									'<a class="' . wfMessage( 'tweeki-editsection-class' )->inLanguage( $lang )->text() . '"'
+								);
+		$result = str_replace( $search, $replace, $result );
 	}
 
 }
