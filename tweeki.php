@@ -28,15 +28,17 @@ $wgHooks['GetPreferences'][] = 'TweekiHooks::getPreferences';
 $wgHooks['ParserFirstCallInit'][] = 'TweekiHooks::ButtonsSetup';
 $wgHooks['ParserFirstCallInit'][] = 'TweekiHooks::TweekiHideSetup';
 $wgHooks['DoEditSectionLink'][] = 'TweekiHooks::EditSectionLinkButton';
+$wgHooks['ParserBeforeTidy'][] = 'TweekiHooks::HeadlineFix';
 
 # Styles and Scripts have to be splitted in order to get the dependencies right
 $wgResourceModules['skins.tweeki.styles'] = array(
   'styles' => array(
-		'tweeki/bootstrap/css/bootstrap.min.css' => array( 'media' => 'screen' ),
+		'tweeki/bootstrap/css/bootstrap.min.css' => array( ),
 		'tweeki/bootstrap/css/bootstrap-theme.min.css' => array( 'media' => 'screen' ),
 		'tweeki/bootstrap/awesome/css/font-awesome.css' => array( 'media' => 'screen' ),
-		'tweeki/screen.css' => array( 'media' => 'screen' ),
-		'tweeki/theme.css' => array( 'media' => 'screen' ),
+		'tweeki/screen.less' => array( 'media' => 'screen' ),
+		'tweeki/print.less' => array( 'media' => 'print' ),
+		'tweeki/theme.less' => array( 'media' => 'screen' ),
 	),
   'remoteBasePath' => &$GLOBALS['wgStylePath'],
   'localBasePath' => &$GLOBALS['wgStyleDirectory'],

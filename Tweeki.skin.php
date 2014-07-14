@@ -187,8 +187,8 @@ class TweekiTemplate extends BaseTemplate {
 		// Output HTML Page
 		$this->html( 'headelement' );
 ?>
-		<div id="mw-page-base" class="noprint"></div>
-		<div id="mw-head-base" class="noprint"></div>
+		<div id="mw-page-base"></div>
+		<div id="mw-head-base"></div>
 		<a id="top"></a>
     <!-- content -->
     <div class="container <?php echo $userStateClass; echo ( $this->checkVisibility( 'navbar' ) ) ? ' with-navbar' : ' without-navbar'; ?>">
@@ -303,7 +303,7 @@ class TweekiTemplate extends BaseTemplate {
 
 		<?php if ( ( count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( 'sidebar' ) ) { ?>
 		<!-- sidebar -->
-		<div id="sidebar" class="noprint">
+		<div id="sidebar">
 			<?php $this->renderSidebar(); ?>
 		</div>
 		<!-- /sidebar -->
@@ -775,13 +775,13 @@ class TweekiTemplate extends BaseTemplate {
 				<?php } 
 				} 
 				if ( wfMessage ( 'tweeki-footer' )->plain() !== "" ) {?>
-				<ul id="footer-custom" class="noprint">
+				<ul id="footer-custom">
 <?php			$this->buildItems( wfMessage ( 'tweeki-footer' )->plain(), $options, 'footer' ); ?>
 				</ul>
 <?php		}
 				$footericons = $this->getFooterIcons( "icononly" );
 				if ( count( $footericons ) > 0 && $this->checkVisibility( 'footer-icons' ) ) { ?>
-				<ul id="footer-icons" class="noprint">
+				<ul id="footer-icons">
 <?php		foreach ( $footericons as $blockName => $footerIcons ) { 
 					if ( $this->checkVisibility( 'footer-' . $blockName ) ) { ?>
 					<li id="footer-<?php echo htmlspecialchars( $blockName ); ?>ico">

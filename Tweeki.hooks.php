@@ -518,10 +518,13 @@ class TweekiHooks {
 
 	/**
 	 * Set elements that should be hidden
-	 * @param $parser Parser current parser
-	 * @return string
+	 * @param $skin Skin current skin
+	 * @param $nt Title
+	 * @param $section String section
+	 * @param $result String prepared output
+	 * @param $lang String language
 	 */
-	 // TODO: does class need sanitation? possibility to enter malign code?
+	 // TODO: does class need some check or sanitation? is there a possibility to enter malign code?
 	static function EditSectionLinkButton( $skin, $nt, $section, $tooltip, &$result, $lang = false ) {
 		$search = array( 
 									wfMessage( 'editsection' )->inLanguage( $lang )->text(), 
@@ -532,6 +535,18 @@ class TweekiHooks {
 									'<a class="' . wfMessage( 'tweeki-editsection-class' )->inLanguage( $lang )->text() . '"'
 								);
 		$result = str_replace( $search, $replace, $result );
+	}
+
+	/**
+	 * add invisible <span> for correct internal linking
+	 * @param $parser Parser current parser
+	 * @param $text
+	 */
+	 // TODO: check for unintended consequences of this hack
+	public static function HeadlineFix( &$parser, &$text ) {
+		$search = '/(<span class="mw-headline" id=".*">)(.*)(<\/span>)/';
+		$replace = '$1$3$2';
+		$text = preg_replace( $search, $replace, $text );
 	}
 
 }

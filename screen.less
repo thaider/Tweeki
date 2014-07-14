@@ -1,58 +1,16 @@
-/* Tweeki */
+/* Tweeki screen styles */
 
 /* FOOTER */
-/*
-#footer .row  {
-  text-align: center; 
-}
-
-#footer .row  a {
-  font-weight: normal;
-}*/
 
 #footer ul,
 #footer li {
   padding: 0;
   list-style: none;
 }
-/*
-#footer ul {
-  display: block;
-  margin: 2em auto;
-}
-#footer li {
-  display: inline;
-  margin: 1ex;
-}
 
-#footer-search {
-  display: inline;
-  position: relative;
-  top: 2px;
-}
-#footer-search .icon-search {
-  margin: 0 0 3px 6px;
-  opacity: 0.25;
-}*/
+/* CONTENT */
 
-
-/* Make the edit form larger
-#editform textarea,
-#wpTextbox1
-{
-  width: 100%;
-}*/
-
-/* Hide the printable footer 
-.printfooter {
-  display: none;
-}*/
-
-/*
-.align-right {
-  text-align: right;
-} */
-
+/* more space between rows */
 .row {
   margin-top: 15px;
 }
@@ -61,22 +19,15 @@
   margin-top: 25px;
 }
 
-/*
-input, button, select, textarea {
-  font: inherit;
-}
-*/
-
-
 /* SEARCH */
 
 .mw-search-createlink {
   text-align:center;
 }
 
-.not-editable .mw-search-createlink {
 /* If there are no permissions to edit pages,
 	do not display the create link on a no-results search */
+.not-editable .mw-search-createlink {
 	display: none;
 }
 
@@ -138,6 +89,7 @@ input, button, select, textarea {
   display: inline;
   list-style: none;
 }
+
 #preftoc li a {
   position: relative;
   z-index: 2;
@@ -146,6 +98,7 @@ input, button, select, textarea {
   padding: 8px 15px;
   display: inline-block;
 }
+
 #preftoc li.selected a {
   background-color: white;
   border: 1px solid #ccc;
@@ -155,6 +108,7 @@ input, button, select, textarea {
   cursor: default;
   padding: 7px 14px;
 }
+
 #preferences fieldset.prefsection {
   margin: 0;
   padding: 40px;
@@ -189,15 +143,18 @@ input, button, select, textarea {
   text-align: center;
   overflow: hidden;
 }
+
 .mw-prefs-buttons a,
 .mw-prefs-buttons input {
   font: inherit;
   padding: 3px 15px;
 }
+
 .mw-prefs-buttons a {
   padding: 8px 20px;
   float: left;
 }
+
 .mw-prefs-buttons input {
   float: right;
 }
@@ -234,56 +191,58 @@ input, button, select, textarea {
   padding-top: 0;
 }
 
-section#content a.external,
-section#content a.external[href ^="gopher://"] {
+/* LINK SYMBOLS */
+
+#content a.external,
+#content a.external[href ^="gopher://"] {
 	/* @embed */
 	background: url(images/external-link-ltr-icon.png) center right no-repeat;
 	padding-right: 13px;
 }
-section#content a.external[href ^="https://"],
+#content a.external[href ^="https://"],
 .link-https {
 	/* @embed */
 	background: url(images/lock-icon.png) center right no-repeat;
 	padding-right: 13px;
 }
-section#content a.external[href ^="mailto:"],
+#content a.external[href ^="mailto:"],
 .link-mailto {
 	/* @embed */
 	background: url(images/mail-icon.png) center right no-repeat;
 	padding-right: 13px;
 }
-section#content a.external[href ^="news:"] {
+#content a.external[href ^="news:"] {
 	/* @embed */
 	background: url(images/news-icon.png) center right no-repeat;
 	padding-right: 13px;
 }
-section#content a.external[href ^="ftp://"],
+#content a.external[href ^="ftp://"],
 .link-ftp {
 	/* @embed */
 	background: url(images/file-icon.png) center right no-repeat;
 	padding-right: 13px;
 }
-section#content a.external[href ^="irc://"],
-section#content a.external[href ^="ircs://"],
+#content a.external[href ^="irc://"],
+#content a.external[href ^="ircs://"],
 .link-irc {
 	/* @embed */
 	background: url(images/talk-icon.png) center right no-repeat;
 	padding-right: 13px;
 }
-section#content a.external[href $=".ogg"], section#content a.external[href $=".OGG"],
-section#content a.external[href $=".mid"], section#content a.external[href $=".MID"],
-section#content a.external[href $=".midi"], section#content a.external[href $=".MIDI"],
-section#content a.external[href $=".mp3"], section#content a.external[href $=".MP3"],
-section#content a.external[href $=".wav"], section#content a.external[href $=".WAV"],
-section#content a.external[href $=".wma"], section#content a.external[href $=".WMA"],
+#content a.external[href $=".ogg"], #content a.external[href $=".OGG"],
+#content a.external[href $=".mid"], #content a.external[href $=".MID"],
+#content a.external[href $=".midi"], #content a.external[href $=".MIDI"],
+#content a.external[href $=".mp3"], #content a.external[href $=".MP3"],
+#content a.external[href $=".wav"], #content a.external[href $=".WAV"],
+#content a.external[href $=".wma"], #content a.external[href $=".WMA"],
 .link-audio {
 	/* @embed */
 	background: url(images/audio-icon.png) center right no-repeat;
 	padding-right: 13px;
 }
-section#content a.external[href $=".ogm"], section#content a.external[href $=".OGM"],
-section#content a.external[href $=".avi"], section#content a.external[href $=".AVI"],
-section#content a.external[href $=".mpeg"], section#content a.external[href $=".MPEG"],
+#content a.external[href $=".ogm"], #content a.external[href $=".OGM"],
+#content a.external[href $=".avi"], #content a.external[href $=".AVI"],
+#content a.external[href $=".mpeg"], #content a.external[href $=".MPEG"],
 .link-video {
 	/* @embed */
 	background: url(images/video-icon.png) center right no-repeat;
