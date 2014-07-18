@@ -93,7 +93,7 @@ class TweekiHooks {
 
 		foreach ( $buttongroups as $buttongroup ) {
 			$buttons = array();
-			$buttons = TweekiHooks::parseButtons( $buttongroup, $parser );
+			$buttons = TweekiHooks::parseButtons( $buttongroup, $parser, $frame );
 			$renderedButtons .= TweekiHooks::renderButtons( $buttons, $args );
 			}
 
@@ -113,7 +113,7 @@ class TweekiHooks {
 	 * @param $parser Parser current parser
 	 * @return array
 	 */
-	static function parseButtons( $buttongroup, $parser ) {
+	static function parseButtons( $buttongroup, $parser, $frame ) {
 		$buttons = array();
 		$lines = explode( "\n", $buttongroup );
 
@@ -126,7 +126,7 @@ class TweekiHooks {
 			if ( trim( $line ) == "" ) { continue; }
 			/* buttons */
 			if ( strpos( $line, '*' ) !== 0 ) {
-				$parent[0] = array_merge( $parent[0], TweekiHooks::parseButtonLink( trim( $line ), $parser ) );
+				$parent[0] = array_merge( $parent[0], TweekiHooks::parseButtonLink( trim( $line ), $parser, $frame ) );
 				end( $parent[0] );
 				$parent[1] = &$parent[0][key( $parent[0] )];
 				$currentlevel = 1;
@@ -144,7 +144,7 @@ class TweekiHooks {
 				if ( !isset( $parent[$newlevel]['items'] ) ) {
 					$parent[$newlevel]['items'] = array();
 					}
-				$parent[$newlevel]['items'] = array_merge( $parent[$newlevel]['items'], TweekiHooks::parseButtonLink( $cleanline, $parser ) );
+				$parent[$newlevel]['items'] = array_merge( $parent[$newlevel]['items'], TweekiHooks::parseButtonLink( $cleanline, $parser, $frame ) );
 				end( $parent[$newlevel]['items'] );
 				$parent[$newlevel + 1] = &$parent[$newlevel]['items'][key( $parent[$newlevel]['items'] )];
 				$currentlevel = $newlevel + 1;
@@ -160,7 +160,7 @@ class TweekiHooks {
 	 * @param $parser Parser current parser
 	 * @return array
 	 */
-	static function parseButtonLink( $line, $parser ) {
+	static function parseButtonLink( $line, $parser, $frame ) {
 
 		$extraAttribs = array();
 		$href_implicit = false;
@@ -168,15 +168,15 @@ class TweekiHooks {
 		/* semantic queries */
 		if ( strpos( $line, '{{#ask:' ) === 0 ) {
 			$semanticQuery = substr( $line, 7, -2 );
-			$semanticHitNumber = $parser->recursiveTagParse( '{{#ask:' . $semanticQuery . '|format=count}}' );
+			$semanticHitNumber = $parser->recursiveTagParse( '{{#ask:' . $semanticQuery . '|format=count}}', $frame );
 			if ( !is_numeric( $semanticHitNumber ) || $semanticHitNumber < 1 ) {
-				return array( array( 'text' => $semanticQuery, 'href' => 'INVALID-QUERY' ) );
+				return array( array( 'text' => $semanticQuery, 'href' => 'INVALID QUERY' ) );
 				}
-			$semanticHits = $parser->recursiveTagParse( '{{#ask:' . $semanticQuery . '|format=list|link=none}}' );
+			$semanticHits = $parser->recursiveTagParse( '{{#ask:' . $semanticQuery . '|format=list|link=none}}', $frame );
 			$semanticHits = explode( ',', $semanticHits );
 			$semanticLinks = array();
 			foreach ( $semanticHits as $semanticHit ) {
-				$semanticLink = TweekiHooks::parseButtonLink( $semanticHit, $parser );
+				$semanticLink = TweekiHooks::parseButtonLink( $semanticHit, $parser, $frame );
 				$semanticLinks[] = $semanticLink[0];
 				}
 			return $semanticLinks;
@@ -191,7 +191,12 @@ class TweekiHooks {
 			$text = $msgText->parse();
 			}
 		else {
-			$text = $line[0];
+			if( $parser->getTitle() instanceof Title ) {
+				$text = $parser->recursiveTagParse( $line[0], $frame );
+				}
+			else {
+				$text = 'INVALID-TITLE/PARSER-BROKEN';
+				}
 			}
 
 		if ( isset( $line[1] ) && $line[1] != "" ) {
@@ -199,7 +204,7 @@ class TweekiHooks {
 			}
 		else {
 			$href_implicit = true;
-			$href = $line[0];
+			$href = $text;
 			}
 		$msgLink = wfMessage( $href )->inContentLanguage();
 		if ( $msgLink->exists() ) {
@@ -224,7 +229,7 @@ class TweekiHooks {
 				$title = $title->fixSpecialName();
 				$href = $title->getLinkURL();
 			} else {
-				$href = 'INVALID-TITLE';
+				$href = 'INVALID-TITLE:' . $href;
 			}
 		}
 		if ( isset( $line[2] ) && $line[2] != "" ) {
@@ -317,7 +322,7 @@ class TweekiHooks {
 
 			/* simple button */
 			else {
-				$renderedButtons .= TweekiHooks::makeLink( 'what?', $button );
+				$renderedButtons .= TweekiHooks::makeLink( $button );
 				}
 			}
 		/* close wrapper */
@@ -336,7 +341,7 @@ class TweekiHooks {
 
 		/* split dropdown */
 		if ( isset( $dropdown['href_implicit'] ) && $dropdown['href_implicit'] === false ) {
-			$renderedDropdown .= TweekiHooks::makeLink( 'what?', $dropdown );
+			$renderedDropdown .= TweekiHooks::makeLink( $dropdown );
 			$caret = array(
 									'class' => 'dropdown-toggle ' . $dropdown['class'],
 									'href' => '#',
@@ -345,7 +350,7 @@ class TweekiHooks {
 									// TODO: delete ugly &zwnj;!
 									'data-toggle' => 'dropdown'
 									);
-			$renderedDropdown .= TweekiHooks::makeLink( 'what?', $caret );
+			$renderedDropdown .= TweekiHooks::makeLink( $caret );
 			}
 
 		/* ordinary dropdown */
@@ -353,7 +358,7 @@ class TweekiHooks {
 			$dropdown['class'] .= ' dropdown-toggle';
 			$dropdown['data-toggle'] = 'dropdown';
 			$dropdown['html'] = $dropdown['text'] . ' <b class="caret"></b>';
-			$renderedDropdown .= TweekiHooks::makeLink( 'what?', $dropdown);
+			$renderedDropdown .= TweekiHooks::makeLink( $dropdown);
 			}
 
 		$renderedDropdown .= TweekiHooks::buildDropdownMenu( $dropdown['items'], $dropdownclass );
@@ -390,7 +395,7 @@ class TweekiHooks {
 			/* standard menu entry */
 			else {
 				$entry['tabindex'] = '-1';
-				$renderedMenu .= TweekiHooks::makeListItem( 'what?', $entry );
+				$renderedMenu .= TweekiHooks::makeListItem( $entry );
 				}
 			}
 
@@ -401,7 +406,7 @@ class TweekiHooks {
 
 
 /* this is a slightly adapted copy of the makeLink function in SkinTemplate.php */
-	static function makeLink( $key, $item, $options = array() ) {
+	static function makeLink( $item, $options = array() ) {
 		/* nested links? */
 		if ( isset( $item['links'] ) ) {
 			$item = $item['links'][0];
@@ -412,6 +417,7 @@ class TweekiHooks {
 			$text = $item['text'];
 		} else {
 //			$text = $this->translator->translate( isset( $item['msg'] ) ? $item['msg'] : $key );
+// TODO: error handling
 				return '';
 		}
 
@@ -479,11 +485,11 @@ class TweekiHooks {
 	}
 
 /* this is a copy of the makeListItem function in SkinTemplate.php */
-	static function makeListItem( $key, $item, $options = array() ) {
+	static function makeListItem( $item, $options = array() ) {
 		if ( isset( $item['links'] ) ) {
 			$html = '';
 			foreach ( $item['links'] as $linkKey => $link ) {
-				$html .= TweekiHooks::makeLink( $linkKey, $link, $options );
+				$html .= TweekiHooks::makeLink( $link, $options );
 			}
 		} else {
 			$link = $item;
@@ -497,7 +503,7 @@ class TweekiHooks {
 				// generating tooltips and accesskeys.
 				$link['single-id'] = $item['id'];
 			}
-			$html = TweekiHooks::makeLink( $key, $link, $options );
+			$html = TweekiHooks::makeLink( $link, $options );
 		}
 
 		$attrs = array();

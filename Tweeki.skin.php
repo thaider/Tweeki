@@ -332,7 +332,7 @@ class TweekiTemplate extends BaseTemplate {
         $toolTip = Xml::expandAttributes( Linker::tooltipAndAccesskeyAttribs( 'p-logo' ) );
 ?>
         		<a id="p-logo" href="<?php echo htmlspecialchars( $this->data['nav_urls']['mainpage']['href'] ) ?>" <?php echo Xml::expandAttributes( Linker::tooltipAndAccesskeyAttribs( 'p-logo' ) ) ?>>
-        			<img src="<?php $this->text( 'logopath' ); ?>" alt="<?php $this->html('sitename'); ?>" style="height:40px">
+        			<img src="<?php $this->text( 'logopath' ); ?>" alt="<?php $this->html('sitename'); ?>">
         		</a>
 <?php
   }
@@ -539,7 +539,7 @@ class TweekiTemplate extends BaseTemplate {
               	$name = explode( '|', $name );
               	$name = array_reverse( $name );
               	$name = implode( '|', $name );
-              	$sidebarItem = TweekiHooks::parseButtonLink( $name, $wgParser );
+              	$sidebarItem = TweekiHooks::parseButtonLink( $name, $wgParser, false );
               	$sidebar[] = $sidebarItem[0];
               	continue;
               	}
@@ -606,9 +606,9 @@ class TweekiTemplate extends BaseTemplate {
    */
 	private function checkVisibility( $item ) {
 		global $wgUser, $wgTweekiSkinHideNonPoweruser, $wgTweekiSkinHideAnon, $wgTweekiSkinHideAll;
-		if ( ( !in_array( $item, $wgTweekiSkinHideNonPoweruser ) || $wgUser->getOption( 'tweeki-poweruser' ) ) &&
-			( !in_array( $item, $wgTweekiSkinHideAnon ) || $this->data['loggedin'] )  &&
-			!in_array( $item, $wgTweekiSkinHideAll ) ) {
+		if ( ( !in_array( $item, $wgTweekiSkinHideNonPoweruser ) || $wgUser->getOption( 'tweeki-poweruser' ) ) && // not hidden for non-powerusers or poweruser
+			( !in_array( $item, $wgTweekiSkinHideAnon ) || $this->data['loggedin'] )  && // not hidden for anonymous users or non-anonymous user
+			!in_array( $item, $wgTweekiSkinHideAll ) ) { // not hidden for all
 			return true;
 			}
 		else {
@@ -638,8 +638,7 @@ class TweekiTemplate extends BaseTemplate {
 		$otherside = ( $side == 'right' ) ? 'left' : 'right';
 		$options = array( 
 					'wrapper' => 'li', 
-					'wrapperclass' => 'nav dropdown', 
-					'dropdownclass' => 'pull-' . $side 
+					'wrapperclass' => 'nav dropdown'
 					);
 		$this->buildItems( wfMessage( 'tweeki-navbar-' . $side )->plain(), $options, 'navbar' );    
 		}
@@ -693,7 +692,7 @@ class TweekiTemplate extends BaseTemplate {
 					case 'SEARCH':
 	          ?>
             <?php if( $context == 'subnav' ) echo '<li class="nav dropdown">'; ?>
-            <form <?php if( $context == 'navbar' ) echo 'class="navbar-form navbar-right"'; ?> action="<?php $this->text( 'wgScript' ) ?>" id="searchform">
+            <form <?php if( $context == 'navbar' ) echo 'class="navbar-form navbar-left"'; ?> action="<?php $this->text( 'wgScript' ) ?>" id="searchform">
             	<div class="form-group">
 								<input id="searchInput" class="search-query form-control" type="search" accesskey="f" title="<?php $this->text('searchtitle'); ?>" placeholder="<?php $this->msg('search'); ?>" name="search" value="<?php echo $this->data['search']; ?>">
 								<?php echo $this->makeSearchButton( 'go', array( 'id' => 'mw-searchButton', 'class' => 'searchButton btn hidden' ) ); ?>
@@ -724,9 +723,9 @@ class TweekiTemplate extends BaseTemplate {
    * @param $customItems array
    */
 	private function renderCustomNavigation( &$buttons, &$customItems ) {
-		$localParser = new Parser();		
+		global $wgParser;	
 		if( count( $customItems ) !== 0 ) {
-			$buttons = array_merge( $buttons, TweekiHooks::parseButtons( implode( chr(10), $customItems ), $localParser ) );
+			$buttons = array_merge( $buttons, TweekiHooks::parseButtons( implode( chr(10), $customItems ), $wgParser, false ) );
 			$customItems = array();
 			}
 		}
@@ -736,20 +735,17 @@ class TweekiTemplate extends BaseTemplate {
    * Render brand (linking to mainpage)
    */
 	private function renderBrand() {
-		$brand = $this->renderNavigation( wfMessage( 'tweeki-navbar-brand' ) );
-		if(!is_array( $brand )) {
-			$brand = array( array( 
-								'text' => wfMessage( 'tweeki-navbar-brand' )->text(), 
-								'href' => $this->data['nav_urls']['mainpage']['href'] 
-								) );
+		$brand = wfMessage( 'tweeki-navbar-brand' )->text();
+		/* is it a file? */
+		$brandimageTitle = Title::newFromText( $brand );
+		if ( $brandimageTitle->exists() ) {
+			$brandimageWikiPage = WikiPage::factory( $brandimageTitle );
+			if ( method_exists( $brandimageWikiPage, 'getFile' ) ) {
+				$brandimage = $brandimageWikiPage->getFile()->getFullUrl();
+				$brand = '<img src="' . $brandimage . '" alt="' . $this->data['sitename'] . '" />';
+				}
 			}
-		$options = array( 
-								'class' => array('brand'), 
-								'wrapper' => 'li'
-								);
-//		echo '<ul class="nav" role="navigation">' . TweekiHooks::renderButtons( $brand, $options ) . '</ul>';
-/* TODO: can we offer the options? */
-		echo '<a href="' . $this->data['nav_urls']['mainpage']['href'] . '" class="navbar-brand">' . wfMessage( 'tweeki-navbar-brand' )->text() . '</a>';
+		echo '<a href="' . htmlspecialchars( $this->data['nav_urls']['mainpage']['href'] ) . '" class="navbar-brand">' . $brand . '</a>';
 		}
 
 

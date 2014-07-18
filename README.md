@@ -185,6 +185,13 @@ If you're feeling adventurous and want to use some more advanced formatting,
 you can attach any Bootstrap classes to `div`s.
 
 
+### Caveats
+
+Tweeki does not implement the SkinTemplateToolboxEnd hook. 
+Please use [BaseTemplateToolbox](http://www.mediawiki.org/wiki/Manual:Hooks/BaseTemplateToolbox)
+instead!
+
+
 ### Licensing, Copying, Usage
 
 Strapping is open source, and built on open source projects.

@@ -27,7 +27,7 @@ jQuery( function( $ ) {
 			$("#tweekiTOC").smoothDivScroll({ 
 				visibleHotSpotBackgrounds: "always",
 				hotSpotScrollingStep: 5,
-				mousewheelScrolling: "vertical",
+				mousewheelScrolling: "",
 				});
 			});
 		}

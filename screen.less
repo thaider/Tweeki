@@ -1,5 +1,13 @@
 /* Tweeki screen styles */
 
+body {
+	background-color:#f9f9f9;
+}
+
+.mw-headline {
+  padding-top: 70px;
+}
+
 /* FOOTER */
 
 #footer ul,
@@ -7,6 +15,39 @@
   padding: 0;
   list-style: none;
 }
+
+#footer {
+	position:fixed;
+	bottom:-.1em;
+	left:0;
+	width:100%;
+	background:#eee;
+	padding:.5em 0;
+	color:#555;
+	text-align:center;
+	font-size:9pt
+}
+
+#footer-places li, 
+#footer-icons span {
+	margin-right:.5em;
+	margin-left:0;
+}
+
+#footer-places li+li:before, 
+#footer-icons span+span:before {
+	content: "·";
+	margin-right:.5em;
+}
+
+#footer ul {
+	margin:0 auto;
+	display:inline-block;
+}
+
+#footer #footer-icons {
+	display:block;
+	}
 
 /* CONTENT */
 
@@ -17,6 +58,16 @@
 
 .row + .row {
   margin-top: 25px;
+}
+
+#content {
+	clear:both;
+	background-color:#fff;
+	padding:1em 2em;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	margin-bottom:1em;
 }
 
 /* SEARCH */
@@ -249,73 +300,24 @@
 	padding-right: 13px;
 }
 
-/* TWEEKI */
-
-/* postedit */
+/* postedit: would otherwise be hidden behind navbar */
 .postedit {
 	top: 5em !important;
 	}
 
-/* syntaxhighlight */
-div.mw-geshi {
-  padding: 1em; 
-  margin: 1em 0; 
-  border: 1px dashed #2f6fab;
-  background-color: #f9f9f9;
-}
-
-/* Abschnitt bearbeiten-Links: Brackets ausblenden */
+/* editsectionlink: hide brackets */
 .mw-editsection-bracket {
 	display:none;
 }
 
-/* Abschnitt bearbeiten-Links: Brackets ausblenden */
+/* editsectionlink: make it float right */
 .mw-editsection {
 	float:right;
 	line-height:.9em;
-	
 }
 
-/* Quickfix für searchform */
-#searchform {
-	display:inline;
-}
-
-/* ENHANCEMENTS */
-
-/* make internal links work with navbar */
-/* TODO: interne Verweise funktionieren nur suboptimal! */
-
-body {
-	background-color:#f9f9f9;
-}
-
-.mw-headline {
-  padding-top: 70px;
-}
-
-/* Spalten */
-	#content .schmal {
-		margin-left:25em;
-	}
-	#content .breit {
-		margin-left:5%;
-	}
-	#content .schmal, #content .breit {
-		margin-right:5%;
-	}
-	#content {
-		clear:both;
-		background-color:#fff;
-		padding:1em 2em;
-		-moz-border-radius:5px;
-		-webkit-border-radius:5px;
-		border-radius:5px;
-		margin-bottom:1em;
-	}
-
-/* Sidebar */
-      #sidebar {
+/* SIDEBAR */
+#sidebar {
 	position:fixed;
 	width:20em;
 	left:0;
@@ -323,78 +325,34 @@ body {
 	padding-left:2em;
 	bottom:30px;
 	overflow:hidden;
-     }
-	#sidebar h1 {
-		line-height:1.1em;
-		font-size:14pt;
-	}
+}
+	
+#sidebar h1 {
+	line-height:1.1em;
+	font-size:14pt;
+}
 
 /* responsive sidebar */
 #sidebar {
-    width: 22.92817679558011%;
-    *width: 22.87498530621841%;
-  	padding:2%;
-	}
+	width: 22.92817679558011%;
+	*width: 22.87498530621841%;
+	padding:2%;
+}
+
 @media (max-width: 767px) {
-#sidebar {
-  	position:static !important;
-  	width:auto;
-  }
-#sidebar h1 {
-	display:none;
+	#sidebar {
+		position:static !important;
+		width:auto;
+	}
+	#sidebar h1 {
+		display:none;
 	}
 }
 
-	#DownloadEdit {
-		margin:25px auto;
-	}	
-	#DownloadEdit .btn-group {
-		margin:1px 10px;
-	}
-	#DownloadEdit .btn {
-		padding:4px 8px;
-	}
-
-	.fullMedia p { /* Datei herunterladen */
-		margin:0;
-	}
-
-/* Footer */
-      #footer {
-        position:fixed;
-        bottom:-.1em;
-        left:0;
-        width:100%;
-        background:#eee;
-        padding:.5em 0;
-        color:#555;
-        text-align:center;
-        font-size:9pt
-      }
-      #footer-places li, #footer-icons span {
-	margin-right:.5em;
-	margin-left:0;
-      }
-      #footer-places li+li:before, #footer-icons span+span:before {
-	content: "·";
-	margin-right:.5em;
-	}
-	#footer ul {
-		margin:0 auto;
-		}
-
-/* überflüssig?
-	#debug {
-		position:absolute;
-		top:-50px;
-		left:0;
-		background-color:#fff;
-	}
-
-      #mw-panel {
-        display:none;
-      }
-*/
+/* Datei herunterladen */
+.fullMedia p { 
+	margin:0;
+}
 
 /* TOC */
 
@@ -442,416 +400,73 @@ body {
 	display:none;
 }
 
-/* toc erst per javascript einblenden */
+/* make toc visible by javascript only */
 #toc {
 	display:none;
 	}
 
-/* Kategorien nicht anzeigen */
-      #catlinks {
+/* hide categories */
+#catlinks {
 	display:none;
-      }
-
-/* Textarea beim Bearbeiten über ganze Fensterbreite */
-	  #wpTextbox1 {
-	    width:100%;
-	  } 
-
-	.btn a {
-	  color:#333333;
-	}
-	.btn a:hover {
-	  text-decoration:none;
-	}
-	  
-	.btn-mini {
-		line-height:16px;
-		padding:0 6px;
-	}
-
-/* Infoboxen */
-.infobox {
-	float:left;
-	width:33%;
-	margin-bottom:15px;
-	}
-.ns-0 .infobox {
-	width:49%;
-	}
-.infoboxen {
-	visibility:auto;
-	}
-.infobox-head {
-font-weight:bold;
-padding:.5em;
-padding-bottom:.1em;
-font-size:1.2em;
-text-align:center;
 }
+
+/* make edit window bigger */
+#wpTextbox1 {
+	width:100%;
+} 
+
 /* überflüssig?
-.infobox-button {
-float:right;
-padding:.2em;
-margin-top:-5px;
-margin-right:-5px;
-} */
-.infobox-content {
-margin:.5em;
+.btn a {
+	color:#333333;
 }
-.infobox th {
-text-align:right;
-font-weight:300;
-font-size:12px;
-letter-spacing:-.01em;
-padding-right:.5em;
-line-height:13px;
-vertical-align:top;
-padding-top:4px;
+.btn a:hover {
+	text-decoration:none;
 }
-.infoboxen .infobox:first-child + .infobox {
-	border-left:1px #ccc dashed;
-	border-right:1px #ccc dashed;
-}
-.ns-0 .infoboxen .infobox:first-child + .infobox {
-	border-right:none;
-}
-.infobox-content div, .infobox-content p {
-	text-align:center
-}
-.infobox small {
-  font-size: 11px;
-  color: #999999;
-}
-.infobox-edit-button {
-  text-align:center;
-}
-.infobox-content table {
-  margin-bottom:2em;
-  }
-.infobox-content p {
-  margin-bottom:5px;
-  line-height:13px;
-}
-.infobox-content .btn {
-  margin-top:5px;
-}
-.direct-download {
-  visibility:hidden;
-}
-p:hover .direct-download {
-  visibility:visible;
-}
-.infobox-table {
-  width:100%;
-}
-
-/* Dateiseite: Bild bzw. Dateisymbol nicht anzeigen */
-#file {
-  display:none;
-}
-
-/* Suchfeld */
-div#simpleSearch input:focus {
-  box-shadow:none;
-}
-
-/* NEW COURSE */
-
-#addInput {
-  margin-bottom:10px;
-  margin-left:10px;
-}
-
-.steps {
-    margin:15px;
-    background-color: #EEEEEE;
-    border: 1px dotted #666666;
-    font-size: 18px;
-    font-weight: 300;
-    line-height: 25px;
-    margin: 15px;
-    text-align: center;
-}
-
-/* FLYOUT */
-/* überflüssig?
-div.flyout {
-	position:absolute;
-	margin-left:100%;
-	margin-top:-26px;
-	display:none;
-}
-
-li:hover > div.flyout, li:hover > div.flyout > ul.dropdown-menu {
-	display:block;
-}
-
-li.flyout-toggle > a {
-	background: url("img/resultset_next.png") no-repeat 95% center;
-	background-size:8px 8px;
-}
-
-.dropdown-menu .flyout-toggle > a:hover {
-	background-image: url("img/resultset_next.png") no-repeat 95% center;
-}
-
-div.flyout .dropdown-menu:before, div.flyout .dropdown-menu:after, .dropdown-menu.standalone:before, .dropdown-menu.standalone:after {
-	display:none;
+	
+.btn-mini {
+	line-height:16px;
+	padding:0 6px;
 } */
 
-/* Leerraum in dropdowns verringern - eventuell bei Skrifo relevant
-.dropdown-menu li, .dropdown-menu li > a {
-	line-height:18px;
-	font-size:14px;
-}
-.dropdown-menu li > a {
-	padding:0 20px;
-}*/
-
-/* AUTOCOMPLETE (workaround) */
-/* überflüssig?
-ul.ui-menu {
-    max-height: 200px;
-    overflow: auto;
-    padding: 0 0 5px;
-}
-
-.ui-corner-left, .ui-corner-right, .ui-corner-all {
-    border-radius: 0 0 0 0;
-}
-
-.ui-widget input, .ui-widget {
-    font-family: sans-serif;
-    font-size: 10pt;
-}
-
-.ui-widget-content {
-    background: url("images/ui-bg_flat_75_ffffff_40x100.png") repeat-x scroll 50% 50% #FFFFFF;
-    border: 1px solid #AAAAAA;
-    color: #222222;
-}
-
-.ui-menu {
-    list-style: none outside none;
-    margin: 0;
-}
-
-.ui-autocomplete {
-    cursor: default;
-    position: absolute;
-}
-
-.ui-menu .ui-menu-item {
-    clear: left;
-    float: left;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-}
-
-.ui-menu .ui-menu-item a {
-    display: block;
-    line-height: 1.5;
-    padding: 0.2em 0.4em;
-    text-decoration: none;
-}
-
-.ui-widget-content a {
-    color: #222222;
-}
-
-*/
-
-/* HAUPTSEITE */
-
-body.page-Hauptseite .hero-unit {
-padding:30px 60px;
-}
-
-body.page-Hauptseite .hero-unit h1 {
-margin:10px 0;
-font-size:25px;
-}
-
-body.page-Hauptseite .hero-unit p {
-line-height:24px;
-}
-
-
-
-	/* Search */
-	#p-search h5 {
-		display: none;
-	}
-	/* @noflip */
-	#p-search {
-		float: left;
-	}
-	#p-search {
-		margin-right: 0.5em;
-		margin-left: 0.5em;
-	}
-	#p-search form,
-	#p-search input {
-		margin: 0;
-		margin-top: 0.4em;
-	}
-	div#simpleSearch {
-		display: block;
-		width: 14em;
-		height: 1.6em;
-		margin-top: 0.65em;
-		position: relative;
-		min-height: 1px; /* Gotta trigger hasLayout for IE7 */
-		border: solid 1px #AAAAAA;
-		color: black;
-		background-color: white;
-		/* @embed */
-		background-image: url(images/search-fade.png);
-		background-position: top left;
-		background-repeat: repeat-x;
-	}
-	div#simpleSearch label {
-		/*
-		 * DON'T PANIC! Browsers that won't scale this properly are the same browsers that have JS issues that prevent
-		 * this from ever being shown anyways.
-		*/
-		font-size: 13px;
-		top: 0.25em;
-		direction: ltr;
-	}
-	div#simpleSearch input {
-		color: black;
-		direction: ltr;
-	}
-	div#simpleSearch input:focus {
-		outline: none;
-	}
-	div#simpleSearch input.placeholder {
-		color: #999999;
-	}
-	div#simpleSearch input::-webkit-input-placeholder { 
-		color: #999999;
-	}
-	div#simpleSearch input#searchInput {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 90%;
-		margin: 0;
-		padding: 0;
-		padding-left: 0.2em;
-		padding-top: 0.2em;
-		padding-bottom: 0.2em;
-		outline: none;
-		border: none;
-		/*
-		 * DON'T PANIC! Browsers that won't scale this properly are the same browsers that have JS issues that prevent
-		 * this from ever being shown anyways.
-		*/
-		font-size: 13px;
-		background-color: transparent;
-		direction: ltr;
-	}
-	div#simpleSearch button#searchButton {
-		position: absolute;
-		width: 10%;
-		right: 0;
-		top: 0;
-		padding: 0;
-		padding-top: 0.3em;
-		padding-bottom: 0.2em;
-		padding-right: 0.4em;
-		margin: 0;
-		border: none;
-		cursor: pointer;
-		background-color: transparent;
-		background-image: url("images/search-ltr.png");
-		background-position: center center;
-		background-repeat: no-repeat;
-	}
-	/* OVERRIDDEN BY COMPLIANT BROWSERS */
-	div#simpleSearch button#searchButton img {
-		border: none;
-		margin: 0;
-		margin-top: -3px;
-		padding: 0;
-	}
-	/* IGNORED BY IE6 */
-	div#simpleSearch button#searchButton > img {
-		margin: 0;
-	}
-
-.firstHeading, .tweekiFirstHeading { 
+.firstHeading, 
+.tweekiFirstHeading { 
 	text-align:center;
 	margin-bottom:15px;
 	margin-top:10px;
 	font-weight:600;
 	letter-spacing:-.01em;
 }
+
 .tweekiFirstHeading {
 	background-color:#fff;
 	border:1px dashed #ccc;
 	padding:5px;
 	border-radius:2px;
 }
-.firstHeading .namespace, .firstHeadingSidebar .namespace {
+
+.firstHeading .namespace {
 	font-weight:300;
 }
 
-	/* Hide empty portlets */
-	div.emptyPortlet {
-		display: none;
-	}
-	#right-navigation h5 {
-		display: none;
-	}
-	/* Navigation Labels */
-	div.vectorTabs h5,
-	div.vectorMenu h5 span {
-		display: none;
-	}
-	div.vectorMenu div.menu {
-		position: relative;
-		display: none;
-		clear: both;
-		text-align: left;
-	}
-	/* Search */
-	#p-search h5 {
-		display: none;
-	}
-#preferences fieldset.prefsection legend.mainLegend {
+/* Hide empty portlets */
+div.emptyPortlet {
 	display: none;
 }
-
-/* Left-navigation */
-#nav-newcourse {
-	margin-left:.5em;
-}
-#nav-studyfields {
-	margin-left:1em;
-	margin-right:-.5em;
-}
-
-
 
 /* Sub-navigation */
 #siteSub {
 	display: none;
 }
+
 #jump-to-nav {
 	display: none;
 }
+
 div#content .printfooter {
 	display: none;
 }
-#ca-unwatch.icon a span,
-#ca-watch.icon a span {
-	display: none;
-}
 
-/* You can alter this CSS in order to give Smooth Div Scroll your own look'n'feel */
+/* SMOOTH DIV SCROLL */
 
 /* Invisible top hotspot */
 div.scrollingHotSpotTop
@@ -923,8 +538,7 @@ div.scrollableArea
 }
 
 
-/* SIMPLE SEARCH */
-/* suggestions plugin */
+/* suggestions */
 
 .suggestions {
 	overflow: hidden;
@@ -937,6 +551,7 @@ div.scrollableArea
 	padding: 0;
 	margin: -1px 0 0 0;
 }
+
 .suggestions-special {
 	position: relative;
 	background-color: Window;
@@ -950,6 +565,7 @@ div.scrollableArea
 	padding: 0.25em 0.25em;
 	line-height: 1.25em;
 }
+
 .suggestions-results {
 	background-color: white;
 	background-color: Window;
@@ -959,6 +575,7 @@ div.scrollableArea
 	padding: 0;
 	margin: 0;
 }
+
 .suggestions-result {
 	color: black;
 	color: WindowText;
@@ -966,33 +583,40 @@ div.scrollableArea
 	line-height: 1.5em;
 	padding: 0.01em 0.25em;
 }
+
 .suggestions-result-current {
 	background-color: #4C59A6;
 	background-color: Highlight;
 	color: white;
 	color: HighlightText;
 }
+
 .suggestions-special .special-label {
 	font-size: 0.8em;
 	color: gray;
 }
+
 .suggestions-special .special-query {
 	color: black;
 	font-style: italic;
 }
+
 .suggestions-special .special-hover {
 	background-color: silver;
 }
+
 .suggestions-result-current .special-label,
 .suggestions-result-current .special-query {
 	color: white;
 	color: HighlightText;
 }
+
 .autoellipsis-matched,
 .highlight {
 	font-weight: bold;
 }
 
+/* TODO: check from here */
 /* Korrekturen für Formulare */
 /* Text-Inputs ohne Typ-Auszeichnung */
 input { /* input[type=text] */
@@ -1004,10 +628,8 @@ input { /* input[type=text] */
     color: #555555;
     display: inline-block;
     font-size: 14px;
-//    height: 20px;
     line-height: 20px;
-//    margin-bottom: 10px;
-    padding: 4px 6px;
+    padding: 6px 12px;
     vertical-align: middle;
 }
 input:focus { /* input[type=text]:focus */
@@ -1022,28 +644,28 @@ input[type=submit], input[type=button] { /* .btn */
     -webkit-box-sizing:content-box;
     -ms-box-sizing:content-box;
     box-sizing:content-box;
-    border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.25);
-    -moz-border-bottom-colors: none;
-    -moz-border-left-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-top-colors: none;
-    background-color: #F5F5F5;
-    background-image: linear-gradient(to bottom, #FFFFFF, #E6E6E6);
-    background-repeat: repeat-x;
-    border-image: none;
+    border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.25) !important;
+    -moz-border-bottom-colors: none !important;
+    -moz-border-left-colors: none !important;
+    -moz-border-right-colors: none !important;
+    -moz-border-top-colors: none !important;
+    background-color: #F5F5F5 !important;
+    background-image: linear-gradient(to bottom, #FFFFFF, #E6E6E6) !important;
+    background-repeat: repeat-x !important;
+    border-image: none !important;
     border-radius: 4px 4px 4px 4px;
-    border-style: solid;
-    border-width: 1px;
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
-    color: #333333;
+    border-style: solid !important;
+    border-width: 1px !important;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+    color: #333333 !important;
     cursor: pointer;
     display: inline-block;
     font-size: 14px;
     line-height: 20px;
     margin-bottom: 0;
-    padding: 4px 12px;
+    padding: 6px 12px;
     text-align: center;
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75) !important;
     vertical-align: middle;
 }
 
@@ -1051,8 +673,8 @@ input[type=submit]:hover, input[type=button]:hover { /* .btn:hover */
     background-position: 0 -15px;
     color: #333333;
     text-decoration: none;
-    transition: background-position 0.1s linear 0s;
-    background-color: #E6E6E6;
+    transition: background-position 0.1s linear 0s !important;
+    background-color: #E6E6E6 !important;
 }
 
 input[type=submit]:focus, input[type=button]:focus {
@@ -1073,65 +695,29 @@ input[type=button]:active {
 
 
 label {
-    display:inline-block;
-    padding-top:5px;
+	display:inline-block;
+	padding-top:5px;
 }
 
 input[type=radio], input[type=checkbox] {
-    margin:-2px 0 0;
+	margin:-2px 0 0;
 }
 
 
-/* STEPS */
-
-div.newcourse-steps {
-	color:#666;
-	width:350px;
-	float:right;
-	border:#666 1px solid;
-	border-radius:5px;
-	margin:15px;
-	padding:5px;
-	font-weight:300;
-	box-shadow:0px 0px 5px 0px #bbb;
-}
-div.newcourse-step {
-	font-weight:500;
-	padding-left:5px;
-}
-div.newcourse-substep {
-	padding-left:25px;
-}
-div.newcourse-steps .next {
-	background-color:#ddd;
-	color:#000;
-}
-div.newcourse-steps .next i {
-	margin-left:-18px;
-	}
-/* FORMS */
-
-.forminput-label {
-	font-weight:bold;
-	}
-
-/* Search-Button ausblenden */
-#mw-searchButton {
-	display:none;
-	}
-	
 /* responsiveness abschalten (navbar bleibt oben) */
-.navbar-fixed-top, .navbar-fixed-bottom {
+.navbar-fixed-top, 
+.navbar-fixed-bottom {
     position: fixed;
 }
+
 @media (max-width: 767px) {
-.navbar-fixed-top, .navbar-fixed-bottom {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-}
-.navbar-fixed-top .pull-left, .navbar-fixed-bottom .pull-left, 
-.navbar-fixed-top .pull-right, .navbar-fixed-bottom .pull-right {
-	float:none;
+	.navbar-fixed-top, .navbar-fixed-bottom {
+			margin-left: 0 !important;
+			margin-right: 0 !important;
+	}
+	.navbar-fixed-top .pull-left, .navbar-fixed-bottom .pull-left, 
+	.navbar-fixed-top .pull-right, .navbar-fixed-bottom .pull-right {
+		float:none;
 	}
 }
 
@@ -1139,31 +725,36 @@ div.newcourse-steps .next i {
 .btn-group .btn-edit:first-child {
 	width:85%;
 	-moz-box-sizing:border-box;
-	}
+}
+	
 .btn-group .btn-edit+.btn-edit {
 	width:15%;
 	-moz-box-sizing:border-box;
-	}
+}
 
+/* correction for fixed navbar */
 .with-navbar {
 	padding-top:60px;
-	}
+}
 
 .without-navbar {
 	padding-top:20px;
-	}
+}
 	
-/* footer */
-#footer ul {
-	display:inline-block;
-	}
-
-#footer #footer-icons {
-	display:block;
-	}
-
 /* Navigation - Accessibility */
 #mw-navigation h2 {
     position: absolute;
     top: -9999px;
+}
+
+/* image in brand */
+.navbar-brand img {
+	height:40px;
+	margin-top:-10px;
+}
+
+/* correction for dropdowns (conflicting with mediawiki.legacy.shared) */
+.mw-content-ltr ul.dropdown-menu {
+	margin: 2px 0 0;
+	padding: 5px 0;
 }
