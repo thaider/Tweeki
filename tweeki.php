@@ -21,7 +21,7 @@ $wgExtensionCredits['skin'][] = array(
 $wgValidSkinNames['tweeki'] = 'Tweeki';
 $wgAutoloadClasses['SkinTweeki'] = dirname(__FILE__).'/Tweeki.skin.php';
 $wgAutoloadClasses['TweekiHooks'] = dirname( __FILE__ ) . '/Tweeki.hooks.php';
-$wgExtensionMessagesFiles['SkinTweeki'] = dirname(__FILE__).'/Tweeki.i18n.php';
+$wgMessagesDirs['SkinTweeki'] = __DIR__ . '/i18n';
 $wgExtensionMessagesFiles['TweekiMagic'] = dirname( __FILE__ ) . '/Tweeki.i18n.magic.php';
  
 $wgHooks['GetPreferences'][] = 'TweekiHooks::getPreferences';

@@ -164,22 +164,27 @@ class TweekiHooks {
 
 		$extraAttribs = array();
 		$href_implicit = false;
-
+		
 		/* semantic queries */
 		if ( strpos( $line, '{{#ask:' ) === 0 ) {
-			$semanticQuery = substr( $line, 7, -2 );
-			$semanticHitNumber = $parser->recursiveTagParse( '{{#ask:' . $semanticQuery . '|format=count}}', $frame );
-			if ( !is_numeric( $semanticHitNumber ) || $semanticHitNumber < 1 ) {
-				return array( array( 'text' => $semanticQuery, 'href' => 'INVALID QUERY' ) );
+			if( $parser->getTitle() instanceof Title ) {
+				$semanticQuery = substr( $line, 7, -2 );
+				$semanticHitNumber = $parser->recursiveTagParse( '{{#ask:' . $semanticQuery . '|format=count}}', false );
+				if ( !is_numeric( $semanticHitNumber ) || $semanticHitNumber < 1 ) {
+					return array( array( 'text' => $semanticQuery, 'href' => 'INVALID QUERY' ) );
+					}
+				$semanticHits = $parser->recursiveTagParse( '{{#ask:' . $semanticQuery . '|format=list|link=none}}', false );
+				$semanticHits = explode( ',', $semanticHits );
+				$semanticLinks = array();
+				foreach ( $semanticHits as $semanticHit ) {
+					$semanticLink = TweekiHooks::parseButtonLink( $semanticHit, $parser, $frame );
+					$semanticLinks[] = $semanticLink[0];
+					}
+				return $semanticLinks;
 				}
-			$semanticHits = $parser->recursiveTagParse( '{{#ask:' . $semanticQuery . '|format=list|link=none}}', $frame );
-			$semanticHits = explode( ',', $semanticHits );
-			$semanticLinks = array();
-			foreach ( $semanticHits as $semanticHit ) {
-				$semanticLink = TweekiHooks::parseButtonLink( $semanticHit, $parser, $frame );
-				$semanticLinks[] = $semanticLink[0];
+			else {
+				$text = 'broken';
 				}
-			return $semanticLinks;
 			}
 
 		$line = explode( '|', $line );

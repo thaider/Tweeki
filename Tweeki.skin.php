@@ -539,6 +539,7 @@ class TweekiTemplate extends BaseTemplate {
               	$name = explode( '|', $name );
               	$name = array_reverse( $name );
               	$name = implode( '|', $name );
+              	/* TODO: replace $wgParser with local parser - might not work properly */
               	$sidebarItem = TweekiHooks::parseButtonLink( $name, $wgParser, false );
               	$sidebar[] = $sidebarItem[0];
               	continue;
@@ -723,9 +724,18 @@ class TweekiTemplate extends BaseTemplate {
    * @param $customItems array
    */
 	private function renderCustomNavigation( &$buttons, &$customItems ) {
-		global $wgParser;	
+
+		/* TODO: check for unintended consequences, there are probably more elegant ways to do this... */		
+		$mainpage = Title::newMainPage();
+		$options = new ParserOptions();
+		$localParser = new Parser();
+		$localParser->Title ( $mainpage );
+		$localParser->Options( $options );
+		$localParser->clearState();
+
 		if( count( $customItems ) !== 0 ) {
-			$buttons = array_merge( $buttons, TweekiHooks::parseButtons( implode( chr(10), $customItems ), $wgParser, false ) );
+			$newButtons = TweekiHooks::parseButtons( implode( chr(10), $customItems ), $localParser, false );
+			$buttons = array_merge( $buttons, $newButtons );
 			$customItems = array();
 			}
 		}
