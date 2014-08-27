@@ -26,6 +26,7 @@ $wgExtensionMessagesFiles['TweekiMagic'] = dirname( __FILE__ ) . '/Tweeki.i18n.m
  
 $wgHooks['GetPreferences'][] = 'TweekiHooks::getPreferences';
 $wgHooks['ParserFirstCallInit'][] = 'TweekiHooks::ButtonsSetup';
+$wgHooks['ParserFirstCallInit'][] = 'TweekiHooks::AccordionSetup';
 $wgHooks['ParserFirstCallInit'][] = 'TweekiHooks::TweekiHideSetup';
 $wgHooks['DoEditSectionLink'][] = 'TweekiHooks::EditSectionLinkButton';
 $wgHooks['ParserBeforeTidy'][] = 'TweekiHooks::HeadlineFix';

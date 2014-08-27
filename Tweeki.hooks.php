@@ -8,6 +8,8 @@
 
 class TweekiHooks {
 
+	protected static $anchorID = 0;
+	
 	/* Static Methods */
 
 	/**
@@ -57,6 +59,45 @@ class TweekiHooks {
 	}
 
 	/**
+	 * AccordeonSetup hook
+	 *
+	 * @param $parser Parser current parser
+	 */
+	static function AccordionSetup( Parser $parser ) {
+			$parser->setHook( 'accordion', 'TweekiHooks::buildAccordion' );
+			return true;
+	}
+
+	/**
+	 * Build accordeon
+	 * @param $input string
+	 * @param $args array tag arguments
+	 * @param $parser Parser current parser
+	 * @param $frame PPFrame current frame
+	 * @return string
+	 */
+	static function buildAccordion( $input, array $args, Parser $parser, PPFrame $frame ) {
+			static::$anchorID++;
+			$parent = $parser->recursiveTagParse( $args['parent'], $frame );
+			$panel = '
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#' . $parent . '" href="#' . $parent . static::$anchorID . '">
+          ' . $parser->recursiveTagParse( $args['heading'], $frame ) . '
+        </a>
+      </h4>
+    </div>
+    <div id="' . $parent . static::$anchorID . '" class="panel-collapse collapse">
+      <div class="panel-body">
+	' . $parser->recursiveTagParse( $input, $frame ) . '
+      </div>
+    </div>
+  </div>';
+			return $panel;
+	}
+
+	/**
 	 * ButtonsSetup hook
 	 *
 	 * @param $parser Parser current parser
@@ -68,7 +109,6 @@ class TweekiHooks {
 
 	/**
 	 * Build buttons, groups of buttons and dropdowns
-	 * @param $buttons array
 	 * @param $input string
 	 * @param $args array tag arguments
 	 * @param $parser Parser current parser
