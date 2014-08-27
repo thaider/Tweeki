@@ -304,6 +304,26 @@ class TweekiHooks {
 
 			$button['class'] = implode( ' ', array_unique( $button['class'] ) );
 
+			/* if data-toggle attribute is set, unset wrapper and add attribute, toggle-class, and caret */
+			if ( isset( $options['data-toggle'] ) ) {
+				$wrapper = '';
+				$button['data-toggle'] = $options['data-toggle'];
+				$button['class'] .= ' ' . $options['data-toggle'] . '-toggle';
+				$button['text'] .= ' <b class="caret"></b>';
+				$button['href'] = '#';
+				// TODO: are there cases of data-toggle without caret?
+				}
+				
+			/* if icon attribute is set, add icon to buttons */
+			if ( isset( $options['icon'] ) ) {
+				$button['text'] = '<span class="icon icon-' . $options['icon'] . '"></span> ' . $button['text'];
+				}
+
+			/* if glyphicon attribute is set, add icon to buttons */
+			if ( isset( $options['glyphicon'] ) ) {
+				$button['text'] = '<span class="glyphicon glyphicon-' . $options['glyphicon'] . '"></span> ' . $button['text'];
+				}
+
 			/* render wrapper */
 			if ( ( ( $currentwrapperclass != $wrapperclass || isset( $button['items'] ) ) && $wrapper != '' ) || $wrapper == 'li' ) {
 				if ( $currentwrapperclass != '' ) {
@@ -426,7 +446,10 @@ class TweekiHooks {
 				return '';
 		}
 
-		$html = htmlspecialchars( $text );
+//		$html = htmlspecialchars( $text );
+// TODO: is this security measure needed? are there cases where raw wikitext is passed
+// and malign code could be introduced?
+		$html = $text;
 
 		/* set raw html */
 		if ( isset( $item['html'] )) {
@@ -536,13 +559,14 @@ class TweekiHooks {
 	 * @param $lang String language
 	 */
 	 // TODO: does class need some check or sanitation? is there a possibility to enter malign code?
+	 // TODO: this is an ugly hack, that might be easily broken by small structural changes in core - make it bulletproof
 	static function EditSectionLinkButton( $skin, $nt, $section, $tooltip, &$result, $lang = false ) {
 		$search = array( 
-									wfMessage( 'editsection' )->inLanguage( $lang )->text(), 
+									wfMessage( 'editsection' )->inLanguage( $lang )->text() . '</a>', 
 									'<a'
 								);
 		$replace = array( 
-									wfMessage( 'tweeki-editsection-icon' )->inLanguage( $lang )->text() . ' ' . wfMessage( 'tweeki-editsection-text' )->inLanguage( $lang )->text(), 
+									wfMessage( 'tweeki-editsection-icon' )->inLanguage( $lang )->text() . ' ' . wfMessage( 'tweeki-editsection-text' )->inLanguage( $lang )->text() . '</a>', 
 									'<a class="' . wfMessage( 'tweeki-editsection-class' )->inLanguage( $lang )->text() . '"'
 								);
 		$result = str_replace( $search, $replace, $result );
