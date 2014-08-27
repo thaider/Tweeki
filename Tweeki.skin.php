@@ -499,11 +499,11 @@ class TweekiTemplate extends BaseTemplate {
 						$divideditems[$key] = $item;
 						}
 					if ( array_key_exists( 'login', $divideditems ) ) {
-						$divideditems['login']['links'][0]['text'] = wfMessage( 'tweeki-login' );
+						$divideditems['login']['links'][0]['text'] = wfMessage( 'tweeki-login' )->plain();
 						return array( $divideditems['login'] );
 						}
 					if ( array_key_exists( 'anonlogin', $divideditems ) ) {
-						$divideditems['anonlogin']['links'][0]['text'] = wfMessage( 'tweeki-login' );
+						$divideditems['anonlogin']['links'][0]['text'] = wfMessage( 'tweeki-login' )->plain();
 						return array( $divideditems['anonlogin'] );
 						}
           if (count($items) > 0) { 
@@ -520,11 +520,11 @@ class TweekiTemplate extends BaseTemplate {
         case 'LOGIN':
           $items = $this->getPersonalTools();
 					if ( array_key_exists( 'login', $items ) ) {
-						$items['login']['links'][0]['text'] = wfMessage( 'tweeki-login' );
+						$items['login']['links'][0]['text'] = wfMessage( 'tweeki-login' )->plain();
 						return array( $items['login'] );
 						}
 					if ( array_key_exists( 'anonlogin', $items ) ) {
-						$items['anonlogin']['links'][0]['text'] = wfMessage( 'tweeki-login' );
+						$items['anonlogin']['links'][0]['text'] = wfMessage( 'tweeki-login' )->plain();
 						return array( $items['anonlogin'] );
 						}
           return array();
