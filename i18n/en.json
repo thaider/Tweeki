@@ -15,5 +15,5 @@
 	"prefs-poweruser": "Poweruser features",
 	"tweeki-editsection-text": "Edit section",
 	"tweeki-editsection-class": "btn btn-default btn-xs",
-	"tweeki-editsection-icon": "<i class='icon-pencil icon-darkgrey'></i>"
+	"tweeki-editsection-icon": "<i class='icon icon-pencil'></i>"
 }

@@ -622,6 +622,7 @@ class TweekiHooks {
 		$search = '/(<span class="mw-headline" id=".*">)(.*)(<\/span>)/';
 		$replace = '$1$3$2';
 		$text = preg_replace( $search, $replace, $text );
+		return true;
 	}
 
 }

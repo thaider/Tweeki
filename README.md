@@ -45,7 +45,7 @@ You can see an instance of Tweeki in action at the project's homepage http://twe
 ## Optional configuration
 
 Please refer to the projects website http://tweeki.thai-land.at/ for further information
-about configuration and customization options
+about configuration and customization options.
 
 ## Caveats
 
