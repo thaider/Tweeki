@@ -325,19 +325,6 @@ class TweekiTemplate extends BaseTemplate {
   }
 
   /**
-   * Render logo
-   */
-  private function renderLogo() {
-        $mainPageLink = $this->data['nav_urls']['mainpage']['href'];
-        $toolTip = Xml::expandAttributes( Linker::tooltipAndAccesskeyAttribs( 'p-logo' ) );
-?>
-        		<a id="p-logo" href="<?php echo htmlspecialchars( $this->data['nav_urls']['mainpage']['href'] ) ?>" <?php echo Xml::expandAttributes( Linker::tooltipAndAccesskeyAttribs( 'p-logo' ) ) ?>>
-        			<img src="<?php $this->text( 'logopath' ); ?>" alt="<?php $this->html('sitename'); ?>">
-        		</a>
-<?php
-  }
-
-  /**
    * Render one or more navigations elements by name, automatically reveresed
    * when UI is in RTL mode
    *
@@ -346,7 +333,9 @@ class TweekiTemplate extends BaseTemplate {
   private function renderNavigation( $elements ) {
     global $wgUser,
     	$wgTweekiSkinHideNonPoweruser, 
-    	$wgParser;
+    	$wgParser,
+    	$wgTweekiSkinNavigationalElements,
+    	$wgTweekiSkinSpecialElements;
 
     // If only one element was given, wrap it in an array, allowing more
     // flexible arguments
@@ -361,6 +350,15 @@ class TweekiTemplate extends BaseTemplate {
     	if ( !$this->checkVisibility( $element ) ) {
     		return array();
     		}
+    	// was this element defined in LocalSettings?
+    	if ( isset( $wgTweekiSkinNavigationalElements[ $element ] ) ) {
+    		return $wgTweekiSkinNavigationalElements[ $element ]( $this );
+    		}
+    	// is it a special element with special non-buttonesque rendering?
+    	if ( isset( $wgTweekiSkinSpecialElements[ $element ] ) ) {
+    		return array( array( 'special' => $element ) );
+    		}
+
       switch ( $element ) {
 
         case 'EDIT':
@@ -575,22 +573,6 @@ class TweekiTemplate extends BaseTemplate {
 						return array();
           break;
         
-        case 'SEARCH':
-        	return array( array( 'special' => 'SEARCH' ) );
-        	break;
-
-        case 'LOGO':
-        	return array( array( 'special' => 'LOGO' ) );
-        	break;
-
-        case 'FIRSTHEADING':
-        	return array( array( 'special' => 'FIRSTHEADING' ) );
-        	break;
-
-        case 'TOC':
-        	return array( array( 'special' => 'TOC' ) );
-        	break;
-
 				default:
 					return $element;
 					break;
@@ -665,6 +647,7 @@ class TweekiTemplate extends BaseTemplate {
    * @param $context String
    */
 	private function buildItems( $items, $options, $context ) {
+		global $wgTweekiSkinSpecialElements;
 		$buttons = array();		
     $customItems = array();
 		$navbarItems = explode( ',', $items );
@@ -689,32 +672,60 @@ class TweekiTemplate extends BaseTemplate {
 				}
 			/* special cases */
 			else {
-				switch ( $button['special'] ) {
-					case 'SEARCH':
-	          ?>
-            <?php if( $context == 'subnav' ) echo '<li class="nav dropdown">'; ?>
-            <form <?php if( $context == 'navbar' ) echo 'class="navbar-form navbar-left"'; ?> action="<?php $this->text( 'wgScript' ) ?>" id="searchform">
-            	<div class="form-group">
-								<input id="searchInput" class="search-query form-control" type="search" accesskey="f" title="<?php $this->text('searchtitle'); ?>" placeholder="<?php $this->msg('search'); ?>" name="search" value="<?php echo $this->data['search']; ?>">
-								<?php echo $this->makeSearchButton( 'go', array( 'id' => 'mw-searchButton', 'class' => 'searchButton btn hidden' ) ); ?>
-            	</div>
-            </form>
-	          <?php if( $context == 'subnav' ) echo '</li>'; ?>
-	          <?php
-						break;
-					case 'LOGO':
-						$this->renderLogo( $context );
-						break;
-					case 'FIRSTHEADING':
-						echo '<div class="tweekiFirstHeading">' . $this->data[ 'title_formatted' ] . '</div>';
-						break;
-					case 'TOC':
-						echo '<div id="tweekiTOC"></div>';
-						break;
-					}
+				call_user_func_array( $wgTweekiSkinSpecialElements[$button['special']], array( $this, $context ) );
 				}
 			}
 		}
+
+
+  /**
+   * Render firstheading
+   */
+  function renderFirstHeading( $skin, $context ) {
+						echo '<div class="tweekiFirstHeading">' . $skin->data[ 'title_formatted' ] . '</div>';
+  }
+
+  /**
+   * Render TOC
+   */
+  function renderTOC( $skin, $context ) {
+						echo '<div id="tweekiTOC"></div>';
+  }
+
+  /**
+   * Render logo
+   */
+  function renderLogo( $skin, $context ) {
+        $mainPageLink = $skin->data['nav_urls']['mainpage']['href'];
+        $toolTip = Xml::expandAttributes( Linker::tooltipAndAccesskeyAttribs( 'p-logo' ) );
+				echo '
+        		<a id="p-logo" href="' . htmlspecialchars( $skin->data['nav_urls']['mainpage']['href'] ) . '" ' . Xml::expandAttributes( Linker::tooltipAndAccesskeyAttribs( 'p-logo' ) ) . '>
+        			<img src="' . $skin->text( 'logopath' ) . '" alt="' . $skin->html('sitename') . '">
+        		</a>';
+  }
+
+  /**
+   * Render search
+   */
+  function renderSearch( $skin, $context ) {
+			if( $context == 'subnav' ) echo '<li class="nav dropdown">';
+			echo '
+				<form ';
+			if( $context == 'navbar' ) echo 'class="navbar-form navbar-left" '; 
+			echo 'action="';
+			$this->text( 'wgScript' );
+			echo '" id="searchform">
+					<div class="form-group">
+						<input id="searchInput" class="search-query form-control" type="search" accesskey="f" title="';
+			$skin->text('searchtitle');
+			echo '" placeholder="';
+			$skin->msg('search');
+			echo '" name="search" value="' . $this->data['search'] .'">
+						' . $skin->makeSearchButton( 'go', array( 'id' => 'mw-searchButton', 'class' => 'searchButton btn hidden' ) ) . '
+					</div>
+				</form>';
+			if( $context == 'subnav' ) echo '</li>';
+  }
 
 
   /**
@@ -770,42 +781,40 @@ class TweekiTemplate extends BaseTemplate {
 					);
   		
 			foreach ( $this->getFooterLinks() as $category => $links ) { 
-				if ( $this->checkVisibility( 'footer-' . $category ) ) { ?>
-					<ul id="footer-<?php echo $category ?>">
-						<?php foreach ( $links as $link ) { 
-							if ( $this->checkVisibility( 'footer-' . $category . '-' . $link ) ) { ?>
-								<li id="footer-<?php echo $category ?>-<?php echo $link ?>"><?php $this->html( $link ) ?></li>
-							<?php } 
-						} ?>
-					</ul>
-				<?php } 
+				if ( $this->checkVisibility( 'footer-' . $category ) ) { 
+					echo '<ul id="footer-' . $category . '">';
+					foreach ( $links as $link ) { 
+						if ( $this->checkVisibility( 'footer-' . $category . '-' . $link ) ) { 
+							echo '<li id="footer-' . $category . '-' . $link . '">' . $this->html( $link ) . '</li>';
+							} 
+						}
+					echo '</ul>';
+					} 
 				} 
-				if ( wfMessage ( 'tweeki-footer' )->plain() !== "" ) {?>
-				<ul id="footer-custom">
-<?php			$this->buildItems( wfMessage ( 'tweeki-footer' )->plain(), $options, 'footer' ); ?>
-				</ul>
-<?php		}
+				if ( wfMessage ( 'tweeki-footer' )->plain() !== "" ) {
+					echo '<ul id="footer-custom">';
+					$this->buildItems( wfMessage ( 'tweeki-footer' )->plain(), $options, 'footer' );
+					echo '</ul>';
+					}
 				$footericons = $this->getFooterIcons( "icononly" );
-				if ( count( $footericons ) > 0 && $this->checkVisibility( 'footer-icons' ) ) { ?>
-				<ul id="footer-icons">
-<?php		foreach ( $footericons as $blockName => $footerIcons ) { 
-					if ( $this->checkVisibility( 'footer-' . $blockName ) ) { ?>
-					<li id="footer-<?php echo htmlspecialchars( $blockName ); ?>ico">
-<?php				foreach ( $footerIcons as $icon ) { 
-						  if($wgTweekiSkinFooterIcons) {
-								echo $this->getSkin()->makeFooterIcon( $icon ); 
+				if ( count( $footericons ) > 0 && $this->checkVisibility( 'footer-icons' ) ) { 
+					echo '<ul id="footer-icons">';
+					foreach ( $footericons as $blockName => $footerIcons ) { 
+						if ( $this->checkVisibility( 'footer-' . $blockName ) ) {
+							echo '<li id="footer-' . htmlspecialchars( $blockName ) . 'ico">';
+							foreach ( $footerIcons as $icon ) { 
+								if($wgTweekiSkinFooterIcons) {
+									echo $this->getSkin()->makeFooterIcon( $icon ); 
+								}
+								else {
+									echo '<span>' . $this->getSkin()->makeFooterIcon( $icon, 'withoutImage' ) . '</span>'; 
+								}
 							}
-							else {
-								echo '<span>' . $this->getSkin()->makeFooterIcon( $icon, 'withoutImage' ) . '</span>'; 
-							}
-						} ?>
-					</li>
-<?php			}
-				} ?>
-				</ul>
-			<?php } ?>
-			<div style="clear:both"></div>
-<?php
-	}
-	
-}
+						echo '</li>';
+						}
+					} 
+				echo '</ul>';
+				}
+			echo '<div style="clear:both"></div>';
+			}
+		}
