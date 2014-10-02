@@ -65,10 +65,14 @@ class SkinTweeki extends SkinTemplate {
 	 * @param $out OutputPage object
 	 */
 	function setupSkinUserCss( OutputPage $out ) {
+		global $wgTweekiSkinUseAwesome;
 		parent::setupSkinUserCss( $out );
 
 //		$styles = array( 'mediawiki.skinning.interface', 'skins.tweeki.styles' );
-		$styles = array( 'skins.tweeki.styles' ); /* TODO: something's not working as it should */
+		$styles = array( 'skins.tweeki.styles' ); /* TODO: something's not working as it should - is it? */
+		if( $wgTweekiSkinUseAwesome === true ) {
+			$styles[] = 'skins.awesome.styles';
+			}
 		wfRunHooks( 'SkinTweekiStyleModules', array( $this, &$styles ) );
 		$out->addModuleStyles( $styles );
 	}

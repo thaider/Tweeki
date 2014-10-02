@@ -36,10 +36,17 @@ $wgResourceModules['skins.tweeki.styles'] = array(
   'styles' => array(
 		'tweeki/bootstrap/css/bootstrap.min.css' => array( ),
 		'tweeki/bootstrap/css/bootstrap-theme.min.css' => array( 'media' => 'screen' ),
-		'tweeki/bootstrap/awesome/css/font-awesome.css' => array( 'media' => 'screen' ),
 		'tweeki/screen.less' => array( 'media' => 'screen' ),
 		'tweeki/print.less' => array( 'media' => 'print' ),
 		'tweeki/theme.less' => array( 'media' => 'screen' ),
+	),
+  'remoteBasePath' => &$GLOBALS['wgStylePath'],
+  'localBasePath' => &$GLOBALS['wgStyleDirectory'],
+);
+
+$wgResourceModules['skins.awesome.styles'] = array(
+  'styles' => array(
+		'tweeki/awesome/css/font-awesome.min.css' => array( )
 	),
   'remoteBasePath' => &$GLOBALS['wgStylePath'],
   'localBasePath' => &$GLOBALS['wgStyleDirectory'],
@@ -72,3 +79,4 @@ $wgTweekiSkinSpecialElements = array(
 			'SEARCH' => 'self::renderSearch',
 			'LOGO' => 'self::renderLogo',
 			'LOGIN-EXT' => 'self::renderLoginExt' );
+$wgTweekiSkinUseAwesome = true;
