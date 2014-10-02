@@ -33,4 +33,10 @@ jQuery( function( $ ) {
 		}
 	/* show toc (hidden by default) */
 	$("#toc").css( 'display', 'table' );
+	
+	/* LOGIN-EXT */
+	/* don't close dropdown when clicking in the login form */
+	$( "#loginext" ).click( function( e ) {
+    e.stopPropagation();
+		});
 });

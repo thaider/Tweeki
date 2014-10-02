@@ -67,11 +67,18 @@ body {
 #content {
 	clear:both;
 	background-color:#fff;
+	margin-bottom:1em;
+	padding-top:.5em;
+	padding-bottom:1em;
+}
+
+@media (min-width: 768px) {
+#content {
 	padding:1em 2em;
 	-moz-border-radius:5px;
 	-webkit-border-radius:5px;
 	border-radius:5px;
-	margin-bottom:1em;
+}
 }
 
 /* SEARCH */
@@ -343,14 +350,17 @@ body {
 	padding:2%;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 992px) {
 	#sidebar {
 		position:static !important;
 		width:auto;
 	}
-	#sidebar h1 {
-		display:none;
+	#sidebar .dropdown-menu {
+		position:static;
 	}
+	#sidebar #toctitle, #sidebar #tweekiTOC {
+		display:none;
+		}
 }
 
 /* Datei herunterladen */
@@ -761,4 +771,22 @@ input[type=radio], input[type=checkbox] {
 .mw-content-ltr ul.dropdown-menu {
 	margin: 2px 0 0;
 	padding: 5px 0;
+}
+
+/* LOGIN-EXT */
+#loginext {
+	padding:0 10px;
+	}
+	
+#loginext .form-group {
+    margin-bottom:2px;
+}
+
+#loginext #wpLoginAttempt2 {
+    margin-top:8px;
+    margin-bottom:5px;
+}
+
+#loginext label {
+    margin-bottom: 3px;
 }

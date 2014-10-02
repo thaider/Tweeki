@@ -70,4 +70,5 @@ $wgTweekiSkinSpecialElements = array(
 			'FIRSTHEADING' => 'self::renderFirstHeading',
 			'TOC' => 'self::renderTOC',
 			'SEARCH' => 'self::renderSearch',
-			'LOGO' => 'self::renderLogo' );
+			'LOGO' => 'self::renderLogo',
+			'LOGIN-EXT' => 'self::renderLoginExt' );

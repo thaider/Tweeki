@@ -423,6 +423,7 @@ class TweekiHooks {
 			$dropdown['class'] .= ' dropdown-toggle';
 			$dropdown['data-toggle'] = 'dropdown';
 			$dropdown['html'] = $dropdown['text'] . ' <b class="caret"></b>';
+			$dropdown['href'] = '#';
 			$renderedDropdown .= TweekiHooks::makeLink( $dropdown);
 			}
 
@@ -498,7 +499,7 @@ class TweekiHooks {
 
 		/* set icon */
 		if ( isset( $item['icon'] )) {
-			$html = '<i class="' . $item['icon'] . '"></i> ' . $html;
+			$html = '<span class="glyphicon glyphicon-' . $item['icon'] . '"></span> ' . $html;
 			}
 
 		if ( isset( $options['text-wrapper'] ) ) {

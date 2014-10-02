@@ -187,6 +187,48 @@ class TweekiTemplate extends BaseTemplate {
 		// Output HTML Page
 		$this->html( 'headelement' );
 ?>
+
+		<?php if ( $this->checkVisibility( 'navbar' ) ) { ?>
+		<!-- navbar -->
+		<div id="mw-navigation" class="<?php $this->msg( 'tweeki-navbar-class' ) ?>" role="navigation">
+			<h2><?php $this->msg( 'navigation-heading' ) ?></h2>
+			<div id="mw-head" class="navbar-inner">
+				<div class="container-fluid">
+				
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+
+						<?php if ( $this->checkVisibility( 'navbar-brand' ) ) { 
+							$this->renderBrand(); 
+							} ?>
+					
+					</div>
+
+					<div id="navbar" class="navbar-collapse collapse">
+					<?php if ( $this->checkVisibility( 'navbar-left' ) ) { ?>
+						<ul class="nav navbar-nav">
+						<?php $this->renderNavbar( 'left' ); ?>
+						</ul>
+					<?php } ?>
+
+					<?php if ( $this->checkVisibility( 'navbar-right' ) ) { ?>
+						<ul class="nav navbar-nav navbar-right">
+						<?php $this->renderNavbar( 'right' ); ?>
+						</ul>
+					</div>
+					<?php } ?>
+
+				</div>
+			</div>
+		</div>
+		<!-- /navbar -->
+		<?php } ?>
+
 		<div id="mw-page-base"></div>
 		<div id="mw-head-base"></div>
 		<a id="top"></a>
@@ -258,49 +300,6 @@ class TweekiTemplate extends BaseTemplate {
     </div>
     <!-- /content -->
 
-		<?php if ( $this->checkVisibility( 'navbar' ) ) { ?>
-		<!-- navbar -->
-		<div id="mw-navigation" class="navbar navbar-default navbar-fixed-top" role="navigation">
-			<h2><?php $this->msg( 'navigation-heading' ) ?></h2>
-			<div id="mw-head" class="navbar-inner">
-				<div class="container-fluid">
-				
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-
-						<?php if ( $this->checkVisibility( 'navbar-brand' ) ) { 
-							$this->renderBrand(); 
-							} ?>
-					
-					</div>
-
-					<?php if ( $this->checkVisibility( 'navbar-left' ) ) { ?>
-					<div id="left-navbar" class="navbar-left navbar-collapse collapse">
-						<ul class="nav navbar-nav">
-						<?php $this->renderNavbar( 'left' ); ?>
-					</ul>
-					</div>
-					<?php } ?>
-
-					<?php if ( $this->checkVisibility( 'navbar-right' ) ) { ?>
-					<div id="right-navbar" class="navbar-right navbar-collapse collapse">
-						<ul class="nav navbar-nav">
-						<?php $this->renderNavbar( 'right' ); ?>
-						</ul>
-					</div>
-					<?php } ?>
-
-				</div>
-			</div>
-		</div>
-		<!-- /navbar -->
-		<?php } ?>
-
 		<?php if ( ( count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( 'sidebar' ) ) { ?>
 		<!-- sidebar -->
 		<div id="sidebar">
@@ -365,7 +364,7 @@ class TweekiTemplate extends BaseTemplate {
           if ( array_key_exists('edit', $this->data['content_actions']) ) {
 						return array(array( 
 								'href' => '#',
-								'icon' => 'icon-edit',
+								'icon' => 'edit',
 								'text' => $this->data['content_actions']['edit']['text'],
 								'id' => 'b-edit'
 								));          
@@ -382,7 +381,7 @@ class TweekiTemplate extends BaseTemplate {
 								'href' => $link['href'],
 								'key' => $link['key'],
 								'href_implicit' => false,
-								'icon' => 'icon-pencil icon-white',
+								'icon' => 'pencil',
 								'text' => wfMessage( 'tweeki-edit-ext', $this->data[ 'shortNamespace' ] )->plain(),
 								'class' => 'btn-primary btn-edit'
 								);
@@ -395,7 +394,7 @@ class TweekiTemplate extends BaseTemplate {
 							}
 						else {
 							$button = $link;
-							$button['icon'] = 'icon-pencil icon-white';
+							$button['icon'] = 'pencil';
 							$button['text'] = wfMessage( 'tweeki-edit-ext', $this->data[ 'shortNamespace' ] )->plain();
 							$button['class'] = 'btn-primary btn-block';
 							}
@@ -508,7 +507,39 @@ class TweekiTemplate extends BaseTemplate {
 						return array(array( 
 								'href' => '#',
 								'text' => $this->data['username'],
-								'icon' => 'icon-user',
+								'icon' => 'user',
+								'id' => 'p-personaltools',
+								'items' => $divideditems
+								));
+						}
+        break;
+
+        case 'PERSONAL-EXT':
+          $items = $this->getPersonalTools();
+          $divideditems = array();
+					foreach($items as $key => $item) {
+						if(!isset( $item['text'] ) ) {
+							$item['text'] = $this->translator->translate( isset( $item['msg'] ) ? $item['msg'] : $key );
+							}
+						if(!isset( $item['href'] ) ) {
+							$item['href'] = $item['links'][0]['href'];
+							}
+						if(preg_match( '/preferences|logout/', $key )) {
+							$divideditems[] = array();
+							}
+						$divideditems[$key] = $item;
+						}
+					if ( array_key_exists( 'login', $divideditems ) ) {
+						return array( array( 'special' => 'LOGIN-EXT' ) );
+						}
+					if ( array_key_exists( 'anonlogin', $divideditems ) ) {
+						return array( array( 'special' => 'LOGIN-EXT' ) );
+						}
+          if (count($items) > 0) { 
+						return array(array( 
+								'href' => '#',
+								'text' => $this->data['username'],
+								'icon' => 'user',
 								'id' => 'p-personaltools',
 								'items' => $divideditems
 								));
@@ -621,9 +652,9 @@ class TweekiTemplate extends BaseTemplate {
 		$otherside = ( $side == 'right' ) ? 'left' : 'right';
 		$options = array( 
 					'wrapper' => 'li', 
-					'wrapperclass' => 'nav dropdown'
+					'wrapperclass' => 'nav'
 					);
-		$this->buildItems( wfMessage( 'tweeki-navbar-' . $side )->plain(), $options, 'navbar' );    
+		$this->buildItems( wfMessage( 'tweeki-navbar-' . $side )->plain(), $options, 'navbar-' . $side );    
 		}
 
 
@@ -705,13 +736,55 @@ class TweekiTemplate extends BaseTemplate {
   }
 
   /**
+   * Render Login-ext
+   */
+  function renderLoginExt( $skin, $context ) {
+  	global $wgRequest, $wgScript;
+  	
+  	//build path for form action
+  	$returnto = $skin->getSkin()->getTitle();
+  	$action = $wgScript . '?title=Spezial:Anmelden&amp;action=submitlogin&amp;type=login&amp;returnto=' . $returnto;
+  	
+  	//create login token if it doesn't exist
+  	if( !$wgRequest->getSessionData( 'wsLoginToken' ) ) $wgRequest->setSessionData( 'wsLoginToken', MWCryptRand::generateHex( 32 ) );
+
+		echo '<li class="nav">
+		<a href="#" class="dropdown-toggle" type="button" id="n-login" data-toggle="dropdown">
+    	Login
+    	<span class="caret"></span>
+		</a>
+		<ul class="dropdown-menu" role="menu" aria-labelledby="Login-Formular" id="loginext">
+			<form action="' . $action . '" method="post" name="userloginext" class="clearfix">
+				<div class="form-group">
+					<label for="wpName2" class="hidden-xs"><small>Benutzername</small></label>
+					<input name="wpName" value="Tobias" placeholder="Gib deinen Benutzernamen ein" tabindex="1" id="wpName2" class="form-control">
+				</div>
+				<div class="form-group">
+					<label for="wpPassword2" class="hidden-xs"><small>Passwort</small></label>
+					<input type="password" name="wpPassword" placeholder="Gib dein Passwort ein" autofocus="" tabindex="2" id="wpPassword2" class="form-control">
+				</div>
+				<div class="form-group">
+					<button type="submit" name="wpLoginAttempt" tabindex="6" id="wpLoginAttempt2" class="pull-right btn btn-default btn-block">Anmelden</button>
+				</div>
+				<input type="hidden" value="' . $wgRequest->getSessionData( 'wsLoginToken' ) . '" name="wpLoginToken">
+			</form>
+			<div>
+				<a href="' . $wgScript . '?title=Spezial:Anmelden&amp;type=signup" class="btn btn-link center-block"><small>neues Konto anlegen</small></a>
+			</div>
+		</ul>
+		</li>';
+		}
+
+  /**
    * Render search
    */
   function renderSearch( $skin, $context ) {
 			if( $context == 'subnav' ) echo '<li class="nav dropdown">';
+			if( strpos( $context, 'navbar' ) === 0 ) echo '</ul>';
 			echo '
 				<form ';
-			if( $context == 'navbar' ) echo 'class="navbar-form navbar-left" '; 
+			if( $context == 'navbar-left' ) echo 'class="navbar-form navbar-left" '; 
+			if( $context == 'navbar-right' ) echo 'class="navbar-form navbar-right" '; 
 			echo 'action="';
 			$this->text( 'wgScript' );
 			echo '" id="searchform">
@@ -724,6 +797,8 @@ class TweekiTemplate extends BaseTemplate {
 						' . $skin->makeSearchButton( 'go', array( 'id' => 'mw-searchButton', 'class' => 'searchButton btn hidden' ) ) . '
 					</div>
 				</form>';
+			if( $context == 'navbar-left' ) echo '<ul class="nav navbar-nav">';
+			if( $context == 'navbar-right' ) echo '<ul class="nav navbar-nav navbar-right">';
 			if( $context == 'subnav' ) echo '</li>';
   }
 
