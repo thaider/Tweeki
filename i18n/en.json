@@ -2,9 +2,9 @@
 	"skinname-tweeki": "Tweeki",
 	"tweeki-desc": "Tweeki is built on top of Strapping which is built on top of a modified Vector theme from MediaWiki and utilizes Twitter's Bootstrap for base layout, typography, and additional widgets.",
 	"tweeki-navbar-left": "",
-	"tweeki-navbar-right": "SEARCH,TOOLBOX,PERSONAL",
+	"tweeki-navbar-right": "TOOLBOX,PERSONAL,SEARCH",
 	"tweeki-navbar-brand": "{{SITENAME}}",
-	"tweeki-navbar-class": "navbar navbar-default navbar-fixed-top navbar-inverse",
+	"tweeki-navbar-class": "navbar navbar-default navbar-fixed-top",
 	"tweeki-toolbox": "",
 	"tweeki-subnav": "SIDEBAR",
 	"tweeki-sidebar": "EDIT-EXT,TOC",
@@ -16,5 +16,6 @@
 	"prefs-poweruser": "Poweruser features",
 	"tweeki-editsection-text": "Edit section",
 	"tweeki-editsection-class": "btn btn-default btn-xs",
-	"tweeki-editsection-icon": "<i class='icon icon-pencil'></i>"
+	"tweeki-editsection-icon": "<span class='glyphicon glyphicon-pencil'></span>",
+	"tweeki-toc-top": "to top"
 }

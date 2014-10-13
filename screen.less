@@ -387,12 +387,17 @@ body {
 	padding-left: 5px;
 }
 
-#tweekiTOC {
+#sidebar #tweekiTOC {
 	position:relative;
 	height:100%;
 	overflow:hidden;
 	width:105%;
 }
+
+/* hide by default */
+#tweekiDropdownTOC {
+	display:none;
+	}
 
 #toc ul {
 	margin-left:0;
@@ -765,6 +770,11 @@ input[type=radio], input[type=checkbox] {
 .navbar-brand img {
 	height:40px;
 	margin-top:-10px;
+}
+
+/* correction for searchform in navbar */
+#searchform + .navbar-nav.navbar-right:last-child {
+    margin-right: 0;
 }
 
 /* correction for dropdowns (conflicting with mediawiki.legacy.shared) */

@@ -670,7 +670,7 @@ class TweekiTemplate extends BaseTemplate {
 					'class' => 'btn',
 					'wrapperclass' => 'btn-group btn-block'
 					);
-		$this->buildItems( wfMessage ( 'tweeki-sidebar' )->plain(), $options, 'sidebar' );
+		$this->buildItems( wfMessage( 'tweeki-sidebar' )->plain(), $options, 'sidebar' );
     }
     
 
@@ -724,7 +724,12 @@ class TweekiTemplate extends BaseTemplate {
    * Render TOC
    */
   function renderTOC( $skin, $context ) {
-						echo '<div id="tweekiTOC"></div>';
+  		if( $context == 'sidebar' ) {
+				echo '<div id="tweekiTOC"></div>';
+				}
+			else {
+				echo '<li class="nav dropdown" id="tweekiDropdownTOC"><a id="n-toc" class="dropdown-toggle" data-toggle="dropdown" href="#">' . wfMessage( 'Toc' )->text() . '<span class="caret"></span></a><ul class="dropdown-menu pull-right" role="menu" id="tweekiTOC"><li><a href="#">' . wfMessage( 'tweeki-toc-top' )->text() . '</a></li><li class="divider"></li></ul></li>';
+				}
   }
 
   /**
@@ -761,7 +766,7 @@ class TweekiTemplate extends BaseTemplate {
 			<form action="' . $action . '" method="post" name="userloginext" class="clearfix">
 				<div class="form-group">
 					<label for="wpName2" class="hidden-xs"><small>Benutzername</small></label>
-					<input name="wpName" value="Tobias" placeholder="Gib deinen Benutzernamen ein" tabindex="1" id="wpName2" class="form-control">
+					<input name="wpName" placeholder="Gib deinen Benutzernamen ein" tabindex="1" id="wpName2" class="form-control">
 				</div>
 				<div class="form-group">
 					<label for="wpPassword2" class="hidden-xs"><small>Passwort</small></label>

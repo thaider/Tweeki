@@ -61,9 +61,13 @@ $wgResourceModules['skins.tweeki.scripts'] = array(
 	),
 	'dependencies' => array(
 		'jquery.ui.widget',
+		'mediawiki.jqueryMsg'
 	),
   'remoteBasePath' => &$GLOBALS['wgStylePath'],
   'localBasePath' => &$GLOBALS['wgStyleDirectory'],
+  'messages' => array(
+  	'tweeki-toc-top'
+  )
 );
 
 # Default options
