@@ -750,41 +750,78 @@ class TweekiTemplate extends BaseTemplate {
   function renderLoginExt( $skin, $context ) {
   	global $wgUser, $wgRequest, $wgScript;
   	
+		if ( session_id() == '' ) {
+			wfSetupSession();
+		}
+
   	//build path for form action
-  	$returnto = $skin->getSkin()->getTitle();
+  	$returnto = $skin->getSkin()->getTitle()->getFullText();
+  	if ( $returnto == SpecialPage::getTitleFor( 'UserLogin' ) 
+  		|| $returnto == SpecialPage::getTitleFor( 'UserLogout' ) ) {
+  		$returnto = Title::newMainPage()->getFullText();
+  		}
+  	$returnto = $wgRequest->getVal( 'returnto', $returnto );
   	$action = $wgScript . '?title=special:userlogin&amp;action=submitlogin&amp;type=login&amp;returnto=' . $returnto;
   	
   	//create login token if it doesn't exist
   	if( !$wgRequest->getSessionData( 'wsLoginToken' ) ) $wgRequest->setSessionData( 'wsLoginToken', MWCryptRand::generateHex( 32 ) );
+  	$wgUser->setCookies();
 
 		echo '<li class="nav">
 		<a href="#" class="dropdown-toggle" type="button" id="n-login" data-toggle="dropdown">
-    	Login
+    	' . $this->getMsg( 'userlogin' )->text() . '
     	<span class="caret"></span>
 		</a>
-		<ul class="dropdown-menu" role="menu" aria-labelledby="Login-Formular" id="loginext">
+		<ul class="dropdown-menu" role="menu" aria-labelledby="' . $this->getMsg( 'userlogin' )->text() . '" id="loginext">
 			<form action="' . $action . '" method="post" name="userloginext" class="clearfix">
 				<div class="form-group">
-					<label for="wpName2" class="hidden-xs"><small>Benutzername</small></label>
-					<input name="wpName" placeholder="Gib deinen Benutzernamen ein" tabindex="101" id="wpName2" class="form-control">
-				</div>
+					<label for="wpName2" class="hidden-xs">
+						' . $this->getMsg( 'userlogin-yourname' )->text() . '
+					</label>';
+		echo Html::input( 'wpName', null, 'text', array(
+					'class' => 'form-control',
+					'id' => 'wpName2',
+					'tabindex' => '101',
+					'placeholder' => $this->getMsg( 'userlogin-yourname-ph' )->text()
+				) );					
+		echo	'</div>
 				<div class="form-group">
-					<label for="wpPassword2" class="hidden-xs"><small>Passwort</small></label>
-					<input type="password" name="wpPassword" placeholder="Gib dein Passwort ein" autofocus="" tabindex="102" id="wpPassword2" class="form-control">
-				</div>
+					<label for="wpPassword2" class="hidden-xs">
+						' . $this->getMsg( 'userlogin-yourpassword' )->text() . '
+					</label>';
+		echo Html::input( 'wpPassword', null, 'password', array(
+					'class' => 'form-control',
+					'id' => 'wpPassword2',
+					'tabindex' => '102',
+					'placeholder' => $this->getMsg( 'userlogin-yourpassword-ph' )->text()
+				) );					
+		echo '</div>
 				<div class="form-group">
-					<button type="submit" name="wpLoginAttempt" tabindex="103" id="wpLoginAttempt2" class="pull-right btn btn-default btn-block">Anmelden</button>
+					<button type="submit" name="wpLoginAttempt" tabindex="103" id="wpLoginAttempt2" class="pull-right btn btn-default btn-block">
+						' . $this->getMsg( 'pt-login-button' )->text() . '
+					</button>
 				</div>
 				<input type="hidden" value="' . $wgRequest->getSessionData( 'wsLoginToken' ) . '" name="wpLoginToken">
 			</form>';
 	if( $wgUser->isAllowed( 'createaccount' ) ) {
-		echo	'<div>' . $user->isAllowed( 'createaccount' ) . '
-				<a href="' . $wgScript . '?title=special:userlogin&amp;type=signup" class="btn btn-link center-block"><small>xneues Konto anlegen</small></a>
+		echo	'<div>
+				<a href="' . $wgScript . '?title=special:userlogin&amp;type=signup" class="btn btn-link center-block">
+					' . $this->getMsg( 'createaccount' )->text() . '
+				</a>
 			</div>';
 		}
 	echo '
 		</ul>
 		</li>';
+	echo '<script>
+			$( document ).ready( function() {
+				$( "#n-login" ).click( function() {
+					if( ! $( this ).parent().hasClass( "open" ) ) {
+						setTimeout( \'$( "#wpName2" ).focus();\', 500 );
+						}
+				});
+			});
+			</script>';
 		}
 
   /**
