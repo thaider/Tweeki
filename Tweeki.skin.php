@@ -748,11 +748,11 @@ class TweekiTemplate extends BaseTemplate {
    * Render Login-ext
    */
   function renderLoginExt( $skin, $context ) {
-  	global $wgRequest, $wgScript;
+  	global $wgUser, $wgRequest, $wgScript;
   	
   	//build path for form action
   	$returnto = $skin->getSkin()->getTitle();
-  	$action = $wgScript . '?title=Spezial:Anmelden&amp;action=submitlogin&amp;type=login&amp;returnto=' . $returnto;
+  	$action = $wgScript . '?title=special:userlogin&amp;action=submitlogin&amp;type=login&amp;returnto=' . $returnto;
   	
   	//create login token if it doesn't exist
   	if( !$wgRequest->getSessionData( 'wsLoginToken' ) ) $wgRequest->setSessionData( 'wsLoginToken', MWCryptRand::generateHex( 32 ) );
@@ -776,10 +776,13 @@ class TweekiTemplate extends BaseTemplate {
 					<button type="submit" name="wpLoginAttempt" tabindex="103" id="wpLoginAttempt2" class="pull-right btn btn-default btn-block">Anmelden</button>
 				</div>
 				<input type="hidden" value="' . $wgRequest->getSessionData( 'wsLoginToken' ) . '" name="wpLoginToken">
-			</form>
-			<div>
-				<a href="' . $wgScript . '?title=Spezial:Anmelden&amp;type=signup" class="btn btn-link center-block"><small>neues Konto anlegen</small></a>
-			</div>
+			</form>';
+	if( $wgUser->isAllowed( 'createaccount' ) ) {
+		echo	'<div>' . $user->isAllowed( 'createaccount' ) . '
+				<a href="' . $wgScript . '?title=special:userlogin&amp;type=signup" class="btn btn-link center-block"><small>xneues Konto anlegen</small></a>
+			</div>';
+		}
+	echo '
 		</ul>
 		</li>';
 		}
