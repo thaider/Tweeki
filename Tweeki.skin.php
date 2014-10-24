@@ -766,14 +766,14 @@ class TweekiTemplate extends BaseTemplate {
 			<form action="' . $action . '" method="post" name="userloginext" class="clearfix">
 				<div class="form-group">
 					<label for="wpName2" class="hidden-xs"><small>Benutzername</small></label>
-					<input name="wpName" placeholder="Gib deinen Benutzernamen ein" tabindex="1" id="wpName2" class="form-control">
+					<input name="wpName" placeholder="Gib deinen Benutzernamen ein" tabindex="101" id="wpName2" class="form-control">
 				</div>
 				<div class="form-group">
 					<label for="wpPassword2" class="hidden-xs"><small>Passwort</small></label>
-					<input type="password" name="wpPassword" placeholder="Gib dein Passwort ein" autofocus="" tabindex="2" id="wpPassword2" class="form-control">
+					<input type="password" name="wpPassword" placeholder="Gib dein Passwort ein" autofocus="" tabindex="102" id="wpPassword2" class="form-control">
 				</div>
 				<div class="form-group">
-					<button type="submit" name="wpLoginAttempt" tabindex="6" id="wpLoginAttempt2" class="pull-right btn btn-default btn-block">Anmelden</button>
+					<button type="submit" name="wpLoginAttempt" tabindex="103" id="wpLoginAttempt2" class="pull-right btn btn-default btn-block">Anmelden</button>
 				</div>
 				<input type="hidden" value="' . $wgRequest->getSessionData( 'wsLoginToken' ) . '" name="wpLoginToken">
 			</form>
