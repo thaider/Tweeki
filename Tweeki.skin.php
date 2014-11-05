@@ -237,7 +237,7 @@ class TweekiTemplate extends BaseTemplate {
 		<div id="mw-head-base"></div>
 		<a id="top"></a>
     <!-- content -->
-    <div class="container <?php echo $userStateClass; echo ( $this->checkVisibility( 'navbar' ) ) ? ' with-navbar' : ' without-navbar'; ?>">
+    <div class="container-fluid <?php echo $userStateClass; echo ( $this->checkVisibility( 'navbar' ) ) ? ' with-navbar' : ' without-navbar'; ?>">
 
 			<?php if( wfMessage( 'tweeki-subnav' )->plain() !== '-' && $this->checkVisibility( 'subnav' ) ) { ?>
 			<!-- subnav -->
@@ -252,53 +252,55 @@ class TweekiTemplate extends BaseTemplate {
 			<?php } ?>
 
 			<div class="row">
-				<div id="content" class="mw-body <?php echo ( ( count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( 'sidebar' ) ) ? 'col-md-offset-3 col-md-9' : 'col-md-offset-1 col-md-10'; ?>" role="main">
-					<div id="mw-js-message" style="display:none;"<?php $this->html( 'userlangattributes' ) ?>></div>
-					<?php if ( $this->data['sitenotice'] ) { ?>
-					<!-- sitenotice -->
-					<div id="siteNotice"><?php $this->html( 'sitenotice' ) ?></div>
-					<!-- /sitenotice -->
-					<?php } ?>
-					<?php if ( $this->checkVisibility( 'firstHeading' ) ) { ?>
-					<h1 id="firstHeading" class="firstHeading page-header" lang="<?php
-						$this->data['pageLanguage'] = $this->getSkin()->getTitle()->getPageViewLanguage()->getHtmlCode();
-						$this->text( 'pageLanguage' );
-					?>"><span dir="auto"><?php $this->html( 'title_formatted' ) ?></span></h1>
-					<?php } ?>
-					<?php $this->html( 'prebodyhtml' ) ?>
-					<!-- bodyContent -->
-					<div id="bodyContent">
-						<?php if ( $this->data['isarticle'] ) { ?>
-						<div id="siteSub"><?php $this->msg( 'tagline' ) ?></div>
+				<div class="<?php echo ( ( count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( 'sidebar' ) ) ? 'col-md-offset-3 col-md-9' : 'col-md-offset-1 col-md-10'; ?>" role="main">
+					<div class="mw-body" id="content">
+						<div id="mw-js-message" style="display:none;"<?php $this->html( 'userlangattributes' ) ?>></div>
+						<?php if ( $this->data['sitenotice'] ) { ?>
+						<!-- sitenotice -->
+						<div id="siteNotice"><?php $this->html( 'sitenotice' ) ?></div>
+						<!-- /sitenotice -->
 						<?php } ?>
-						<div id="contentSub"<?php $this->html( 'userlangattributes' ) ?>><?php $this->html( 'subtitle' ) ?></div>
-						<?php if ( $this->data['undelete'] ) { ?>
-						<div id="contentSub2"><?php $this->html( 'undelete' ) ?></div>
+						<?php if ( $this->checkVisibility( 'firstHeading' ) ) { ?>
+						<h1 id="firstHeading" class="firstHeading page-header" lang="<?php
+							$this->data['pageLanguage'] = $this->getSkin()->getTitle()->getPageViewLanguage()->getHtmlCode();
+							$this->text( 'pageLanguage' );
+						?>"><span dir="auto"><?php $this->html( 'title_formatted' ) ?></span></h1>
 						<?php } ?>
-						<?php if ( $this->data['newtalk'] ) { ?>
-						<div class="usermessage"><?php $this->html( 'newtalk' ) ?></div>
-						<?php } ?>
-						<div id="jump-to-nav" class="mw-jump">
-							<?php $this->msg( 'jumpto' ) ?>
-							<a href="#mw-navigation"><?php $this->msg( 'jumptonavigation' ) ?></a><?php $this->msg( 'comma-separator' ) ?>
-							<a href="#p-search"><?php $this->msg( 'jumptosearch' ) ?></a>
+						<?php $this->html( 'prebodyhtml' ) ?>
+						<!-- bodyContent -->
+						<div id="bodyContent">
+							<?php if ( $this->data['isarticle'] ) { ?>
+							<div id="siteSub"><?php $this->msg( 'tagline' ) ?></div>
+							<?php } ?>
+							<div id="contentSub"<?php $this->html( 'userlangattributes' ) ?>><?php $this->html( 'subtitle' ) ?></div>
+							<?php if ( $this->data['undelete'] ) { ?>
+							<div id="contentSub2"><?php $this->html( 'undelete' ) ?></div>
+							<?php } ?>
+							<?php if ( $this->data['newtalk'] ) { ?>
+							<div class="usermessage"><?php $this->html( 'newtalk' ) ?></div>
+							<?php } ?>
+							<div id="jump-to-nav" class="mw-jump">
+								<?php $this->msg( 'jumpto' ) ?>
+								<a href="#mw-navigation"><?php $this->msg( 'jumptonavigation' ) ?></a><?php $this->msg( 'comma-separator' ) ?>
+								<a href="#p-search"><?php $this->msg( 'jumptosearch' ) ?></a>
+							</div>
+							<?php $this->html( 'bodycontent' ) ?>
+							<?php if ( $this->data['printfooter'] ) { ?>
+							<div class="printfooter">
+							<?php $this->html( 'printfooter' ); ?>
+							</div>
+							<?php } ?>
+							<?php if ( $this->data['catlinks'] ) { ?>
+							<?php $this->html( 'catlinks' ); ?>
+							<?php } ?>
+							<?php if ( $this->data['dataAfterContent'] ) { ?>
+							<?php $this->html( 'dataAfterContent' ); ?>
+							<?php } ?>
+							<div class="visualClear"></div>
+							<?php $this->html( 'debughtml' ); ?>
 						</div>
-						<?php $this->html( 'bodycontent' ) ?>
-						<?php if ( $this->data['printfooter'] ) { ?>
-						<div class="printfooter">
-						<?php $this->html( 'printfooter' ); ?>
-						</div>
-						<?php } ?>
-						<?php if ( $this->data['catlinks'] ) { ?>
-						<?php $this->html( 'catlinks' ); ?>
-						<?php } ?>
-						<?php if ( $this->data['dataAfterContent'] ) { ?>
-						<?php $this->html( 'dataAfterContent' ); ?>
-						<?php } ?>
-						<div class="visualClear"></div>
-						<?php $this->html( 'debughtml' ); ?>
+						<!-- /bodyContent -->
 					</div>
-					<!-- /bodyContent -->
 				</div>
 			</div>
     </div>
