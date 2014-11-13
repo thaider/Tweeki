@@ -106,7 +106,7 @@ class TweekiHooks {
 			$parser->setHook( 'button', 'TweekiHooks::buildButtons' );
 			return true;
 	}
-
+	
 	/**
 	 * Build buttons, groups of buttons and dropdowns
 	 * @param $input string
@@ -354,12 +354,15 @@ class TweekiHooks {
 				// TODO: are there cases of data-toggle without caret?
 				}
 				
-			/* if icon attribute is set, add icon to buttons */
-			if ( isset( $options['icon'] ) ) {
-				$button['text'] = '<span class="icon icon-' . $options['icon'] . '"></span> ' . $button['text'];
+			/* if fa attribute is set, add fa-icon to buttons */
+			if ( isset( $options['fa'] ) ) {
+				$button['text'] = '<span class="fa fa-' . $options['fa'] . '"></span> ' . $button['text'];
 				}
 
-			/* if glyphicon attribute is set, add icon to buttons */
+			/* if glyphicon or icon attribute is set, add icon to buttons */
+			if ( isset( $options['icon'] ) ) {
+				$options['glyphicon'] = $options['icon'];
+				}
 			if ( isset( $options['glyphicon'] ) ) {
 				$button['text'] = '<span class="glyphicon glyphicon-' . $options['glyphicon'] . '"></span> ' . $button['text'];
 				}
