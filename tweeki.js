@@ -17,6 +17,7 @@ jQuery( function( $ ) {
 	/* TOC */
 	/* move TOC elsewhere */
 	if( $( "#tweekiTOC" ).length == 1 && $( "#toc" ).length == 1 ) {
+		/* move to sidebar? */
 		if( $( "#tweekiTOC" ).parents( "#sidebar" ).length == 1 ) {
 			$( "#toc" ).appendTo( "#tweekiTOC" );
 			$( "#toctitle" ).insertBefore( "#tweekiTOC" ).children( "h2" )
@@ -33,9 +34,13 @@ jQuery( function( $ ) {
 					});
 				});
 			/* show toc (hidden by default) */
-			$("#toc").css( 'display', 'table' );
+			$( "#toc" ).css( 'display', 'table' );
+			/* start scrollspy */
+			$( "#toc ul" ).addClass( "nav" );
+			$( 'body' ).css( 'position', 'relative' ).scrollspy( { target: '#toc' } );
 			}
-			else {
+		/* or elsewhere */
+		else {
 			$( "#toc li" ).appendTo( "#tweekiTOC" );
 			$( "#tweekiDropdownTOC" ).show();
 			}
