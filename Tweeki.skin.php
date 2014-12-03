@@ -42,7 +42,7 @@ class SkinTweeki extends SkinTemplate {
 	 * @param $out OutputPage object to initialize
 	 */
 	public function initPage( OutputPage $out ) {
-		global $wgLocalStylePath;
+		global $wgLocalStylePath, $wgUser;
 
 		parent::initPage( $out );
 
@@ -57,7 +57,10 @@ class SkinTweeki extends SkinTemplate {
 		);
 
 		$out->addMeta("viewport", "width=device-width, initial-scale=1.0");
-    $out->addModules( 'skins.tweeki.scripts' );
+    $out->addModules( 'skins.tweeki.scripts' ); 
+	if( $wgUser->getOption( 'tweeki-poweruser' ) ) {
+		static::$bodyClasses[] = 'poweruser';
+		}
   }
 
 	/**
@@ -750,7 +753,7 @@ class TweekiTemplate extends BaseTemplate {
    * Render Login-ext
    */
   function renderLoginExt( $skin, $context ) {
-  	global $wgUser, $wgRequest, $wgScript;
+  	global $wgUser, $wgRequest, $wgScript, $wgTweekiReturnto;
   	
 		if ( session_id() == '' ) {
 			wfSetupSession();
@@ -763,6 +766,10 @@ class TweekiTemplate extends BaseTemplate {
   		$returnto = Title::newMainPage()->getFullText();
   		}
   	$returnto = $wgRequest->getVal( 'returnto', $returnto );
+	
+	if ( isset( $wgTweekiReturnto ) && $returnto == Title::newMainPage()->getFullText() ) {
+		$returnto = $wgTweekiReturnto;
+		}
   	$action = $wgScript . '?title=special:userlogin&amp;action=submitlogin&amp;type=login&amp;returnto=' . $returnto;
   	
   	//create login token if it doesn't exist
