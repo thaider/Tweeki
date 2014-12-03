@@ -629,9 +629,19 @@ class TweekiTemplate extends BaseTemplate {
    */
 	private function checkVisibility( $item ) {
 		global $wgUser, $wgTweekiSkinHideNonPoweruser, $wgTweekiSkinHideAnon, $wgTweekiSkinHideAll;
-		if ( ( !in_array( $item, $wgTweekiSkinHideNonPoweruser ) || $wgUser->getOption( 'tweeki-poweruser' ) ) && // not hidden for non-powerusers or poweruser
-			( !in_array( $item, $wgTweekiSkinHideAnon ) || $this->data['loggedin'] )  && // not hidden for anonymous users or non-anonymous user
-			!in_array( $item, $wgTweekiSkinHideAll ) ) { // not hidden for all
+		if ( 
+			( 
+				!in_array( $item, $wgTweekiSkinHideNonPoweruser ) || 
+				$wgUser->getOption( 'tweeki-poweruser' ) // not hidden for non-powerusers OR poweruser
+			) && 
+			( 
+				!in_array( $item, $wgTweekiSkinHideAnon ) || 
+				$this->data['loggedin'] // not hidden for anonymous users OR non-anonymous user
+			)  && 
+			!in_array( $item, $wgTweekiSkinHideAll ) // not hidden for all
+			&&
+			wfRunHooks( 'TweekiSkinHidden', array( $item ) ) // not hidden via hook
+		) { 
 			return true;
 			}
 		else {
