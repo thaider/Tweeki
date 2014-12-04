@@ -98,6 +98,28 @@ class TweekiHooks {
 	}
 
 	/**
+	 * LabelSetup hook
+	 *
+	 * @param $parser Parser current parser
+	 */
+	static function LabelSetup( Parser $parser ) {
+			$parser->setHook( 'label', 'TweekiHooks::buildLabel' );
+			return true;
+	}
+	
+	/**
+	 * Build label
+	 * @param $input string
+	 * @param $args array tag arguments
+	 * @param $parser Parser current parser
+	 * @param $frame PPFrame current frame
+	 * @return string
+	 */
+	static function buildLabel( $input, array $args, Parser $parser, PPFrame $frame ) {
+		return '<label>' . $parser->recursiveTagParse( $input ) . '</label>';
+	}
+
+	/**
 	 * ButtonsSetup hook
 	 *
 	 * @param $parser Parser current parser
