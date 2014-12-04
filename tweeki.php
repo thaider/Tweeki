@@ -55,7 +55,7 @@ $wgResourceModules['skins.awesome.styles'] = array(
 
 $wgResourceModules['skins.tweeki.scripts'] = array(
 	'scripts' => array(
-		'tweeki/bootstrap/js/bootstrap.js',
+		'tweeki/bootstrap/js/bootstrap.min.js',
 		'tweeki/jquery.mousewheel.min.js',
 		'tweeki/jquery.smoothDivScroll-1.3.js',
 		'tweeki/tweeki.js',
