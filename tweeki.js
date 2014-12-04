@@ -37,7 +37,7 @@ jQuery( function( $ ) {
 			$( "#toc" ).css( 'display', 'table' );
 			/* start scrollspy */
 			$( "#toc ul" ).addClass( "nav" );
-			$( 'body' ).css( 'position', 'relative' ).scrollspy( { target: '#toc' } );
+			$( 'body' ).css( 'position', 'relative' ).scrollspy( { target: '#toc', offset: 100 } );
 			}
 		/* or elsewhere */
 		else {
