@@ -640,7 +640,7 @@ class TweekiTemplate extends BaseTemplate {
 			)  && 
 			!in_array( $item, $wgTweekiSkinHideAll ) // not hidden for all
 			&&
-			wfRunHooks( 'TweekiSkinHidden', array( $item ) ) // not hidden via hook
+			!wfRunHooks( 'TweekiSkinHidden', array( $item, $this ) ) // not hidden via hook
 		) { 
 			return true;
 			}
