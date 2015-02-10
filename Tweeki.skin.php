@@ -690,6 +690,19 @@ class TweekiTemplate extends BaseTemplate {
     
 
   /**
+   * Render Footer
+   */
+	private function renderFooter() {
+		$options = array( 
+					'class' => '',
+					'wrapper' => '',
+					'wrapperclass' => ''
+					);
+		$this->buildItems( wfMessage( 'tweeki-footer' )->plain(), $options, 'footer' );
+    }
+    
+
+  /**
    * Build Items for navbar, subnav, sidebar
    *
    * @param $items String
@@ -914,9 +927,9 @@ class TweekiTemplate extends BaseTemplate {
 
 
   /**
-   * Render footer
+   * Render standard MediaWiki footer
    */
-  	private function renderFooter() {
+  	private function renderStandardFooter() {
   		global $wgTweekiSkinFooterIcons;
 			$options = array( 
 					'wrapper' => 'li',
@@ -928,29 +941,33 @@ class TweekiTemplate extends BaseTemplate {
 					echo '<ul id="footer-' . $category . '">';
 					foreach ( $links as $link ) { 
 						if ( $this->checkVisibility( 'footer-' . $category . '-' . $link ) ) { 
-							echo '<li id="footer-' . $category . '-' . $link . '">' . $this->html( $link ) . '</li>';
+							echo '<li id="footer-' . $category . '-' . $link . '">';
+							$this->html( $link );
+							echo '</li>';
 							} 
 						}
 					echo '</ul>';
 					} 
 				} 
-				if ( wfMessage ( 'tweeki-footer' )->plain() !== "" ) {
+			if ( $this->checkVisibility( 'footer-custom' ) ) { 
+				if ( wfMessage ( 'tweeki-footer-custom' )->plain() !== "" ) {
 					echo '<ul id="footer-custom">';
-					$this->buildItems( wfMessage ( 'tweeki-footer' )->plain(), $options, 'footer' );
+					$this->buildItems( wfMessage ( 'tweeki-footer-custom' )->plain(), $options, 'footer' );
 					echo '</ul>';
 					}
-				$footericons = $this->getFooterIcons( "icononly" );
-				if ( count( $footericons ) > 0 && $this->checkVisibility( 'footer-icons' ) ) { 
-					echo '<ul id="footer-icons">';
-					foreach ( $footericons as $blockName => $footerIcons ) { 
-						if ( $this->checkVisibility( 'footer-' . $blockName ) ) {
-							echo '<li id="footer-' . htmlspecialchars( $blockName ) . 'ico">';
-							foreach ( $footerIcons as $icon ) { 
-								if($wgTweekiSkinFooterIcons) {
-									echo $this->getSkin()->makeFooterIcon( $icon ); 
+				}
+			$footericons = $this->getFooterIcons( "icononly" );
+			if ( count( $footericons ) > 0 && $this->checkVisibility( 'footer-icons' ) ) { 
+				echo '<ul id="footer-icons">';
+				foreach ( $footericons as $blockName => $footerIcons ) { 
+					if ( $this->checkVisibility( 'footer-' . $blockName ) ) {
+						echo '<li id="footer-' . htmlspecialchars( $blockName ) . 'ico">';
+						foreach ( $footerIcons as $icon ) { 
+							if($wgTweekiSkinFooterIcons) {
+								echo $this->getSkin()->makeFooterIcon( $icon ); 
 								}
-								else {
-									echo '<span>' . $this->getSkin()->makeFooterIcon( $icon, 'withoutImage' ) . '</span>'; 
+							else {
+								echo '<span>' . $this->getSkin()->makeFooterIcon( $icon, 'withoutImage' ) . '</span>'; 
 								}
 							}
 						echo '</li>';
@@ -959,5 +976,5 @@ class TweekiTemplate extends BaseTemplate {
 				echo '</ul>';
 				}
 			echo '<div style="clear:both"></div>';
-			}
 		}
+	}

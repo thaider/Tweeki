@@ -83,5 +83,7 @@ $wgTweekiSkinSpecialElements = array(
 			'TOC' => 'self::renderTOC',
 			'SEARCH' => 'self::renderSearch',
 			'LOGO' => 'self::renderLogo',
-			'LOGIN-EXT' => 'self::renderLoginExt' );
+			'LOGIN-EXT' => 'self::renderLoginExt',
+			'FOOTER' => 'self::renderStandardFooter'
+			 );
 $wgTweekiSkinUseAwesome = true;
