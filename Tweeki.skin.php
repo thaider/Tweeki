@@ -110,6 +110,7 @@ class TweekiTemplate extends BaseTemplate {
 		global $wgVectorUseIconWatch;
 		global $wgTweekiSkinHideAnon;
 		global $wgGroupPermissions;
+		global $wgTweekiSkinPageRenderer;
 
 		// Build additional attributes for navigation urls
 		$nav = $this->data['content_navigation'];
@@ -155,15 +156,15 @@ class TweekiTemplate extends BaseTemplate {
 
     //set userStateClass
     if ( $this->data['loggedin'] ) {
-      $userStateClass = "user-loggedin";
+      $this->data['userstateclass'] = "user-loggedin";
     } else {
-      $userStateClass = "user-loggedout";
+      $this->data['userstateclass'] = "user-loggedout";
     }
     
 		if ( $wgGroupPermissions['*']['edit'] || $this->data['loggedin'] ) {
-			$userStateClass += " editable";
+			$this->data['userstateclass'] += " editable";
 		} else {
-			$userStateClass += " not-editable";
+			$this->data['userstateclass'] += " not-editable";
 		}
 		
 		/* TODO: beautify!!! */
@@ -193,144 +194,45 @@ class TweekiTemplate extends BaseTemplate {
 		}
 		// Output HTML Page
 		$this->html( 'headelement' );
+		call_user_func_array( $wgTweekiSkinPageRenderer, array( $this ) );
 ?>
+  </body>
+</html>
+<?php
+  }
 
-		<?php if ( $this->checkVisibility( 'navbar' ) ) { ?>
-		<!-- navbar -->
-		<div id="mw-navigation" class="<?php $this->msg( 'tweeki-navbar-class' ) ?>" role="navigation">
-			<h2><?php $this->msg( 'navigation-heading' ) ?></h2>
-			<div id="mw-head" class="navbar-inner">
-				<div class="container-fluid">
-				
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
 
-						<?php if ( $this->checkVisibility( 'navbar-brand' ) ) { 
-							$this->renderBrand(); 
-							} ?>
-					
-					</div>
 
-					<div id="navbar" class="navbar-collapse collapse">
-					<?php if ( $this->checkVisibility( 'navbar-left' ) ) { ?>
-						<ul class="nav navbar-nav">
-						<?php $this->renderNavbar( 'left' ); ?>
-						</ul>
-					<?php } ?>
-
-					<?php if ( $this->checkVisibility( 'navbar-right' ) ) { ?>
-						<ul class="nav navbar-nav navbar-right">
-						<?php $this->renderNavbar( 'right' ); ?>
-						</ul>
-					</div>
-					<?php } ?>
-
-				</div>
-			</div>
-		</div>
-		<!-- /navbar -->
-		<?php } ?>
-
+  /**
+   * Render the whole page 
+   */
+  private function renderPage( $skin ) {
+		$skin->renderNavbar();
+?>
 		<div id="mw-page-base"></div>
 		<div id="mw-head-base"></div>
 		<a id="top"></a>
     <!-- content -->
-    <div class="container-fluid <?php echo $userStateClass; echo ( $this->checkVisibility( 'navbar' ) ) ? ' with-navbar' : ' without-navbar'; ?>">
+    <div class="container-fluid <?php echo $this->data['userstateclass']; echo ( $skin->checkVisibility( 'navbar' ) ) ? ' with-navbar' : ' without-navbar'; ?>">
 
-			<?php if( wfMessage( 'tweeki-subnav' )->plain() !== '-' && $this->checkVisibility( 'subnav' ) ) { ?>
-			<!-- subnav -->
-			<div id="page-header" class="row">
-				<div class="<?php echo ( ( count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( 'sidebar' ) ) ? 'col-md-offset-3 col-md-9' : 'col-md-offset-1 col-md-10'; ?>">
-					<ul class="navigation nav nav-pills pull-right">
-					<?php	$this->renderSubnav(); ?>
-					</ul>
-				</div>
-			</div>
-			<!-- /subnav -->
-			<?php } ?>
+		<?php 
+		$subnavclass = ( ( count( $skin->data['view_urls'] ) > 0 || $skin->data['isarticle'] ) && $skin->checkVisibility( 'sidebar' ) ) ? 'col-md-offset-3 col-md-9' : 'col-md-offset-1 col-md-10';
+		$skin->renderSubnav( $subnavclass ); 
+		?>
 
 			<div class="row">
-				<div class="<?php echo ( ( count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( 'sidebar' ) ) ? 'col-md-offset-3 col-md-9' : 'col-md-offset-1 col-md-10'; ?>" role="main">
-					<div class="mw-body" id="content">
-						<div id="mw-js-message" style="display:none;"<?php $this->html( 'userlangattributes' ) ?>></div>
-						<?php if ( $this->data['sitenotice'] ) { ?>
-						<!-- sitenotice -->
-						<div id="siteNotice"><?php $this->html( 'sitenotice' ) ?></div>
-						<!-- /sitenotice -->
-						<?php } ?>
-						<?php if ( $this->checkVisibility( 'firstHeading' ) ) { ?>
-						<h1 id="firstHeading" class="firstHeading page-header" lang="<?php
-							$this->data['pageLanguage'] = $this->getSkin()->getTitle()->getPageViewLanguage()->getHtmlCode();
-							$this->text( 'pageLanguage' );
-						?>"><span dir="auto"><?php $this->html( 'title_formatted' ) ?></span></h1>
-						<?php } ?>
-						<?php $this->html( 'prebodyhtml' ) ?>
-						<!-- bodyContent -->
-						<div id="bodyContent">
-							<?php if ( $this->data['isarticle'] ) { ?>
-							<div id="siteSub"><?php $this->msg( 'tagline' ) ?></div>
-							<?php } ?>
-							<div id="contentSub"<?php $this->html( 'userlangattributes' ) ?>><?php $this->html( 'subtitle' ) ?></div>
-							<?php if ( $this->data['undelete'] ) { ?>
-							<div id="contentSub2"><?php $this->html( 'undelete' ) ?></div>
-							<?php } ?>
-							<?php if ( $this->data['newtalk'] ) { ?>
-							<div class="usermessage"><?php $this->html( 'newtalk' ) ?></div>
-							<?php } ?>
-							<div id="jump-to-nav" class="mw-jump">
-								<?php $this->msg( 'jumpto' ) ?>
-								<a href="#mw-navigation"><?php $this->msg( 'jumptonavigation' ) ?></a><?php $this->msg( 'comma-separator' ) ?>
-								<a href="#p-search"><?php $this->msg( 'jumptosearch' ) ?></a>
-							</div>
-							<?php $this->html( 'bodycontent' ) ?>
-							<?php if ( $this->data['printfooter'] ) { ?>
-							<div class="printfooter">
-							<?php $this->html( 'printfooter' ); ?>
-							</div>
-							<?php } ?>
-							<?php if ( $this->data['catlinks'] ) { ?>
-							<?php $this->html( 'catlinks' ); ?>
-							<?php } ?>
-							<?php if ( $this->data['dataAfterContent'] ) { ?>
-							<?php $this->html( 'dataAfterContent' ); ?>
-							<?php } ?>
-							<div class="visualClear"></div>
-							<?php $this->html( 'debughtml' ); ?>
-						</div>
-						<!-- /bodyContent -->
-					</div>
+				<div class="<?php echo ( ( count( $skin->data['view_urls'] ) > 0 || $skin->data['isarticle'] ) && $skin->checkVisibility( 'sidebar' ) ) ? 'col-md-offset-3 col-md-9' : 'col-md-offset-1 col-md-10'; ?>" role="main">
+					<?php $skin->renderContent(); ?>
 				</div>
 			</div>
     </div>
     <!-- /content -->
 
-		<?php if ( ( count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( 'sidebar' ) ) { ?>
-		<!-- sidebar -->
-		<div id="sidebar">
-			<?php $this->renderSidebar(); ?>
-		</div>
-		<!-- /sidebar -->
-		<?php } ?>
-			
-		<?php if ( $this->checkVisibility( 'footer' ) ) { ?>
-		<!-- footer -->
-		<div id="footer" role="contentinfo" class="footer container"<?php $this->html( 'userlangattributes' ) ?>>
-		<?php $this->renderFooter(); ?>
-		</div>
-		<!-- /footer -->
-		<?php } ?>
-	
-		<?php $this->printTrail(); ?>
-
-  </body>
-</html>
-<?php
-  }
+		<?php
+		$skin->renderSidebar();
+		$skin->renderFooter();
+		$skin->printTrail(); 
+	}
 
   /**
    * Render one or more navigations elements by name, automatically reveresed
@@ -369,10 +271,11 @@ class TweekiTemplate extends BaseTemplate {
 
       switch ( $element ) {
 
+	// TODO: use the appropriate element from $this->data['view-urls']
         case 'EDIT':
           if ( array_key_exists('edit', $this->data['content_actions']) ) {
 						return array(array( 
-								'href' => '#',
+								'href' => $this->data['content_actions']['edit']['href'],
 								'icon' => 'edit',
 								'text' => $this->data['content_actions']['edit']['text'],
 								'id' => 'b-edit'
@@ -381,6 +284,7 @@ class TweekiTemplate extends BaseTemplate {
         	break;
 
         case 'EDIT-EXT':
+		// TODO: does this solution change $this->data['view_urls']?
         	$views = $this->data['view_urls'];
 					if(count( $views ) > 0) {
 						unset( $views['view'] );
@@ -627,7 +531,7 @@ class TweekiTemplate extends BaseTemplate {
    *
    * @param $item String
    */
-	private function checkVisibility( $item ) {
+	public function checkVisibility( $item ) {
 		global $wgUser, $wgTweekiSkinHideNonPoweruser, $wgTweekiSkinHideAnon, $wgTweekiSkinHideAll;
 		if ( 
 			( 
@@ -652,22 +556,78 @@ class TweekiTemplate extends BaseTemplate {
   /**
    * Render Subnavigation
    */
-	private function renderSubnav() {
+	public function renderSubnav( $class ) {
 		$options = array( 
 					'wrapper' => 'li', 
 					'wrapperclass' => 'nav dropdown', 
 					'dropdownclass' => 'pull-right'
 					);
-		$this->buildItems( wfMessage( 'tweeki-subnav' )->plain(), $options, 'subnav' );
+		if( wfMessage( 'tweeki-subnav' )->plain() !== '-' && $this->checkVisibility( 'subnav' ) ) { ?>
+			<!-- subnav -->
+			<div id="page-header" class="row">
+				<div class="<?php echo $class; ?>">
+					<ul class="<?php $this->msg( 'tweeki-subnav-class' ) ?>">
+					<?php $this->buildItems( wfMessage( 'tweeki-subnav' )->plain(), $options, 'subnav' ); ?>
+					</ul>
+				</div>
+			</div>
+			<!-- /subnav -->
+			<?php }
 		}
 		
 	
   /**
    * Render Navbar
+   */
+	public function renderNavbar() {
+		if ( $this->checkVisibility( 'navbar' ) ) { ?>
+		<!-- navbar -->
+		<div id="mw-navigation" class="<?php $this->msg( 'tweeki-navbar-class' ) ?>" role="navigation">
+			<h2><?php $this->msg( 'navigation-heading' ) ?></h2>
+			<div id="mw-head" class="navbar-inner">
+				<div class="container-fluid">
+				
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+
+						<?php if ( $this->checkVisibility( 'navbar-brand' ) ) { 
+							$this->renderBrand(); 
+							} ?>
+					
+					</div>
+
+					<div id="navbar" class="navbar-collapse collapse">
+					<?php if ( $this->checkVisibility( 'navbar-left' ) ) { ?>
+						<ul class="nav navbar-nav">
+						<?php $this->renderNavbarElement( 'left' ); ?>
+						</ul>
+					<?php } ?>
+
+					<?php if ( $this->checkVisibility( 'navbar-right' ) ) { ?>
+						<ul class="nav navbar-nav navbar-right">
+						<?php $this->renderNavbarElement( 'right' ); ?>
+						</ul>
+					</div>
+					<?php } ?>
+
+				</div>
+			</div>
+		</div>
+		<!-- /navbar -->
+		<?php }
+	}
+
+  /**
+   * Render Navbarelement
    *
    * @param $side string
    */
-	private function renderNavbar( $side ) {
+	private function renderNavbarElement( $side ) {
 		$otherside = ( $side == 'right' ) ? 'left' : 'right';
 		$options = array( 
 					'wrapper' => 'li', 
@@ -680,25 +640,94 @@ class TweekiTemplate extends BaseTemplate {
   /**
    * Render Sidebar
    */
-	private function renderSidebar() {
+	public function renderSidebar() {
 		$options = array( 
 					'class' => 'btn',
 					'wrapperclass' => 'btn-group btn-block'
 					);
-		$this->buildItems( wfMessage( 'tweeki-sidebar' )->plain(), $options, 'sidebar' );
+		if ( ( count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( 'sidebar' ) ) { ?>
+			<!-- sidebar -->
+			<div id="sidebar">
+			<?php $this->buildItems( wfMessage( 'tweeki-sidebar' )->plain(), $options, 'sidebar' ); ?>
+			</div>
+			<!-- /sidebar -->
+		<?php } 
+
     }
     
 
   /**
+   * Render Content
+   */
+	public function renderContent() {
+		?>
+					<div class="mw-body" id="content">
+						<div id="mw-js-message" style="display:none;"<?php $this->html( 'userlangattributes' ) ?>></div>
+						<?php if ( $this->data['sitenotice'] ) { ?>
+						<!-- sitenotice -->
+						<div id="siteNotice"><?php $this->html( 'sitenotice' ) ?></div>
+						<!-- /sitenotice -->
+						<?php } ?>
+						<?php if ( $this->checkVisibility( 'firstHeading' ) ) { ?>
+						<h1 id="firstHeading" class="firstHeading page-header" lang="<?php
+							$this->data['pageLanguage'] = $this->getSkin()->getTitle()->getPageViewLanguage()->getHtmlCode();
+							$this->text( 'pageLanguage' );
+						?>"><span dir="auto"><?php $this->html( 'title_formatted' ) ?></span></h1>
+						<?php } ?>
+						<?php $this->html( 'prebodyhtml' ) ?>
+						<!-- bodyContent -->
+						<div id="bodyContent">
+							<?php if ( $this->data['isarticle'] ) { ?>
+							<div id="siteSub"><?php $this->msg( 'tagline' ) ?></div>
+							<?php } ?>
+							<div id="contentSub"<?php $this->html( 'userlangattributes' ) ?>><?php $this->html( 'subtitle' ) ?></div>
+							<?php if ( $this->data['undelete'] ) { ?>
+							<div id="contentSub2"><?php $this->html( 'undelete' ) ?></div>
+							<?php } ?>
+							<?php if ( $this->data['newtalk'] ) { ?>
+							<div class="usermessage"><?php $this->html( 'newtalk' ) ?></div>
+							<?php } ?>
+							<div id="jump-to-nav" class="mw-jump">
+								<?php $this->msg( 'jumpto' ) ?>
+								<a href="#mw-navigation"><?php $this->msg( 'jumptonavigation' ) ?></a><?php $this->msg( 'comma-separator' ) ?>
+								<a href="#p-search"><?php $this->msg( 'jumptosearch' ) ?></a>
+							</div>
+							<?php $this->html( 'bodycontent' ) ?>
+							<?php if ( $this->data['printfooter'] ) { ?>
+							<div class="printfooter">
+							<?php $this->html( 'printfooter' ); ?>
+							</div>
+							<?php } ?>
+							<?php if ( $this->data['catlinks'] ) { ?>
+							<?php $this->html( 'catlinks' ); ?>
+							<?php } ?>
+							<?php if ( $this->data['dataAfterContent'] ) { ?>
+							<?php $this->html( 'dataAfterContent' ); ?>
+							<?php } ?>
+							<div class="visualClear"></div>
+							<?php $this->html( 'debughtml' ); ?>
+						</div>
+						<!-- /bodyContent -->
+					</div>
+	<?php }
+
+
+  /**
    * Render Footer
    */
-	private function renderFooter() {
+	public function renderFooter() {
 		$options = array( 
 					'class' => '',
 					'wrapper' => '',
 					'wrapperclass' => ''
 					);
-		$this->buildItems( wfMessage( 'tweeki-footer' )->plain(), $options, 'footer' );
+		if ( $this->checkVisibility( 'footer' ) ) { ?>
+			<!-- footer -->
+			<div id="footer" role="contentinfo" class="footer container"<?php $this->html( 'userlangattributes' ) ?>>
+			<?php $this->buildItems( wfMessage( 'tweeki-footer' )->plain(), $options, 'footer' ); ?>
+			</div>
+			<!-- /footer -->
+		<?php }
     }
     
 
@@ -744,7 +773,7 @@ class TweekiTemplate extends BaseTemplate {
   /**
    * Render firstheading
    */
-  function renderFirstHeading( $skin, $context ) {
+  public function renderFirstHeading( $skin, $context ) {
 						echo '<div class="tweekiFirstHeading">' . $skin->data[ 'title_formatted' ] . '</div>';
   }
 
@@ -911,7 +940,7 @@ class TweekiTemplate extends BaseTemplate {
   /**
    * Render brand (linking to mainpage)
    */
-	private function renderBrand() {
+	public function renderBrand() {
 		$brand = wfMessage( 'tweeki-navbar-brand' )->text();
 		/* is it a file? */
 		$brandimageTitle = Title::newFromText( $brand );

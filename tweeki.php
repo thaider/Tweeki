@@ -77,6 +77,7 @@ $wgTweekiSkinHideable = array( 'firstHeading' );
 $wgTweekiSkinHideAnon = array( 'navbar' );
 $wgTweekiSkinHideNonPoweruser = array( 'TOOLBOX', 'EDIT-EXT-special' );
 $wgTweekiSkinFooterIcons = true;
+$wgTweekiSkinPageRenderer = 'self::renderPage';
 $wgTweekiSkinNavigationalElements = array();
 $wgTweekiSkinSpecialElements = array(
 			'FIRSTHEADING' => 'self::renderFirstHeading',

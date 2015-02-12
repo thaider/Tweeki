@@ -5,7 +5,7 @@
 jQuery( function( $ ) {
 
 	/* FOOTER */
-	// don't fix footer if document smaller than window
+	// change footer to static if the document is higher than window
 	if($(document).height() != $(window).height()) { $( '#footer' ).css( 'position', 'static' ); }
 
 	// correct on resize
@@ -13,6 +13,9 @@ jQuery( function( $ ) {
 		if($(document).height() != $(window).height()) { $( '#footer' ).css( 'position', 'static' ); }
 		else { $( '#footer' ).css('position','fixed'); }
 	});
+
+	// fade in initially hidden footer
+	$( '#footer' ).show();
 
 	/* TOC */
 	/* move TOC elsewhere */
