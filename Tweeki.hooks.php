@@ -98,12 +98,34 @@ class TweekiHooks {
 	}
 
 	/**
+	 * LabelSetup hook
+	 *
+	 * @param $parser Parser current parser
+	 */
+	static function LabelSetup( Parser $parser ) {
+			$parser->setHook( 'label', 'TweekiHooks::buildLabel' );
+			return true;
+	}
+	
+	/**
+	 * Build label
+	 * @param $input string
+	 * @param $args array tag arguments
+	 * @param $parser Parser current parser
+	 * @param $frame PPFrame current frame
+	 * @return string
+	 */
+	static function buildLabel( $input, array $args, Parser $parser, PPFrame $frame ) {
+		return '<label>' . $parser->recursiveTagParse( $input ) . '</label>';
+	}
+
+	/**
 	 * ButtonsSetup hook
 	 *
 	 * @param $parser Parser current parser
 	 */
 	static function ButtonsSetup( Parser $parser ) {
-			$parser->setHook( 'button', 'TweekiHooks::buildButtons' );
+			$parser->setHook( 'btn', 'TweekiHooks::buildButtons' );
 			return true;
 	}
 	
@@ -172,6 +194,7 @@ class TweekiHooks {
 				$currentlevel = 1;
 				}
 			/* dropdown-menus and submenus */
+			// TODO: drop support for more than one level
 			else {
 				$cleanline = ltrim( $line, '*' );
 				$newlevel = strlen( $line ) - strlen( $cleanline );
@@ -231,26 +254,32 @@ class TweekiHooks {
 		foreach ( $line as &$single_line ) {
 			$single_line = trim( $single_line );
 			}
-		$msgText = wfMessage( $line[0] )->inContentLanguage();
+
+		/* is the text explicitly set? */
+		$href = $line[0];
+		if ( isset( $line[1] ) && $line[1] != "" ) {
+			$text = $line[1];
+			}
+		else {
+			$href_implicit = true;
+			$text = $line[0];
+			}
+
+		/* parse text */
+		$msgText = wfMessage( $text )->inContentLanguage();
 		if ( $msgText->exists() ) {
 			$text = $msgText->parse();
 			}
 		else {
 			if( $parser->getTitle() instanceof Title ) {
-				$text = $parser->recursiveTagParse( $line[0], $frame );
+				$text = $parser->recursiveTagParse( $text, $frame );
 				}
 			else {
 				$text = 'INVALID-TITLE/PARSER-BROKEN';
 				}
 			}
 
-		if ( isset( $line[1] ) && $line[1] != "" ) {
-			$href = $line[1];
-			}
-		else {
-			$href_implicit = true;
-			$href = $text;
-			}
+		/* parse href */
 		$msgLink = wfMessage( $href )->inContentLanguage();
 		if ( $msgLink->exists() ) {
 			$href = $msgLink->parse();

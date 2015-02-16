@@ -26,6 +26,7 @@ $wgExtensionMessagesFiles['TweekiMagic'] = dirname( __FILE__ ) . '/Tweeki.i18n.m
  
 $wgHooks['GetPreferences'][] = 'TweekiHooks::getPreferences';
 $wgHooks['ParserFirstCallInit'][] = 'TweekiHooks::ButtonsSetup';
+$wgHooks['ParserFirstCallInit'][] = 'TweekiHooks::LabelSetup';
 $wgHooks['ParserFirstCallInit'][] = 'TweekiHooks::AccordionSetup';
 $wgHooks['ParserFirstCallInit'][] = 'TweekiHooks::TweekiHideSetup';
 $wgHooks['DoEditSectionLink'][] = 'TweekiHooks::EditSectionLinkButton';
@@ -76,11 +77,14 @@ $wgTweekiSkinHideable = array( 'firstHeading' );
 $wgTweekiSkinHideAnon = array( 'navbar' );
 $wgTweekiSkinHideNonPoweruser = array( 'TOOLBOX', 'EDIT-EXT-special' );
 $wgTweekiSkinFooterIcons = true;
+$wgTweekiSkinPageRenderer = 'self::renderPage';
 $wgTweekiSkinNavigationalElements = array();
 $wgTweekiSkinSpecialElements = array(
 			'FIRSTHEADING' => 'self::renderFirstHeading',
 			'TOC' => 'self::renderTOC',
 			'SEARCH' => 'self::renderSearch',
 			'LOGO' => 'self::renderLogo',
-			'LOGIN-EXT' => 'self::renderLoginExt' );
+			'LOGIN-EXT' => 'self::renderLoginExt',
+			'FOOTER' => 'self::renderStandardFooter'
+			 );
 $wgTweekiSkinUseAwesome = true;

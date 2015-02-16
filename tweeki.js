@@ -5,14 +5,17 @@
 jQuery( function( $ ) {
 
 	/* FOOTER */
-	// don't fix footer if document smaller than window
-	if($(document).height() != $(window).height()) { $( '#footer' ).css( 'position', 'static' ); }
+	// change footer to fixed if the document is smaller than window
+	if($(document).height() == $(window).height()) { $( '#footer' ).css( 'position', 'fixed' ); }
 
 	// correct on resize
 	$(window).resize(function() {
 		if($(document).height() != $(window).height()) { $( '#footer' ).css( 'position', 'static' ); }
 		else { $( '#footer' ).css('position','fixed'); }
 	});
+
+	// fade in initially hidden footer
+	$( '#footer' ).animate( { opacity: 1 }, 1000 );
 
 	/* TOC */
 	/* move TOC elsewhere */
