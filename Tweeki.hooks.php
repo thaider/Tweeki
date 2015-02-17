@@ -22,10 +22,11 @@ class TweekiHooks {
 	 */
 	public static function getPreferences( $user, &$defaultPreferences ) {
 
-        $defaultPreferences['tweeki-poweruser'] = array(
+        $defaultPreferences['tweeki-advanced'] = array(
                 'type' => 'toggle',
-                'label-message' => 'tweeki-poweruser-preference', // a system message
-                'section' => 'rendering/poweruser',
+                'label-message' => 'prefs-tweeki-advanced-desc', // a system message
+                'section' => 'rendering/tweeki-advanced',
+		'help-message' => 'prefs-tweeki-advanced-help'
         );
 
 		return true;
