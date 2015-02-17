@@ -35,11 +35,11 @@ $wgHooks['ParserBeforeTidy'][] = 'TweekiHooks::HeadlineFix';
 # Styles and Scripts have to be splitted in order to get the dependencies right
 $wgResourceModules['skins.tweeki.styles'] = array(
   'styles' => array(
-		'tweeki/bootstrap/css/bootstrap.min.css' => array( ),
-		'tweeki/bootstrap/css/bootstrap-theme.min.css' => array( 'media' => 'screen' ),
-		'tweeki/screen.less' => array( 'media' => 'screen' ),
-		'tweeki/print.less' => array( 'media' => 'print' ),
-		'tweeki/theme.less' => array( 'media' => 'screen' ),
+		'Tweeki/bootstrap/css/bootstrap.min.css' => array( ),
+		'Tweeki/bootstrap/css/bootstrap-theme.min.css' => array( 'media' => 'screen' ),
+		'Tweeki/screen.less' => array( 'media' => 'screen' ),
+		'Tweeki/print.less' => array( 'media' => 'print' ),
+		'Tweeki/theme.less' => array( 'media' => 'screen' ),
 	),
   'remoteBasePath' => &$GLOBALS['wgStylePath'],
   'localBasePath' => &$GLOBALS['wgStyleDirectory'],
@@ -47,7 +47,7 @@ $wgResourceModules['skins.tweeki.styles'] = array(
 
 $wgResourceModules['skins.awesome.styles'] = array(
   'styles' => array(
-		'tweeki/awesome/css/font-awesome.min.css' => array( )
+		'Tweeki/awesome/css/font-awesome.min.css' => array( )
 	),
   'remoteBasePath' => &$GLOBALS['wgStylePath'],
   'localBasePath' => &$GLOBALS['wgStyleDirectory'],
@@ -55,10 +55,10 @@ $wgResourceModules['skins.awesome.styles'] = array(
 
 $wgResourceModules['skins.tweeki.scripts'] = array(
 	'scripts' => array(
-		'tweeki/bootstrap/js/bootstrap.min.js',
-		'tweeki/jquery.mousewheel.min.js',
-		'tweeki/jquery.smoothDivScroll-1.3.js',
-		'tweeki/tweeki.js',
+		'Tweeki/bootstrap/js/bootstrap.min.js',
+		'Tweeki/jquery.mousewheel.min.js',
+		'Tweeki/jquery.smoothDivScroll-1.3.js',
+		'Tweeki/tweeki.js',
 	),
 	'dependencies' => array(
 		'jquery.ui.widget',
