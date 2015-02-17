@@ -36,7 +36,6 @@ $wgHooks['ParserBeforeTidy'][] = 'TweekiHooks::HeadlineFix';
 $wgResourceModules['skins.tweeki.styles'] = array(
   'styles' => array(
 		'Tweeki/bootstrap/css/bootstrap.min.css' => array( ),
-		'Tweeki/bootstrap/css/bootstrap-theme.min.css' => array( 'media' => 'screen' ),
 		'Tweeki/screen.less' => array( 'media' => 'screen' ),
 		'Tweeki/print.less' => array( 'media' => 'print' ),
 		'Tweeki/theme.less' => array( 'media' => 'screen' ),
@@ -48,6 +47,14 @@ $wgResourceModules['skins.tweeki.styles'] = array(
 $wgResourceModules['skins.awesome.styles'] = array(
   'styles' => array(
 		'Tweeki/awesome/css/font-awesome.min.css' => array( )
+	),
+  'remoteBasePath' => &$GLOBALS['wgStylePath'],
+  'localBasePath' => &$GLOBALS['wgStyleDirectory'],
+);
+
+$wgResourceModules['skins.bootstraptheme.styles'] = array(
+  'styles' => array(
+		'Tweeki/bootstrap/css/bootstrap-theme.min.css' => array( 'media' => 'screen' ),
 	),
   'remoteBasePath' => &$GLOBALS['wgStylePath'],
   'localBasePath' => &$GLOBALS['wgStyleDirectory'],
@@ -88,3 +95,4 @@ $wgTweekiSkinSpecialElements = array(
 			'FOOTER' => 'self::renderStandardFooter'
 			 );
 $wgTweekiSkinUseAwesome = true;
+$wgTweekiSkinUseBootstrapTheme = true;

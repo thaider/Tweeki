@@ -24,7 +24,7 @@ jQuery( function( $ ) {
 		if( $( "#tweekiTOC" ).parents( "#sidebar" ).length == 1 ) {
 			$( "#toc" ).appendTo( "#tweekiTOC" );
 			$( "#toctitle" ).insertBefore( "#tweekiTOC" ).children( "h2" )
-				.append( '<a href="javascript:scrollTo(0,0);">' + mw.message( 'tweeki-toc-top' ).escaped() + '</a>' );
+				.append( '<a href="javascript:scrollTo(0,0);">' + mw.message( 'tweeki-toc-top' ).plain() + '</a>' );
 			$(window).resize(function() {
 				$("#tweekiTOC").height($(window).height()-$("#tweekiTOC").position().top-130);
 				}).resize();
