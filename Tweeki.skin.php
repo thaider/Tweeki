@@ -476,11 +476,7 @@ class TweekiTemplate extends BaseTemplate {
         	$sidebar = array();
           foreach ( $this->data['sidebar'] as $name => $content ) {
             if ( empty ( $content ) ) {
-            	// traditional sidebar formatting with pipe character has to be reversed
             	if( strpos( $name, '|' ) !== false ) {
-              	$name = explode( '|', $name );
-              	$name = array_reverse( $name );
-              	$name = implode( '|', $name );
               	/* TODO: replace $wgParser with local parser - might not work properly */
               	$sidebarItem = TweekiHooks::parseButtonLink( $name, $wgParser, false );
               	$sidebar[] = $sidebarItem[0];
