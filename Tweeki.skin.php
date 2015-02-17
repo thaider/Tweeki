@@ -58,8 +58,8 @@ class SkinTweeki extends SkinTemplate {
 
 		$out->addMeta("viewport", "width=device-width, initial-scale=1.0");
     $out->addModules( 'skins.tweeki.scripts' ); 
-	if( $wgUser->getOption( 'tweeki-poweruser' ) ) {
-		static::$bodyClasses[] = 'poweruser';
+	if( $wgUser->getOption( 'tweeki-advanced' ) ) {
+		static::$bodyClasses[] = 'advanced';
 		}
   }
 
@@ -242,7 +242,7 @@ class TweekiTemplate extends BaseTemplate {
    */
   private function renderNavigation( $elements ) {
     global $wgUser,
-    	$wgTweekiSkinHideNonPoweruser, 
+    	$wgTweekiSkinHideNonAdvanced, 
     	$wgParser,
     	$wgTweekiSkinNavigationalElements,
     	$wgTweekiSkinSpecialElements;
@@ -523,16 +523,16 @@ class TweekiTemplate extends BaseTemplate {
 
   /**
    * Elements can be hidden for anonymous users or for everybody who has not opted
-   * to be a poweruser in the preferences
+   * to show the advanced features in their preferences
    *
    * @param $item String
    */
 	public function checkVisibility( $item ) {
-		global $wgUser, $wgTweekiSkinHideNonPoweruser, $wgTweekiSkinHideAnon, $wgTweekiSkinHideAll;
+		global $wgUser, $wgTweekiSkinHideNonAdvanced, $wgTweekiSkinHideAnon, $wgTweekiSkinHideAll;
 		if ( 
 			( 
-				!in_array( $item, $wgTweekiSkinHideNonPoweruser ) || 
-				$wgUser->getOption( 'tweeki-poweruser' ) // not hidden for non-powerusers OR poweruser
+				!in_array( $item, $wgTweekiSkinHideNonAdvanced ) || 
+				$wgUser->getOption( 'tweeki-advanced' ) // not hidden for non-advanced OR advanced
 			) && 
 			( 
 				!in_array( $item, $wgTweekiSkinHideAnon ) || 
