@@ -1,0 +1,146 @@
+/**
+ * MediaWiki style sheet for general styles on complex content
+ *
+ * copied over from resources/src/mediawiki.skinning/
+ * 
+ * adaptation: removed stylings for TOC
+ */
+
+/* Warning */
+.mw-warning {
+	border: 1px solid #aaa;
+	background-color: #f9f9f9;
+	padding: 5px;
+	font-size: 95%;
+}
+
+.mw-warning {
+	margin-left: 50px;
+	margin-right: 50px;
+	text-align: center;
+}
+
+/* Images */
+/* @noflip */div.floatright, table.floatright {
+	margin: 0 0 .5em .5em;
+	border: 0;
+}
+
+div.floatright p {
+	font-style: italic;
+}
+
+/* @noflip */div.floatleft, table.floatleft {
+	margin: 0 .5em .5em 0;
+	border: 0;
+}
+
+div.floatleft p {
+	font-style: italic;
+}
+
+/* Thumbnails */
+div.thumb {
+	margin-bottom: .5em;
+	width: auto;
+	background-color: transparent;
+}
+
+div.thumbinner {
+	border: 1px solid #ccc;
+	padding: 3px;
+	background-color: #f9f9f9;
+	font-size: 94%;
+	text-align: center;
+	overflow: hidden;
+}
+
+html .thumbimage {
+	border: 1px solid #ccc;
+}
+
+html .thumbcaption {
+	border: none;
+	line-height: 1.4em;
+	padding: 3px;
+	font-size: 94%;
+	/* Default styles when there's no .mw-content-ltr or .mw-content-rtl, overridden below */
+	text-align: left;
+}
+
+div.magnify {
+	/* Default styles when there's no .mw-content-ltr or .mw-content-rtl, overridden below */
+	float: right;
+	margin-left: 3px;
+}
+
+div.magnify a {
+	display: block;
+	/* Hide the text… */
+	text-indent: 15px;
+	white-space: nowrap;
+	overflow: hidden;
+	/* …and replace it with the image */
+	width: 15px;
+	height: 11px;
+	/* Default styles when there's no .mw-content-ltr or .mw-content-rtl, overridden below */
+	/* @embed */
+	background: url(images/magnify-clip-ltr.png) center center no-repeat;
+	/* Don't annoy people who copy-paste everything too much */
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+img.thumbborder {
+	border: 1px solid #dddddd;
+}
+
+/* Directionality-specific styles for thumbnails - their positioning depends on content language */
+
+/* @noflip */
+.mw-content-ltr .thumbcaption {
+	text-align: left;
+}
+
+/* @noflip */
+.mw-content-ltr .magnify {
+	float: right;
+	margin-left: 3px;
+	margin-right: 0;
+}
+
+/* @noflip */
+.mw-content-ltr div.magnify a {
+	/* @embed */
+	background-image: url(images/magnify-clip-ltr.png);
+}
+
+/* @noflip */
+.mw-content-rtl .thumbcaption {
+	text-align: right;
+}
+
+/* @noflip */
+.mw-content-rtl .magnify {
+	float: left;
+	margin-left: 0;
+	margin-right: 3px;
+}
+
+/* @noflip */
+.mw-content-rtl div.magnify a {
+	/* @embed */
+	background-image: url(images/magnify-clip-rtl.png);
+}
+
+/* @noflip */
+div.tright {
+	margin: .5em 0 1.3em 1.4em;
+}
+
+/* @noflip */
+div.tleft {
+	margin: .5em 1.4em 1.3em 0;
+}

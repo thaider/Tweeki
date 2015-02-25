@@ -71,8 +71,6 @@ class SkinTweeki extends SkinTemplate {
 		global $wgTweekiSkinUseAwesome, $wgTweekiSkinUseBootstrapTheme, $wgTweekiSkinCustomCSS;
 		parent::setupSkinUserCss( $out );
 		
-/* TODO: do we want these? */
-//		$styles = array( 'mediawiki.skinning.interface', 'skins.tweeki.styles' );
 		$styles = array( 'skins.tweeki.styles' ); 
 		if( $wgTweekiSkinUseAwesome === true ) {
 			$styles[] = 'skins.awesome.styles';

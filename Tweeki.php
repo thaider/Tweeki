@@ -38,7 +38,9 @@ $wgResourceModules['skins.tweeki.styles'] = array(
 		'Tweeki/bootstrap/css/bootstrap.min.css' => array( ),
 		'Tweeki/screen.less' => array( 'media' => 'screen' ),
 		'Tweeki/print.less' => array( 'media' => 'print' ),
-		'Tweeki/theme.less' => array( 'media' => 'screen' ),
+		'Tweeki/mediawiki/content.css' => array( 'media' => 'screen' ),
+		'Tweeki/mediawiki/elements.css' => array( 'media' => 'screen' ),
+		'Tweeki/mediawiki/interface.css' => array( 'media' => 'screen' )
 	),
   'remoteBasePath' => &$GLOBALS['wgStylePath'],
   'localBasePath' => &$GLOBALS['wgStyleDirectory'],
