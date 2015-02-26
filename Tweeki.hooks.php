@@ -143,6 +143,14 @@ class TweekiHooks {
 	 * @return string
 	 */
 	static function buildButtons( $input, array $args, Parser $parser, PPFrame $frame ) {
+		$sizes = array(
+			'large' => 'btn-lg',
+			'lg' => 'btn-lg',
+			'small' => 'btn-sm',
+			'sm' => 'btn-sm',
+			'mini' => 'btn-xs',
+			'xs' => 'btn-xs'
+			);
 		$renderedButtons = '';
 
 		$buttongroups = preg_split( '/\n{2,}/', $input );
@@ -155,7 +163,9 @@ class TweekiHooks {
 			$args['class'] = explode( ' ', $args['class'] );
 			}
 		if ( isset( $args['size'] ) ) {
-			$args['class'][] = 'btn-' . $args['size'];
+			if( isset( $sizes[$args['size']] ) ) {
+				$args['class'][] = $sizes[$args['size']];
+				}
 			}
 
 		foreach ( $buttongroups as $buttongroup ) {
