@@ -167,9 +167,9 @@ class TweekiTemplate extends BaseTemplate {
     }
     
 		if ( $wgGroupPermissions['*']['edit'] || $this->data['loggedin'] ) {
-			$this->data['userstateclass'] += " editable";
+			$this->data['userstateclass'] .= " editable";
 		} else {
-			$this->data['userstateclass'] += " not-editable";
+			$this->data['userstateclass'] .= " not-editable";
 		}
 		
 		/* TODO: beautify!!! */
@@ -210,30 +210,44 @@ class TweekiTemplate extends BaseTemplate {
 
   /**
    * Render the whole page 
+   *
+   * copy this function and use $wgTweekiSkinPageRenderer to create
+   * completely custom page layouts
+   *
+   * @param $skin Skin skin object
    */
   private function renderPage( $skin ) {
+		$mainclass = 'col-md-offset-1 col-md-10';
+		if( 
+			( count( $skin->data['view_urls'] ) > 0 || $skin->data['isarticle'] )
+			&& $skin->checkVisibility( 'sidebar' ) 
+		) $mainclass= 'col-md-offset-3 col-md-9';
+		$contentclass = $skin->data['userstateclass'];
+		$contentclass .= ( $skin->checkVisibility( 'navbar' ) ) ? ' with-navbar' : ' without-navbar';
+		if( false !== stripos( wfMessage( 'tweeki-navbar-class' ), 'navbar-fixed' ) ) {
+			$contentclass .= ' with-navbar-fixed';
+			}
+
 		$skin->renderNavbar();
 ?>
 		<div id="mw-page-base"></div>
 		<div id="mw-head-base"></div>
 		<a id="top"></a>
-    <!-- content -->
-    <div class="container-fluid <?php echo $this->data['userstateclass']; echo ( $skin->checkVisibility( 'navbar' ) ) ? ' with-navbar' : ' without-navbar'; ?>">
 
-		<?php 
-		$subnavclass = ( ( count( $skin->data['view_urls'] ) > 0 || $skin->data['isarticle'] ) && $skin->checkVisibility( 'sidebar' ) ) ? 'col-md-offset-3 col-md-9' : 'col-md-offset-1 col-md-10';
-		$skin->renderSubnav( $subnavclass ); 
-		?>
+    <!-- content -->
+    <div id="contentwrapper" class="container-fluid <?php echo $contentclass;  ?>">
+
+			<?php $skin->renderSubnav( $mainclass ); ?>
 
 			<div class="row">
-				<div class="<?php echo ( ( count( $skin->data['view_urls'] ) > 0 || $skin->data['isarticle'] ) && $skin->checkVisibility( 'sidebar' ) ) ? 'col-md-offset-3 col-md-9' : 'col-md-offset-1 col-md-10'; ?>" role="main">
+				<div class="<?php echo $mainclass ?>" role="main">
 					<?php $skin->renderContent(); ?>
 				</div>
 			</div>
     </div>
     <!-- /content -->
 
-		<?php
+<?php
 		$skin->renderSidebar();
 		$skin->renderFooter();
 		$skin->printTrail(); 

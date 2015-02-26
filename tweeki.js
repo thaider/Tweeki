@@ -38,9 +38,12 @@ jQuery( function( $ ) {
 				});
 			/* show toc (hidden by default) */
 			$( "#toc" ).css( 'display', 'table' );
+			
 			/* start scrollspy */
-			$( "#toc ul" ).addClass( "nav" );
-			$( 'body' ).css( 'position', 'relative' ).scrollspy( { target: '#toc', offset: 100 } );
+			$( '#toc ul' ).addClass( 'nav' );
+			/* TODO: doesn't work as expected */
+			offset = Number( $( "#contentwrapper" ).css( 'padding-top' ).replace( 'px', '' ) ) + 40;
+			$( 'body' ).css( 'position', 'relative' ).scrollspy( { target: '#toc', offset: offset } );
 			}
 		/* or elsewhere */
 		else {

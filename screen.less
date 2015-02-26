@@ -1,4 +1,8 @@
-/* Tweeki screen styles */
+/**
+ * Tweeki screen styles
+ *
+ * part of this has been taken from Garret LeSage's Strapping
+ */
 
 body {
 	background-color:#f9f9f9;
@@ -137,6 +141,9 @@ body {
 
 
 /* PREFERENCES */
+/* is this just a duplication of Bootstrap's nav-tabs? 
+ * then we should mark it somehow to check after updates...
+ */
 
 #preferences .mainLegend {
   display: none;
@@ -368,7 +375,7 @@ body {
 		}
 }
 
-/* Datei herunterladen */
+/* file download */
 .fullMedia p { 
 	margin:0;
 }
@@ -404,21 +411,15 @@ body {
 }
 
 /* hide by default */
+/* TODO: which one to use? */
 #tweekiDropdownTOC {
 	display:none;
 	}
 
-/*#toc ul {
-	margin-left:0;
-	padding-left:0;
-  }
-
-#toc li {
-	list-style-type:none;
-	padding-left:1em;
-	line-height:1.1em;
-	text-indent:0;
-}*/
+/* make toc visible by javascript only */
+#toc {
+	display:none;
+	}
 
 #toc ul > li > ul {
 	display:none;
@@ -465,11 +466,6 @@ body {
 	display:none;
 }
 
-/* make toc visible by javascript only */
-#toc {
-	display:none;
-	}
-
 /* hide categories */
 #catlinks {
 	display:none;
@@ -479,19 +475,6 @@ body {
 #wpTextbox1 {
 	width:100%;
 } 
-
-/* überflüssig?
-.btn a {
-	color:#333333;
-}
-.btn a:hover {
-	text-decoration:none;
-}
-	
-.btn-mini {
-	line-height:16px;
-	padding:0 6px;
-} */
 
 .firstHeading, 
 .tweekiFirstHeading { 
@@ -604,6 +587,7 @@ div.scrollableArea
 
 
 /* suggestions */
+/* TODO: do we have to load 'em? */
 
 .suggestions {
 	overflow: hidden;
@@ -681,9 +665,16 @@ div.scrollableArea
 	font-weight: bold;
 }
 
+
 /* TODO: check from here */
-/* Korrekturen für Formulare */
-/* Text-Inputs ohne Typ-Auszeichnung */
+
+/**
+ * Corrections for FORMS 
+ *
+ * Copied over from Bootstrap
+ */
+
+/* inputs without type */
 input { /* input[type=text] */
     background-color: #FFFFFF;
     border: 1px solid #CCCCCC;
@@ -703,7 +694,7 @@ input:focus { /* input[type=text]:focus */
     outline: 0 none;
 }
 
-/* Buttons */
+/* form buttons */
 input[type=submit], input[type=button] { /* .btn */
     -moz-box-sizing:content-box;
     -webkit-box-sizing:content-box;
@@ -769,7 +760,11 @@ input[type=radio], input[type=checkbox] {
 }
 
 
-/* responsiveness abschalten (navbar bleibt oben) */
+/* NAVIGATION */
+
+/* switch off responsiveness for navbar (should stay above) */
+/* TODO: do we need it? maybe it was only necessary when we had
+the navigation after the main content in the code */
 .navbar-fixed-top, 
 .navbar-fixed-bottom {
     position: fixed;
@@ -787,6 +782,7 @@ input[type=radio], input[type=checkbox] {
 }
 
 /* editbutton */
+/* TODO: do we need it? if yes, make it work for other browsers! */
 .btn-group .btn-edit:first-child {
 	width:85%;
 	-moz-box-sizing:border-box;
@@ -797,16 +793,19 @@ input[type=radio], input[type=checkbox] {
 	-moz-box-sizing:border-box;
 }
 
-/* correction for fixed navbar */
+/* corrections for main content */
 .with-navbar {
-	padding-top:60px;
 }
 
 .without-navbar {
 	padding-top:20px;
 }
+
+.with-navbar.with-navbar-fixed {
+	padding-top:60px;
+}
 	
-/* Navigation - Accessibility */
+/* navigation - accessibility */
 #mw-navigation h2 {
     position: absolute;
     top: -9999px;
@@ -850,8 +849,4 @@ input[type=radio], input[type=checkbox] {
 
 #loginext label {
     margin-bottom: 3px;
-}
-
-#loginext a, #loginext label {
-//		font-size:smaller;
 }
