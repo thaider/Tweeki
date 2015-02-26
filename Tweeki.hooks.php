@@ -126,8 +126,12 @@ class TweekiHooks {
 	 * @param $parser Parser current parser
 	 */
 	static function ButtonsSetup( Parser $parser ) {
+		global $wgTweekiSkinUseBtnParser;
+		
+		if( true === $wgTweekiSkinUseBtnParser ) {
 			$parser->setHook( 'btn', 'TweekiHooks::buildButtons' );
-			return true;
+			}
+		return true;
 	}
 	
 	/**

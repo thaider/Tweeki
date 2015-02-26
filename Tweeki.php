@@ -98,4 +98,5 @@ $wgTweekiSkinSpecialElements = array(
 			 );
 $wgTweekiSkinUseAwesome = true;
 $wgTweekiSkinUseBootstrapTheme = true;
+$wgTweekiSkinUseBtnParser = true;
 $wgTweekiSkinCustomCSS = array();
