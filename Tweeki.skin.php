@@ -812,7 +812,11 @@ class TweekiTemplate extends BaseTemplate {
         $toolTip = Xml::expandAttributes( Linker::tooltipAndAccesskeyAttribs( 'p-logo' ) );
 				echo '
         		<a id="p-logo" href="' . htmlspecialchars( $skin->data['nav_urls']['mainpage']['href'] ) . '" ' . Xml::expandAttributes( Linker::tooltipAndAccesskeyAttribs( 'p-logo' ) ) . '>
-        			<img src="' . $skin->text( 'logopath' ) . '" alt="' . $skin->html('sitename') . '">
+        			<img src="';
+        $skin->text( 'logopath' );
+        echo '" alt="';
+        $skin->html('sitename');
+        echo '">
         		</a>';
   }
 
@@ -957,16 +961,18 @@ class TweekiTemplate extends BaseTemplate {
    */
 	public function renderBrand() {
 		$brand = wfMessage( 'tweeki-navbar-brand' )->text();
-		/* is it a file? */
-		$brandimageTitle = Title::newFromText( $brand );
-		if ( $brandimageTitle->exists() ) {
-			$brandimageWikiPage = WikiPage::factory( $brandimageTitle );
-			if ( method_exists( $brandimageWikiPage, 'getFile' ) ) {
-				$brandimage = $brandimageWikiPage->getFile()->getFullUrl();
-				$brand = '<img src="' . $brandimage . '" alt="' . $this->data['sitename'] . '" />';
+		if( $brand != '' ) {
+			/* is it a file? */
+			$brandimageTitle = Title::newFromText( $brand );
+			if ( $brandimageTitle->exists() ) {
+				$brandimageWikiPage = WikiPage::factory( $brandimageTitle );
+				if ( method_exists( $brandimageWikiPage, 'getFile' ) ) {
+					$brandimage = $brandimageWikiPage->getFile()->getFullUrl();
+					$brand = '<img src="' . $brandimage . '" alt="' . $this->data['sitename'] . '" />';
+					}
 				}
+			echo '<a href="' . htmlspecialchars( $this->data['nav_urls']['mainpage']['href'] ) . '" class="navbar-brand">' . $brand . '</a>';
 			}
-		echo '<a href="' . htmlspecialchars( $this->data['nav_urls']['mainpage']['href'] ) . '" class="navbar-brand">' . $brand . '</a>';
 		}
 
 
