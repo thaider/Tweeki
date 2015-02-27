@@ -299,6 +299,14 @@ class TweekiHooks {
 		if ( $msgLink->exists() ) {
 			$href = $msgLink->parse();
 			}
+		else {
+			if( $parser->getTitle() instanceof Title ) {
+				$href = $parser->replaceVariables( $href );
+				}
+			else {
+				$href = 'INVALID-HREF/PARSER-BROKEN';
+				}
+			}
 
 		if ( preg_match( '/^(?i:' . wfUrlProtocols() . ')/', $href ) ) {
 			// Parser::getExternalLinkAttribs won't work here because of the Namespace things

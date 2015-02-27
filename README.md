@@ -1,13 +1,13 @@
 # Tweeki, a friendly starter theme for MediaWiki
 
 Tweeki is a fork of **[Strapping](https://github.com/OSAS/strapping-mediawiki)**, which
-is an elegant, responsive, and friendly starter skin for MediaWiki.
+is an elegant, responsive, and friendly starter skin for MediaWiki (1.24+).
 Its purpose is to provide a good base to build upon,
 and was primarily created to provide a great default for **wiki-as-a-website**
 — but it works well for standard wikis too.
 
 Tweeki is built on top of a modified Vector theme from **[MediaWiki](http://mediawiki.org/)**
-and utilizes Twitter's **[Bootstrap](http://getbootstrap.com/)**
+and utilizes Twitter's **[Bootstrap](http://getbootstrap.com/)** (v3.3.2)
 for base layout, typography, and additional widgets.
 
 Because Tweeki uses Bootstrap with its responsive extension,
@@ -15,7 +15,7 @@ any site using this skin works well on desktop browsers
 and scales down to display beautifully on hand-held devices
 like tablets and smartphones.
 
-You can see an instance of Tweeki in action at the project's homepage http://tweeki.thai-land.at/
+You can see an instance of Tweeki in action at the project's website http://tweeki.thai-land.at/
 
 
 ## Get started
@@ -29,13 +29,13 @@ You can see an instance of Tweeki in action at the project's homepage http://twe
 2. Clone the repository:
 
    ```
-   git clone https://github.com/thaider/tweeki tweeki
+   git clone https://github.com/thaider/Tweeki Tweeki
    ```
 
 3. Add the following to `LocalSettings.php`: 
 
    ```php
-   require_once( "$IP/skins/tweeki/tweeki.php" );
+   require_once( "$IP/skins/Tweeki/Tweeki.php" );
    $wgDefaultSkin = "tweeki";
    ```
    
@@ -44,18 +44,12 @@ You can see an instance of Tweeki in action at the project's homepage http://twe
 
 ## Optional configuration
 
-Please refer to the projects website http://tweeki.thai-land.at/ for further information
+Please refer to the project's website http://tweeki.thai-land.at/ for further information
 about configuration and customization options.
-
-## Caveats
-
-Tweeki does not implement the SkinTemplateToolboxEnd hook. 
-Please use [BaseTemplateToolbox](http://www.mediawiki.org/wiki/Manual:Hooks/BaseTemplateToolbox)
-instead!
 
 
 ## Licensing, Copying, Usage
 
 Tweeki is open source, and built on open source projects.
 
-Please check out the [LICENSE file](https://github.com/thaider/tweeki/blob/master/LICENSE) for details.
+Please check out the [LICENSE file](https://github.com/thaider/Tweeki/blob/master/LICENSE) for details.
