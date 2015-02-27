@@ -506,6 +506,7 @@ class TweekiHooks {
 				}
 
 			/* submenu */
+			/* TODO: do we need this any more? we do not support deeper hierarchies! */
 			if ( isset( $entry['items'] ) ) {
 				$renderedMenu .= '
 					<li class="dropdown-submenu"><a tabindex="-1" href="#">' . $entry['text'] . '</a>';
@@ -553,6 +554,7 @@ class TweekiHooks {
 			}
 
 		/* set icon */
+		/* TODO: how is this option accessed? we have handling for icon/glyphicon/fa elsewhere... */
 		if ( isset( $item['icon'] )) {
 			$html = '<span class="glyphicon glyphicon-' . $item['icon'] . '"></span> ' . $html;
 			}

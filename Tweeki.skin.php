@@ -311,8 +311,8 @@ class TweekiTemplate extends BaseTemplate {
 						if ( $this->checkVisibility( 'EDIT-EXT-special' ) ) {
 							$button = array(
 								'href' => $link['href'],
-								'key' => $link['key'],
 								'href_implicit' => false,
+								'id' => 'ca-edit',
 								'icon' => 'pencil',
 								'text' => wfMessage( 'tweeki-edit-ext', $this->data[ 'shortNamespace' ] )->plain(),
 								'class' => 'btn-primary btn-edit'
@@ -327,6 +327,7 @@ class TweekiTemplate extends BaseTemplate {
 						else {
 							$button = $link;
 							$button['icon'] = 'pencil';
+							$button['id'] = 'ca-edit';
 							$button['text'] = wfMessage( 'tweeki-edit-ext', $this->data[ 'shortNamespace' ] )->plain();
 							$button['class'] = 'btn-primary btn-block';
 							}
@@ -335,9 +336,10 @@ class TweekiTemplate extends BaseTemplate {
 					return array();
 					break; 
 
+        // TODO: is this the most useful way of doing it? what about a separate NAMESPACES?
         case 'PAGE':
           $items = array_merge($this->data['namespace_urls'], $this->data['view_urls']);
-          $test = wfMessage( 'namespaces' );
+          $text = wfMessage( 'namespaces' );
           foreach ( $items as $link ) {
             if ( array_key_exists( 'context', $link ) && $link['context'] == 'subject' ) {
             	$text = $link['text'];
@@ -349,7 +351,7 @@ class TweekiTemplate extends BaseTemplate {
 					return array(array( 
 							'href' => '#',
 							'text' => $text,
-							'id' => 'p-namespaces',
+							'id' => 'n-namespaces',
 							'items' => $items
 							));          
         	break;
@@ -370,7 +372,7 @@ class TweekiTemplate extends BaseTemplate {
 					return array(array( 
 							'href' => '#',
 							'text' => $text,
-							'id' => 'p-toolbox',
+							'id' => 't-tools',
 							'items' => $divideditems
 							));          
         	break;
@@ -382,7 +384,7 @@ class TweekiTemplate extends BaseTemplate {
 						return array(array( 
 							'href' => '#',
 							'text' => wfMessage( 'variants' ),
-							'id' => 'p-variants',
+							'id' => 'ca-variants',
 							'items' => $items
 							));    
 						}      
@@ -394,7 +396,7 @@ class TweekiTemplate extends BaseTemplate {
 						return array(array( 
 							'href' => '#',
 							'text' => wfMessage( 'views' ),
-							'id' => 'p-views',
+							'id' => 'ca-views',
 							'items' => $items
 							));    
 						}      
@@ -406,7 +408,7 @@ class TweekiTemplate extends BaseTemplate {
 						return array(array(
 							'href' => '#',
 							'text' => wfMessage( 'actions' ),
-							'id' => 'p-actions',
+							'id' => 'ca-actions',
 							'items' => $items
 							));    
 						}      
@@ -440,7 +442,7 @@ class TweekiTemplate extends BaseTemplate {
 								'href' => '#',
 								'text' => $this->data['username'],
 								'icon' => 'user',
-								'id' => 'p-personaltools',
+								'id' => 'pt-personaltools',
 								'items' => $divideditems
 								));
 						}
@@ -472,7 +474,7 @@ class TweekiTemplate extends BaseTemplate {
 								'href' => '#',
 								'text' => $this->data['username'],
 								'icon' => 'user',
-								'id' => 'p-personaltools',
+								'id' => 'pt-personaltools',
 								'items' => $divideditems
 								));
 						}
@@ -568,20 +570,17 @@ class TweekiTemplate extends BaseTemplate {
 			}
 		}
 
+
   /**
    * Render Subnavigation
    */
 	public function renderSubnav( $class ) {
-		$options = array( 
-					'wrapper' => 'li', 
-					'wrapperclass' => 'nav dropdown', 
-					'dropdownclass' => 'pull-right'
-					);
-		if( wfMessage( 'tweeki-subnav' )->plain() !== '-' && $this->checkVisibility( 'subnav' ) ) { ?>
+		$options = $this->getParsingOptions( 'subnav' );
+		if( !wfMessage( 'tweeki-subnav' )->isDisabled() && $this->checkVisibility( 'subnav' ) ) { ?>
 			<!-- subnav -->
 			<div id="page-header" class="row">
 				<div class="<?php echo $class; ?>">
-					<ul class="<?php $this->msg( 'tweeki-subnav-class' ) ?>">
+					<ul class="<?php $this->msg( 'tweeki-subnav-navclass' ) ?>">
 					<?php $this->buildItems( wfMessage( 'tweeki-subnav' )->plain(), $options, 'subnav' ); ?>
 					</ul>
 				</div>
@@ -596,46 +595,47 @@ class TweekiTemplate extends BaseTemplate {
    */
 	public function renderNavbar() {
 		if ( $this->checkVisibility( 'navbar' ) ) { ?>
-		<!-- navbar -->
-		<div id="mw-navigation" class="<?php $this->msg( 'tweeki-navbar-class' ) ?>" role="navigation">
-			<h2><?php $this->msg( 'navigation-heading' ) ?></h2>
-			<div id="mw-head" class="navbar-inner">
-				<div class="container-fluid">
+			<!-- navbar -->
+			<div id="mw-navigation" class="<?php $this->msg( 'tweeki-navbar-class' ) ?>" role="navigation">
+				<h2><?php $this->msg( 'navigation-heading' ) ?></h2>
+				<div id="mw-head" class="navbar-inner">
+					<div class="container-fluid">
 				
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
 
-						<?php if ( $this->checkVisibility( 'navbar-brand' ) ) { 
-							$this->renderBrand(); 
-							} ?>
+							<?php if ( $this->checkVisibility( 'navbar-brand' ) ) { 
+								$this->renderBrand(); 
+								} ?>
 					
+						</div>
+
+						<div id="navbar" class="navbar-collapse collapse">
+						<?php if ( $this->checkVisibility( 'navbar-left' ) ) { ?>
+							<ul class="nav navbar-nav">
+							<?php $this->renderNavbarElement( 'left' ); ?>
+							</ul>
+						<?php } ?>
+
+						<?php if ( $this->checkVisibility( 'navbar-right' ) ) { ?>
+							<ul class="nav navbar-nav navbar-right">
+							<?php $this->renderNavbarElement( 'right' ); ?>
+							</ul>
+						</div>
+						<?php } ?>
+
 					</div>
-
-					<div id="navbar" class="navbar-collapse collapse">
-					<?php if ( $this->checkVisibility( 'navbar-left' ) ) { ?>
-						<ul class="nav navbar-nav">
-						<?php $this->renderNavbarElement( 'left' ); ?>
-						</ul>
-					<?php } ?>
-
-					<?php if ( $this->checkVisibility( 'navbar-right' ) ) { ?>
-						<ul class="nav navbar-nav navbar-right">
-						<?php $this->renderNavbarElement( 'right' ); ?>
-						</ul>
-					</div>
-					<?php } ?>
-
 				</div>
 			</div>
-		</div>
-		<!-- /navbar -->
+			<!-- /navbar -->
 		<?php }
 	}
+
 
   /**
    * Render Navbarelement
@@ -643,12 +643,9 @@ class TweekiTemplate extends BaseTemplate {
    * @param $side string
    */
 	private function renderNavbarElement( $side ) {
-		$otherside = ( $side == 'right' ) ? 'left' : 'right';
-		$options = array( 
-					'wrapper' => 'li', 
-					'wrapperclass' => 'nav'
-					);
-		$this->buildItems( wfMessage( 'tweeki-navbar-' . $side )->plain(), $options, 'navbar-' . $side );    
+		$element = 'navbar-' . ( ( $side == 'right' ) ? 'left' : 'right' );
+		$options = $this->getParsingOptions( $element );
+		$this->buildItems( wfMessage( 'tweeki-' . $element )->plain(), $options, $element );    
 		}
 
 
@@ -656,10 +653,7 @@ class TweekiTemplate extends BaseTemplate {
    * Render Sidebar
    */
 	public function renderSidebar() {
-		$options = array( 
-					'class' => 'btn',
-					'wrapperclass' => 'btn-group btn-block'
-					);
+		$options = $this->getParsingOptions( 'sidebar' );
 		if ( ( count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( 'sidebar' ) ) { ?>
 			<!-- sidebar -->
 			<div id="sidebar">
@@ -731,11 +725,7 @@ class TweekiTemplate extends BaseTemplate {
    * Render Footer
    */
 	public function renderFooter() {
-		$options = array( 
-					'class' => '',
-					'wrapper' => '',
-					'wrapperclass' => ''
-					);
+		$options = $this->getParsingOptions( 'footer' );
 		if ( $this->checkVisibility( 'footer' ) ) { ?>
 			<!-- footer -->
 			<div id="footer" role="contentinfo" class="footer container"<?php $this->html( 'userlangattributes' ) ?>>
@@ -745,6 +735,31 @@ class TweekiTemplate extends BaseTemplate {
 		<?php }
     }
     
+
+	/**
+	 * Get options for navigational sections
+	 *
+	 * Options can be set via system messages
+	 *
+	 * @param $element string
+	 */
+	private function getParsingOptions( $element ) {
+		$options = array();
+		$available_options = array( 
+													'class',
+													'wrapper',
+													'wrapperclass',
+													'dropdownclass'
+													);
+		foreach( $available_options as $option ) {
+			$msg = wfMessage( 'tweeki-' . $element . '-' . $option );
+			if( $msg->exists() ) {
+				$options[$option] = $msg->parse();
+				}
+			}
+		return $options;
+		}		
+
 
   /**
    * Build Items for navbar, subnav, sidebar
@@ -789,7 +804,7 @@ class TweekiTemplate extends BaseTemplate {
    * Render firstheading
    */
   public function renderFirstHeading( $skin, $context ) {
-						echo '<div class="tweekiFirstHeading">' . $skin->data[ 'title_formatted' ] . '</div>';
+			echo '<div class="tweekiFirstHeading">' . $skin->data[ 'title_formatted' ] . '</div>';
   }
 
   /**
@@ -847,11 +862,17 @@ class TweekiTemplate extends BaseTemplate {
   	if( !$wgRequest->getSessionData( 'wsLoginToken' ) ) $wgRequest->setSessionData( 'wsLoginToken', MWCryptRand::generateHex( 32 ) );
   	$wgUser->setCookies();
 
+		$dropdown['class'] = ' dropdown-toggle';
+		$dropdown['data-toggle'] = 'dropdown';
+		$dropdown['text'] = $this->getMsg( 'userlogin' )->text();
+		$dropdown['html'] = $dropdown['text'] . ' <b class="caret"></b>';
+		$dropdown['href'] = '#';
+		$dropdown['type'] = 'button';
+		$dropdown['id'] = 'n-login-ext';
+		$renderedDropdown = TweekiHooks::makeLink( $dropdown);
+
 		echo '<li class="nav">
-		<a href="#" class="dropdown-toggle" type="button" id="n-login" data-toggle="dropdown">
-    	' . $this->getMsg( 'userlogin' )->text() . '
-    	<span class="caret"></span>
-		</a>
+		' . $renderedDropdown . '
 		<ul class="dropdown-menu" role="menu" aria-labelledby="' . $this->getMsg( 'userlogin' )->text() . '" id="loginext">
 			<form action="' . $action . '" method="post" name="userloginext" class="clearfix">
 				<div class="form-group">
@@ -960,8 +981,9 @@ class TweekiTemplate extends BaseTemplate {
    * Render brand (linking to mainpage)
    */
 	public function renderBrand() {
-		$brand = wfMessage( 'tweeki-navbar-brand' )->text();
-		if( $brand != '' ) {
+		$brandmsg = wfMessage( 'tweeki-navbar-brand' );
+		if( !$brandmsg->isDisabled() ) {
+			$brand = $brandmsg->text();
 			/* is it a file? */
 			$brandimageTitle = Title::newFromText( $brand );
 			if ( $brandimageTitle->exists() ) {
@@ -979,12 +1001,9 @@ class TweekiTemplate extends BaseTemplate {
   /**
    * Render standard MediaWiki footer
    */
-  	private function renderStandardFooter() {
+  	private function renderStandardFooter( $options ) {
   		global $wgTweekiSkinFooterIcons;
-			$options = array( 
-					'wrapper' => 'li',
-					'wrapperclass' => '',
-					);
+			$options = $this->getParsingOptions( 'standard-footer' );
   		
 			foreach ( $this->getFooterLinks() as $category => $links ) { 
 				if ( $this->checkVisibility( 'footer-' . $category ) ) { 
