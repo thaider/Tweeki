@@ -12,7 +12,7 @@
 	"tweeki-subnav": "SIDEBAR",
 	"tweeki-subnav-navclass": "navigation nav nav-pills pull-right",
 	"tweeki-subnav-wrapper": "li",
-	"tweeki-subnav-wrapperclass": "nav dropdown",
+	"tweeki-subnav-wrapperclass": "nav btn-group",
 	"tweeki-subnav-dropdownclass": "pull-right",
 	"tweeki-sidebar": "EDIT-EXT,TOC",
 	"tweeki-sidebar-class": "btn btn-primary btn-block",
@@ -26,11 +26,12 @@
 	"tweeki-toolbox": "",
 	"tweeki-login": "Login / Create Account",
 	"tweeki-edit-ext": "Edit $1",
-	"prefs-tweeki-advanced": "Advanced features",
-	"prefs-tweeki-advanced-desc": "Show advanced features",
-	"prefs-tweeki-advanced-help": "Some features that you might know from other MediaWiki installations have possibly been hidden by the administrator in order not to confuse the average user. Set this option to show them.",
+	"tweeki-container-class": "container",
 	"tweeki-editsection-text": "Edit section",
 	"tweeki-editsection-class": "btn btn-default btn-xs",
 	"tweeki-editsection-icon": "<span class='glyphicon glyphicon-pencil'></span>",
-	"tweeki-toc-top": "to top"
+	"tweeki-toc-top": "to top",
+	"prefs-tweeki-advanced": "Advanced features",
+	"prefs-tweeki-advanced-desc": "Show advanced features",
+	"prefs-tweeki-advanced-help": "Some features that you might know from other MediaWiki installations have possibly been hidden by the administrator in order not to confuse the average user. Set this option to show them."
 }

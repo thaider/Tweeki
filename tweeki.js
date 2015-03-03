@@ -57,4 +57,9 @@ jQuery( function( $ ) {
 	$( "#loginext" ).click( function( e ) {
     e.stopPropagation();
 		});
-});
+	$( "#n-login-ext" ).click( function() {
+		if( ! $( this ).parent().hasClass( "open" ) ) {
+			setTimeout( '$( "#wpName2" ).focus();', 500 );
+			}
+		});
+	});

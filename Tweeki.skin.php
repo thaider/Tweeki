@@ -1,6 +1,6 @@
 <?php
 /**
- * Tweeki - Tweaked version of Vector, using Twitter bootstrap.
+ * Tweeki - Tweaked version of Vector, using Twitter Bootstrap.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +17,6 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
- * @todo document
  * @file
  * @ingroup Skins
  */
@@ -172,19 +171,10 @@ class TweekiTemplate extends BaseTemplate {
 			$this->data['userstateclass'] .= " not-editable";
 		}
 		
-		/* TODO: beautify!!! */
-		//set 'namespace', 'shortnamespace', and 'title_formatted' variables
-		reset( $this->data['namespace_urls'] );
-		$currentNamespace = current( $this->data['namespace_urls'] );
-		$this->data[ 'namespace' ] = $currentNamespace['text'];
-
-		/* TODO: generalize SKRIFO specific parts!!!! */
-		$this->data[ 'shortNamespace' ] = $this->data[ 'namespace' ];
-		if ( stripos( $this->data[ 'namespace' ], "fragen" ) !== false ) { $this->data[ 'shortNamespace' ] = "Fragen"; } /* needs some rework */
-		if ( $this->data[ 'namespace' ] == "Datei" ) { $this->data[ 'shortNamespace' ] = "Dateiseite"; } /* ugly */
-
+		//set 'namespace' and 'title_formatted' variables
+		$this->data['namespace'] = $this->getSkin()->getTitle()->getNsText();
 		$this->data['title_formatted'] = $this->data['title'];
-		if( strpos( $this->data['title'],":" ) !== false ) { /* does not work for titles in the main namespace with colons! */
+		if( strpos( $this->data['title'], $this->data['namespace'] . ":" ) !== false ) { 
 			$this->data['title_formatted'] = '<span class="namespace">' . str_replace( ":", ":</span> ", $this->data['title'] );
 		}
 
@@ -223,6 +213,7 @@ class TweekiTemplate extends BaseTemplate {
 			&& $skin->checkVisibility( 'sidebar' ) 
 		) $mainclass= 'col-md-offset-3 col-md-9';
 		$contentclass = $skin->data['userstateclass'];
+		$contentclass .= ' ' . wfMessage( 'tweeki-container-class' )->escaped();
 		$contentclass .= ( $skin->checkVisibility( 'navbar' ) ) ? ' with-navbar' : ' without-navbar';
 		if( false !== stripos( wfMessage( 'tweeki-navbar-class' ), 'navbar-fixed' ) ) {
 			$contentclass .= ' with-navbar-fixed';
@@ -235,7 +226,7 @@ class TweekiTemplate extends BaseTemplate {
 		<a id="top"></a>
 
     <!-- content -->
-    <div id="contentwrapper" class="container-fluid <?php echo $contentclass;  ?>">
+    <div id="contentwrapper" class="<?php echo $contentclass;  ?>">
 
 			<?php $skin->renderSubnav( $mainclass ); ?>
 
@@ -290,20 +281,18 @@ class TweekiTemplate extends BaseTemplate {
 
       switch ( $element ) {
 
-	// TODO: use the appropriate element from $this->data['view-urls']
         case 'EDIT':
-          if ( array_key_exists('edit', $this->data['content_actions']) ) {
-						return array(array( 
-								'href' => $this->data['content_actions']['edit']['href'],
-								'icon' => 'edit',
-								'text' => $this->data['content_actions']['edit']['text'],
-								'id' => 'b-edit'
-								));          
+        	$views = $this->data['view_urls'];
+					if(count( $views ) > 0) {
+						unset( $views['view'] );
+						$link = array_shift( $views );
+						$link['icon'] = 'pencil';
+						return array( $link );          
           }
+          return array();
         	break;
 
         case 'EDIT-EXT':
-		// TODO: does this solution change $this->data['view_urls']?
         	$views = $this->data['view_urls'];
 					if(count( $views ) > 0) {
 						unset( $views['view'] );
@@ -314,7 +303,7 @@ class TweekiTemplate extends BaseTemplate {
 								'href_implicit' => false,
 								'id' => 'ca-edit',
 								'icon' => 'pencil',
-								'text' => wfMessage( 'tweeki-edit-ext', $this->data[ 'shortNamespace' ] )->plain(),
+								'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain(),
 								'class' => 'btn-primary btn-edit'
 								);
 							$button['items'] = $views;
@@ -328,24 +317,22 @@ class TweekiTemplate extends BaseTemplate {
 							$button = $link;
 							$button['icon'] = 'pencil';
 							$button['id'] = 'ca-edit';
-							$button['text'] = wfMessage( 'tweeki-edit-ext', $this->data[ 'shortNamespace' ] )->plain();
-							$button['class'] = 'btn-primary btn-block';
+							$button['text'] = wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain();
 							}
 						return array($button);
 						}
 					return array();
 					break; 
 
-        // TODO: is this the most useful way of doing it? what about a separate NAMESPACES?
         case 'PAGE':
-          $items = array_merge($this->data['namespace_urls'], $this->data['view_urls']);
+          $items = array_merge( $this->data['namespace_urls'], $this->data['view_urls'] );
           $text = wfMessage( 'namespaces' );
-          foreach ( $items as $link ) {
+          foreach ( $items as $key => $link ) {
             if ( array_key_exists( 'context', $link ) && $link['context'] == 'subject' ) {
             	$text = $link['text'];
             	}
             if (preg_match('/^ca-(view|edit)$/', $link['id'])) { 
-            	unset($link); 
+            	unset( $items[$key] ); 
             	}
             }
 					return array(array( 
@@ -354,6 +341,40 @@ class TweekiTemplate extends BaseTemplate {
 							'id' => 'n-namespaces',
 							'items' => $items
 							));          
+        	break;
+
+        case 'NAMESPACES':
+          $items = $this->data['namespace_urls'];
+          $text = wfMessage( 'namespaces' );
+          foreach ( $items as $key => $link ) {
+            if ( array_key_exists( 'context', $link ) && $link['context'] == 'subject' ) {
+            	$text = $link['text'];
+            	}
+            if ( array_key_exists( 'attributes', $link ) && false !== strpos( $link['attributes'], 'selected' ) ) {
+            	unset( $items[$key] );
+            	}
+            }
+					return array(array( 
+							'href' => '#',
+							'text' => $text,
+							'id' => 'n-namespaces',
+							'items' => $items
+							));          
+        	break;
+
+        case 'TALK':
+          $items = $this->data['namespace_urls'];
+          $text = wfMessage( 'namespaces' );
+          foreach ( $items as $key => &$link ) {
+            if ( array_key_exists( 'context', $link ) && $link['context'] == 'subject' ) {
+            	$text = $link['text'];
+            	}
+            if ( array_key_exists( 'attributes', $link ) && false !== strpos( $link['attributes'], 'selected' ) ) {
+            	unset( $items[$key] );
+            	}
+            unset( $link['class'] ); // interferes with btn classing
+            }
+					return $items;          
         	break;
 
         case 'TOOLBOX':
@@ -596,10 +617,10 @@ class TweekiTemplate extends BaseTemplate {
 	public function renderNavbar() {
 		if ( $this->checkVisibility( 'navbar' ) ) { ?>
 			<!-- navbar -->
-			<div id="mw-navigation" class="<?php $this->msg( 'tweeki-navbar-class' ) ?>" role="navigation">
+			<div id="mw-navigation" class="<?php $this->msg( 'tweeki-navbar-class' ); ?>" role="navigation">
 				<h2><?php $this->msg( 'navigation-heading' ) ?></h2>
 				<div id="mw-head" class="navbar-inner">
-					<div class="container-fluid">
+					<div class="<?php $this->msg( 'tweeki-container-class' ); ?>">
 				
 						<div class="navbar-header">
 							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -643,7 +664,7 @@ class TweekiTemplate extends BaseTemplate {
    * @param $side string
    */
 	private function renderNavbarElement( $side ) {
-		$element = 'navbar-' . ( ( $side == 'right' ) ? 'left' : 'right' );
+		$element = 'navbar-' . $side;
 		$options = $this->getParsingOptions( $element );
 		$this->buildItems( wfMessage( 'tweeki-' . $element )->plain(), $options, $element );    
 		}
@@ -728,7 +749,7 @@ class TweekiTemplate extends BaseTemplate {
 		$options = $this->getParsingOptions( 'footer' );
 		if ( $this->checkVisibility( 'footer' ) ) { ?>
 			<!-- footer -->
-			<div id="footer" role="contentinfo" class="footer container"<?php $this->html( 'userlangattributes' ) ?>>
+			<div id="footer" role="contentinfo" class="footer <?php $this->msg( 'tweeki-container-class' ); ?>"<?php $this->html( 'userlangattributes' ) ?>>
 			<?php $this->buildItems( wfMessage( 'tweeki-footer' )->plain(), $options, 'footer' ); ?>
 			</div>
 			<!-- /footer -->
@@ -800,6 +821,30 @@ class TweekiTemplate extends BaseTemplate {
 		}
 
 
+  /**
+   * Render navigations elements that renderNavigation hasn't dealt with
+   *
+   * @param $buttons array
+   * @param $customItems array
+   */
+	private function renderCustomNavigation( &$buttons, &$customItems ) {
+
+		/* TODO: check for unintended consequences, there are probably more elegant ways to do this... */		
+		$mainpage = Title::newMainPage();
+		$options = new ParserOptions();
+		$localParser = new Parser();
+		$localParser->Title ( $mainpage );
+		$localParser->Options( $options );
+		$localParser->clearState();
+
+		if( count( $customItems ) !== 0 ) {
+			$newButtons = TweekiHooks::parseButtons( implode( chr(10), $customItems ), $localParser, false );
+			$buttons = array_merge( $buttons, $newButtons );
+			$customItems = array();
+			}
+		}
+
+		
   /**
    * Render firstheading
    */
@@ -953,30 +998,6 @@ class TweekiTemplate extends BaseTemplate {
   }
 
 
-  /**
-   * Render navigations elements that renderNavigation hasn't dealt with
-   *
-   * @param $buttons array
-   * @param $customItems array
-   */
-	private function renderCustomNavigation( &$buttons, &$customItems ) {
-
-		/* TODO: check for unintended consequences, there are probably more elegant ways to do this... */		
-		$mainpage = Title::newMainPage();
-		$options = new ParserOptions();
-		$localParser = new Parser();
-		$localParser->Title ( $mainpage );
-		$localParser->Options( $options );
-		$localParser->clearState();
-
-		if( count( $customItems ) !== 0 ) {
-			$newButtons = TweekiHooks::parseButtons( implode( chr(10), $customItems ), $localParser, false );
-			$buttons = array_merge( $buttons, $newButtons );
-			$customItems = array();
-			}
-		}
-
-		
   /**
    * Render brand (linking to mainpage)
    */

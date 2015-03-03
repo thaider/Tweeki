@@ -396,14 +396,20 @@ class TweekiHooks {
 
 			$button['class'] = implode( ' ', array_unique( $button['class'] ) );
 
-			/* if data-toggle attribute is set, unset wrapper and add attribute, toggle-class, and caret */
+			/* if aria-attributes are set, add them */
+			if ( isset( $options['aria-controls'] ) ) {
+				$button['aria-controls'] = $options['aria-controls'];
+				}
+				
+			if ( isset( $options['aria-expanded'] ) ) {
+				$button['aria-expanded'] = $options['aria-expanded'];
+				}
+				
+			/* if data-toggle attribute is set, unset wrapper and add attribute and toggle-class */
 			if ( isset( $options['data-toggle'] ) ) {
 				$wrapper = '';
 				$button['data-toggle'] = $options['data-toggle'];
 				$button['class'] .= ' ' . $options['data-toggle'] . '-toggle';
-				$button['text'] .= ' <b class="caret"></b>';
-				$button['href'] = '#';
-				// TODO: are there cases of data-toggle without caret?
 				}
 				
 			/* if fa attribute is set, add fa-icon to buttons */
