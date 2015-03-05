@@ -2,8 +2,23 @@
 /**
  * Hooks for Tweeki skin
  *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ * 
  * @file
- * @ingroup Extensions
+ * @ingroup Skins
  */
 
 class TweekiHooks {
@@ -21,14 +36,12 @@ class TweekiHooks {
 	 * @param $defaultPreferences array list of default user preference controls
 	 */
 	public static function getPreferences( $user, &$defaultPreferences ) {
-
-        $defaultPreferences['tweeki-advanced'] = array(
-                'type' => 'toggle',
-                'label-message' => 'prefs-tweeki-advanced-desc', // a system message
-                'section' => 'rendering/tweeki-advanced',
-		'help-message' => 'prefs-tweeki-advanced-help'
-        );
-
+		$defaultPreferences['tweeki-advanced'] = array(
+			'type' => 'toggle',
+			'label-message' => 'prefs-tweeki-advanced-desc',
+			'section' => 'rendering/tweeki-advanced',
+			'help-message' => 'prefs-tweeki-advanced-help'
+		);
 		return true;
 	}
 
@@ -38,25 +51,26 @@ class TweekiHooks {
 	 * @param $parser Parser current parser
 	 */
 	static function TweekiHideSetup( Parser $parser ) {
-			$parser->setFunctionHook( 'MAG_TWEEKISKINHIDE', 'TweekiHooks::setHiddenElements' );
-			return true;
+		$parser->setFunctionHook( 'tweekihide', 'TweekiHooks::setHiddenElements' );
+		return true;
 	}
 
 	/**
 	 * Set elements that should be hidden
+	 *
 	 * @param $parser Parser current parser
 	 * @return string
 	 */
 	static function setHiddenElements( Parser $parser ) {
-			global $wgTweekiSkinHideAll, $wgTweekiSkinHideable;
-			$parser->disableCache();
-			// Argument 0 is $parser, so begin iterating at 1
-			for ( $i = 1; $i < func_num_args(); $i++ ) {
-				if ( in_array ( func_get_arg( $i ), $wgTweekiSkinHideable ) ) {
-					$wgTweekiSkinHideAll[] = func_get_arg( $i );
-					}
+		global $wgTweekiSkinHideAll, $wgTweekiSkinHideable;
+		$parser->disableCache();
+		// Argument 0 is $parser, so begin iterating at 1
+		for ( $i = 1; $i < func_num_args(); $i++ ) {
+			if ( in_array ( func_get_arg( $i ), $wgTweekiSkinHideable ) ) {
+				$wgTweekiSkinHideAll[] = func_get_arg( $i );
 			}
-			return '';
+		}
+		return '';
 	}
 
 	/**
@@ -65,12 +79,13 @@ class TweekiHooks {
 	 * @param $parser Parser current parser
 	 */
 	static function AccordionSetup( Parser $parser ) {
-			$parser->setHook( 'accordion', 'TweekiHooks::buildAccordion' );
-			return true;
+		$parser->setHook( 'accordion', 'TweekiHooks::buildAccordion' );
+		return true;
 	}
 
 	/**
 	 * Build accordeon
+	 *
 	 * @param $input string
 	 * @param $args array tag arguments
 	 * @param $parser Parser current parser
@@ -78,24 +93,24 @@ class TweekiHooks {
 	 * @return string
 	 */
 	static function buildAccordion( $input, array $args, Parser $parser, PPFrame $frame ) {
-			static::$anchorID++;
-			$parent = $parser->recursiveTagParse( $args['parent'], $frame );
-			$panel = '
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#' . $parent . '" href="#' . $parent . static::$anchorID . '">
-          ' . $parser->recursiveTagParse( $args['heading'], $frame ) . '
-        </a>
-      </h4>
-    </div>
-    <div id="' . $parent . static::$anchorID . '" class="panel-collapse collapse">
-      <div class="panel-body">
-	' . $parser->recursiveTagParse( $input, $frame ) . '
-      </div>
-    </div>
-  </div>';
-			return $panel;
+		static::$anchorID++;
+		$parent = $parser->recursiveTagParse( $args['parent'], $frame );
+		$panel = '
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" data-parent="#' . $parent . '" href="#' . $parent . static::$anchorID . '">
+							' . $parser->recursiveTagParse( $args['heading'], $frame ) . '
+						</a>
+					</h4>
+				</div>
+				<div id="' . $parent . static::$anchorID . '" class="panel-collapse collapse">
+					<div class="panel-body">
+			' . $parser->recursiveTagParse( $input, $frame ) . '
+					</div>
+				</div>
+			</div>';
+		return $panel;
 	}
 
 	/**
@@ -104,8 +119,8 @@ class TweekiHooks {
 	 * @param $parser Parser current parser
 	 */
 	static function LabelSetup( Parser $parser ) {
-			$parser->setHook( 'label', 'TweekiHooks::buildLabel' );
-			return true;
+		$parser->setHook( 'label', 'TweekiHooks::buildLabel' );
+		return true;
 	}
 	
 	/**
@@ -128,14 +143,15 @@ class TweekiHooks {
 	static function ButtonsSetup( Parser $parser ) {
 		global $wgTweekiSkinUseBtnParser;
 		
-		if( true === $wgTweekiSkinUseBtnParser ) {
+		if ( true === $wgTweekiSkinUseBtnParser ) {
 			$parser->setHook( 'btn', 'TweekiHooks::buildButtons' );
-			}
+		}
 		return true;
 	}
 	
 	/**
 	 * Build buttons, groups of buttons and dropdowns
+	 *
 	 * @param $input string
 	 * @param $args array tag arguments
 	 * @param $parser Parser current parser
@@ -155,36 +171,37 @@ class TweekiHooks {
 
 		$buttongroups = preg_split( '/\n{2,}/', $input );
 
-		/* set standard classes for all buttons in the group */
+		// set standard classes for all buttons in the group
 		if ( !isset( $args['class'] ) ) {
 			$args['class'][] = 'btn btn-default';
-			}
+		}
 		else {
 			$args['class'] = explode( ' ', $args['class'] );
-			}
+		}
 		if ( isset( $args['size'] ) ) {
-			if( isset( $sizes[$args['size']] ) ) {
+			if ( isset( $sizes[$args['size']] ) ) {
 				$args['class'][] = $sizes[$args['size']];
-				}
 			}
+		}
 
 		foreach ( $buttongroups as $buttongroup ) {
 			$buttons = array();
 			$buttons = TweekiHooks::parseButtons( $buttongroup, $parser, $frame );
 			$renderedButtons .= TweekiHooks::renderButtons( $buttons, $args );
-			}
+		}
 
-		/* more than one buttongroup build a toolbar */
+		// more than one buttongroup build a toolbar
 		if ( count( $buttongroups ) > 1 ) {
 			$renderedButtons = '<div class="btn-toolbar">' . $renderedButtons . '</div>';
-			}
+		}
 
 		return $renderedButtons;
-		}
+	}
 
 
 	/**
 	 * Parse string input into array
+	 *
 	 * @param $buttons array
 	 * @param $input string
 	 * @param $parser Parser current parser
@@ -194,46 +211,41 @@ class TweekiHooks {
 		$buttons = array();
 		$lines = explode( "\n", $buttongroup );
 
-		$currentlevel = 0;
-		$parent[0] = &$buttons;
-
 		foreach ( $lines as $line ) {
-			/* empty line */
-			// TODO: eliminate empty lines already when building button groups
-			if ( trim( $line ) == "" ) { continue; }
-			/* buttons */
-			if ( strpos( $line, '*' ) !== 0 ) {
-				$parent[0] = array_merge( $parent[0], TweekiHooks::parseButtonLink( trim( $line ), $parser, $frame ) );
-				end( $parent[0] );
-				$parent[1] = &$parent[0][key( $parent[0] )];
-				$currentlevel = 1;
-				}
-			/* dropdown-menus and submenus */
-			// TODO: drop support for more than one level
-			else {
-				$cleanline = ltrim( $line, '*' );
-				$newlevel = strlen( $line ) - strlen( $cleanline );
-				$cleanline = trim( $cleanline );
-				while ( $newlevel > $currentlevel + 1 ) {
-					end( $parent[$currentlevel]['items'] );
-					$parent[$currentlevel + 1] = &$parent[$currentlevel]['items'][key( $parent[$currentlevel]['items'] )];
-					$currentlevel++;
-					}
-				if ( !isset( $parent[$newlevel]['items'] ) ) {
-					$parent[$newlevel]['items'] = array();
-					}
-				$parent[$newlevel]['items'] = array_merge( $parent[$newlevel]['items'], TweekiHooks::parseButtonLink( $cleanline, $parser, $frame ) );
-				end( $parent[$newlevel]['items'] );
-				$parent[$newlevel + 1] = &$parent[$newlevel]['items'][key( $parent[$newlevel]['items'] )];
-				$currentlevel = $newlevel + 1;
-				}
+			// empty line
+			if ( trim( $line ) == "" ) { 
+				continue;
 			}
+			
+			// simple buttons
+			if ( strpos( $line, '*' ) !== 0 ) {
+				$buttons = array_merge( $buttons, TweekiHooks::parseButtonLink( trim( $line ), $parser, $frame ) );
+				end( $buttons );
+				$currentparentkey = key($buttons);
+			}
+				
+			// dropdown menus
+			else {
+				// no parent set?
+				if ( count( $buttons ) == 0 ) {
+					continue;
+				}
+				
+				$cleanline = ltrim( $line, '*' );
+				$cleanline = trim( $cleanline );
+				if ( !isset( $buttons[$currentparentkey]['items'] ) ) {
+					$buttons[$currentparentkey]['items'] = array();
+				}
+				$buttons[$currentparentkey]['items'] = array_merge( $buttons[$currentparentkey]['items'], TweekiHooks::parseButtonLink( $cleanline, $parser, $frame ) );
+			}
+		}
 		return $buttons;
 	}
 
 
 	/**
 	 * Parse specific link
+	 *
 	 * @param $line string
 	 * @param $parser Parser current parser
 	 * @return array
@@ -243,70 +255,70 @@ class TweekiHooks {
 		$extraAttribs = array();
 		$href_implicit = false;
 		
-		/* semantic queries */
+		// semantic queries
 		if ( strpos( $line, '{{#ask:' ) === 0 ) {
-			if( $parser->getTitle() instanceof Title ) {
+			if ( $parser->getTitle() instanceof Title ) {
 				$semanticQuery = substr( $line, 7, -2 );
 				$semanticHitNumber = $parser->recursiveTagParse( '{{#ask:' . $semanticQuery . '|format=count}}', false );
 				if ( !is_numeric( $semanticHitNumber ) || $semanticHitNumber < 1 ) {
 					return array( array( 'text' => $semanticQuery, 'href' => 'INVALID QUERY' ) );
-					}
+				}
 				$semanticHits = $parser->recursiveTagParse( '{{#ask:' . $semanticQuery . '|format=list|link=none}}', false );
 				$semanticHits = explode( ',', $semanticHits );
 				$semanticLinks = array();
 				foreach ( $semanticHits as $semanticHit ) {
 					$semanticLink = TweekiHooks::parseButtonLink( $semanticHit, $parser, $frame );
 					$semanticLinks[] = $semanticLink[0];
-					}
-				return $semanticLinks;
 				}
+				return $semanticLinks;
+			}
 			else {
 				$text = 'broken';
-				}
 			}
+		}
 
 		$line = explode( '|', $line );
 		foreach ( $line as &$single_line ) {
 			$single_line = trim( $single_line );
-			}
+		}
 
-		/* is the text explicitly set? */
+		// is the text explicitly set?
 		$href = $line[0];
 		if ( isset( $line[1] ) && $line[1] != "" ) {
 			$text = $line[1];
-			}
+		}
 		else {
 			$href_implicit = true;
 			$text = $line[0];
-			}
+		}
 
-		/* parse text */
+		// parse text
 		$msgText = wfMessage( $text )->inContentLanguage();
 		if ( $msgText->exists() ) {
 			$text = $msgText->parse();
-			}
+		}
 		else {
-			if( $parser->getTitle() instanceof Title ) {
+			if ( $parser->getTitle() instanceof Title ) {
 				$text = $parser->recursiveTagParse( $text, $frame );
-				}
+			}
 			else {
 				$text = 'INVALID-TITLE/PARSER-BROKEN';
-				}
 			}
+		}
 
-		/* parse href */
+		// parse href
 		$msgLink = wfMessage( $href )->inContentLanguage();
 		if ( $msgLink->exists() ) {
 			$href = $msgLink->parse();
-			}
+		}
 		else {
-			if( $parser->getTitle() instanceof Title ) {
+			if ( $parser->getTitle() instanceof Title ) {
 				$href = $parser->replaceVariables( $href );
-				}
+			}
 			else {
 				$href = 'INVALID-HREF/PARSER-BROKEN';
-				}
 			}
+		}
 
 		if ( preg_match( '/^(?i:' . wfUrlProtocols() . ')/', $href ) ) {
 			// Parser::getExternalLinkAttribs won't work here because of the Namespace things
@@ -345,6 +357,7 @@ class TweekiHooks {
 
 	/**
 	 * Parse string input into array
+	 *
 	 * @param $renderedButtons String
 	 * @param $buttons array
 	 * @param $options Array
@@ -356,47 +369,49 @@ class TweekiHooks {
 		if ( isset( $options['class'] ) ) {
 			if ( !is_array( $options['class'] ) ) {
 				$options['class'] = explode( ' ', $options['class'] );
-				}
-			$groupclass = $options['class'];
 			}
+			$groupclass = $options['class'];
+		}
 		$currentwrapperclass = '';
 
-		/* set wrapper */
+		// set wrapper
 		$wrapper = 'div';
-		if ( isset( $options['wrapper'] ) ) { $wrapper = $options['wrapper']; }
+		if ( isset( $options['wrapper'] ) ) { 
+			$wrapper = $options['wrapper'];
+		}
 
 		foreach ( $buttons as $button ) {
-			/* set classes for specific button */
-			/* explicit classes for the specific line? */
+			// set classes for specific button
+			// explicit classes for the specific line?
 			if ( isset( $button['class'] ) ) {
 				$button['class'] = explode( ' ', $button['class'] );
-				}
+			}
 			else {
 				$button['class'] = $groupclass;
-				}
+			}
 			foreach ( $button['class'] as $btnclass ) {
 				if ( strpos( $btnclass, 'btn' ) === 0 ) {
 					$button['class'][] = 'btn';
 					break;
-					}
 				}
+			}
 
-			/* set wrapper class */
+			// set wrapper class
 			if ( isset( $options['wrapperclass'] ) ) {
 				$wrapperclass = $options['wrapperclass'];
-				}
+			}
 			else {
 				if ( in_array( 'btn', $button['class'] ) === false ) {
 					$wrapperclass = 'dropdown';
-					}
+				}
 				else {
 					$wrapperclass = 'btn-group';
-					}
 				}
+			}
 
 			$button['class'] = implode( ' ', array_unique( $button['class'] ) );
 
-			/* if aria-attributes are set, add them */
+			// if aria-attributes are set, add them
 			if ( isset( $options['aria-controls'] ) ) {
 				$button['aria-controls'] = $options['aria-controls'];
 				}
@@ -405,19 +420,19 @@ class TweekiHooks {
 				$button['aria-expanded'] = $options['aria-expanded'];
 				}
 				
-			/* if data-toggle attribute is set, unset wrapper and add attribute and toggle-class */
+			// if data-toggle attribute is set, unset wrapper and add attribute and toggle-class
 			if ( isset( $options['data-toggle'] ) ) {
 				$wrapper = '';
 				$button['data-toggle'] = $options['data-toggle'];
 				$button['class'] .= ' ' . $options['data-toggle'] . '-toggle';
 				}
 				
-			/* if fa attribute is set, add fa-icon to buttons */
+			// if fa attribute is set, add fa-icon to buttons
 			if ( isset( $options['fa'] ) ) {
 				$button['text'] = '<span class="fa fa-' . $options['fa'] . '"></span> ' . $button['text'];
-				}
+			}
 
-			/* if glyphicon or icon attribute is set, add icon to buttons */
+			// if glyphicon or icon attribute is set, add icon to buttons
 			if ( isset( $options['icon'] ) ) {
 				$options['glyphicon'] = $options['icon'];
 				}
@@ -425,33 +440,38 @@ class TweekiHooks {
 				$button['text'] = '<span class="glyphicon glyphicon-' . $options['glyphicon'] . '"></span> ' . $button['text'];
 				}
 
-			/* render wrapper */
-			if ( ( ( $currentwrapperclass != $wrapperclass || isset( $button['items'] ) ) && $wrapper != '' ) || $wrapper == 'li' ) {
+			// render wrapper
+			if ( 
+				( ( $currentwrapperclass != $wrapperclass || isset( $button['items'] ) ) && $wrapper != '' ) 
+				|| $wrapper == 'li' 
+			) {
 				if ( $currentwrapperclass != '' ) {
 					$renderedButtons .= '</' . $wrapper . '>';
-					}
+				}
 				$renderedButtons .= '<' . $wrapper . ' class="' . $wrapperclass;
-				if ( isset( $options['wrapperid'] ) ) $renderedButtons .= '" id="' . $options['wrapperid'];
+				if ( isset( $options['wrapperid'] ) ) {
+					$renderedButtons .= '" id="' . $options['wrapperid'];
+				}
 				$renderedButtons .= '">';
 				$currentwrapperclass = $wrapperclass;
-				}
+			}
 
-			/* dropdown */
+			// dropdown
 			if ( isset( $button['items'] ) ) {
 				if ( isset( $options['dropdownclass'] ) ) {
 					$renderedButtons .= TweekiHooks::buildDropdown( $button, $options['dropdownclass'] );
-					}
+				}
 				else {
 					$renderedButtons .= TweekiHooks::buildDropdown( $button );
-					}
 				}
+			}
 
-			/* simple button */
+			// simple button
 			else {
 				$renderedButtons .= TweekiHooks::makeLink( $button );
 				}
 			}
-		/* close wrapper */
+		// close wrapper
 		if ( $wrapper != '' ) $renderedButtons .= '</' . $wrapper . '>';
 		return $renderedButtons;
 	}
@@ -459,43 +479,43 @@ class TweekiHooks {
 
 	/**
 	 * Build dropdown
+	 *
 	 * @param $dropdown array
 	 * @return String
 	 */
 	static function buildDropdown( $dropdown, $dropdownclass = '' ) {
 		$renderedDropdown = '';
 
-		/* split dropdown */
+		// split dropdown
 		if ( isset( $dropdown['href_implicit'] ) && $dropdown['href_implicit'] === false ) {
 			$renderedDropdown .= TweekiHooks::makeLink( $dropdown );
 			$caret = array(
-									'class' => 'dropdown-toggle ' . $dropdown['class'],
-									'href' => '#',
-									'text' => '&zwnj;<b class="caret"></b>',
-									'html' => '&zwnj;<b class="caret"></b>',
-									// TODO: delete ugly &zwnj;!
-									'data-toggle' => 'dropdown'
-									);
+				'class' => 'dropdown-toggle ' . $dropdown['class'],
+				'href' => '#',
+				'text' => '&zwnj;<b class="caret"></b>',
+				'html' => '&zwnj;<b class="caret"></b>',
+				'data-toggle' => 'dropdown'
+				);
 			$renderedDropdown .= TweekiHooks::makeLink( $caret );
-			}
+		}
 
-		/* ordinary dropdown */
+		// ordinary dropdown
 		else {
 			$dropdown['class'] .= ' dropdown-toggle';
 			$dropdown['data-toggle'] = 'dropdown';
 			$dropdown['html'] = $dropdown['text'] . ' <b class="caret"></b>';
 			$dropdown['href'] = '#';
 			$renderedDropdown .= TweekiHooks::makeLink( $dropdown);
-			}
+		}
 
 		$renderedDropdown .= TweekiHooks::buildDropdownMenu( $dropdown['items'], $dropdownclass );
-
 		return $renderedDropdown;
 	}
 
 
 	/**
 	 * Build dropdown-menu (ul)
+	 *
 	 * @param $dropdownmenu array
 	 * @return String
 	 */
@@ -503,43 +523,37 @@ class TweekiHooks {
 		$renderedMenu = '<ul class="dropdown-menu ' . $dropdownclass . '" role="menu">';
 
 		foreach ( $dropdownmenu as $entry ) {
-
-			/* divider */
+			// divider
 			if ( !isset( $entry['text'] ) || $entry['text'] == "" ) {
-				$renderedMenu .= '
-					<li class="divider" />';
-				continue;
-				}
+				$renderedMenu .= '<li class="divider" />';
+			}
 
-			/* submenu */
-			/* TODO: do we need this any more? we do not support deeper hierarchies! */
-			if ( isset( $entry['items'] ) ) {
-				$renderedMenu .= '
-					<li class="dropdown-submenu"><a tabindex="-1" href="#">' . $entry['text'] . '</a>';
-				$renderedMenu .= TweekiHooks::buildDropdownMenu( $entry['items'], $dropdownclass );
-				$renderedMenu .= '</li>';
-				}
-
-			/* standard menu entry */
+			// standard menu entry
 			else {
 				$entry['tabindex'] = '-1';
 				$renderedMenu .= TweekiHooks::makeListItem( $entry );
-				}
 			}
+		}
 
-		$renderedMenu .= '
-			</ul>';
+		$renderedMenu .= '</ul>';
 		return $renderedMenu;
 	}
 
 
-/* this is a slightly adapted copy of the makeLink function in SkinTemplate.php */
+	/**
+	 * Produce HTML for a link
+	 * 
+	 * This is a slightly adapted copy of the makeLink function in SkinTemplate.php
+	 * -> some of the changed parts are marked by comments //
+	 *
+	 * @param $item array
+	 * @param $options array
+	 */
 	static function makeLink( $item, $options = array() ) {
-		/* nested links? */
+		// nested links?
 		if ( isset( $item['links'] ) ) {
 			$item = $item['links'][0];
-			}
-
+		}
 
 		if ( isset( $item['text'] ) ) {
 			$text = $item['text'];
@@ -554,16 +568,15 @@ class TweekiHooks {
 // and malign code could be introduced?
 		$html = $text;
 
-		/* set raw html */
+		// set raw html
 		if ( isset( $item['html'] )) {
 			$html = $item['html'];
-			}
+		}
 
-		/* set icon */
-		/* TODO: how is this option accessed? we have handling for icon/glyphicon/fa elsewhere... */
+		// set icons for individual buttons (used by some navigational elements)
 		if ( isset( $item['icon'] )) {
 			$html = '<span class="glyphicon glyphicon-' . $item['icon'] . '"></span> ' . $html;
-			}
+		}
 
 		if ( isset( $options['text-wrapper'] ) ) {
 			$wrapper = $options['text-wrapper'];
@@ -609,14 +622,21 @@ class TweekiHooks {
 					$attrs['class'] = $options['link-class'];
 				}
 			}
-//				echo var_dump($attrs);
 			$html = Html::rawElement( isset( $attrs['href'] ) ? 'a' : $options['link-fallback'], $attrs, $html );
 		}
 
 		return $html;
 	}
 
-/* this is a copy of the makeListItem function in SkinTemplate.php */
+	/**
+	 * Produce HTML for a list item
+	 * 
+	 * This is a slightly adapted copy of the makeListItem function in SkinTemplate.php
+	 * -> some of the changed parts are marked by comments //
+	 *
+	 * @param $item array
+	 * @param $options array
+	 */
 	static function makeListItem( $item, $options = array() ) {
 		if ( isset( $item['links'] ) ) {
 			$html = '';
@@ -655,10 +675,12 @@ class TweekiHooks {
 	}
 
 	/**
-	 * Set elements that should be hidden
+	 * Replace edit section links with buttons
+	 *
 	 * @param $skin Skin current skin
 	 * @param $nt Title
 	 * @param $section String section
+	 * @param $tooltip
 	 * @param $result String prepared output
 	 * @param $lang String language
 	 */
@@ -666,18 +688,22 @@ class TweekiHooks {
 	 // TODO: this is an ugly hack, that might be easily broken by small structural changes in core - make it bulletproof
 	static function EditSectionLinkButton( $skin, $nt, $section, $tooltip, &$result, $lang = false ) {
 		$search = array( 
-									wfMessage( 'editsection' )->inLanguage( $lang )->text() . '</a>', 
-									'<a'
-								);
+			wfMessage( 'editsection' )->inLanguage( $lang )->text() . '</a>', 
+			'<a'
+		);
+		$icon = wfMessage( 'tweeki-editsection-icon' )->inLanguage( $lang )->text();
+		$text = wfMessage( 'tweeki-editsection-text' )->inLanguage( $lang )->text();
+		$class = wfMessage( 'tweeki-editsection-class' )->inLanguage( $lang )->text();
 		$replace = array( 
-									wfMessage( 'tweeki-editsection-icon' )->inLanguage( $lang )->text() . ' ' . wfMessage( 'tweeki-editsection-text' )->inLanguage( $lang )->text() . '</a>', 
-									'<a class="' . wfMessage( 'tweeki-editsection-class' )->inLanguage( $lang )->text() . '"'
-								);
+			$icon . ' ' . $text . '</a>', 
+			'<a class="' . $class . '"'
+		);
 		$result = str_replace( $search, $replace, $result );
 	}
 
 	/**
-	 * add invisible <span> for correct internal linking
+	 * Add invisible <span> for correct internal linking
+	 *
 	 * @param $parser Parser current parser
 	 * @param $text
 	 */
