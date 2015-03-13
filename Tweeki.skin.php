@@ -601,7 +601,7 @@ class TweekiTemplate extends BaseTemplate {
 			<!-- subnav -->
 			<div id="page-header" class="row">
 				<div class="<?php echo $class; ?>">
-					<ul class="<?php $this->msg( 'tweeki-subnav-navclass' ) ?>">
+					<ul class="<?php $this->msg( 'tweeki-subnav-class' ) ?>">
 					<?php $this->buildItems( wfMessage( 'tweeki-subnav' )->plain(), $options, 'subnav' ); ?>
 					</ul>
 				</div>
@@ -749,7 +749,7 @@ class TweekiTemplate extends BaseTemplate {
 		$options = $this->getParsingOptions( 'footer' );
 		if ( $this->checkVisibility( 'footer' ) ) { ?>
 			<!-- footer -->
-			<div id="footer" role="contentinfo" class="footer <?php $this->msg( 'tweeki-container-class' ); ?>"<?php $this->html( 'userlangattributes' ) ?>>
+			<div id="footer" role="contentinfo" class="footer <?php $this->msg( 'tweeki-container-class' ); ?> <?php $this->msg( 'tweeki-footer-class' ); ?>"<?php $this->html( 'userlangattributes' ) ?>>
 			<?php $this->buildItems( wfMessage( 'tweeki-footer' )->plain(), $options, 'footer' ); ?>
 			</div>
 			<!-- /footer -->
@@ -767,7 +767,7 @@ class TweekiTemplate extends BaseTemplate {
 	private function getParsingOptions( $element ) {
 		$options = array();
 		$available_options = array( 
-													'class',
+													'btnclass',
 													'wrapper',
 													'wrapperclass',
 													'dropdownclass'
@@ -775,6 +775,10 @@ class TweekiTemplate extends BaseTemplate {
 		foreach( $available_options as $option ) {
 			$msg = wfMessage( 'tweeki-' . $element . '-' . $option );
 			if( $msg->exists() ) {
+				/* the btnclass option's name for the parser is different */
+				if( $option === 'btnclass' ) {
+					$option = 'class';
+				}
 				$options[$option] = $msg->parse();
 				}
 			}

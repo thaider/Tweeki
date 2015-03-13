@@ -4,73 +4,31 @@
  * part of this has been taken from Garret LeSage's Strapping
  */
 
+
+/* slightly grey background */
 body {
 	background-color:#f9f9f9;
 }
 
-.mw-headline {
-  padding-top: 70px;
+/* correction for internal links with fixed navbar */
+.with-navbar-fixed .mw-headline {
+	padding-top: 70px;
 }
 
-/* FOOTER */
 
-#footer > ul,
-#footer > ul li {
-  padding: 0;
-  list-style: none;
-}
+/**
+ * CONTENT 
+ */
 
-#footer > ul li {
-	display:inline-block;
-	}
-
-#footer {
-	position:static;
-	bottom:-.1em;
-	left:0;
-	width:100%;
-	background:#eee;
-	padding:.5em 0;
-	color:#555;
-	text-align:center;
-	font-size:9pt;
-	opacity: 0; //initially hidden
-}
-
-#footer-info li {
-	margin-right: .5em;
-}
-
-#footer-places li, 
-#footer-icons span {
-	margin-right:.5em;
-	margin-left:0;
-}
-
-#footer-places li+li:before, 
-#footer-icons span+span:before {
-	content: "·";
-	margin-right:.5em;
-}
-
-#footer > ul {
-	margin:0 auto;
-	display:inline-block;
-}
-
-#footer #footer-icons {
-	display:block;
-	}
-
-/* CONTENT */
-
+/* TODO: needed? */
 /* more space between rows */
 .row {
-  margin-top: 15px;
+	margin-top: 15px;
 }
 
+/* TODO: needed? */
 .row + .row {
-  margin-top: 25px;
+	margin-top: 25px;
 }
 
 #content {
@@ -82,18 +40,20 @@ body {
 }
 
 @media (min-width: 768px) {
-#content {
-	padding:1em 2em;
-	-moz-border-radius:5px;
-	-webkit-border-radius:5px;
-	border-radius:5px;
-}
+	#content {
+		padding:1em 2em;
+		-moz-border-radius:5px;
+		-webkit-border-radius:5px;
+		border-radius:5px;
+	}
 }
 
-/* SEARCH */
+/**
+ * SEARCH 
+ */
 
 .mw-search-createlink {
-  text-align:center;
+	text-align:center;
 }
 
 /* If there are no permissions to edit pages,
@@ -103,169 +63,175 @@ body {
 }
 
 .mw-search-results {
-  margin: 20px;
+	margin: 20px;
 }
 
 .searchresult {
-  color: #555;
+	color: #555;
 }
 
 .searchmatch {
-  color: #333;
+	color: #333;
 }
 
 .mw-search-result-data {
-  color: #999;
+	color: #999;
 }
 
 .mw-search-nonefound {
-  color: #999;
-  font-size: 2em;
-  padding: 1em;
-  text-align: center;
+	color: #999;
+	font-size: 2em;
+	padding: 1em;
+	text-align: center;
 }
 
 .mw-search-pager-bottom {
-  position: relative;
-  color: transparent;
+	position: relative;
+	color: transparent;
 }
 
 .mw-search-pager-bottom a {
-  float: left;
-  padding: 0 20px;
+	float: left;
+	padding: 0 20px;
 }
 
 .mw-numlink {
-  display: none;
+	display: none;
 }
 
 
-/* PREFERENCES */
-/* is this just a duplication of Bootstrap's nav-tabs? 
- * then we should mark it somehow to check after updates...
+/**
+ * PREFERENCES 
  */
 
+/* TODO: is this just a duplication of Bootstrap's nav-tabs? 
+ then we should mark it somehow to check after updates... */
+
 #preferences .mainLegend {
-  display: none;
+	display: none;
 }
 
 #preftoc {
-  margin: 40px 0 -2px;
+	margin: 40px 0 -2px;
 }
 
 #preferences {
-  border: 1px solid #ccc;
-  margin: 0 20px;
+	border: 1px solid #ccc;
+	margin: 0 20px;
 }
 
 #preftoc ul,
 #preftoc li {
-  display: inline;
-  list-style: none;
+	display: inline;
+	list-style: none;
 }
 
 #preftoc li a {
-  position: relative;
-  z-index: 2;
-  font: inherit;
-  margin: 0;
-  padding: 8px 15px;
-  display: inline-block;
+	position: relative;
+	z-index: 2;
+	font: inherit;
+	margin: 0;
+	padding: 8px 15px;
+	display: inline-block;
 }
 
 #preftoc li.selected a {
-  background-color: white;
-  border: 1px solid #ccc;
-  border-bottom: none;
-  border-radius: 6px 6px 0 0;
-  color: inherit;
-  cursor: default;
-  padding: 7px 14px;
+	background-color: white;
+	border: 1px solid #ccc;
+	border-bottom: none;
+	border-radius: 6px 6px 0 0;
+	color: inherit;
+	cursor: default;
+	padding: 7px 14px;
 }
 
 #preferences fieldset.prefsection {
-  margin: 0;
-  padding: 40px;
+	margin: 0;
+	padding: 40px;
 }
 
 #preferences legend {
-  border-bottom: none;
+	border-bottom: none;
 }
 
 #preferences fieldset + fieldset > legend {
-  padding-top: 40px;
+	padding-top: 40px;
 }
 
 #preferences .mw-label label {
-  white-space: nowrap;
-  margin: 0;
-  color: #777;
+	white-space: nowrap;
+	margin: 0;
+	color: #777;
 }
 
 #preferences td {
-  padding: 5px;
+	padding: 5px;
 }
 
 #preferences .htmlform-tip {
-  color: #999;
-  padding: 1em 0 3em 12em;
+	color: #999;
+	padding: 1em 0 3em 12em;
 }
 
 #preferences div.mw-prefs-buttons {
-  margin: 20px auto 0;
-  padding: 40px 40px 20px;
-  text-align: center;
-  overflow: hidden;
+	margin: 20px auto 0;
+	padding: 40px 40px 20px;
+	text-align: center;
+	overflow: hidden;
 }
 
 .mw-prefs-buttons a,
 .mw-prefs-buttons input {
-  font: inherit;
-  padding: 3px 15px;
+	font: inherit;
+	padding: 3px 15px;
 }
 
 .mw-prefs-buttons a {
-  padding: 8px 20px;
-  float: left;
+	padding: 8px 20px;
+	float: left;
 }
 
 .mw-prefs-buttons input {
-  float: right;
+	float: right;
 }
 
 
-/* HISTORY */
+/**
+ * HISTORY 
+ */
 
 #contentSub br {
-  display: none;
+	display: none;
 }
 
 #mw-revision-info,
 #mw-revision-nav {
-  background: #f6f6f6;
-  border: 1px solid #eee;
-  display: block;
-  margin: 0 auto;
-  padding: 20px;
-  text-align: center;
-  width: auto;
+	background: #f6f6f6;
+	border: 1px solid #eee;
+	display: block;
+	margin: 0 auto;
+	padding: 20px;
+	text-align: center;
+	width: auto;
 }
 
 #mw-revision-info {
-  border-bottom: none;
-  border-radius: 6px 6px 0 0;
-  font-size: 16px;
-  padding-bottom: 0.25em;
+	border-bottom: none;
+	border-radius: 6px 6px 0 0;
+	font-size: 16px;
+	padding-bottom: 0.25em;
 }
 
 #mw-revision-nav {
-  border-radius: 0 0 6px 6px;
-  border-top: none;
-  margin-top: 0;
-  padding-top: 0;
+	border-radius: 0 0 6px 6px;
+	border-top: none;
+	margin-top: 0;
+	padding-top: 0;
 }
 
-/* LINK SYMBOLS */
+/**
+ * LINK SYMBOLS 
+ */
 
 #content a.external,
 #content a.external[href ^="gopher://"] {
@@ -323,23 +289,10 @@ body {
 	padding-right: 13px;
 }
 
-/* postedit: would otherwise be hidden behind navbar */
-.postedit {
-	top: 5em !important;
-	}
 
-/* editsectionlink: hide brackets */
-.mw-editsection-bracket {
-	display:none;
-}
-
-/* editsectionlink: make it float right */
-.mw-editsection {
-	float:right;
-	line-height:.9em;
-}
-
-/* SIDEBAR */
+/**
+ * SIDEBAR 
+ */
 #sidebar {
 	position:fixed;
 	width:20em;
@@ -372,7 +325,7 @@ body {
 	}
 	#sidebar #toctitle, #sidebar #tweekiTOC {
 		display:none;
-		}
+	}
 }
 
 /* file download */
@@ -380,11 +333,14 @@ body {
 	margin:0;
 }
 
-/* TOC */
+
+/**
+ * TOC 
+ */
 
 #toc {
 	width:100%;
-	}
+}
 
 #toctitle h2 {
 	font-size:12pt;
@@ -413,47 +369,47 @@ body {
 /* hide by default and make it visible by javascript only */
 #tweekiDropdownTOC {
 	display:none;
-	}
+}
 #toc {
 	display:none;
-	}
+}
 
 #toc ul > li > ul {
 	display:none;
-	}
+}
 
 #toc ul > li > ul a {
 	font-size: small;
-	}
+}
 
 #toc li.active > ul {
 	display:block;
-	}
+}
 
 #toc li.active {
 	background:#eee;
-	}
+}
 
 #toc li.active > a {
 	font-style: italic;
 	border-right: 2px solid #bbb;
-	}
+}
 
 #toc ul, .toc ul {
 	margin:0 !important;
-	}
+}
 	
 #toc .nav > li > a {
 	padding: 0px 5px;
-	}
+}
 
 #toc .nav > li.toclevel-1 > a {
 	padding: 2px 5px;
-	}
+}
 
 #toc .nav .nav li {
 	padding-left:15px;
-	}
+}
 
 .toctoggle {
 	display:none;
@@ -463,67 +419,82 @@ body {
 	display:none;
 }
 
-/* hide categories */
-#catlinks {
-	display:none;
-}
+/**
+ * FOOTER 
+ */
 
-/* make edit window bigger */
-#wpTextbox1 {
+#footer > ul,
+#footer > ul li {
+	padding: 0;
+	list-style: none;
+}
+#footer > ul li {
+	display:inline-block;
+}
+#footer {
+	position:static;
+	bottom:-.1em;
+	left:0;
 	width:100%;
-} 
-
-.firstHeading, 
-.tweekiFirstHeading { 
+	background:#eee;
+	padding:.5em 0;
+	color:#555;
 	text-align:center;
-	margin-bottom:15px;
-	margin-top:10px;
-	font-weight:600;
-	letter-spacing:-.01em;
+	font-size:9pt;
 }
 
-.tweekiFirstHeading {
-	background-color:#fff;
-	border:1px dashed #ccc;
-	padding:5px;
-	border-radius:2px;
+/* sticky footer (requires javascript) */
+#footer.footer-sticky {
+	position:static;
+	opacity: 0; //initially hidden
+}
+#footer.footer-sticky.sticky-fixed {
+	position:fixed;
 }
 
-.firstHeading .namespace {
-	font-weight:300;
+/* fixed footer */
+#footer.footer-fixed {
+	position:fixed;
 }
 
-/* Hide empty portlets */
-div.emptyPortlet {
-	display: none;
+#footer-info li,
+#footer-places li, 
+#footer-icons span {
+	margin-right:.5em;
+	margin-left:0;
 }
 
-/* Sub-navigation */
-#siteSub {
-	display: none;
+#footer-places li+li:before, 
+#footer-icons span+span:before {
+	content: "·";
+	margin-right:.5em;
 }
 
-#jump-to-nav {
-	display: none;
+#footer > ul {
+	margin:0 auto;
+	display:inline-block;
 }
 
-div#content .printfooter {
-	display: none;
+#footer #footer-icons {
+	display:block;
 }
 
-/* SMOOTH DIV SCROLL */
+
+/**
+ * SMOOTH DIV SCROLL 
+ */
 
 /* Invisible top hotspot */
 div.scrollingHotSpotTop
 {
 	/* The hotspots have a minimum width of 100 pixels and if there is room the will grow
-    and occupy 15% of the scrollable area (30% combined). Adjust it to your own taste. */
+		and occupy 15% of the scrollable area (30% combined). Adjust it to your own taste. */
 	height: 30px;
 	width: 100%;
 	position: absolute;
 	z-index: 200;
 	top: 0;
-	/*  The first url is for Firefox and other browsers, the second is for Internet Explorer */
+	/*	The first url is for Firefox and other browsers, the second is for Internet Explorer */
 	cursor: url(images/cursors/cursor_arrow_up.png), url(images/cursors/cursor_arrow_up.cur),w-resize;
 }
 
@@ -565,7 +536,7 @@ div.scrollingHotSpotBottomVisible
 }
 
 /* The scroll wrapper is always the same width and height as the containing element (div).
-   Overflow is hidden because you don't want to show all of the scrollable area.
+	 Overflow is hidden because you don't want to show all of the scrollable area.
 */
 div.scrollWrapper
 {
@@ -583,7 +554,9 @@ div.scrollableArea
 }
 
 
-/* suggestions */
+/**
+ * SUGGESTIONS 
+ */
 /* TODO: do we have to load 'em? */
 
 .suggestions {
@@ -663,25 +636,16 @@ div.scrollableArea
 }
 
 
-/* TODO: check from here */
-
-label {
-	display:inline-block;
-	padding-top:5px;
-}
-
-input[type=radio], input[type=checkbox] {
-	margin:-2px 0 0;
-}
-
-/* NAVIGATION */
+/**
+ * NAVIGATION 
+ */
 
 /* switch off responsiveness for navbar (should stay above) */
 /* TODO: do we need it? maybe it was only necessary when we had
 the navigation after the main content in the code */
 .navbar-fixed-top, 
 .navbar-fixed-bottom {
-    position: fixed;
+		position: fixed;
 }
 
 @media (max-width: 767px) {
@@ -695,19 +659,25 @@ the navigation after the main content in the code */
 	}
 }
 
-/* editbutton */
-/* TODO: do we need it? if yes, make it work for other browsers! */
+
+/**
+ * EDIT BUTTON 
+ */
 .btn-group .btn-edit:first-child {
 	width:85%;
 	-moz-box-sizing:border-box;
+	box-sizing:border-box;
 }
 	
 .btn-group .btn-edit+.btn-edit {
 	width:15%;
 	-moz-box-sizing:border-box;
+	box-sizing:border-box;
 }
 
-/* corrections for main content */
+/** 
+ * CORRECTION FOR MAIN CONTENT
+ */
 .with-navbar {
 }
 
@@ -721,8 +691,8 @@ the navigation after the main content in the code */
 	
 /* navigation - accessibility */
 #mw-navigation h2 {
-    position: absolute;
-    top: -9999px;
+		position: absolute;
+		top: -9999px;
 }
 
 /* image in brand */
@@ -733,7 +703,7 @@ the navigation after the main content in the code */
 
 /* correction for searchform in navbar */
 #searchform + .navbar-nav.navbar-right:last-child {
-    margin-right: 0;
+		margin-right: 0;
 }
 
 /* correction for dropdowns (conflicting with mediawiki.legacy.shared) */
@@ -744,29 +714,107 @@ the navigation after the main content in the code */
 
 /* correction for selflinks in dropdowns (they're no links actually) */
 .dropdown-menu > li > .selflink {
-  padding: 3px 20px;
-  display: block;
+	padding: 3px 20px;
+	display: block;
 }
 
 /* LOGIN-EXT */
 #loginext {
 	padding:0 10px;
-	}
+}
 @media (min-width: 767px) {
 	#loginext {
 		width:250px;
-		}
 	}
+}
 		
 #loginext .form-group {
-    margin-bottom:2px;
+		margin-bottom:2px;
 }
 
 #loginext #wpLoginAttempt2 {
-    margin-top:8px;
-    margin-bottom:5px;
+		margin-top:8px;
+		margin-bottom:5px;
 }
 
 #loginext label {
-    margin-bottom: 3px;
+		margin-bottom: 3px;
+}
+
+
+/** 
+ * SMALL CORRECTIONS
+ */
+
+/* postedit: would otherwise be hidden behind navbar */
+.postedit {
+	top: 5em !important;
+}
+
+/* editsectionlink: hide brackets */
+.mw-editsection-bracket {
+	display:none;
+}
+
+/* editsectionlink: make it float right */
+.mw-editsection {
+	float:right;
+	line-height:.9em;
+}
+
+/* hide categories */
+#catlinks {
+	display:none;
+}
+
+/* make edit window bigger */
+#wpTextbox1 {
+	width:100%;
+} 
+
+.firstHeading, 
+.tweekiFirstHeading { 
+	text-align:center;
+	margin-bottom:15px;
+	margin-top:10px;
+	font-weight:600;
+	letter-spacing:-.01em;
+}
+
+.tweekiFirstHeading {
+	background-color:#fff;
+	border:1px dashed #ccc;
+	padding:5px;
+	border-radius:2px;
+}
+
+.firstHeading .namespace {
+	font-weight:300;
+}
+
+/* Hide empty portlets */
+div.emptyPortlet {
+	display: none;
+}
+
+/* Sub-navigation */
+#siteSub {
+	display: none;
+}
+
+#jump-to-nav {
+	display: none;
+}
+
+div#content .printfooter {
+	display: none;
+}
+
+label {
+	display:inline-block;
+	padding-top:5px;
+}
+
+input[type=radio], input[type=checkbox] {
+	margin:-2px 0 0;
 }
