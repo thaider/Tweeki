@@ -41,7 +41,7 @@ class SkinTweeki extends SkinTemplate {
 	 * @param $out OutputPage object to initialize
 	 */
 	public function initPage( OutputPage $out ) {
-		global $wgLocalStylePath, $wgUser;
+		global $wgLocalStylePath, $wgUser, $wgTweekiSkinUseSmoothDivScroll;
 
 		parent::initPage( $out );
 
@@ -56,7 +56,10 @@ class SkinTweeki extends SkinTemplate {
 		);
 
 		$out->addMeta("viewport", "width=device-width, initial-scale=1.0");
-		$out->addModules( 'skins.tweeki.scripts' ); 
+		$out->addModules( 'skins.tweeki.scripts' );
+		if( $wgTweekiSkinUseSmoothDivScroll ) {
+			$out->addModules( 'skins.tweeki.smoothdivscroll' );
+		}
 		if( $wgUser->getOption( 'tweeki-advanced' ) ) {
 			static::$bodyClasses[] = 'advanced';
 		}

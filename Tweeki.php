@@ -82,8 +82,6 @@ $wgResourceModules['skins.bootstraptheme.styles'] = array(
 $wgResourceModules['skins.tweeki.scripts'] = array(
 	'scripts' => array(
 		'Tweeki/bootstrap/js/bootstrap.min.js',
-		'Tweeki/jquery.mousewheel.min.js',
-		'Tweeki/jquery.smoothDivScroll-1.3.js',
 		'Tweeki/tweeki.js',
 	),
 	'dependencies' => array(
@@ -95,6 +93,20 @@ $wgResourceModules['skins.tweeki.scripts'] = array(
 	'messages' => array(
 		'tweeki-toc-top'
 	)
+);
+
+$wgResourceModules['skins.tweeki.smoothdivscroll'] = array(
+	'scripts' => array(
+		'Tweeki/jquery.mousewheel.min.js',
+		'Tweeki/jquery.smoothDivScroll-1.3.js',
+		'Tweeki/tweeki-smmoothdivscroll-setup.js',
+	),
+	'dependencies' => array(
+		'jquery.ui.widget',
+		'mediawiki.jqueryMsg'
+	),
+	'remoteBasePath' => &$GLOBALS['wgStylePath'],
+	'localBasePath' => &$GLOBALS['wgStyleDirectory']
 );
 
 /**
@@ -181,6 +193,18 @@ $wgTweekiSkinUseBootstrapTheme = true;
  * Whether or not to parse the <btn>-Tag.
  */
 $wgTweekiSkinUseBtnParser = true;
+
+/**
+ * NOT YET IMPLEMENTED
+ * Whether or not to use Bootstrap's scrollspy feature
+ */
+$wgTweekiSkinUseScrollSpy = true;
+
+/**
+ * Whether or not to use smoothdivscroll for very long TOCs
+ * Warning: not properly implemented yet when used together with scrollspy
+ */
+$wgTweekiSkinUseSmoothDivScroll = false;
 
 /**
  * Add Resource Modules to this array.

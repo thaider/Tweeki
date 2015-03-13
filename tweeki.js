@@ -49,25 +49,13 @@ jQuery( function( $ ) {
 			$(window).resize(function() {
 				$("#tweekiTOC").height($(window).height()-$("#tweekiTOC").position().top-130);
 			}).resize();
-			
-			// initialize smoothdivscroll
-			$(document).ready(function() {
-				$("#tweekiTOC").smoothDivScroll({ 
-					visibleHotSpotBackgrounds: "always",
-					hotSpotScrollingStep: 5,
-					mousewheelScrolling: "",
-					});
-				});
-			
+						
 			// show toc (hidden by default)
 			$( "#toc" ).css( 'display', 'table' );
 			
 			// start scrollspy
-			$( '#toc ul' ).addClass( 'nav' );
-			
-			// TODO: doesn't work as expected
-			offset = Number( $( "#contentwrapper" ).css( 'padding-top' ).replace( 'px', '' ) ) + 40;
-			$( 'body' ).css( 'position', 'relative' ).scrollspy( { target: '#toc', offset: offset } );
+			$( '#toc ul' ).addClass( 'nav' );	
+			$( 'body' ).css( 'position', 'relative' ).scrollspy( { target: '#toc' } );
 			}
 		}
 
