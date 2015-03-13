@@ -832,10 +832,9 @@ class TweekiTemplate extends BaseTemplate {
 	private function renderCustomNavigation( &$buttons, &$customItems ) {
 
 		/* TODO: check for unintended consequences, there are probably more elegant ways to do this... */		
-		$mainpage = Title::newMainPage();
 		$options = new ParserOptions();
 		$localParser = new Parser();
-		$localParser->Title ( $mainpage );
+		$localParser->Title ( $this->getSkin()->getTitle() );
 		$localParser->Options( $options );
 		$localParser->clearState();
 

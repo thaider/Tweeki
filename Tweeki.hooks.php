@@ -202,12 +202,12 @@ class TweekiHooks {
 	/**
 	 * Parse string input into array
 	 *
-	 * @param $buttons array
-	 * @param $input string
+	 * @param $buttongroup string one or more buttons
 	 * @param $parser Parser current parser
+	 * @param $frame PPFrame current frame
 	 * @return array
 	 */
-	static function parseButtons( $buttongroup, $parser, $frame ) {
+	static function parseButtons( $buttongroup, Parser $parser, $frame ) {
 		$buttons = array();
 		$lines = explode( "\n", $buttongroup );
 
@@ -248,13 +248,15 @@ class TweekiHooks {
 	 *
 	 * @param $line string
 	 * @param $parser Parser current parser
+	 * @param $frame Frame current frame
 	 * @return array
 	 */
 	static function parseButtonLink( $line, $parser, $frame ) {
 
 		$extraAttribs = array();
 		$href_implicit = false;
-		
+		$active = false;
+				
 		// semantic queries
 		if ( strpos( $line, '{{#ask:' ) === 0 ) {
 			if ( $parser->getTitle() instanceof Title ) {
@@ -333,8 +335,10 @@ class TweekiHooks {
 			}
 		} else {
 			$title = Title::newFromText( $href );
-
 			if ( $title ) {
+				if( $title->equals( $parser->getTitle() ) ) {
+					$active = true;
+				}
 				$title = $title->fixSpecialName();
 				$href = $title->getLinkURL();
 			} else {
@@ -343,22 +347,21 @@ class TweekiHooks {
 		}
 		if ( isset( $line[2] ) && $line[2] != "" ) {
 			$extraAttribs['class'] = $line[2];
-			}
+		}
 
 		$link = array_merge( array(
 				'text' => $text,
 				'href' => $href,
 				'href_implicit' => $href_implicit,
 				'id' => 'n-' . Sanitizer::escapeId( strtr( $line[0], ' ', '-' ), 'noninitial' ),
-				'active' => false
+				'active' => $active
 			), $extraAttribs );
 		return array( $link );
 	}
 
 	/**
-	 * Parse string input into array
+	 * Render Buttons
 	 *
-	 * @param $renderedButtons String
 	 * @param $buttons array
 	 * @param $options Array
 	 * @return String
@@ -414,18 +417,18 @@ class TweekiHooks {
 			// if aria-attributes are set, add them
 			if ( isset( $options['aria-controls'] ) ) {
 				$button['aria-controls'] = $options['aria-controls'];
-				}
+			}
 				
 			if ( isset( $options['aria-expanded'] ) ) {
 				$button['aria-expanded'] = $options['aria-expanded'];
-				}
+			}
 				
 			// if data-toggle attribute is set, unset wrapper and add attribute and toggle-class
 			if ( isset( $options['data-toggle'] ) ) {
 				$wrapper = '';
 				$button['data-toggle'] = $options['data-toggle'];
 				$button['class'] .= ' ' . $options['data-toggle'] . '-toggle';
-				}
+			}
 				
 			// if fa attribute is set, add fa-icon to buttons
 			if ( isset( $options['fa'] ) ) {
@@ -435,10 +438,10 @@ class TweekiHooks {
 			// if glyphicon or icon attribute is set, add icon to buttons
 			if ( isset( $options['icon'] ) ) {
 				$options['glyphicon'] = $options['icon'];
-				}
+			}
 			if ( isset( $options['glyphicon'] ) ) {
 				$button['text'] = '<span class="glyphicon glyphicon-' . $options['glyphicon'] . '"></span> ' . $button['text'];
-				}
+			}
 
 			// render wrapper
 			if ( 
@@ -449,6 +452,9 @@ class TweekiHooks {
 					$renderedButtons .= '</' . $wrapper . '>';
 				}
 				$renderedButtons .= '<' . $wrapper . ' class="' . $wrapperclass;
+				if ( isset( $button['active'] ) && $button['active'] === true ) {
+					$renderedButtons .= ' active';
+				}
 				if ( isset( $options['wrapperid'] ) ) {
 					$renderedButtons .= '" id="' . $options['wrapperid'];
 				}
@@ -469,10 +475,12 @@ class TweekiHooks {
 			// simple button
 			else {
 				$renderedButtons .= TweekiHooks::makeLink( $button );
-				}
 			}
+		}
 		// close wrapper
-		if ( $wrapper != '' ) $renderedButtons .= '</' . $wrapper . '>';
+		if ( $wrapper != '' ) {
+			$renderedButtons .= '</' . $wrapper . '>';
+		}
 		return $renderedButtons;
 	}
 
