@@ -27,7 +27,7 @@ if( !defined( 'MEDIAWIKI' ) ) die( "This is an extension to the MediaWiki packag
 $wgExtensionCredits['skin'][] = array(
 				'path' => __FILE__,
 				'name' => 'Tweeki',
-				'version' => '0.1.1',
+				'version' => '0.1.2-alpha',
 				'url' => "http://tweeki.thai-land.at",
 				'author' => 'Tobias Haider (based on the work of Garrett LeSage)',
 				'descriptionmsg' => 'tweeki-desc',
