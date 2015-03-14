@@ -350,7 +350,7 @@ class TweekiHooks {
 		}
 
 		$link = array_merge( array(
-				'text' => $text,
+				'html' => $text,
 				'href' => $href,
 				'href_implicit' => $href_implicit,
 				'id' => 'n-' . Sanitizer::escapeId( strtr( $line[0], ' ', '-' ), 'noninitial' ),
@@ -429,10 +429,15 @@ class TweekiHooks {
 				$button['data-toggle'] = $options['data-toggle'];
 				$button['class'] .= ' ' . $options['data-toggle'] . '-toggle';
 			}
-				
+			
+			// if html is not set, use text and sanitize it
+			if ( !isset( $button['html'] ) ) {
+				$button['html'] = htmlspecialchars( $button['text'] );
+			}
+			
 			// if fa attribute is set, add fa-icon to buttons
 			if ( isset( $options['fa'] ) ) {
-				$button['text'] = '<span class="fa fa-' . $options['fa'] . '"></span> ' . $button['text'];
+				$button['html'] = '<span class="fa fa-' . $options['fa'] . '"></span> ' . $button['html'];
 			}
 
 			// if glyphicon or icon attribute is set, add icon to buttons
@@ -440,7 +445,7 @@ class TweekiHooks {
 				$options['glyphicon'] = $options['icon'];
 			}
 			if ( isset( $options['glyphicon'] ) ) {
-				$button['text'] = '<span class="glyphicon glyphicon-' . $options['glyphicon'] . '"></span> ' . $button['text'];
+				$button['html'] = '<span class="glyphicon glyphicon-' . $options['glyphicon'] . '"></span> ' . $button['html'];
 			}
 
 			// render wrapper
@@ -500,7 +505,6 @@ class TweekiHooks {
 			$caret = array(
 				'class' => 'dropdown-toggle ' . $dropdown['class'],
 				'href' => '#',
-				'text' => '&zwnj;<b class="caret"></b>',
 				'html' => '&zwnj;<b class="caret"></b>',
 				'data-toggle' => 'dropdown'
 				);
@@ -511,7 +515,7 @@ class TweekiHooks {
 		else {
 			$dropdown['class'] .= ' dropdown-toggle';
 			$dropdown['data-toggle'] = 'dropdown';
-			$dropdown['html'] = $dropdown['text'] . ' <b class="caret"></b>';
+			$dropdown['html'] = $dropdown['html'] . ' <b class="caret"></b>';
 			$dropdown['href'] = '#';
 			$renderedDropdown .= TweekiHooks::makeLink( $dropdown);
 		}
@@ -532,7 +536,9 @@ class TweekiHooks {
 
 		foreach ( $dropdownmenu as $entry ) {
 			// divider
-			if ( !isset( $entry['text'] ) || $entry['text'] == "" ) {
+			if ( ( !isset( $entry['text'] ) || $entry['text'] == "" ) // no 'text'
+				&& ( !isset( $entry['html'] ) || $entry['html'] == "" ) // and no 'html'
+			) {
 				$renderedMenu .= '<li class="divider" />';
 			}
 
@@ -567,14 +573,10 @@ class TweekiHooks {
 			$text = $item['text'];
 		} else {
 //			$text = $this->translator->translate( isset( $item['msg'] ) ? $item['msg'] : $key );
-// TODO: error handling
-				return '';
+			$text = '';
 		}
 
-//		$html = htmlspecialchars( $text );
-// TODO: is this security measure needed? are there cases where raw wikitext is passed
-// and malign code could be introduced?
-		$html = $text;
+		$html = htmlspecialchars( $text );
 
 		// set raw html
 		if ( isset( $item['html'] )) {
@@ -692,16 +694,16 @@ class TweekiHooks {
 	 * @param $result String prepared output
 	 * @param $lang String language
 	 */
-	 // TODO: does class need some check or sanitation? is there a possibility to enter malign code?
 	 // TODO: this is an ugly hack, that might be easily broken by small structural changes in core - make it bulletproof
+	 // TODO: make this work with VisualEditor
 	static function EditSectionLinkButton( $skin, $nt, $section, $tooltip, &$result, $lang = false ) {
 		$search = array( 
 			wfMessage( 'editsection' )->inLanguage( $lang )->text() . '</a>', 
 			'<a'
 		);
-		$icon = wfMessage( 'tweeki-editsection-icon' )->inLanguage( $lang )->text();
-		$text = wfMessage( 'tweeki-editsection-text' )->inLanguage( $lang )->text();
-		$class = wfMessage( 'tweeki-editsection-class' )->inLanguage( $lang )->text();
+		$icon = wfMessage( 'tweeki-editsection-icon' )->inLanguage( $lang )->parse();
+		$text = wfMessage( 'tweeki-editsection-text' )->inLanguage( $lang )->parse();
+		$class = wfMessage( 'tweeki-editsection-class' )->inLanguage( $lang )->parse();
 		$replace = array( 
 			$icon . ' ' . $text . '</a>', 
 			'<a class="' . $class . '"'
@@ -710,12 +712,14 @@ class TweekiHooks {
 	}
 
 	/**
-	 * Add invisible <span> for correct internal linking
+	 * Empty span.mw-headling for correct internal linking
+	 *
+	 * If the headline is inside the span it's padding will prevent
+	 * links directly above the headline to be accessible
 	 *
 	 * @param $parser Parser current parser
 	 * @param $text
 	 */
-	 // TODO: check for unintended consequences of this hack
 	public static function HeadlineFix( &$parser, &$text ) {
 		$search = '/(<span class="mw-headline" id=".*">)(.*)(<\/span>)/';
 		$replace = '$1$3$2';

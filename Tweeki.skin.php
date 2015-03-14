@@ -384,7 +384,7 @@ class TweekiTemplate extends BaseTemplate {
 				case 'TOOLBOX':
 					$items = array_reverse($this->getToolbox());
 					$divideditems = array();
-					$text = (wfMessage( 'tweeki-toolbox' )->plain() == "") ? wfMessage( 'toolbox' )->plain() : wfMessage( 'tweeki-toolbox' )->plain();
+					$html = (wfMessage( 'tweeki-toolbox' )->plain() == "") ? wfMessage( 'toolbox' )->plain() : wfMessage( 'tweeki-toolbox' )->plain();
 					foreach($items as $key => $item) {
 						if(!isset( $item['text'] ) ) {
 							$item['text'] = $this->translator->translate( isset( $item['msg'] ) ? $item['msg'] : $key );
@@ -396,7 +396,7 @@ class TweekiTemplate extends BaseTemplate {
 					}
 					return array(array( 
 						'href' => '#',
-						'text' => $text,
+						'html' => $html,
 						'id' => 't-tools',
 						'items' => $divideditems
 						));					
@@ -1040,7 +1040,7 @@ class TweekiTemplate extends BaseTemplate {
 	 */
 		private function renderStandardFooter( $options ) {
 			global $wgTweekiSkinFooterIcons;
-			$options = $this->getParsingOptions( 'standard-footer' );
+			$options = $this->getParsingOptions( 'footer-standard' );
 			
 			foreach ( $this->getFooterLinks() as $category => $links ) { 
 				if ( $this->checkVisibility( 'footer-' . $category ) ) { 

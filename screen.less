@@ -423,14 +423,6 @@ body {
  * FOOTER 
  */
 
-#footer > ul,
-#footer > ul li {
-	padding: 0;
-	list-style: none;
-}
-#footer > ul li {
-	display:inline-block;
-}
 #footer {
 	position:static;
 	bottom:-.1em;
@@ -441,6 +433,19 @@ body {
 	color:#555;
 	text-align:center;
 	font-size:9pt;
+}
+#footer .btn {
+	font-size:9pt;
+	padding:0;
+	margin:0;
+}
+#footer > ul,
+#footer > ul li {
+	padding: 0;
+	list-style: none;
+}
+#footer > ul li {
+	display:inline-block;
 }
 
 /* sticky footer (requires javascript) */
@@ -463,9 +468,14 @@ body {
 	margin-right:.5em;
 	margin-left:0;
 }
+#footer-custom > * {
+	margin-right:1em;
+	margin-left:0;
+}
 
 #footer-places li+li:before, 
-#footer-icons span+span:before {
+#footer-icons span+span:before,
+ul + #footer-custom:before {
 	content: "·";
 	margin-right:.5em;
 }
