@@ -1,21 +1,12 @@
 # Tweeki, a friendly starter theme for MediaWiki
 
-Tweeki is a fork of **[Strapping](https://github.com/OSAS/strapping-mediawiki)**, which
-is an elegant, responsive, and friendly starter skin for MediaWiki (1.24+).
-Its purpose is to provide a good base to build upon,
-and was primarily created to provide a great default for **wiki-as-a-website**
-— but it works well for standard wikis too.
+Tweeki a skin for **[MediaWiki](http://mediawiki.org/)** (1.24+) based on Twitter's 
+**[Bootstrap](http://getbootstrap.com/)** (v3.3.2). It tries to implement as much of 
+Bootstrap's functionality as possible, allowing to use it very easily and with very 
+reduced markup, and features many configuration options.
 
-Tweeki is built on top of a modified Vector theme from **[MediaWiki](http://mediawiki.org/)**
-and utilizes Twitter's **[Bootstrap](http://getbootstrap.com/)** (v3.3.2)
-for base layout, typography, and additional widgets.
-
-Because Tweeki uses Bootstrap with its responsive extension,
-any site using this skin works well on desktop browsers
-and scales down to display beautifully on hand-held devices
-like tablets and smartphones.
-
-You can see an instance of Tweeki in action at the project's website http://tweeki.thai-land.at/
+You can find an instance of Tweeki in action and the extended documentation at the 
+project's website **[tweeki.thai-land.at](http://tweeki.thai-land.at/)**
 
 
 ## Get started
@@ -38,9 +29,6 @@ You can see an instance of Tweeki in action at the project's website http://twee
    require_once( "$IP/skins/Tweeki/Tweeki.php" );
    $wgDefaultSkin = "tweeki";
    ```
-   
-   (You may safely remove or comment out other mentions of
-   `$wgDefaultSkin`.)
 
 ## Optional configuration
 
@@ -52,4 +40,5 @@ about configuration and customization options.
 
 Tweeki is open source, and built on open source projects.
 
-Please check out the [LICENSE file](https://github.com/thaider/Tweeki/blob/master/LICENSE) for details.
+Please check out the [LICENSE file](https://github.com/thaider/Tweeki/blob/master/LICENSE) 
+for details.
