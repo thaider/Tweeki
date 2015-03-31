@@ -255,7 +255,7 @@ class TweekiTemplate extends BaseTemplate {
 	 *
 	 * @param $elements array
 	 */
-	private function renderNavigation( $elements ) {
+	public function renderNavigation( $elements ) {
 		global $wgUser,
 			$wgTweekiSkinHideNonAdvanced, 
 			$wgParser,
@@ -795,7 +795,7 @@ class TweekiTemplate extends BaseTemplate {
 	 * @param $options Array
 	 * @param $context String
 	 */
-	private function buildItems( $items, $options, $context ) {
+	public function buildItems( $items, $options, $context ) {
 		global $wgTweekiSkinSpecialElements;
 		$buttons = array();		
 		$customItems = array();
@@ -820,7 +820,7 @@ class TweekiTemplate extends BaseTemplate {
 			}
 			/* special cases */
 			else {
-				call_user_func_array( $wgTweekiSkinSpecialElements[$button['special']], array( $this, $context ) );
+				call_user_func_array( $wgTweekiSkinSpecialElements[$button['special']], array( $this, $context, $options ) );
 			}
 		}
 	}
