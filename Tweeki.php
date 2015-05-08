@@ -99,7 +99,7 @@ $wgResourceModules['skins.tweeki.smoothdivscroll'] = array(
 	'scripts' => array(
 		'Tweeki/jquery.mousewheel.min.js',
 		'Tweeki/jquery.smoothDivScroll-1.3.js',
-		'Tweeki/tweeki-smmoothdivscroll-setup.js',
+		'Tweeki/tweeki-smoothDivScroll-setup.js',
 	),
 	'dependencies' => array(
 		'jquery.ui.widget',

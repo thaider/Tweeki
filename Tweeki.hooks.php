@@ -315,7 +315,7 @@ class TweekiHooks {
 		}
 		else {
 			if ( $parser->getTitle() instanceof Title ) {
-				$href = $parser->replaceVariables( $href );
+				$href = $parser->replaceVariables( $href, $frame );
 			}
 			else {
 				$href = 'INVALID-HREF/PARSER-BROKEN';
@@ -384,6 +384,7 @@ class TweekiHooks {
 		}
 
 		foreach ( $buttons as $button ) {
+			$btnoptions = array();
 			// set classes for specific button
 			// explicit classes for the specific line?
 			if ( isset( $button['class'] ) ) {
@@ -423,11 +424,25 @@ class TweekiHooks {
 				$button['aria-expanded'] = $options['aria-expanded'];
 			}
 				
+			// if data-target attribute is set, add it
+			if ( isset( $options['data-target'] ) ) {
+				$button['data-target'] = $options['data-target'];
+			}
+				
+			// if data-dismiss attribute is set, add it
+			if ( isset( $options['data-dismiss'] ) ) {
+				$button['data-dismiss'] = $options['data-dismiss'];
+			}
+				
 			// if data-toggle attribute is set, unset wrapper and add attribute and toggle-class
 			if ( isset( $options['data-toggle'] ) ) {
 				$wrapper = '';
 				$button['data-toggle'] = $options['data-toggle'];
 				$button['class'] .= ' ' . $options['data-toggle'] . '-toggle';
+				// if data-toggle for modal use button instead of link tag
+				if ( $options['data-toggle'] == 'modal' ) {
+					$btnoptions['link-fallback'] = 'button';
+				}
 			}
 			
 			// if html is not set, use text and sanitize it
@@ -479,7 +494,7 @@ class TweekiHooks {
 
 			// simple button
 			else {
-				$renderedButtons .= TweekiHooks::makeLink( $button );
+				$renderedButtons .= TweekiHooks::makeLink( $button, $btnoptions );
 			}
 		}
 		// close wrapper
@@ -517,7 +532,7 @@ class TweekiHooks {
 			$dropdown['data-toggle'] = 'dropdown';
 			$dropdown['html'] = $dropdown['html'] . ' <b class="caret"></b>';
 			$dropdown['href'] = '#';
-			$renderedDropdown .= TweekiHooks::makeLink( $dropdown);
+			$renderedDropdown .= TweekiHooks::makeLink( $dropdown );
 		}
 
 		$renderedDropdown .= TweekiHooks::buildDropdownMenu( $dropdown['items'], $dropdownclass );
@@ -631,6 +646,10 @@ class TweekiHooks {
 				} else {
 					$attrs['class'] = $options['link-class'];
 				}
+			}
+			// if data-toggle for modal, remove href
+			if ( isset( $item['data-toggle'] ) && $item['data-toggle'] == 'modal' ) {
+				unset( $attrs['href'] );
 			}
 			$html = Html::rawElement( isset( $attrs['href'] ) ? 'a' : $options['link-fallback'], $attrs, $html );
 		}
