@@ -8,26 +8,34 @@ jQuery( function( $ ) {
 	 * FOOTER 
 	 */
 	// change sticky footer to fixed if the document is smaller than window
-	if($(document).height() == $(window).height()) { 
-		$( '#footer.footer-sticky' ).addClass( 'sticky-fixed' ); 
+	function checkFooter() {
+		if($(document).height() == $(window).height()) { 
+			$( '#footer.footer-sticky' ).addClass( 'sticky-fixed' ); 
+			correctBodyMargin();
+		}
 	}
 
+	// correct bottom margin for body for fixed footer
+	function correctBodyMargin() {
+		var footerheight = $( '#footer' ).outerHeight();
+		$( 'body' ).css( 'margin-bottom', footerheight );
+	}	
+	
 	// correct sticky footer on resize
 	$(window).resize(function() {
-		if($(document).height() != $(window).height()) { 
-			$( '#footer.footer-sticky' ).removeClass( 'sticky-fixed' ); 
-		} else { 
-			$( '#footer.footer-sticky' ).addClass('sticky-fixed'); 
-		}
+		console.log( 'resize' );
+		$( '#footer.footer-sticky' ).removeClass( 'sticky-fixed' ); 
+		$( 'body' ).css( 'margin-bottom', 0 );
+		checkFooter();
 	});
 
 	// fade in initially hidden sticky footer
+	checkFooter();
 	$( '#footer.footer-sticky' ).animate( { opacity: 1 }, 1000 );
 	
 	// correct bottom margin for body when fixed footer
 	if( $( '#footer.footer-fixed' ).length == 1 ) {
-		var footerheight = $( '#footer.footer-fixed' ).outerHeight();
-		$( 'body' ).css( 'margin-bottom', footerheight );
+		correctBodyMargin();
 	}
 
 
