@@ -434,6 +434,16 @@ class TweekiHooks {
 				$button['data-dismiss'] = $options['data-dismiss'];
 			}
 				
+			// if data-placement attribute is set, add it
+			if ( isset( $options['data-placement'] ) ) {
+				$button['data-placement'] = $options['data-placement'];
+			}
+				
+			// if title attribute is set, add it
+			if ( isset( $options['title'] ) ) {
+				$button['title'] = $options['title'];
+			}
+				
 			// if data-toggle attribute is set, unset wrapper and add attribute and toggle-class
 			if ( isset( $options['data-toggle'] ) ) {
 				$wrapper = '';

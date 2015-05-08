@@ -109,6 +109,17 @@ $wgResourceModules['skins.tweeki.smoothdivscroll'] = array(
 	'localBasePath' => &$GLOBALS['wgStyleDirectory']
 );
 
+$wgResourceModules['skins.tweeki.tooltips'] = array(
+	'scripts' => array(
+		'Tweeki/tweeki-tooltips-setup.js',
+	),
+	'dependencies' => array(
+		'skins.tweeki.scripts'
+	),
+	'remoteBasePath' => &$GLOBALS['wgStylePath'],
+	'localBasePath' => &$GLOBALS['wgStyleDirectory']
+);
+
 /**
  * DEFAULT SETTINGS
  *
@@ -205,6 +216,11 @@ $wgTweekiSkinUseScrollSpy = true;
  * Warning: not properly implemented yet when used together with scrollspy
  */
 $wgTweekiSkinUseSmoothDivScroll = false;
+
+/**
+ * Whether or not to use tooltips
+ */
+$wgTweekiSkinUseTooltips = false;
 
 /**
  * Add Resource Modules to this array.
