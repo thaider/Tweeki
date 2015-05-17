@@ -48,48 +48,65 @@ $wgHooks['DoEditSectionLink'][] = 'TweekiHooks::EditSectionLinkButton';
 $wgHooks['ParserBeforeTidy'][] = 'TweekiHooks::HeadlineFix';
 
 # Styles and Scripts have to be splitted in order to get the dependencies right
+$wgResourceModules['skins.bootstrap.styles'] = array(
+	'styles' => array(
+		'bootstrap/css/bootstrap.min.css' => array( ),
+	),
+	'remoteSkinPath' => 'Tweeki',
+	'localBasePath' => __DIR__
+);
+
 $wgResourceModules['skins.tweeki.styles'] = array(
 	'styles' => array(
-		'Tweeki/bootstrap/css/bootstrap.min.css' => array( ),
-		'Tweeki/screen.less' => array( 'media' => 'screen' ),
-		'Tweeki/corrections.less' => array( 'media' => 'screen' ),
-		'Tweeki/print.less' => array( 'media' => 'print' ),
-		'Tweeki/mediawiki/content.css' => array( 'media' => 'screen' ),
-		'Tweeki/mediawiki/elements.css' => array( 'media' => 'screen' ),
-		'Tweeki/mediawiki/interface.css' => array( 'media' => 'screen' )
+		'screen.less' => array( 'media' => 'screen' ),
+		'corrections.less' => array( 'media' => 'screen' ),
+		'print.less' => array( 'media' => 'print' ),
+		'mediawiki/content.css' => array( 'media' => 'screen' ),
+		'mediawiki/elements.css' => array( 'media' => 'screen' ),
+		'mediawiki/interface.css' => array( 'media' => 'screen' )
 	),
-	'remoteBasePath' => &$GLOBALS['wgStylePath'],
-	'localBasePath' => &$GLOBALS['wgStyleDirectory'],
+	'remoteSkinPath' => 'Tweeki',
+	'localBasePath' => __DIR__
 );
 
 $wgResourceModules['skins.awesome.styles'] = array(
 	'styles' => array(
-		'Tweeki/awesome/css/font-awesome.min.css' => array( )
+		'awesome/css/font-awesome.min.css' => array( )
 	),
-	'remoteBasePath' => &$GLOBALS['wgStylePath'],
-	'localBasePath' => &$GLOBALS['wgStyleDirectory'],
+	'remoteSkinPath' => 'Tweeki',
+	'localBasePath' => __DIR__
 );
 
 $wgResourceModules['skins.bootstraptheme.styles'] = array(
 	'styles' => array(
-		'Tweeki/bootstrap/css/bootstrap-theme.min.css' => array( 'media' => 'screen' ),
-		'Tweeki/corrections-theme.less' => array( 'media' => 'screen' )
+		'bootstrap/css/bootstrap-theme.min.css' => array( 'media' => 'screen' ),
+		'corrections-theme.less' => array( 'media' => 'screen' )
 	),
-	'remoteBasePath' => &$GLOBALS['wgStylePath'],
-	'localBasePath' => &$GLOBALS['wgStyleDirectory'],
+	'remoteSkinPath' => 'Tweeki',
+	'localBasePath' => __DIR__
 );
 
-$wgResourceModules['skins.tweeki.scripts'] = array(
+$wgResourceModules['skins.bootstrap.scripts'] = array(
 	'scripts' => array(
-		'Tweeki/bootstrap/js/bootstrap.min.js',
-		'Tweeki/tweeki.js',
+		'bootstrap/js/bootstrap.min.js',
 	),
 	'dependencies' => array(
 		'jquery.ui.widget',
 		'mediawiki.jqueryMsg'
 	),
-	'remoteBasePath' => &$GLOBALS['wgStylePath'],
-	'localBasePath' => &$GLOBALS['wgStyleDirectory'],
+	'remoteSkinPath' => 'Tweeki',
+	'localBasePath' => __DIR__
+);
+
+$wgResourceModules['skins.tweeki.scripts'] = array(
+	'scripts' => array(
+		'tweeki.js',
+	),
+	'dependencies' => array(
+		'skins.bootstrap.scripts'
+	),
+	'remoteSkinPath' => 'Tweeki',
+	'localBasePath' => __DIR__,
 	'messages' => array(
 		'tweeki-toc-top'
 	)
@@ -97,28 +114,47 @@ $wgResourceModules['skins.tweeki.scripts'] = array(
 
 $wgResourceModules['skins.tweeki.smoothdivscroll'] = array(
 	'scripts' => array(
-		'Tweeki/jquery.mousewheel.min.js',
-		'Tweeki/jquery.smoothDivScroll-1.3.js',
-		'Tweeki/tweeki-smoothDivScroll-setup.js',
+		'jquery.mousewheel.min.js',
+		'jquery.smoothDivScroll-1.3.js',
+		'tweeki-smoothDivScroll-setup.js',
 	),
 	'dependencies' => array(
 		'jquery.ui.widget',
 		'mediawiki.jqueryMsg'
 	),
-	'remoteBasePath' => &$GLOBALS['wgStylePath'],
-	'localBasePath' => &$GLOBALS['wgStyleDirectory']
+	'remoteSkinPath' => 'Tweeki',
+	'localBasePath' => __DIR__
 );
 
 $wgResourceModules['skins.tweeki.tooltips'] = array(
 	'scripts' => array(
-		'Tweeki/tweeki-tooltips-setup.js',
+		'tweeki-tooltips-setup.js',
 	),
 	'dependencies' => array(
 		'skins.tweeki.scripts'
 	),
-	'remoteBasePath' => &$GLOBALS['wgStylePath'],
-	'localBasePath' => &$GLOBALS['wgStyleDirectory']
+	'remoteSkinPath' => 'Tweeki',
+	'localBasePath' => __DIR__
 );
+
+$wgExtensionFunctions[] = 'efTweekiSkinSetup';
+
+function efTweekiSkinSetup() {
+	global $wgTweekiSkinCustomizedBootstrap, $wgResourceModules;
+
+	/* Load customized bootstrap files */
+	if( isset( $wgTweekiSkinCustomizedBootstrap ) && ! is_null( $wgTweekiSkinCustomizedBootstrap ) ) {
+		$wgResourceModules['skins.bootstrap.styles']['localBasePath'] = $wgTweekiSkinCustomizedBootstrap['localBasePath'];
+		$wgResourceModules['skins.bootstrap.styles']['remoteExtPath'] = $wgTweekiSkinCustomizedBootstrap['remoteExtPath'];
+		unset( $wgResourceModules['skins.bootstrap.styles']['remoteSkinPath'] );
+		$wgResourceModules['skins.bootstraptheme.styles']['localBasePath'] = $wgTweekiSkinCustomizedBootstrap['localBasePath'];
+		$wgResourceModules['skins.bootstraptheme.styles']['remoteExtPath'] = $wgTweekiSkinCustomizedBootstrap['remoteExtPath'];
+		unset( $wgResourceModules['skins.bootstraptheme.styles']['remoteSkinPath'] );
+		$wgResourceModules['skins.bootstrap.scripts']['localBasePath'] = $wgTweekiSkinCustomizedBootstrap['localBasePath'];
+		$wgResourceModules['skins.bootstrap.scripts']['remoteExtPath'] = $wgTweekiSkinCustomizedBootstrap['remoteExtPath'];
+		unset( $wgResourceModules['skins.bootstrap.scripts']['remoteSkinPath'] );
+	}
+}
 
 /**
  * DEFAULT SETTINGS
@@ -226,3 +262,8 @@ $wgTweekiSkinUseTooltips = false;
  * Add Resource Modules to this array.
  */
 $wgTweekiSkinCustomCSS = array();
+
+/**
+ * Use costumized bootstrap files created via http://getbootstrap.com/customize/
+ */
+$wgTweekiSkinCustomizedBootstrap = NULL;
