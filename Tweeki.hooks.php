@@ -449,10 +449,6 @@ class TweekiHooks {
 				$wrapper = '';
 				$button['data-toggle'] = $options['data-toggle'];
 				$button['class'] .= ' ' . $options['data-toggle'] . '-toggle';
-				// if data-toggle for modal use button instead of link tag
-				if ( $options['data-toggle'] == 'modal' ) {
-					$btnoptions['link-fallback'] = 'button';
-				}
 			}
 			
 			// if html is not set, use text and sanitize it
@@ -657,10 +653,6 @@ class TweekiHooks {
 					$attrs['class'] = $options['link-class'];
 				}
 			}
-			// if data-toggle for modal, remove href
-			if ( isset( $item['data-toggle'] ) && $item['data-toggle'] == 'modal' ) {
-				unset( $attrs['href'] );
-			}
 			$html = Html::rawElement( isset( $attrs['href'] ) ? 'a' : $options['link-fallback'], $attrs, $html );
 		}
 
@@ -734,7 +726,7 @@ class TweekiHooks {
 		$text = wfMessage( 'tweeki-editsection-text' )->inLanguage( $lang )->parse();
 		$class = wfMessage( 'tweeki-editsection-class' )->inLanguage( $lang )->parse();
 		$replace = array( 
-			$icon . ' ' . $text . '</a>', 
+			$icon . ( ( $icon != '' ) ? ' ' : '' ) . $text . '</a>', 
 			'<a class="' . $class . '"'
 		);
 		$result = str_replace( $search, $replace, $result );

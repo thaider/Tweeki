@@ -66,6 +66,9 @@ class SkinTweeki extends SkinTemplate {
 		if( $wgUser->getOption( 'tweeki-advanced' ) ) {
 			static::$bodyClasses[] = 'advanced';
 		}
+		$additionalBodyClasses = array();
+		wfRunHooks( 'SkinTweekiAdditionalBodyClasses', array( $this, &$additionalBodyClasses ) );
+		static::$bodyClasses = array_merge( static::$bodyClasses, $additionalBodyClasses );
 	}
 
 	/**
@@ -280,7 +283,7 @@ class TweekiTemplate extends BaseTemplate {
 			}
 			// was this element defined in LocalSettings?
 			if ( isset( $wgTweekiSkinNavigationalElements[ $element ] ) ) {
-				return $wgTweekiSkinNavigationalElements[ $element ]( $this );
+				return call_user_func( $wgTweekiSkinNavigationalElements[ $element ], $this );
 			}
 			// is it a special element with special non-buttonesque rendering?
 			if ( isset( $wgTweekiSkinSpecialElements[ $element ] ) ) {
@@ -679,11 +682,11 @@ class TweekiTemplate extends BaseTemplate {
 	/**
 	 * Render Sidebar
 	 */
-	public function renderSidebar() {
+	public function renderSidebar( $class = '' ) {
 		$options = $this->getParsingOptions( 'sidebar' );
 		if ( ( count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( 'sidebar' ) ) { ?>
 			<!-- sidebar -->
-			<div id="sidebar">
+			<div id="sidebar"<?php if( $class !== '' ) { echo ' class="' . $class . '"'; } ?>>
 			<?php $this->buildItems( wfMessage( 'tweeki-sidebar' )->plain(), $options, 'sidebar' ); ?>
 			</div>
 			<!-- /sidebar -->

@@ -23,7 +23,6 @@ jQuery( function( $ ) {
 	
 	// correct sticky footer on resize
 	$(window).resize(function() {
-		console.log( 'resize' );
 		$( '#footer.footer-sticky' ).removeClass( 'sticky-fixed' ); 
 		$( 'body' ).css( 'margin-bottom', 0 );
 		checkFooter();
@@ -54,9 +53,10 @@ jQuery( function( $ ) {
 			$( "#toc" ).appendTo( "#tweekiTOC" );
 			$( "#toctitle" ).insertBefore( "#tweekiTOC" ).children( "h2" )
 				.append( '<a href="javascript:scrollTo(0,0);">' + mw.message( 'tweeki-toc-top' ).plain() + '</a>' );
-			$(window).resize(function() {
+			/* do we need this? could cause problems on small screens */
+			/* $(window).resize(function() {
 				$("#tweekiTOC").height($(window).height()-$("#tweekiTOC").position().top-130);
-			}).resize();
+			}).resize(); */
 						
 			// show toc (hidden by default)
 			$( "#toc" ).css( 'display', 'table' );
