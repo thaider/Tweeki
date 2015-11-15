@@ -681,16 +681,27 @@ class TweekiTemplate extends BaseTemplate {
 
 	/**
 	 * Render Sidebar
+	 *
+	 * @param $side string
+	 * @param $class string
 	 */
-	public function renderSidebar( $class = '' ) {
-		$options = $this->getParsingOptions( 'sidebar' );
-		if ( ( count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( 'sidebar' ) ) { ?>
-			<!-- sidebar -->
-			<div id="sidebar"<?php if( $class !== '' ) { echo ' class="' . $class . '"'; } ?>>
-			<?php $this->buildItems( wfMessage( 'tweeki-sidebar' )->plain(), $options, 'sidebar' ); ?>
+	public function renderSidebar( $side, $class = '' ) {
+		$element = 'sidebar-' . $side;
+		$options = $this->getParsingOptions( $element );
+		/* TODO: can we move these criteria elsewhere? rather there should be some handling for empty sidebars */
+		if ( ( count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( $element ) ) { ?>
+			<!-- <?php echo $element; ?> -->
+			<div class="sidebar-wrapper <?php echo $element; ?>-wrapper">
+				<div class="sidebar-container <?php echo wfMessage( 'tweeki-container-class' )->plain(); ?>">
+					<div class="row">
+						<div id="<?php echo $element; if( $class !== '' ) { echo '" class="' . $class; } ?>">
+							<?php $this->buildItems( wfMessage( 'tweeki-' . $element )->plain(), $options, $element ); ?>
+						</div>
+					</div>
+				</div>
 			</div>
-			<!-- /sidebar -->
-		<?php } 
+			<!-- /<?php echo $element;?> -->
+		<?php }
 	}
 		
 
@@ -866,7 +877,7 @@ class TweekiTemplate extends BaseTemplate {
 	 * Render TOC
 	 */
 	function renderTOC( $skin, $context ) {
-		if( $context == 'sidebar' ) {
+		if( $context == 'sidebar-left' || $context == 'sidebar-right' ) {
 			echo '<div id="tweekiTOC"></div>';
 		} else {
 			echo '<li class="nav dropdown" id="tweekiDropdownTOC"><a id="n-toc" class="dropdown-toggle" data-toggle="dropdown" href="#">' . wfMessage( 'Toc' )->text() . '<span class="caret"></span></a><ul class="dropdown-menu pull-right" role="menu" id="tweekiTOC"><li><a href="#">' . wfMessage( 'tweeki-toc-top' )->text() . '</a></li><li class="divider"></li></ul></li>';

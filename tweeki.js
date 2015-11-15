@@ -44,7 +44,7 @@ jQuery( function( $ ) {
 	// move TOC elsewhere
 	if( $( "#tweekiTOC" ).length == 1 && $( "#toc" ).length == 1 ) {
 		// to other place than sidebar?
-		if( $( "#tweekiTOC" ).parents( "#sidebar" ).length != 1 ) {
+		if( $( "#tweekiTOC" ).parents( ".sidebar-wrapper" ).length != 1 ) {
 			$( "#toc li" ).appendTo( "#tweekiTOC" );
 			$( "#tweekiDropdownTOC" ).show();
 			}
