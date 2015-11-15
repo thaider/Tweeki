@@ -282,32 +282,19 @@ body {
 /**
  * SIDEBAR 
  */
-#sidebar {
-	position:fixed;
-	width:20em;
-	left:0;
-	top:80px;
-	padding-left:2em;
-	bottom:30px;
-	overflow:hidden;
+.sidebar-wrapper {
+	position:absolute;
+	width:100%;
+	height:0;
+	top:83px;
 }
-	
-#sidebar h1 {
-	line-height:1.1em;
-	font-size:14pt;
+.sidebar-container,
+.sidebar-container .row {
+	height:0;
 }
-
-/* responsive sidebar */
-#sidebar {
-	width: 25%;
-	*width: 25%;
-	padding:2%;
-}
-
 @media (max-width: 992px) {
-	#sidebar {
-		position:static !important;
-		width:auto;
+	.sidebar-wrapper {
+		position:static;
 	}
 	#sidebar .dropdown-menu {
 		position:static;
@@ -317,16 +304,10 @@ body {
 	}
 }
 
-/* file download */
-.fullMedia p { 
-	margin:0;
-}
-
 
 /**
  * TOC 
  */
-
 #toc {
 	width:100%;
 }
