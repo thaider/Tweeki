@@ -180,18 +180,18 @@ $wgTweekiSkinHideable = array( 'firstHeading' );
 /**
  * Elements in this array will be hidden for users who are not logged in.
  */
-$wgTweekiSkinHideAnon = array( 'navbar' );
+$wgTweekiSkinHideAnon = array( 'subnav', 'PERSONAL', 'TOOLBOX' );
 
 /**
  * Elements in this array will only be shown to users who have chosen 
  * in their preferences to show "advanced features".
  */
-$wgTweekiSkinHideNonAdvanced = array( 'TOOLBOX', 'EDIT-EXT-special' );
+$wgTweekiSkinHideNonAdvanced = array( 'EDIT-EXT-special' );
 
 /**
  * If set to false, the icons in the footer will be replaced by text aquivalents.
  */
-$wgTweekiSkinFooterIcons = true;
+$wgTweekiSkinFooterIcons = false;
 
 /**
  * Use this variable to change the default page layout. Replace the value 

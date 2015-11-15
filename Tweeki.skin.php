@@ -216,13 +216,31 @@ class TweekiTemplate extends BaseTemplate {
 	 * @param $skin Skin skin object
 	 */
 	private function renderPage( $skin ) {
-		$mainclass = 'col-md-offset-1 col-md-10';
-		if( 
-			( count( $skin->data['view_urls'] ) > 0 || $skin->data['isarticle'] )
-			&& $skin->checkVisibility( 'sidebar' ) 
-		) {
-			$mainclass= 'col-md-offset-3 col-md-9';
+		$mainclass_width = 10; // if no sidebar is shown the main content is centered with one grid margin
+		$mainclass_offset = 1;
+		$sidebar_width = 3;
+		$sidebar_offset = 9;
+		// TODO: check for situational emptiness of sidebar (e.g. on special pages)
+		if( true ) { 
+			$sidebar_left = $skin->checkVisibility( 'sidebar-left' ) && !$skin->checkEmptiness( 'sidebar-left' );
+			$sidebar_right = $skin->checkVisibility( 'sidebar-right' ) && !$skin->checkEmptiness( 'sidebar-right' );
+			if( $sidebar_left && $sidebar_right ) { // if both sidebars are shown it's 2+8+2 grids
+				$mainclass_width = 8;
+				$mainclass_offset = 2;
+				$sidebar_width = 2;
+				$sidebar_offset = 10;
+			}
+			if( $sidebar_left XOR $sidebar_right ) { // if only one is shown it's 3+9 or 9+3
+				$mainclass_width = 9;
+				if( $sidebar_left ) {
+					$mainclass_offset = 3;
+				}
+				else {
+					$mainclass_offset = 0;
+				}
+			}
 		}
+		$mainclass = 'col-md-offset-' . $mainclass_offset . ' col-md-' . $mainclass_width;
 		$contentclass = $skin->data['userstateclass'];
 		$contentclass .= ' ' . wfMessage( 'tweeki-container-class' )->escaped();
 		$contentclass .= ( $skin->checkVisibility( 'navbar' ) ) ? ' with-navbar' : ' without-navbar';
@@ -237,9 +255,9 @@ class TweekiTemplate extends BaseTemplate {
 		<a id="top"></a>
 
 		<!-- content -->
-		<div id="contentwrapper" class="<?php echo $contentclass;	?>">
+		<div id="contentwrapper" class="<?php echo $contentclass; ?>">
 
-			<?php $skin->renderSubnav( $mainclass ); ?>
+			<?php if( !$skin->checkEmptiness( 'subnav' ) ) { $skin->renderSubnav( $mainclass ); } ?>
 
 			<div class="row">
 				<div class="<?php echo $mainclass ?>" role="main">
@@ -250,7 +268,8 @@ class TweekiTemplate extends BaseTemplate {
 		<!-- /content -->
 
 <?php
-		$skin->renderSidebar();
+		if( !$skin->checkEmptiness( 'sidebar-left' ) ) { $skin->renderSidebar( 'left', 'col-md-' . $sidebar_width ); }
+		if( !$skin->checkEmptiness( 'sidebar-right' ) ) { $skin->renderSidebar( 'right', 'col-md-' . $sidebar_width . ' col-md-offset-' . $sidebar_offset ); }
 		$skin->renderFooter();
 		$skin->printTrail(); 
 	}
@@ -314,8 +333,7 @@ class TweekiTemplate extends BaseTemplate {
 								'href_implicit' => false,
 								'id' => 'ca-edit',
 								'icon' => 'pencil',
-								'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain(),
-								'class' => 'btn-primary btn-edit'
+								'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain()
 								);
 							$button['items'] = $views;
 							if(count($this->data['action_urls']) > 0) {
@@ -324,10 +342,12 @@ class TweekiTemplate extends BaseTemplate {
 								$button['items'] = array_merge( $button['items'], $actions[0]['items'] );
 							}
 						} else {
-							$button = $link;
-							$button['icon'] = 'pencil';
-							$button['id'] = 'ca-edit';
-							$button['text'] = wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain();
+							$button = array( 
+								'href' => $link['href'],
+								'id' => 'ca-edit',
+								'icon' => 'pencil',
+								'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain()
+								);
 						}
 						return array($button);
 					}
@@ -572,6 +592,15 @@ class TweekiTemplate extends BaseTemplate {
 		}
 	}
 
+
+	/**
+	 * Check navigational sections for content
+	 *
+	 * @param $item String
+	 */
+	public function checkEmptiness( $item ) {
+		return wfMessage( 'tweeki-' . $item )->isDisabled();
+	}
 
 	/**
 	 * Elements can be hidden for anonymous users or for everybody who has not opted
