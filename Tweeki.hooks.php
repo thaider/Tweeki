@@ -453,7 +453,12 @@ class TweekiHooks {
 			
 			// if html is not set, use text and sanitize it
 			if ( !isset( $button['html'] ) ) {
-				$button['html'] = htmlspecialchars( $button['text'] );
+				if( isset( $button['text'] ) ) {
+					$button['html'] = htmlspecialchars( $button['text'] );
+				}
+				else {
+					$button['html'] = '#';
+				}
 			}
 			
 			// if fa attribute is set, add fa-icon to buttons
