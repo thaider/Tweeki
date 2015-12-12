@@ -166,8 +166,9 @@ function efTweekiSkinSetup() {
 /**
  * This variable can be used to hide elements from everybody. 
  * The {{#tweekihide}} parser function will add to this array. 
- * Attention: Only hiding of elements that are also listed in 
- * $wgTweekiSkinHideable will actually be put into effect.
+ * Attention: For the parser function only hiding of elements 
+ * that are also listed in $wgTweekiSkinHideable will actually 
+ * be put into effect.
  */
 $wgTweekiSkinHideAll = array( 'footer-info' );
 
@@ -181,6 +182,11 @@ $wgTweekiSkinHideable = array( 'firstHeading' );
  * Elements in this array will be hidden for users who are not logged in.
  */
 $wgTweekiSkinHideAnon = array( 'subnav', 'PERSONAL', 'TOOLBOX' );
+
+/**
+ * Elements in this array will be hidden for users who are logged in.
+ */
+$wgTweekiSkinHideLoggedin = array( 'footer-custom' );
 
 /**
  * Elements in this array will only be shown to users who have chosen 

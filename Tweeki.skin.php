@@ -602,14 +602,15 @@ class TweekiTemplate extends BaseTemplate {
 		return wfMessage( 'tweeki-' . $item )->isDisabled();
 	}
 
+
 	/**
-	 * Elements can be hidden for anonymous users or for everybody who has not opted
+	 * Elements can be hidden for anonymous or logged in users or for everybody who has not opted
 	 * to show the advanced features in their preferences
 	 *
 	 * @param $item String
 	 */
 	public function checkVisibility( $item ) {
-		global $wgUser, $wgTweekiSkinHideNonAdvanced, $wgTweekiSkinHideAnon, $wgTweekiSkinHideAll;
+		global $wgUser, $wgTweekiSkinHideNonAdvanced, $wgTweekiSkinHideAnon, $wgTweekiSkinHideAll, $wgTweekiSkinHideLoggedin;
 		if ( 
 			( 
 				!in_array( $item, $wgTweekiSkinHideNonAdvanced ) || 
@@ -618,7 +619,11 @@ class TweekiTemplate extends BaseTemplate {
 			( 
 				!in_array( $item, $wgTweekiSkinHideAnon ) || 
 				$this->data['loggedin'] // not hidden for anonymous users OR non-anonymous user
-			)	&& 
+			) && 
+			(
+				!in_array( $item, $wgTweekiSkinHideLoggedin ) ||
+				!$this->data['loggedin'] // not hidden for logged-in users OR anonymous user
+			) &&
 			!in_array( $item, $wgTweekiSkinHideAll ) // not hidden for all
 			&&
 			false !== wfRunHooks( 'TweekiSkinCheckVisibility', array( $item, $this ) ) // not hidden via hook
