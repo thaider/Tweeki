@@ -71,6 +71,7 @@ $wgResourceModules['skins.tweeki.styles'] = array(
 );
 
 $wgResourceModules['skins.tweeki.externallinks.styles'] = array(
+	'position' => 'bottom',
 	'styles' => array(
 		'components/externallinks.less' => array( 'media' => 'screen' ),
 	),
@@ -79,6 +80,7 @@ $wgResourceModules['skins.tweeki.externallinks.styles'] = array(
 );
 
 $wgResourceModules['skins.tweeki.corrections.styles'] = array(
+	'position' => 'top',
 	'styles' => array(
 		'components/corrections.less' => array( 'media' => 'screen' ),
 	),
@@ -87,6 +89,7 @@ $wgResourceModules['skins.tweeki.corrections.styles'] = array(
 );
 
 $wgResourceModules['skins.tweeki.awesome.styles'] = array(
+	'position' => 'bottom',
 	'styles' => array(
 		'awesome/css/font-awesome.min.css' => array( )
 	),
@@ -95,6 +98,7 @@ $wgResourceModules['skins.tweeki.awesome.styles'] = array(
 );
 
 $wgResourceModules['skins.tweeki.bootstraptheme.styles'] = array(
+	'position' => 'top',
 	'styles' => array(
 		'bootstrap/css/bootstrap-theme.min.css' => array( 'media' => 'screen' ),
 		'corrections-theme.less' => array( 'media' => 'screen' )
@@ -104,6 +108,7 @@ $wgResourceModules['skins.tweeki.bootstraptheme.styles'] = array(
 );
 
 $wgResourceModules['skins.bootstrap.scripts'] = array(
+	'position' => 'bottom',
 	'scripts' => array(
 		'bootstrap/js/bootstrap.min.js',
 	),
@@ -116,6 +121,7 @@ $wgResourceModules['skins.bootstrap.scripts'] = array(
 );
 
 $wgResourceModules['skins.tweeki.scripts'] = array(
+	'position' => 'bottom',
 	'scripts' => array(
 		'tweeki.js',
 	),
@@ -130,6 +136,7 @@ $wgResourceModules['skins.tweeki.scripts'] = array(
 );
 
 $wgResourceModules['skins.tweeki.tooltips'] = array(
+	'position' => 'bottom',
 	'scripts' => array(
 		'tweeki-tooltips-setup.js',
 	),
