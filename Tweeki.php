@@ -48,7 +48,8 @@ $wgHooks['DoEditSectionLink'][] = 'TweekiHooks::EditSectionLinkButton';
 $wgHooks['ParserBeforeTidy'][] = 'TweekiHooks::HeadlineFix';
 
 # Styles and Scripts have to be splitted in order to get the dependencies right
-$wgResourceModules['skins.bootstrap.styles'] = array(
+$wgResourceModules['skins.tweeki.bootstrap.styles'] = array(
+	'position' => 'top',
 	'styles' => array(
 		'bootstrap/css/bootstrap.min.css' => array( ),
 	),
@@ -57,20 +58,35 @@ $wgResourceModules['skins.bootstrap.styles'] = array(
 );
 
 $wgResourceModules['skins.tweeki.styles'] = array(
+	'position' => 'top',
 	'styles' => array(
 		'screen.less' => array( 'media' => 'screen' ),
-		'components/corrections.less' => array( 'media' => 'screen' ),
 		'print.less' => array( 'media' => 'print' ),
 		'mediawiki/content.css' => array( 'media' => 'screen' ),
 		'mediawiki/elements.css' => array( 'media' => 'screen' ),
 		'mediawiki/interface.css' => array( 'media' => 'screen' )
 	),
 	'remoteSkinPath' => 'Tweeki',
-	'localBasePath' => __DIR__,
-	'position' => 'top'
+	'localBasePath' => __DIR__
 );
 
-$wgResourceModules['skins.awesome.styles'] = array(
+$wgResourceModules['skins.tweeki.externallinks.styles'] = array(
+	'styles' => array(
+		'components/externallinks.less' => array( 'media' => 'screen' ),
+	),
+	'remoteSkinPath' => 'Tweeki',
+	'localBasePath' => __DIR__
+);
+
+$wgResourceModules['skins.tweeki.corrections.styles'] = array(
+	'styles' => array(
+		'components/corrections.less' => array( 'media' => 'screen' ),
+	),
+	'remoteSkinPath' => 'Tweeki',
+	'localBasePath' => __DIR__
+);
+
+$wgResourceModules['skins.tweeki.awesome.styles'] = array(
 	'styles' => array(
 		'awesome/css/font-awesome.min.css' => array( )
 	),
@@ -78,7 +94,7 @@ $wgResourceModules['skins.awesome.styles'] = array(
 	'localBasePath' => __DIR__
 );
 
-$wgResourceModules['skins.bootstraptheme.styles'] = array(
+$wgResourceModules['skins.tweeki.bootstraptheme.styles'] = array(
 	'styles' => array(
 		'bootstrap/css/bootstrap-theme.min.css' => array( 'media' => 'screen' ),
 		'corrections-theme.less' => array( 'media' => 'screen' )
@@ -217,6 +233,19 @@ $wgTweekiSkinSpecialElements = array(
 	'LOGIN-EXT' => 'self::renderLoginExt',
 	'FOOTER' => 'self::renderStandardFooter'
 );
+
+/**
+ * Array of resource modules to be loaded
+ * skins.tweeki.bootstrap.styles - bootstrap
+ * skins.tweeki.styles - basic styling
+ * skins.tweeki.corrections.styles - corrections
+ */
+$wgTweekiSkinStyles = array( 
+	'skins.tweeki.bootstrap.styles', 
+	'skins.tweeki.styles',
+	'skins.tweeki.corrections.styles',
+	'skins.tweeki.externallinks.styles'
+); 
 
 /** 
  * Whether or not to include Font Awesome to allow the use of its icons.

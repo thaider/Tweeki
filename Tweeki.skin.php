@@ -73,15 +73,16 @@ class SkinTweeki extends SkinTemplate {
 	 * @param $out OutputPage object
 	 */
 	function setupSkinUserCss( OutputPage $out ) {
-		global $wgTweekiSkinUseAwesome, $wgTweekiSkinUseBootstrapTheme, $wgTweekiSkinCustomCSS;
+		global $wgTweekiSkinStyles, $wgTweekiSkinUseAwesome, $wgTweekiSkinUseBootstrapTheme, $wgTweekiSkinCustomCSS;
+
 		parent::setupSkinUserCss( $out );
 		
-		$styles = array( 'skins.bootstrap.styles', 'skins.tweeki.styles' ); 
+		$styles = $wgTweekiSkinStyles; 
 		if( $wgTweekiSkinUseAwesome === true ) {
-			$styles[] = 'skins.awesome.styles';
+			$styles[] = 'skins.tweeki.awesome.styles';
 		}
 		if( $wgTweekiSkinUseBootstrapTheme === true ) {
-			$styles[] = 'skins.bootstraptheme.styles';
+			$styles[] = 'skins.tweeki.bootstraptheme.styles';
 		}
 		foreach( $wgTweekiSkinCustomCSS as $customstyle ) {
 			$styles[] = $customstyle;
