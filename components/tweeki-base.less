@@ -1,0 +1,155 @@
+
+/**
+ * Tweeki screen styles
+ *
+ * part of this has been taken from Garret LeSage's Strapping
+ */
+
+
+/* correction for internal links with fixed navbar */
+.with-navbar.with-navbar-fixed .mw-headline {
+	padding-top: 70px;
+}
+
+
+/**
+ * CONTENT 
+ */
+
+#content {
+	clear:both;
+	margin-bottom:1em;
+	padding-top:.5em;
+	padding-bottom:1em;
+}
+
+@media (min-width: 768px) {
+	#content {
+		padding:1em 2em;
+		-moz-border-radius:5px;
+		-webkit-border-radius:5px;
+		border-radius:5px;
+	}
+}
+
+
+
+/** 
+ * CORRECTION FOR MAIN CONTENT
+ */
+.with-navbar {
+}
+
+.without-navbar {
+	padding-top:20px;
+}
+
+.with-navbar.with-navbar-fixed {
+	padding-top:60px;
+}
+	
+/* navigation - accessibility */
+#mw-navigation h2 {
+		position: absolute;
+		top: -9999px;
+}
+
+/* image in brand */
+.navbar-brand img {
+	height:40px;
+	margin-top:-10px;
+}
+
+/* correction for searchform in navbar */
+#searchform + .navbar-nav.navbar-right:last-child {
+		margin-right: 0;
+}
+
+/* correction for dropdowns (conflicting with mediawiki.legacy.shared) */
+.mw-content-ltr ul.dropdown-menu {
+	margin: 2px 0 0;
+	padding: 5px 0;
+}
+
+/* correction for selflinks in dropdowns (they're no links actually) */
+.dropdown-menu > li > .selflink {
+	padding: 3px 20px;
+	display: block;
+}
+
+/** 
+ * SMALL CORRECTIONS
+ */
+
+/* postedit: would otherwise be hidden behind navbar */
+.postedit {
+	top: 5em !important;
+}
+
+/* editsectionlink: hide brackets */
+.mw-editsection-bracket {
+	display:none;
+}
+
+/* editsectionlink: make it float right */
+.mw-editsection {
+	float:right;
+	line-height:.9em;
+}
+
+/* hide categories */
+#catlinks {
+	display:none;
+}
+
+/* make edit window bigger */
+#wpTextbox1 {
+	width:100%;
+} 
+
+.firstHeading, 
+.tweekiFirstHeading { 
+	text-align:center;
+	margin-bottom:15px;
+	margin-top:10px;
+	font-weight:600;
+	letter-spacing:-.01em;
+}
+
+.tweekiFirstHeading {
+	background-color:#fff;
+	border:1px dashed #ccc;
+	padding:5px;
+	border-radius:2px;
+}
+
+.firstHeading .namespace {
+	font-weight:300;
+}
+
+/* Hide empty portlets */
+div.emptyPortlet {
+	display: none;
+}
+
+/* Sub-navigation */
+#siteSub {
+	display: none;
+}
+
+#jump-to-nav {
+	display: none;
+}
+
+div#content .printfooter {
+	display: none;
+}
+
+label {
+	display:inline-block;
+	padding-top:5px;
+}
+
+input[type=radio], input[type=checkbox] {
+	margin:-2px 0 0;
+}

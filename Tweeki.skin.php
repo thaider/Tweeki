@@ -57,9 +57,6 @@ class SkinTweeki extends SkinTemplate {
 
 		$out->addMeta("viewport", "width=device-width, initial-scale=1.0");
 		$out->addModules( 'skins.tweeki.scripts' );
-		if( $wgTweekiSkinUseSmoothDivScroll ) {
-			$out->addModules( 'skins.tweeki.smoothdivscroll' );
-		}
 		if( $wgTweekiSkinUseTooltips ) {
 			$out->addModules( 'skins.tweeki.tooltips' );
 		}
@@ -331,7 +328,7 @@ class TweekiTemplate extends BaseTemplate {
 							$button = array(
 								'href' => $link['href'],
 								'href_implicit' => false,
-								'id' => 'ca-edit',
+								'id' => 'ca-edit-ext',
 								'icon' => 'pencil',
 								'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain()
 								);

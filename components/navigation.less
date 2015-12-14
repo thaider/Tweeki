@@ -1,0 +1,25 @@
+
+/**
+ * NAVIGATION 
+ */
+
+/* switch off responsiveness for navbar (should stay above) */
+/* TODO: do we need it? maybe it was only necessary when we had
+the navigation after the main content in the code */
+.navbar-fixed-top, 
+.navbar-fixed-bottom {
+		position: fixed;
+}
+
+@media (max-width: 767px) {
+	.navbar-fixed-top, .navbar-fixed-bottom {
+			margin-left: 0 !important;
+			margin-right: 0 !important;
+	}
+	.navbar-fixed-top .pull-left, .navbar-fixed-bottom .pull-left, 
+	.navbar-fixed-top .pull-right, .navbar-fixed-bottom .pull-right {
+		float:none;
+	}
+}
+
+

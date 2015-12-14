@@ -59,14 +59,15 @@ $wgResourceModules['skins.bootstrap.styles'] = array(
 $wgResourceModules['skins.tweeki.styles'] = array(
 	'styles' => array(
 		'screen.less' => array( 'media' => 'screen' ),
-		'corrections.less' => array( 'media' => 'screen' ),
+		'components/corrections.less' => array( 'media' => 'screen' ),
 		'print.less' => array( 'media' => 'print' ),
 		'mediawiki/content.css' => array( 'media' => 'screen' ),
 		'mediawiki/elements.css' => array( 'media' => 'screen' ),
 		'mediawiki/interface.css' => array( 'media' => 'screen' )
 	),
 	'remoteSkinPath' => 'Tweeki',
-	'localBasePath' => __DIR__
+	'localBasePath' => __DIR__,
+	'position' => 'top'
 );
 
 $wgResourceModules['skins.awesome.styles'] = array(
@@ -110,20 +111,6 @@ $wgResourceModules['skins.tweeki.scripts'] = array(
 	'messages' => array(
 		'tweeki-toc-top'
 	)
-);
-
-$wgResourceModules['skins.tweeki.smoothdivscroll'] = array(
-	'scripts' => array(
-		'jquery.mousewheel.min.js',
-		'jquery.smoothDivScroll-1.3.js',
-		'tweeki-smoothDivScroll-setup.js',
-	),
-	'dependencies' => array(
-		'jquery.ui.widget',
-		'mediawiki.jqueryMsg'
-	),
-	'remoteSkinPath' => 'Tweeki',
-	'localBasePath' => __DIR__
 );
 
 $wgResourceModules['skins.tweeki.tooltips'] = array(
@@ -252,12 +239,6 @@ $wgTweekiSkinUseBtnParser = true;
  * Whether or not to use Bootstrap's scrollspy feature
  */
 $wgTweekiSkinUseScrollSpy = true;
-
-/**
- * Whether or not to use smoothdivscroll for very long TOCs
- * Warning: not properly implemented yet when used together with scrollspy
- */
-$wgTweekiSkinUseSmoothDivScroll = false;
 
 /**
  * Whether or not to use tooltips
