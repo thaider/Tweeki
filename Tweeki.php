@@ -71,7 +71,7 @@ $wgResourceModules['skins.tweeki.styles'] = array(
 );
 
 $wgResourceModules['skins.tweeki.externallinks.styles'] = array(
-	'position' => 'bottom',
+	'position' => 'top',
 	'styles' => array(
 		'components/externallinks.less' => array( 'media' => 'screen' ),
 	),
@@ -89,7 +89,7 @@ $wgResourceModules['skins.tweeki.corrections.styles'] = array(
 );
 
 $wgResourceModules['skins.tweeki.awesome.styles'] = array(
-	'position' => 'bottom',
+	'position' => 'top',
 	'styles' => array(
 		'awesome/css/font-awesome.min.css' => array( )
 	),

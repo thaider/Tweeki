@@ -7,19 +7,19 @@
 }
 
 #toctitle h2 {
-	font-size:12pt;
+	font-size:10pt;
 	margin:0;
-	margin-top:15px;
-	color:#999;
-	text-align:center;
+	margin-top:35px;
 	line-height:1.7em;
-	font-weight:300;
+	font-weight:bold;
+	text-transform:uppercase;
 }
 
 #toctitle h2 a {
-	font-size: 10pt;
+	font-size: 7pt;
 	font-weight: normal;
 	padding-left: 5px;
+	text-transform:none;
 }
 
 #sidebar #tweekiTOC {
@@ -41,6 +41,16 @@
 	display:none;
 }
 
+#toc ul > li a {
+	color:#999;
+}
+
+#toc ul > li a:hover,
+#toc ul > li a:focus,
+#toc ul > li a:hover {
+	color:#000;
+}
+
 #toc ul > li > ul a {
 	font-size: small;
 }
@@ -49,13 +59,12 @@
 	display:block;
 }
 
-#toc li.active {
-	background:#eee;
+#toc li.toclevel-1.active > a {
+	border-left: 2px solid #bbb;
 }
 
 #toc li.active > a {
-	font-style: italic;
-	border-right: 2px solid #bbb;
+	color:#000;
 }
 
 #toc ul, .toc ul {
