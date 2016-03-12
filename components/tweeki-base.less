@@ -91,10 +91,26 @@
 	display:none;
 }
 
-/* editsectionlink: make it float right */
+/* show editsectionlink only on hover */
+.tw-editsection-onhover {
+	display:none;
+	color:#ccc;
+}
+.tw-editsection-onhover:hover,
+.tw-editsection-onhover:focus {
+	color:#666;
+	text-decoration:none;
+}
 .mw-editsection {
-	float:right;
-	line-height:.9em;
+	vertical-align:middle;
+}
+h1:hover .tw-editsection-onhover,
+h2:hover .tw-editsection-onhover,
+h3:hover .tw-editsection-onhover,
+h4:hover .tw-editsection-onhover,
+h5:hover .tw-editsection-onhover,
+h6:hover .tw-editsection-onhover {
+	display:inline-block;
 }
 
 /* hide categories */
