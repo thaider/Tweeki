@@ -942,9 +942,11 @@ class TweekiTemplate extends BaseTemplate {
 		}
 
 		//build path for form action
-		$returnto = $skin->getSkin()->getTitle()->getFullText();
+		$returntotitle = $skin->getSkin()->getTitle();
+		$returnto = $returntotitle->getFullText();
 		if ( $returnto == SpecialPage::getTitleFor( 'UserLogin' ) 
-			|| $returnto == SpecialPage::getTitleFor( 'UserLogout' ) ) {
+			|| $returnto == SpecialPage::getTitleFor( 'UserLogout' ) 
+			|| !$returntotitle->exists() ) {
 			$returnto = Title::newMainPage()->getFullText();
 		}
 		$returnto = $wgRequest->getVal( 'returnto', $returnto );
@@ -966,8 +968,9 @@ class TweekiTemplate extends BaseTemplate {
 		$dropdown['type'] = 'button';
 		$dropdown['id'] = 'n-login-ext';
 		$renderedDropdown = TweekiHooks::makeLink( $dropdown);
+		$wrapperclass = ( $context == 'footer' ) ? 'dropup' : 'nav';
 
-		echo '<li class="nav">
+		echo '<li class="' . $wrapperclass . '">
 		' . $renderedDropdown . '
 		<ul class="dropdown-menu" role="menu" aria-labelledby="' . $this->getMsg( 'userlogin' )->text() . '" id="loginext">
 			<form action="' . $action . '" method="post" name="userloginext" class="clearfix">
