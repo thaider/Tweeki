@@ -555,7 +555,9 @@ class TweekiTemplate extends BaseTemplate {
 							// navigational keywords
 							$navigation = $this->renderNavigation( $name );
 							if( is_array( $navigation ) ) {
-								$sidebar[] = $navigation[0];
+								if( isset( $navigation[0] ) ) {
+									$sidebar[] = $navigation[0];
+								}
 								continue;
 							}
 						}
@@ -1075,7 +1077,7 @@ class TweekiTemplate extends BaseTemplate {
 			$brand = $brandmsg->text();
 			/* is it a file? */
 			$brandimageTitle = Title::newFromText( $brand );
-			if ( $brandimageTitle->exists() ) {
+			if ( ! is_null( $brandimageTitle ) && $brandimageTitle->exists() ) {
 				$brandimageWikiPage = WikiPage::factory( $brandimageTitle );
 				if ( method_exists( $brandimageWikiPage, 'getFile' ) ) {
 					$brandimage = $brandimageWikiPage->getFile()->getFullUrl();
