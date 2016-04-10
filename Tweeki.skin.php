@@ -555,7 +555,9 @@ class TweekiTemplate extends BaseTemplate {
 							// navigational keywords
 							$navigation = $this->renderNavigation( $name );
 							if( is_array( $navigation ) ) {
-								$sidebar[] = $navigation[0];
+								if( isset( $navigation[0] ) ) {
+									$sidebar[] = $navigation[0];
+								}
 								continue;
 							}
 						}
@@ -942,9 +944,11 @@ class TweekiTemplate extends BaseTemplate {
 		}
 
 		//build path for form action
-		$returnto = $skin->getSkin()->getTitle()->getFullText();
+		$returntotitle = $skin->getSkin()->getTitle();
+		$returnto = $returntotitle->getFullText();
 		if ( $returnto == SpecialPage::getTitleFor( 'UserLogin' ) 
-			|| $returnto == SpecialPage::getTitleFor( 'UserLogout' ) ) {
+			|| $returnto == SpecialPage::getTitleFor( 'UserLogout' ) 
+			|| !$returntotitle->exists() ) {
 			$returnto = Title::newMainPage()->getFullText();
 		}
 		$returnto = $wgRequest->getVal( 'returnto', $returnto );
@@ -966,8 +970,9 @@ class TweekiTemplate extends BaseTemplate {
 		$dropdown['type'] = 'button';
 		$dropdown['id'] = 'n-login-ext';
 		$renderedDropdown = TweekiHooks::makeLink( $dropdown);
+		$wrapperclass = ( $context == 'footer' ) ? 'dropup' : 'nav';
 
-		echo '<li class="nav">
+		echo '<li class="' . $wrapperclass . '">
 		' . $renderedDropdown . '
 		<ul class="dropdown-menu" role="menu" aria-labelledby="' . $this->getMsg( 'userlogin' )->text() . '" id="loginext">
 			<form action="' . $action . '" method="post" name="userloginext" class="clearfix">
@@ -1072,7 +1077,7 @@ class TweekiTemplate extends BaseTemplate {
 			$brand = $brandmsg->text();
 			/* is it a file? */
 			$brandimageTitle = Title::newFromText( $brand );
-			if ( $brandimageTitle->exists() ) {
+			if ( ! is_null( $brandimageTitle ) && $brandimageTitle->exists() ) {
 				$brandimageWikiPage = WikiPage::factory( $brandimageTitle );
 				if ( method_exists( $brandimageWikiPage, 'getFile' ) ) {
 					$brandimage = $brandimageWikiPage->getFile()->getFullUrl();
