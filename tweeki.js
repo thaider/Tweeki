@@ -10,8 +10,11 @@ jQuery( function( $ ) {
 	// change sticky footer to fixed if the document is smaller than window
 	function checkFooter() {
 		if($(document).height() == $(window).height()) { 
-			$( '#footer.footer-sticky' ).addClass( 'sticky-fixed' ); 
-			correctBodyMargin();
+			var additionalmargin = $( window ).height() - $( 'body' ).height();
+			if( additionalmargin > 0 ) {
+				additionalmargin = additionalmargin + 50;
+				$( '#footer.footer-sticky' ).css( 'margin-top', additionalmargin + 'px' )
+			}
 		}
 	}
 
@@ -23,7 +26,7 @@ jQuery( function( $ ) {
 	
 	// correct sticky footer on resize
 	$(window).resize(function() {
-		$( '#footer.footer-sticky' ).removeClass( 'sticky-fixed' ); 
+		$( '#footer.footer-sticky' ).css( 'margin-top', '50px' );
 		$( 'body' ).css( 'margin-bottom', 0 );
 		checkFooter();
 	});
