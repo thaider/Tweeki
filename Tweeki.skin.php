@@ -1120,7 +1120,7 @@ class TweekiTemplate extends BaseTemplate {
 			if ( count( $footericons ) > 0 && $this->checkVisibility( 'footer-icons' ) ) { 
 				echo '<ul id="footer-icons">';
 				foreach ( $footericons as $blockName => $footerIcons ) { 
-					if ( $this->checkVisibility( 'footer-' . $blockName ) ) {
+					if ( $this->checkVisibility( 'footer-' . $blockName . 'ico' ) ) {
 						echo '<li id="footer-' . htmlspecialchars( $blockName ) . 'ico">';
 						foreach ( $footerIcons as $icon ) { 
 							if($wgTweekiSkinFooterIcons) {
