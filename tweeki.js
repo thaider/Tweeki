@@ -7,37 +7,32 @@ jQuery( function( $ ) {
 	/** 
 	 * FOOTER 
 	 */
-	// change sticky footer to fixed if the document is smaller than window
+	// move sticky footer to bottom if the document is smaller than window
 	function checkFooter() {
-		if($(document).height() == $(window).height()) { 
+		if( $( '#footer.footer-sticky' ).length == 1 ) { // only if footer is sticky
+			$( 'body' ).css( 'margin-bottom', 0 );
+			// TODO: value shouldn't be hardcoded - use padding on #contentwrapper instead
+			var minmargin = 50;
+			var currentmargin = Number( String.replace( $( '#footer.footer-sticky' ).css( 'margin-top' ), 'px', '' ) );
 			var additionalmargin = $( window ).height() - $( 'body' ).height();
-			if( additionalmargin > 0 ) {
-				additionalmargin = additionalmargin + 50;
-				$( '#footer.footer-sticky' ).css( 'margin-top', additionalmargin + 'px' )
-			}
+			var newmargin = Math.max( currentmargin + additionalmargin, minmargin );
+			$( '#footer.footer-sticky' ).css( 'margin-top', newmargin + 'px' );
 		}
 	}
-
-	// correct bottom margin for body for fixed footer
-	function correctBodyMargin() {
-		var footerheight = $( '#footer' ).outerHeight();
-		$( 'body' ).css( 'margin-bottom', footerheight );
-	}	
-	
-	// correct sticky footer on resize
-	$(window).resize(function() {
-		$( '#footer.footer-sticky' ).css( 'margin-top', '50px' );
-		$( 'body' ).css( 'margin-bottom', 0 );
-		checkFooter();
-	});
 
 	// fade in initially hidden sticky footer
 	checkFooter();
 	$( '#footer.footer-sticky' ).animate( { opacity: 1 }, 1000 );
 	
+	// correct sticky footer on resize
+	$(window).resize(function() {
+		checkFooter();
+	});
+
 	// correct bottom margin for body when fixed footer
 	if( $( '#footer.footer-fixed' ).length == 1 ) {
-		correctBodyMargin();
+		var footerheight = $( '#footer' ).outerHeight();
+		$( 'body' ).css( 'margin-bottom', footerheight );
 	}
 
 
