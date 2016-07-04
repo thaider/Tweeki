@@ -13,7 +13,8 @@ jQuery( function( $ ) {
 			$( 'body' ).css( 'margin-bottom', 0 );
 			// TODO: value shouldn't be hardcoded - use padding on #contentwrapper instead
 			var minmargin = 50;
-			var currentmargin = Number( String.replace( $( '#footer.footer-sticky' ).css( 'margin-top' ), 'px', '' ) );
+			var currentmargin = $( '#footer.footer-sticky' ).css( 'margin-top' );
+			currentmargin = Number( currentmargin.replace( 'px', '' ) );
 			var additionalmargin = $( window ).height() - $( 'body' ).height();
 			var newmargin = Math.max( currentmargin + additionalmargin, minmargin );
 			$( '#footer.footer-sticky' ).css( 'margin-top', newmargin + 'px' );
