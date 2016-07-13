@@ -1,0 +1,51 @@
+/* apply Bootstrap's basic .table stylings to SemanticForms' .formtable class 
+– doesn't include special stylings for panels and contextual classes */
+
+.formtable {
+	border-collapse:collapse !important
+}
+
+.formtable td,
+.formtable th {
+	background-color:#fff !important
+}
+
+.formtable {
+	width:100%;
+	max-width:100%;
+	margin-bottom:20px
+}
+
+.formtable > tbody > tr > td,
+.formtable > tbody > tr > th,
+.formtable > tfoot > tr > td,
+.formtable > tfoot > tr > th,
+.formtable > thead > tr > td,
+.formtable > thead > tr > th {
+	padding:8px;
+	line-height:1.42857143;
+	vertical-align:top;
+	border-top:1px solid #ddd
+}
+
+.formtable > thead > tr > th {
+	vertical-align:bottom;
+	border-bottom:2px solid #ddd
+}
+
+.formtable > caption + thead > tr:first-child > td,
+.formtable > caption + thead > tr:first-child > th,
+.formtable > colgroup + thead > tr:first-child > td,
+.formtable > colgroup + thead > tr:first-child > th,
+.formtable > thead:first-child > tr:first-child > td,
+.formtable > thead:first-child > tr:first-child > th {
+	border-top:0
+}
+
+.formtable > tbody + tbody {
+	border-top:2px solid #ddd
+}
+
+.formtable .formtable {
+	background-color:#fff
+}
