@@ -588,6 +588,10 @@ class TweekiHooks {
 	 *
 	 * @param $item array
 	 * @param $options array
+	 *
+	 * @TODO SkinTemplate's makeLink function has been replaced by Linker::link()
+	 * this function should be adapted accordingly or it will likely produce further
+	 * misbehavior in the future (see github issue #68)
 	 */
 	static function makeLink( $item, $options = array() ) {
 		// nested links?
@@ -628,7 +632,7 @@ class TweekiHooks {
 		if ( isset( $item['href'] ) || isset( $options['link-fallback'] ) ) {
 			$attrs = $item;
 //			foreach ( array( 'single-id', 'text', 'msg', 'tooltiponly' ) as $k ) {
-			foreach ( array( 'single-id', 'text', 'msg', 'tooltiponly', 'href_implicit', 'items', 'icon', 'html' ) as $k ) {
+			foreach ( array( 'single-id', 'text', 'msg', 'tooltiponly', 'href_implicit', 'items', 'icon', 'html', 'tooltip-params' ) as $k ) {
 				unset( $attrs[$k] );
 			}
 
