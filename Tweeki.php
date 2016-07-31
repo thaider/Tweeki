@@ -46,6 +46,7 @@ $wgHooks['ParserFirstCallInit'][] = 'TweekiHooks::AccordionSetup';
 $wgHooks['ParserFirstCallInit'][] = 'TweekiHooks::TweekiHideSetup';
 $wgHooks['DoEditSectionLink'][] = 'TweekiHooks::EditSectionLinkButton';
 $wgHooks['ParserBeforeTidy'][] = 'TweekiHooks::HeadlineFix';
+$wgHooks['AfterFinalPageOutput'][] = 'TweekiHooks::onAfterFinalPageOutput';
 
 # Styles and Scripts have to be splitted in order to get the dependencies right
 $wgResourceModules['skins.tweeki.bootstrap.styles'] = array(
@@ -290,3 +291,8 @@ $wgTweekiSkinCustomCSS = array();
  * Use costumized bootstrap files created via http://getbootstrap.com/customize/
  */
 $wgTweekiSkinCustomizedBootstrap = NULL;
+
+/**
+ * Use toggleable tabs to show the TOC on file pages
+ */
+$wgTweekiImagePageTOCTabs = true;

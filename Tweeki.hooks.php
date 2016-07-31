@@ -742,7 +742,7 @@ class TweekiHooks {
 	}
 
 	/**
-	 * Empty span.mw-headling for correct internal linking
+	 * Empty span.mw-headline for correct internal linking
 	 *
 	 * If the headline is inside the span it's padding will prevent
 	 * links directly above the headline to be accessible
@@ -754,6 +754,31 @@ class TweekiHooks {
 		$search = '/(<span class="mw-headline" id=".*">)(.*)(<\/span>)/';
 		$replace = '$1$3$2';
 		$text = preg_replace( $search, $replace, $text );
+		return true;
+	}
+
+
+	/**
+	 * Change TOC and page content of file pages to togglable tabs
+	 *
+	 * @param $outputPage OutputPage
+	 */
+	public static function onAfterFinalPageOutput( $outputPage ) {
+		if( $outputPage->getTitle()->getNamespace() == 6 && $GLOBALS['wgTweekiImagePageTOCTabs'] == true ) {
+			$out = ob_get_clean();
+			$out = str_replace( '<ul id="filetoc">', '<ul id="tw-filetoc" class="nav nav-tabs nav-justified">', $out );
+			$out = str_replace( '<li><a href="#file">', '<li class="active"><a href="#file" class="tab-toggle" data-toggle="tab">', $out );
+			$out = str_replace( '<a href="#filehistory">', '<a href="#filehistory" class="tab-toggle" data-toggle="tab">', $out );
+			$out = str_replace( '<a href="#filelinks">', '<a href="#filelinks" class="tab-toggle" data-toggle="tab">', $out );
+			$out = str_replace( '<a href="#metadata">', '<a href="#metadata" class="tab-toggle" data-toggle="tab">', $out );
+			$out = str_replace( '<div class="fullImageLink" id="file"', '<div class="tab-content"><div id="file" class="tab-pane fade in active"><div class="fullImageLink"', $out );
+			$out = str_replace( '<h2 id="filehistory"', '</div><div id="filehistory" class="tab-pane fade"><h2', $out );
+			$out = str_replace( '<h2 id="filelinks"', '</div><div id="filelinks" class="tab-pane fade"><h2', $out );
+			$out = str_replace( '<h2 id="metadata"', '</div><div id="metadata" class="tab-pane fade"><h2', $out );
+			$out = $out . '</div></div>';
+			ob_start();
+			echo $out;
+		}
 		return true;
 	}
 
