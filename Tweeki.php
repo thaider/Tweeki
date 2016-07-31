@@ -295,4 +295,4 @@ $wgTweekiSkinCustomizedBootstrap = NULL;
 /**
  * Use toggleable tabs to show the TOC on file pages
  */
-$wgTweekiImagePageTOCTabs = true;
+$wgTweekiImagePageTOCTabs = false;
