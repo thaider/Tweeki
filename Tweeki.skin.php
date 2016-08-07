@@ -463,6 +463,23 @@ class TweekiTemplate extends BaseTemplate {
 					}			
 					break;
 
+				case 'WATCH':
+					$button = null;
+					$actions = array_reverse( $this->data['action_urls'] );
+					if( isset( $actions['watch'] )  ) {
+						$button = $actions['watch'];
+						$options['wrapperid'] = $button['id'];
+						unset( $button['id'] );
+					} else if( isset( $actions['unwatch'] ) ) {
+						$button = $actions['unwatch'];
+						$options['wrapperid'] = $button['id'];
+						unset( $button['id'] );
+					}
+					if( !is_null( $button ) ) {
+						return array( $button );
+					}
+					break;
+
 				case 'PERSONAL':
 					$items = $this->getPersonalTools();
 					$divideditems = array();
