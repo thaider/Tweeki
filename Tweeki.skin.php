@@ -998,7 +998,7 @@ class TweekiTemplate extends BaseTemplate {
 						' . $this->getMsg( 'userlogin-yourname' )->text() . '
 					</label>';
 		echo Html::input( 'wpName', null, 'text', array(
-					'class' => 'form-control',
+					'class' => 'form-control input-sm',
 					'id' => 'wpName2',
 					'tabindex' => '101',
 					'placeholder' => $this->getMsg( 'userlogin-yourname-ph' )->text()
@@ -1009,7 +1009,7 @@ class TweekiTemplate extends BaseTemplate {
 						' . $this->getMsg( 'userlogin-yourpassword' )->text() . '
 					</label>';
 		echo Html::input( 'wpPassword', null, 'password', array(
-					'class' => 'form-control',
+					'class' => 'form-control input-sm',
 					'id' => 'wpPassword2',
 					'tabindex' => '102',
 					'placeholder' => $this->getMsg( 'userlogin-yourpassword-ph' )->text()
@@ -1023,11 +1023,11 @@ class TweekiTemplate extends BaseTemplate {
 				<input type="hidden" value="' . $wgRequest->getSessionData( 'wsLoginToken' ) . '" name="wpLoginToken">
 			</form>';
 	if( $wgUser->isAllowed( 'createaccount' ) ) {
-		echo	'<div>
-				<a href="' . $wgScript . '?title=special:userlogin&amp;type=signup" class="btn btn-link center-block">
+		echo	'<li class="nav" id="tw-createaccount">
+				<a href="' . $wgScript . '?title=special:userlogin&amp;type=signup" class="center-block">
 					' . $this->getMsg( 'createaccount' )->text() . '
 				</a>
-			</div>';
+			</li>';
 		}
 	echo '
 		</ul>
