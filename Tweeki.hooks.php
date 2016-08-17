@@ -52,7 +52,23 @@ class TweekiHooks {
 	 */
 	static function TweekiHideSetup( Parser $parser ) {
 		$parser->setFunctionHook( 'tweekihide', 'TweekiHooks::setHiddenElements' );
+		$parser->setHook( 'legend', 'TweekiHooks::legend' );
+		$parser->setHook( 'footer', 'TweekiHooks::footer' );
 		return true;
+	}
+
+	/**
+	 * Enable use of <legend> tag
+	 */
+	static function legend( $input, array $args, Parser $parser, PPFrame $frame ) {
+		return array( '<legend>' . $input . '</legend>', "markerType" => 'nowiki' );
+	}
+
+	/**
+	 * Enable use of <footer> tag
+	 */
+	static function footer( $input, array $args, Parser $parser, PPFrame $frame ) {
+		return array( '<footer>' . $input . '</footer>', "markerType" => 'nowiki' );
 	}
 
 	/**
