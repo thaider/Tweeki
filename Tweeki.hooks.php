@@ -358,20 +358,26 @@ class TweekiHooks {
 				$title = $title->fixSpecialName();
 				$href = $title->getLinkURL();
 			} else {
-				$href = 'INVALID-TITLE:' . $href;
+				// allow empty first argument
+				if( $href != '' ) {
+					$href = 'INVALID-TITLE:' . $href;
+				}
 			}
 		}
 		if ( isset( $line[2] ) && $line[2] != "" ) {
 			$extraAttribs['class'] = $line[2];
 		}
 
-		$link = array_merge( array(
+		$link = array(
 				'html' => $text,
 				'href' => $href,
 				'href_implicit' => $href_implicit,
-				'id' => 'n-' . Sanitizer::escapeId( strtr( $line[0], ' ', '-' ), 'noninitial' ),
 				'active' => $active
-			), $extraAttribs );
+			);
+		if( $line[0] != '' ) {
+			$link['id'] = 'n-' . Sanitizer::escapeId( strtr( $line[0], ' ', '-' ), 'noninitial' );
+		}
+		$link = array_merge( $link, $extraAttribs );
 		return array( $link );
 	}
 
@@ -643,6 +649,12 @@ class TweekiHooks {
 				$element = array_pop( $wrapper );
 				$html = Html::rawElement( $element['tag'], isset( $element['attributes'] ) ? $element['attributes'] : null, $html );
 			}
+		}
+
+		// allow empty first argument in the <btn> tag
+		if( $item['href'] == '' ) {
+			unset( $item['href'] );
+			$options['link-fallback'] = 'span';
 		}
 
 		if ( isset( $item['href'] ) || isset( $options['link-fallback'] ) ) {
