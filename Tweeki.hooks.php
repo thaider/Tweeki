@@ -25,7 +25,25 @@ class TweekiHooks {
 
 	protected static $anchorID = 0;
 	
-	/* Static Methods */
+	/**
+	 * Customizing registration
+	 */
+	public static function onRegistration() {
+		global $wgTweekiSkinCustomizedBootstrap, $wgResourceModules;
+	
+		/* Load customized bootstrap files */
+		if( isset( $wgTweekiSkinCustomizedBootstrap ) && ! is_null( $wgTweekiSkinCustomizedBootstrap ) ) {
+			$wgResourceModules['skins.tweeki.bootstrap.styles']['localBasePath'] = $wgTweekiSkinCustomizedBootstrap['localBasePath'];
+			$wgResourceModules['skins.tweeki.bootstrap.styles']['remoteExtPath'] = $wgTweekiSkinCustomizedBootstrap['remoteExtPath'];
+			unset( $wgResourceModules['skins.tweeki.bootstrap.styles']['remoteSkinPath'] );
+			$wgResourceModules['skins.tweeki.bootstraptheme.styles']['localBasePath'] = $wgTweekiSkinCustomizedBootstrap['localBasePath'];
+			$wgResourceModules['skins.tweeki.bootstraptheme.styles']['remoteExtPath'] = $wgTweekiSkinCustomizedBootstrap['remoteExtPath'];
+			unset( $wgResourceModules['skins.tweeki.bootstraptheme.styles']['remoteSkinPath'] );
+			$wgResourceModules['skins.tweeki.bootstrap.scripts']['localBasePath'] = $wgTweekiSkinCustomizedBootstrap['localBasePath'];
+			$wgResourceModules['skins.tweeki.bootstrap.scripts']['remoteExtPath'] = $wgTweekiSkinCustomizedBootstrap['remoteExtPath'];
+			unset( $wgResourceModules['skins.tweeki.bootstrap.scripts']['remoteSkinPath'] );
+		}
+	}
 
 	/**
 	 * GetPreferences hook

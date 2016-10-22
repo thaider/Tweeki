@@ -1,7 +1,7 @@
 # Tweeki, a Bootstrap based skin for MediaWiki
 
-Tweeki is a skin for **[MediaWiki](http://mediawiki.org/)** (1.24+) based on Twitter's 
-**[Bootstrap](http://getbootstrap.com/)** (v3.3.2). It tries to implement as much of 
+Tweeki is a skin for **[MediaWiki](http://mediawiki.org/)** (1.25+) based on Twitter's 
+**[Bootstrap](http://getbootstrap.com/)** (v3.3.7). It tries to implement as much of 
 Bootstrap's functionality as possible, allowing to use it very easily and with very 
 reduced markup, and features many configuration options.
 
@@ -26,7 +26,7 @@ project's website **[tweeki.thai-land.at](http://tweeki.thai-land.at/)**
 3. Add the following to `LocalSettings.php`: 
 
    ```php
-   require_once( "$IP/skins/Tweeki/Tweeki.php" );
+   wfLoadSkin( 'Tweeki' );
    $wgDefaultSkin = "tweeki";
    ```
 

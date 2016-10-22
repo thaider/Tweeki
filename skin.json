@@ -1,0 +1,176 @@
+{
+	"name": "Tweeki",
+	"version": "0.1.2",
+	"author": "Tobias Haider, Garrett LeSage",
+	"url": "http://tweeki.thai-land.at",
+	"descriptionmsg": "tweeki-desc",
+	"type": "skin",
+	"ValidSkinNames": {
+		"tweeki": "Tweeki"
+	},
+	"MessagesDirs": {
+		"SkinTweeki": [
+			"i18n"
+		]
+	},
+	"ExtensionMessagesFiles": {
+		"TweekiMagic": "Tweeki.i18n.magic.php"
+	},
+	"AutoloadClasses": {
+		"SkinTweeki": "Tweeki.skin.php",
+		"TweekiHooks": "Tweeki.hooks.php"
+	},
+	"ResourceModules": {
+		"skins.tweeki.bootstrap.styles": {
+			"position": "top",
+			"styles": {
+				"bootstrap/css/bootstrap.min.css": []
+			}
+		},
+		"skins.tweeki.styles": {
+			"position": "top",
+			"styles": {
+				"screen.less": {
+					"media": "screen"
+				},
+				"print.less": {
+					"media": "print"
+				},
+				"mediawiki/content.css": {
+					"media": "screen"
+				},
+				"mediawiki/elements.css": {
+					"media": "screen"
+				},
+				"mediawiki/interface.css": {
+					"media": "screen"
+				}
+			}
+		},
+		"skins.tweeki.externallinks.styles": {
+			"position": "top",
+			"styles": {
+				"components/externallinks.less": {
+					"media": "screen"
+				}
+			}
+		},
+		"skins.tweeki.corrections.styles": {
+			"position": "top",
+			"styles": {
+				"components/corrections.less": {
+					"media": "screen"
+				}
+			}
+		},
+		"skins.tweeki.awesome.styles": {
+			"position": "top",
+			"styles": {
+				"awesome/css/font-awesome.min.css": []
+			}
+		},
+		"skins.tweeki.bootstraptheme.styles": {
+			"position": "top",
+			"styles": {
+				"bootstrap/css/bootstrap-theme.min.css": {
+					"media": "screen"
+				},
+				"corrections-theme.less": {
+					"media": "screen"
+				}
+			}
+		},
+		"skins.tweeki.bootstrap.scripts": {
+			"position": "bottom",
+			"scripts": [
+				"bootstrap/js/bootstrap.min.js"
+			],
+			"dependencies": [
+				"jquery.ui.widget",
+				"mediawiki.jqueryMsg"
+			]
+		},
+		"skins.tweeki.scripts": {
+			"position": "bottom",
+			"scripts": [
+				"tweeki.js"
+			],
+			"dependencies": [
+				"skins.tweeki.bootstrap.scripts"
+			],
+			"messages": [
+				"tweeki-toc-top"
+			]
+		},
+		"skins.tweeki.tooltips": {
+			"position": "bottom",
+			"scripts": [
+				"tweeki-tooltips-setup.js"
+			],
+			"dependencies": [
+				"skins.tweeki.scripts"
+			]
+		}
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "",
+		"remoteSkinPath": "Tweeki"
+	},
+	"Hooks": {
+		"GetPreferences": "TweekiHooks::getPreferences",
+		"ParserFirstCallInit": [
+			"TweekiHooks::ButtonsSetup",
+			"TweekiHooks::LabelSetup",
+			"TweekiHooks::AccordionSetup",
+			"TweekiHooks::TweekiHideSetup"
+		],
+		"DoEditSectionLink": "TweekiHooks::EditSectionLinkButton",
+		"ParserBeforeTidy": "TweekiHooks::HeadlineFix",
+		"AfterFinalPageOutput": "TweekiHooks::onAfterFinalPageOutput"
+	},
+	"config": {
+		"TweekiSkinHideAll": [
+			"footer-info"
+		],
+		"TweekiSkinHideable": [
+			"firstHeading"
+		],
+		"TweekiSkinHideAnon": [
+			"subnav",
+			"PERSONAL",
+			"TOOLBOX"
+		],
+		"TweekiSkinHideLoggedin": [
+			"footer-custom"
+		],
+		"TweekiSkinHideNonAdvanced": [
+			"EDIT-EXT-special"
+		],
+		"TweekiSkinFooterIcons": false,
+		"TweekiSkinPageRenderer": "self::renderPage",
+		"TweekiSkinNavigationalElements": [],
+		"TweekiSkinSpecialElements": {
+			"FIRSTHEADING": "self::renderFirstHeading",
+			"TOC": "self::renderTOC",
+			"SEARCH": "self::renderSearch",
+			"LOGO": "self::renderLogo",
+			"LOGIN-EXT": "self::renderLoginExt",
+			"FOOTER": "self::renderStandardFooter"
+		},
+		"TweekiSkinStyles": [
+			"skins.tweeki.bootstrap.styles",
+			"skins.tweeki.styles",
+			"skins.tweeki.corrections.styles",
+			"skins.tweeki.externallinks.styles"
+		],
+		"TweekiSkinUseAwesome": true,
+		"TweekiSkinUseBootstrapTheme": true,
+		"TweekiSkinUseBtnParser": true,
+		"TweekiSkinUseScrollSpy": true,
+		"TweekiSkinUseTooltips": false,
+		"TweekiSkinCustomCSS": [],
+		"TweekiSkinCustomizedBootstrap": null,
+		"TweekiImagePageTOCTabs": false
+	},
+	"manifest_version": 1
+}
