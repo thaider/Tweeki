@@ -75,7 +75,7 @@
 				"bootstrap/css/bootstrap-theme.min.css": {
 					"media": "screen"
 				},
-				"corrections-theme.less": {
+				"components/corrections-theme.less": {
 					"media": "screen"
 				}
 			}
