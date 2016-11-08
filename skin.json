@@ -23,9 +23,7 @@
 	"ResourceModules": {
 		"skins.tweeki.bootstrap.styles": {
 			"position": "top",
-			"styles": {
-				"bootstrap/css/bootstrap.min.css": []
-			}
+			"styles": "bootstrap/css/bootstrap.min.css"
 		},
 		"skins.tweeki.styles": {
 			"position": "top",
@@ -172,5 +170,6 @@
 		"TweekiSkinCustomizedBootstrap": null,
 		"TweekiImagePageTOCTabs": false
 	},
+	"callback": "TweekiHooks::onRegistration",
 	"manifest_version": 1
 }
