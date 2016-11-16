@@ -810,7 +810,7 @@ class TweekiHooks {
 	 * @param $outputPage OutputPage
 	 */
 	public static function onAfterFinalPageOutput( $outputPage ) {
-		if( $outputPage->getTitle()->getNamespace() == 6 && $GLOBALS['wgTweekiImagePageTOCTabs'] == true ) {
+		if( $outputPage->getTitle()->getNamespace() == 6 && $GLOBALS['wgTweekiSkinImagePageTOCTabs'] == true ) {
 			$out = ob_get_clean();
 			$out = str_replace( '<ul id="filetoc">', '<ul id="tw-filetoc" class="nav nav-tabs nav-justified">', $out );
 			$out = str_replace( '<li><a href="#file">', '<li class="active"><a href="#file" class="tab-toggle" data-toggle="tab">', $out );

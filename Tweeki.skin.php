@@ -214,27 +214,37 @@ class TweekiTemplate extends BaseTemplate {
 	 * @param $skin Skin skin object
 	 */
 	private function renderPage( $skin ) {
-		$mainclass_width = 10; // if no sidebar is shown the main content is centered with one grid margin
-		$mainclass_offset = 1;
-		$sidebar_width = 3;
-		$sidebar_offset = 9;
+		// load defaults for layout without sidebar
+		$mainclass_offset = $GLOBALS['wgTweekiSkinNoSidebarWidths'][0];
+		$mainclass_width = $GLOBALS['wgTweekiSkinNoSidebarWidths'][1];
+		$sidebar_left_width = 0;
+		$sidebar_left_offset = 0;
+		$sidebar_right_width = 0;
+		$sidebar_right_offset = 0;
 		// TODO: check for situational emptiness of sidebar (e.g. on special pages)
 		if( true ) { 
 			$sidebar_left = $skin->checkVisibility( 'sidebar-left' ) && !$skin->checkEmptiness( 'sidebar-left' );
 			$sidebar_right = $skin->checkVisibility( 'sidebar-right' ) && !$skin->checkEmptiness( 'sidebar-right' );
-			if( $sidebar_left && $sidebar_right ) { // if both sidebars are shown it's 2+8+2 grids
-				$mainclass_width = 8;
-				$mainclass_offset = 2;
-				$sidebar_width = 2;
-				$sidebar_offset = 10;
+			if( $sidebar_left && $sidebar_right ) { // both sidebars
+				$sidebar_left_offset = $GLOBALS['wgTweekiSkinDoubleSidebarWidths'][0];
+				$sidebar_left_width = $GLOBALS['wgTweekiSkinDoubleSidebarWidths'][1];
+				$mainclass_offset = $sidebar_left_offset + $sidebar_left_width + $GLOBALS['wgTweekiSkinDoubleSidebarWidths'][2];
+				$mainclass_width = $GLOBALS['wgTweekiSkinDoubleSidebarWidths'][3];
+				$sidebar_right_offset = $mainclass_offset + $mainclass_width + $GLOBALS['wgTweekiSkinDoubleSidebarWidths'][4];
+				$sidebar_right_width = $GLOBALS['wgTweekiSkinDoubleSidebarWidths'][5];
 			}
-			if( $sidebar_left XOR $sidebar_right ) { // if only one is shown it's 3+9 or 9+3
-				$mainclass_width = 9;
+			if( $sidebar_left XOR $sidebar_right ) { // only one of the sidebars
 				if( $sidebar_left ) {
-					$mainclass_offset = 3;
+					$sidebar_left_offset = $GLOBALS['wgTweekiSkinLeftSidebarWidths'][0];
+					$sidebar_left_width = $GLOBALS['wgTweekiSkinLeftSidebarWidths'][1];
+					$mainclass_offset = $sidebar_left_offset + $sidebar_right_offset + $GLOBALS['wgTweekiSkinLeftSidebarWidths'][2];
+					$mainclass_width = $GLOBALS['wgTweekiSkinLeftSidebarWidths'][3];
 				}
 				else {
-					$mainclass_offset = 0;
+					$mainclass_offset = $GLOBALS['wgTweekiSkinRightSidebarWidths'][0];
+					$mainclass_width = $GLOBALS['wgTweekiSkinRightSidebarWidths'][1];
+					$sidebar_right_offset = $mainclass_offset + $mainclass_width + $GLOBALS['wgTweekiSkinRightSidebarWidths'][2];
+					$sidebar_right_width = $GLOBALS['wgTweekiSkinRightSidebarWidths'][3];
 				}
 			}
 		}
@@ -266,8 +276,8 @@ class TweekiTemplate extends BaseTemplate {
 		<!-- /content -->
 
 <?php
-		if( !$skin->checkEmptiness( 'sidebar-left' ) ) { $skin->renderSidebar( 'left', 'col-md-' . $sidebar_width ); }
-		if( !$skin->checkEmptiness( 'sidebar-right' ) ) { $skin->renderSidebar( 'right', 'col-md-' . $sidebar_width . ' col-md-offset-' . $sidebar_offset ); }
+		if( !$skin->checkEmptiness( 'sidebar-left' ) ) { $skin->renderSidebar( 'left', 'col-md-' . $sidebar_left_width . ' col-md-offset-' . $sidebar_left_offset ); }
+		if( !$skin->checkEmptiness( 'sidebar-right' ) ) { $skin->renderSidebar( 'right', 'col-md-' . $sidebar_right_width . ' col-md-offset-' . $sidebar_right_offset ); }
 		$skin->renderFooter();
 		$skin->printTrail(); 
 	}
@@ -740,7 +750,7 @@ class TweekiTemplate extends BaseTemplate {
 		$element = 'sidebar-' . $side;
 		$options = $this->getParsingOptions( $element );
 		/* TODO: can we move these criteria elsewhere? rather there should be some handling for empty sidebars */
-		if ( ( count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( $element ) ) { ?>
+		if ( ( true || count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( $element ) ) { ?>
 			<!-- <?php echo $element; ?> -->
 			<div class="sidebar-wrapper <?php echo $element; ?>-wrapper">
 				<div class="sidebar-container <?php echo wfMessage( 'tweeki-container-class' )->plain(); ?>">
