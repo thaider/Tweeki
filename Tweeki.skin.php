@@ -215,40 +215,40 @@ class TweekiTemplate extends BaseTemplate {
 	 */
 	private function renderPage( $skin ) {
 		// load defaults for layout without sidebar
-		$mainclass_offset = $GLOBALS['wgTweekiSkinNoSidebarWidths'][0];
-		$mainclass_width = $GLOBALS['wgTweekiSkinNoSidebarWidths'][1];
-		$sidebar_left_width = 0;
-		$sidebar_left_offset = 0;
-		$sidebar_right_width = 0;
-		$sidebar_right_offset = 0;
+		$main_offset = $GLOBALS['wgTweekiSkinGridNone']['mainoffset'];
+		$main_width = $GLOBALS['wgTweekiSkinGridNone']['mainwidth'];
+		$left_width = 0;
+		$left_offset = 0;
+		$right_width = 0;
+		$right_offset = 0;
 		// TODO: check for situational emptiness of sidebar (e.g. on special pages)
 		if( true ) { 
 			$sidebar_left = $skin->checkVisibility( 'sidebar-left' ) && !$skin->checkEmptiness( 'sidebar-left' );
 			$sidebar_right = $skin->checkVisibility( 'sidebar-right' ) && !$skin->checkEmptiness( 'sidebar-right' );
 			if( $sidebar_left && $sidebar_right ) { // both sidebars
-				$sidebar_left_offset = $GLOBALS['wgTweekiSkinDoubleSidebarWidths'][0];
-				$sidebar_left_width = $GLOBALS['wgTweekiSkinDoubleSidebarWidths'][1];
-				$mainclass_offset = $sidebar_left_offset + $sidebar_left_width + $GLOBALS['wgTweekiSkinDoubleSidebarWidths'][2];
-				$mainclass_width = $GLOBALS['wgTweekiSkinDoubleSidebarWidths'][3];
-				$sidebar_right_offset = $mainclass_offset + $mainclass_width + $GLOBALS['wgTweekiSkinDoubleSidebarWidths'][4];
-				$sidebar_right_width = $GLOBALS['wgTweekiSkinDoubleSidebarWidths'][5];
+				$left_offset = $GLOBALS['wgTweekiSkinGridBoth']['leftoffset'];
+				$left_width = $GLOBALS['wgTweekiSkinGridBoth']['leftwidth'];
+				$main_offset = $left_offset + $left_width + $GLOBALS['wgTweekiSkinGridBoth']['mainoffset'];
+				$main_width = $GLOBALS['wgTweekiSkinGridBoth']['mainwidth'];
+				$right_offset = $main_offset + $main_width + $GLOBALS['wgTweekiSkinGridBoth']['rightoffset'];
+				$right_width = $GLOBALS['wgTweekiSkinGridBoth']['rightwidth'];
 			}
 			if( $sidebar_left XOR $sidebar_right ) { // only one of the sidebars
 				if( $sidebar_left ) {
-					$sidebar_left_offset = $GLOBALS['wgTweekiSkinLeftSidebarWidths'][0];
-					$sidebar_left_width = $GLOBALS['wgTweekiSkinLeftSidebarWidths'][1];
-					$mainclass_offset = $sidebar_left_offset + $sidebar_right_offset + $GLOBALS['wgTweekiSkinLeftSidebarWidths'][2];
-					$mainclass_width = $GLOBALS['wgTweekiSkinLeftSidebarWidths'][3];
+					$left_offset = $GLOBALS['wgTweekiSkinGridLeft']['leftoffset'];
+					$left_width = $GLOBALS['wgTweekiSkinGridLeft']['leftwidth'];
+					$main_offset = $left_offset + $left_width + $GLOBALS['wgTweekiSkinGridLeft']['mainoffset'];
+					$main_width = $GLOBALS['wgTweekiSkinGridLeft']['mainwidth'];
 				}
 				else {
-					$mainclass_offset = $GLOBALS['wgTweekiSkinRightSidebarWidths'][0];
-					$mainclass_width = $GLOBALS['wgTweekiSkinRightSidebarWidths'][1];
-					$sidebar_right_offset = $mainclass_offset + $mainclass_width + $GLOBALS['wgTweekiSkinRightSidebarWidths'][2];
-					$sidebar_right_width = $GLOBALS['wgTweekiSkinRightSidebarWidths'][3];
+					$main_offset = $GLOBALS['wgTweekiSkinGridRight']['mainoffset'];
+					$main_width = $GLOBALS['wgTweekiSkinGridRight']['mainwidth'];
+					$right_offset = $main_offset + $main_width + $GLOBALS['wgTweekiSkinGridRight']['rightoffset'];
+					$right_width = $GLOBALS['wgTweekiSkinGridRight']['rightwidth'];
 				}
 			}
 		}
-		$mainclass = 'col-md-offset-' . $mainclass_offset . ' col-md-' . $mainclass_width;
+		$mainclass = 'col-md-offset-' . $main_offset . ' col-md-' . $main_width;
 		$contentclass = $skin->data['userstateclass'];
 		$contentclass .= ' ' . wfMessage( 'tweeki-container-class' )->escaped();
 		$contentclass .= ( $skin->checkVisibility( 'navbar' ) ) ? ' with-navbar' : ' without-navbar';
@@ -276,8 +276,14 @@ class TweekiTemplate extends BaseTemplate {
 		<!-- /content -->
 
 <?php
-		if( !$skin->checkEmptiness( 'sidebar-left' ) ) { $skin->renderSidebar( 'left', 'col-md-' . $sidebar_left_width . ' col-md-offset-' . $sidebar_left_offset ); }
-		if( !$skin->checkEmptiness( 'sidebar-right' ) ) { $skin->renderSidebar( 'right', 'col-md-' . $sidebar_right_width . ' col-md-offset-' . $sidebar_right_offset ); }
+		if( !$skin->checkEmptiness( 'sidebar-left' ) ) { 
+			$leftclass = 'col-md-' . $left_width . ' col-md-offset-' . $left_offset;
+			$skin->renderSidebar( 'left', $leftclass ); 
+		}
+		if( !$skin->checkEmptiness( 'sidebar-right' ) ) { 
+			$rightclass = 'col-md-' . $right_width . ' col-md-offset-' . $right_offset;
+			$skin->renderSidebar( 'right', $rightclass ); 
+		}
 		$skin->renderFooter();
 		$skin->printTrail(); 
 	}

@@ -169,10 +169,30 @@
 		"TweekiSkinCustomCSS": [],
 		"TweekiSkinCustomizedBootstrap": null,
 		"TweekiSkinImagePageTOCTabs": false,
-		"TweekiSkinNoSidebarWidths": [ 1, 10, 1 ],
-		"TweekiSkinLeftSidebarWidths": [ 0, 3, 0, 9 ],
-		"TweekiSkinRightSidebarWidths": [ 0, 9, 0, 3 ],
-		"TweekiSkinDoubleSidebarWidths": [ 0, 2, 0, 8, 0, 2 ]
+		"TweekiSkinGridNone": { 
+			"mainoffset": 1, 
+			"mainwidth": 10 
+		},
+		"TweekiSkinGridLeft": { 
+			"leftoffset": 0, 
+			"leftwidth": 3, 
+			"mainoffset": 0, 
+			"mainwidth": 9 
+		},
+		"TweekiSkinGridRight": { 
+			"mainoffset": 0, 
+			"mainwidth": 9, 
+			"rightoffset": 0, 
+			"rithwidth": 3
+		},
+		"TweekiSkinGridBoth": {
+			"leftoffset": 0, 
+			"leftwidth": 2, 
+			"mainoffset": 0, 
+			"mainwidth": 8, 
+			"rightoffset": 0, 
+			"rightwidth": 2
+		}
 	},
 	"callback": "TweekiHooks::onRegistration",
 	"manifest_version": 1
