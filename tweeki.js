@@ -30,6 +30,11 @@ jQuery( function( $ ) {
 		checkFooter();
 	});
 
+	// correct sticky footer on tab toggle
+	$(document).on('shown.bs.tab', function (e) {
+		checkFooter();
+	});
+
 	// correct bottom margin for body when fixed footer
 	if( $( '#footer.footer-fixed' ).length == 1 ) {
 		var footerheight = $( '#footer' ).outerHeight();
