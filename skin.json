@@ -127,23 +127,23 @@
 		"AfterFinalPageOutput": "TweekiHooks::onAfterFinalPageOutput"
 	},
 	"config": {
-		"TweekiSkinHideAll": [
-			"footer-info"
-		],
+		"TweekiSkinHideAll": {
+			"footer-info": true
+		},
 		"TweekiSkinHideable": [
 			"firstHeading"
 		],
-		"TweekiSkinHideAnon": [
-			"subnav",
-			"PERSONAL",
-			"TOOLBOX"
-		],
-		"TweekiSkinHideLoggedin": [
-			"footer-custom"
-		],
-		"TweekiSkinHideNonAdvanced": [
-			"EDIT-EXT-special"
-		],
+		"TweekiSkinHideAnon": {
+			"subnav": true,
+			"PERSONAL": true,
+			"TOOLBOX" : true
+		},
+		"TweekiSkinHideLoggedin": {
+			"footer-custom": true
+		},
+		"TweekiSkinHideNonAdvanced": {
+			"EDIT-EXT-special": true
+		},
 		"TweekiSkinFooterIcons": false,
 		"TweekiSkinPageRenderer": "self::renderPage",
 		"TweekiSkinNavigationalElements": [],

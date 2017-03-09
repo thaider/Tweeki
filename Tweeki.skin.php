@@ -646,18 +646,18 @@ class TweekiTemplate extends BaseTemplate {
 		global $wgUser, $wgTweekiSkinHideNonAdvanced, $wgTweekiSkinHideAnon, $wgTweekiSkinHideAll, $wgTweekiSkinHideLoggedin;
 		if ( 
 			( 
-				!in_array( $item, $wgTweekiSkinHideNonAdvanced ) || 
+				!$this->checkVisibilitySetting( $item, $wgTweekiSkinHideNonAdvanced ) || 
 				$wgUser->getOption( 'tweeki-advanced' ) // not hidden for non-advanced OR advanced
 			) && 
 			( 
-				!in_array( $item, $wgTweekiSkinHideAnon ) || 
+				!$this->checkVisibilitySetting( $item, $wgTweekiSkinHideAnon ) || 
 				$this->data['loggedin'] // not hidden for anonymous users OR non-anonymous user
 			) && 
 			(
-				!in_array( $item, $wgTweekiSkinHideLoggedin ) ||
+				!$this->checkVisibilitySetting( $item, $wgTweekiSkinHideLoggedin ) ||
 				!$this->data['loggedin'] // not hidden for logged-in users OR anonymous user
 			) &&
-			!in_array( $item, $wgTweekiSkinHideAll ) // not hidden for all
+			!$this->checkVisibilitySetting( $item, $wgTweekiSkinHideAll ) // not hidden for all
 			&&
 			false !== wfRunHooks( 'TweekiSkinCheckVisibility', array( $item, $this ) ) // not hidden via hook
 		) { 
@@ -665,6 +665,26 @@ class TweekiTemplate extends BaseTemplate {
 		}	else {
 			return false;
 		}
+	}
+
+	/**
+	 * Check if an element has an entry in a configuration option and if it's set to true 
+	 * (i.e. the element should be hidden to the corresponding group)
+	 *
+	 * @param $item Element to be tested
+	 * @param $setting Configuration option to be searched
+	 *
+	 * @return Boolean returns true, if the element is hidden
+	 */
+	public function checkVisibilitySetting( $item, $setting ) {
+		// this is for backwards compatibility
+		if( in_array( $item, $setting, true ) ) {
+			return true;
+		}
+		if( array_key_exists( $item, $setting ) ) {
+			return $setting[$item] ? true : false;
+		}
+		return false;
 	}
 
 
