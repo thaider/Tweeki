@@ -64,6 +64,23 @@ class TweekiHooks {
 	}
 
 	/**
+	 * TOCSetup hook
+	 *
+	 * @param $parser Parser current parser
+	 */
+	static function TOCSetup( Parser $parser ) {
+		$parser->setHook( 'TOC', 'TweekiHooks::TOC' );
+		return true;
+	}
+
+	/**
+	 * Enable TOC
+	 */
+	static function TOC( $input, array $args, Parser $parser, PPFrame $frame ) {
+		return array( '<div class="tweeki-toc">' . $input . '</div>' );
+	}
+
+	/**
 	 * TweekiHideSetup hook
 	 *
 	 * @param $parser Parser current parser

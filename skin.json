@@ -120,7 +120,8 @@
 			"TweekiHooks::ButtonsSetup",
 			"TweekiHooks::LabelSetup",
 			"TweekiHooks::AccordionSetup",
-			"TweekiHooks::TweekiHideSetup"
+			"TweekiHooks::TweekiHideSetup",
+			"TweekiHooks::TOCSetup"
 		],
 		"DoEditSectionLink": "TweekiHooks::EditSectionLinkButton",
 		"ParserBeforeTidy": "TweekiHooks::HeadlineFix",

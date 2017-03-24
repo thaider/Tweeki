@@ -47,6 +47,11 @@ jQuery( function( $ ) {
 	 */
 	// move TOC elsewhere
 	if( $( "#tweekiTOC" ).length == 1 && $( "#toc" ).length == 1 ) {
+		// toc copies
+		$( '.tweeki-toc' ).each( function() {
+			$(this).append( $( "#toc ul" ).clone() );
+		});
+
 		// to other place than sidebar?
 		if( $( "#tweekiTOC" ).parents( ".sidebar-wrapper" ).length != 1 ) {
 			$( "#toc li" ).appendTo( "#tweekiTOC" );
@@ -69,6 +74,7 @@ jQuery( function( $ ) {
 			$( '#toc ul' ).addClass( 'nav' );	
 			$( 'body' ).css( 'position', 'relative' ).scrollspy( { target: '#toc' } );
 			}
+
 		}
 
 
