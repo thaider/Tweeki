@@ -24,4 +24,5 @@ $magicWords = array();
 /** English (English) */
 $magicWords['en'] = array(
         'tweekihide' => array( 0, 'tweekihide' ),
+		'MAG_NUMBEREDHEADINGS' => array( 0, '__NUMBEREDHEADINGS__' ),
 );

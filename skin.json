@@ -125,7 +125,10 @@
 		],
 		"DoEditSectionLink": "TweekiHooks::EditSectionLinkButton",
 		"ParserBeforeTidy": "TweekiHooks::HeadlineFix",
-		"AfterFinalPageOutput": "TweekiHooks::onAfterFinalPageOutput"
+		"AfterFinalPageOutput": "TweekiHooks::onAfterFinalPageOutput",
+		"MagicWordMagicWords": "TweekiHooks::onMagicWordMagicWords",
+		"MagicWordwgVariableIDs": "TweekiHooks::onMagicWordwgVariableIDs",
+		"InternalParseBeforeLinks": "TweekiHooks::onInternalParseBeforeLinks"
 	},
 	"config": {
 		"TweekiSkinHideAll": {

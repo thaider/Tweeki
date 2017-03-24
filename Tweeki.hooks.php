@@ -845,4 +845,24 @@ class TweekiHooks {
 		return true;
 	}
 
+	/** 
+	 * 
+	 */
+	public static function onMagicWordMagicWords( &$magicWords ) {
+		$magicWords[] = 'MAG_NUMBEREDHEADINGS';
+		return true;
+	}
+
+	public static function onMagicWordwgVariableIDs( &$wgVariableIDs ) {
+		$wgVariableIDs[] = 'MAG_NUMBEREDHEADINGS';
+		return true;
+	}
+
+	public static function onInternalParseBeforeLinks( &$parser, &$text, &$strip_state ) {
+		if ( MagicWord::get( 'MAG_NUMBEREDHEADINGS' )->matchAndRemove( $text ) ) {
+			$parser->mOptions->setNumberHeadings( true );
+		}
+		return true;
+	}
+
 }
