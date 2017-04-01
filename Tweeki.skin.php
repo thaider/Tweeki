@@ -522,7 +522,7 @@ class TweekiTemplate extends BaseTemplate {
 					if (count($items) > 0) { 
 						return array(array( 
 								'href' => '#',
-								'text' => $this->data['username'],
+								'html' => '<span class="tweeki-username">' . $this->data['username'] . '</span>',
 								'icon' => 'user',
 								'id' => 'pt-personaltools',
 								'items' => $divideditems
