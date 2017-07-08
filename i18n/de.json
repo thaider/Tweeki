@@ -1,11 +1,9 @@
 {
-	"tweeki": "Verbesserungen für die Skrifo-Benutzeroberfläche",
 	"tweeki-desc": "Tweeki ist eine auf Vector und Twitter Bootstrap basierende Skin.",
 	"tweeki-edit-ext": "$1 bearbeiten",
 	"tweeki-login": "Anmelden / Registrieren",
 	"prefs-tweeki-advanced": "Erweiterte Features",
 	"prefs-tweeki-advanced-desc": "Erweiterte Features anzeigen",
 	"prefs-tweeki-advanced-help": "Einige Features, die du möglicherweise aus anderen MediaWiki-Installationen kennst, wurden vom Administrator dieser Seite versteckt, um durchschnittliche Nutzer nicht zu verwirren. Benutze diese Option, um sie anzuzeigen.",
-	"tweeki-editsection-text": "Abschnitt bearbeiten",
 	"tweeki-toc-top": "nach oben"
 }

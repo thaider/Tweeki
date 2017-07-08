@@ -790,18 +790,20 @@ class TweekiHooks {
 	 // TODO: this is an ugly hack, that might be easily broken by small structural changes in core - make it bulletproof
 	 // TODO: make this work with VisualEditor
 	static function EditSectionLinkButton( $skin, $nt, $section, $tooltip, &$result, $lang = false ) {
-		$search = array( 
-			wfMessage( 'editsection' )->inLanguage( $lang )->text() . '</a>', 
-			'<a'
-		);
-		$icon = wfMessage( 'tweeki-editsection-icon' )->inLanguage( $lang )->parse();
-		$text = wfMessage( 'tweeki-editsection-text' )->inLanguage( $lang )->parse();
-		$class = wfMessage( 'tweeki-editsection-class' )->inLanguage( $lang )->parse();
-		$replace = array( 
-			$icon . ( ( $icon != '' ) ? ' ' : '' ) . $text . '</a>', 
-			'<a class="' . $class . '"'
-		);
-		$result = str_replace( $search, $replace, $result );
+		if( $GLOBALS['wgDefaultSkin'] == 'tweeki' && GLOBALS['wgTweekiSkinCustomEditSectionLink'] == true ) {
+			$search = array( 
+				wfMessage( 'editsection' )->inLanguage( $lang )->text() . '</a>', 
+				'<a'
+			);
+			$icon = wfMessage( 'tweeki-editsection-icon' )->inLanguage( $lang )->parse();
+			$text = wfMessage( 'tweeki-editsection-text' )->inLanguage( $lang )->parse();
+			$class = wfMessage( 'tweeki-editsection-class' )->inLanguage( $lang )->parse();
+			$replace = array( 
+				$icon . ( ( $icon != '' ) ? ' ' : '' ) . $text . '</a>', 
+				'<a class="' . $class . '"'
+			);
+			$result = str_replace( $search, $replace, $result );
+		}
 	}
 
 	/**

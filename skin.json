@@ -170,6 +170,7 @@
 		"TweekiSkinUseBtnParser": true,
 		"TweekiSkinUseScrollSpy": true,
 		"TweekiSkinUseTooltips": false,
+		"TweekiSkinCustomEditSectionLink": true,
 		"TweekiSkinCustomCSS": [],
 		"TweekiSkinCustomizedBootstrap": null,
 		"TweekiSkinImagePageTOCTabs": false,
