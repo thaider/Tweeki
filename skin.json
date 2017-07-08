@@ -115,16 +115,10 @@
 		"remoteSkinPath": "Tweeki"
 	},
 	"Hooks": {
-		"GetPreferences": "TweekiHooks::getPreferences",
-		"ParserFirstCallInit": [
-			"TweekiHooks::ButtonsSetup",
-			"TweekiHooks::LabelSetup",
-			"TweekiHooks::AccordionSetup",
-			"TweekiHooks::TweekiHideSetup",
-			"TweekiHooks::TOCSetup"
-		],
-		"DoEditSectionLink": "TweekiHooks::EditSectionLinkButton",
-		"ParserBeforeTidy": "TweekiHooks::HeadlineFix",
+		"GetPreferences": "TweekiHooks::onGetPreferences",
+		"ParserFirstCallInit": "TweekiHooks::onParserFirstCallInit",
+		"DoEditSectionLink": "TweekiHooks::onDoEditSectionLink",
+		"ParserBeforeTidy": "TweekiHooks::onParserBeforeTidy",
 		"AfterFinalPageOutput": "TweekiHooks::onAfterFinalPageOutput",
 		"MagicWordMagicWords": "TweekiHooks::onMagicWordMagicWords",
 		"MagicWordwgVariableIDs": "TweekiHooks::onMagicWordwgVariableIDs",

@@ -24,6 +24,27 @@
 class TweekiHooks {
 
 	protected static $anchorID = 0;
+
+	/**
+	 * Setting up parser functions
+	 *
+	 * @param $parser Parser current parser
+	 */
+	static function onParserFirstCallInit( Parser $parser ) {
+		$parser->setHook( 'TOC', 'TweekiHooks::TOC' );
+		$parser->setHook( 'legend', 'TweekiHooks::legend' );
+		$parser->setHook( 'footer', 'TweekiHooks::footer' );
+		$parser->setHook( 'accordion', 'TweekiHooks::buildAccordion' );
+		$parser->setHook( 'label', 'TweekiHooks::buildLabel' );
+
+		if ( true === $GLOBALS['wgTweekiSkinUseBtnParser'] ) {
+			$parser->setHook( 'btn', 'TweekiHooks::buildButtons' );
+		}
+
+		$parser->setFunctionHook( 'tweekihide', 'TweekiHooks::setHiddenElements' );
+
+		return true;
+	}
 	
 	/**
 	 * Customizing registration
@@ -53,7 +74,7 @@ class TweekiHooks {
 	 * @param $user User current user
 	 * @param $defaultPreferences array list of default user preference controls
 	 */
-	public static function getPreferences( $user, &$defaultPreferences ) {
+	public static function onGetPreferences( $user, &$defaultPreferences ) {
 		$defaultPreferences['tweeki-advanced'] = array(
 			'type' => 'toggle',
 			'label-message' => 'prefs-tweeki-advanced-desc',
@@ -64,32 +85,10 @@ class TweekiHooks {
 	}
 
 	/**
-	 * TOCSetup hook
-	 *
-	 * @param $parser Parser current parser
-	 */
-	static function TOCSetup( Parser $parser ) {
-		$parser->setHook( 'TOC', 'TweekiHooks::TOC' );
-		return true;
-	}
-
-	/**
 	 * Enable TOC
 	 */
 	static function TOC( $input, array $args, Parser $parser, PPFrame $frame ) {
 		return array( '<div class="tweeki-toc">' . $input . '</div>' );
-	}
-
-	/**
-	 * TweekiHideSetup hook
-	 *
-	 * @param $parser Parser current parser
-	 */
-	static function TweekiHideSetup( Parser $parser ) {
-		$parser->setFunctionHook( 'tweekihide', 'TweekiHooks::setHiddenElements' );
-		$parser->setHook( 'legend', 'TweekiHooks::legend' );
-		$parser->setHook( 'footer', 'TweekiHooks::footer' );
-		return true;
 	}
 
 	/**
@@ -125,16 +124,6 @@ class TweekiHooks {
 	}
 
 	/**
-	 * AccordeonSetup hook
-	 *
-	 * @param $parser Parser current parser
-	 */
-	static function AccordionSetup( Parser $parser ) {
-		$parser->setHook( 'accordion', 'TweekiHooks::buildAccordion' );
-		return true;
-	}
-
-	/**
 	 * Build accordeon
 	 *
 	 * @param $input string
@@ -165,16 +154,6 @@ class TweekiHooks {
 	}
 
 	/**
-	 * LabelSetup hook
-	 *
-	 * @param $parser Parser current parser
-	 */
-	static function LabelSetup( Parser $parser ) {
-		$parser->setHook( 'label', 'TweekiHooks::buildLabel' );
-		return true;
-	}
-	
-	/**
 	 * Build label
 	 * @param $input string
 	 * @param $args array tag arguments
@@ -186,20 +165,6 @@ class TweekiHooks {
 		return '<label>' . $parser->recursiveTagParse( $input ) . '</label>';
 	}
 
-	/**
-	 * ButtonsSetup hook
-	 *
-	 * @param $parser Parser current parser
-	 */
-	static function ButtonsSetup( Parser $parser ) {
-		global $wgTweekiSkinUseBtnParser;
-		
-		if ( true === $wgTweekiSkinUseBtnParser ) {
-			$parser->setHook( 'btn', 'TweekiHooks::buildButtons' );
-		}
-		return true;
-	}
-	
 	/**
 	 * Build buttons, groups of buttons and dropdowns
 	 *
@@ -789,7 +754,7 @@ class TweekiHooks {
 	 */
 	 // TODO: this is an ugly hack, that might be easily broken by small structural changes in core - make it bulletproof
 	 // TODO: make this work with VisualEditor
-	static function EditSectionLinkButton( $skin, $nt, $section, $tooltip, &$result, $lang = false ) {
+	static function onDoEditSectionLink( $skin, $nt, $section, $tooltip, &$result, $lang = false ) {
 		if( $GLOBALS['wgDefaultSkin'] == 'tweeki' && GLOBALS['wgTweekiSkinCustomEditSectionLink'] == true ) {
 			$search = array( 
 				wfMessage( 'editsection' )->inLanguage( $lang )->text() . '</a>', 
@@ -815,7 +780,7 @@ class TweekiHooks {
 	 * @param $parser Parser current parser
 	 * @param $text
 	 */
-	public static function HeadlineFix( &$parser, &$text ) {
+	public static function onParserBeforeTidy( &$parser, &$text ) {
 		$search = '/(<span class="mw-headline" id=".*">)(.*)(<\/span>)/';
 		$replace = '$1$3$2';
 		$text = preg_replace( $search, $replace, $text );
