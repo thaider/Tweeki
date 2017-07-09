@@ -690,6 +690,12 @@ class TweekiHooks {
 					$attrs['class'] = $options['link-class'];
 				}
 			}
+			if ( isset( $attrs['data'] ) && is_array( $attrs['data'] ) ) {
+				foreach( $attrs['data'] as $datakey => $datavalue ) {
+					$attrs['data-' . $datakey] = $datavalue;
+				}
+				unset( $attrs['data'] );
+			}
 			$html = Html::rawElement( isset( $attrs['href'] ) ? 'a' : $options['link-fallback'], $attrs, $html );
 		}
 
