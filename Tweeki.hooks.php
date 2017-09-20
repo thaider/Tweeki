@@ -761,7 +761,10 @@ class TweekiHooks {
 	 // TODO: this is an ugly hack, that might be easily broken by small structural changes in core - make it bulletproof
 	 // TODO: make this work with VisualEditor
 	static function onDoEditSectionLink( $skin, $nt, $section, $tooltip, &$result, $lang = false ) {
-		if( $GLOBALS['wgDefaultSkin'] == 'tweeki' && $GLOBALS['wgTweekiSkinCustomEditSectionLink'] == true ) {
+		if( 
+			$skin->getSkinName() == 'tweeki' 
+			&& $GLOBALS['wgTweekiSkinCustomEditSectionLink'] == true 
+		) {
 			$search = array( 
 				wfMessage( 'editsection' )->inLanguage( $lang )->text() . '</a>', 
 				'<a'
