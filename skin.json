@@ -84,7 +84,6 @@
 				"bootstrap/js/bootstrap.min.js"
 			],
 			"dependencies": [
-				"jquery.ui.widget",
 				"mediawiki.jqueryMsg"
 			]
 		},
