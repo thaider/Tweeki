@@ -78,6 +78,14 @@
 				}
 			}
 		},
+		"skins.tweeki.cookiewarning.styles": {
+			"position": "top",
+			"styles": {
+				"components/cookiewarning.less": {
+					"media": "screen"
+				}
+			}
+		},
 		"skins.tweeki.bootstrap.scripts": {
 			"position": "bottom",
 			"scripts": [

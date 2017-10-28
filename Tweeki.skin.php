@@ -84,6 +84,9 @@ class SkinTweeki extends SkinTemplate {
 		if( $wgTweekiSkinUseBootstrapTheme === true ) {
 			$styles[] = 'skins.tweeki.bootstraptheme.styles';
 		}
+		if( isset( $GLOBALS['wgCookieWarningEnabled'] ) && $GLOBALS['wgCookieWarningEnabled'] === true ) {
+			$styles[] = 'skins.tweeki.cookiewarning.styles';
+		}
 		foreach( $wgTweekiSkinCustomCSS as $customstyle ) {
 			$styles[] = $customstyle;
 		}
