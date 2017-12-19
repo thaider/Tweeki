@@ -77,6 +77,16 @@ jQuery( function( $ ) {
 
 		}
 
+	
+	/**
+	 * HEADLINES
+	 */
+	// with fixed navbar a invisible padding is applied to .mw-headline that makes links unaccessible
+	$( '.mw-headline' ).each(function( i ) {
+		$( this ).clone().empty().prependTo( $( this ).parent() );
+		$( this ).children().unwrap();
+	});
+
 
 	/**
 	 * LOGIN-EXT 
