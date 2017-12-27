@@ -63,9 +63,8 @@ class SkinTweeki extends SkinTemplate {
 		if( $wgUser->getOption( 'tweeki-advanced' ) ) {
 			static::$bodyClasses[] = 'advanced';
 		}
-		$additionalBodyClasses = array();
-		wfRunHooks( 'SkinTweekiAdditionalBodyClasses', array( $this, &$additionalBodyClasses ) );
-		static::$bodyClasses = array_merge( static::$bodyClasses, $additionalBodyClasses );
+		wfRunHooks( 'SkinTweekiAdditionalBodyClasses', array( $this, &$GLOBALS['wgTweekiSkinAdditionalBodyClasses'] ) );
+		static::$bodyClasses = array_merge( static::$bodyClasses, $GLOBALS['wgTweekiSkinAdditionalBodyClasses'] );
 	}
 
 	/**

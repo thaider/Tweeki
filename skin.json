@@ -198,7 +198,8 @@
 			"mainwidth": 8, 
 			"rightoffset": 0, 
 			"rightwidth": 2
-		}
+		},
+		"TweekiSkinAdditionalBodyClasses": []
 	},
 	"callback": "TweekiHooks::onRegistration",
 	"manifest_version": 1

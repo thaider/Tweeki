@@ -42,6 +42,7 @@ class TweekiHooks {
 		}
 
 		$parser->setFunctionHook( 'tweekihide', 'TweekiHooks::setHiddenElements' );
+		$parser->setFunctionHook( 'tweekibodyclass', 'TweekiHooks::addBodyclass' );
 
 		return true;
 	}
@@ -119,6 +120,21 @@ class TweekiHooks {
 			if ( in_array ( func_get_arg( $i ), $wgTweekiSkinHideable ) ) {
 				$wgTweekiSkinHideAll[] = func_get_arg( $i );
 			}
+		}
+		return '';
+	}
+
+	/**
+	 * Add classes to body
+	 *
+	 * @param $parser Parser current parser
+	 * @return string
+	 */
+	static function addBodyclass( Parser $parser ) {
+		$parser->disableCache();
+		// Argument 0 is $parser, so begin iterating at 1
+		for ( $i = 1; $i < func_num_args(); $i++ ) {
+			$GLOBALS['wgTweekiSkinAdditionalBodyClasses'][] = func_get_arg( $i );
 		}
 		return '';
 	}
