@@ -60,7 +60,7 @@ jQuery( function( $ ) {
 		// or to sidebar?
 		else {
 			$( "#toc" ).appendTo( "#tweekiTOC" );
-			$( "#toctitle" ).insertBefore( "#toc" ).children( "h2" )
+			$( "#toctitle, .toctitle" ).insertBefore( "#toc" ).children( "h2" )
 				.append( '<a href="javascript:scrollTo(0,0);">' + mw.message( 'tweeki-toc-top' ).plain() + '</a>' );
 			/* do we need this? could cause problems on small screens */
 			/* $(window).resize(function() {
