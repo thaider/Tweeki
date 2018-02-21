@@ -1107,7 +1107,7 @@ class TweekiTemplate extends BaseTemplate {
 		$skin->text('searchtitle');
 		echo '" placeholder="';
 		$skin->msg('search');
-		echo '" name="search" value="' . $this->data['search'] .'">
+		echo '" name="search" value="' . htmlspecialchars($this->data['search']) .'">
 					' . $skin->makeSearchButton( 'go', array( 'id' => 'mw-searchButton', 'class' => 'searchButton btn hidden' ) ) . '
 				</div>
 			</form>';
