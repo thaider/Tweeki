@@ -765,34 +765,30 @@ class TweekiHooks {
 	}
 
 	/**
-	 * Replace edit section links with buttons
+	 * Customize edit section links
 	 *
 	 * @param $skin Skin current skin
-	 * @param $nt Title
+	 * @param $title Title
 	 * @param $section String section
 	 * @param $tooltip
-	 * @param $result String prepared output
+	 * @param $links Array link details
 	 * @param $lang String language
+	 *
+	 * @todo: make this work with VisualEditor
 	 */
-	 // TODO: this is an ugly hack, that might be easily broken by small structural changes in core - make it bulletproof
-	 // TODO: make this work with VisualEditor
-	static function onDoEditSectionLink( $skin, $nt, $section, $tooltip, &$result, $lang = false ) {
+	static function onSkinEditSectionLinks( $skin, $title, $section, $tooltip, &$links, $lang = false ) {
 		if( 
 			$skin->getSkinName() == 'tweeki' 
 			&& $GLOBALS['wgTweekiSkinCustomEditSectionLink'] == true 
 		) {
-			$search = array( 
-				wfMessage( 'editsection' )->inLanguage( $lang )->text() . '</a>', 
-				'<a'
-			);
 			$icon = wfMessage( 'tweeki-editsection-icon' )->inLanguage( $lang )->parse();
 			$text = wfMessage( 'tweeki-editsection-text' )->inLanguage( $lang )->parse();
 			$class = wfMessage( 'tweeki-editsection-class' )->inLanguage( $lang )->parse();
-			$replace = array( 
-				$icon . ( ( $icon != '' ) ? ' ' : '' ) . $text . '</a>', 
-				'<a class="' . $class . '"'
-			);
-			$result = str_replace( $search, $replace, $result );
+			$text = $icon . ( ( $icon != '' ) ? ' ' : '' ) . $text;
+
+			$links['editsection']['text'] = $text;
+			$links['editsection']['attribs']['class'] = $class;
+			return true;
 		}
 	}
 

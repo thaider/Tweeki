@@ -124,7 +124,7 @@
 	"Hooks": {
 		"GetPreferences": "TweekiHooks::onGetPreferences",
 		"ParserFirstCallInit": "TweekiHooks::onParserFirstCallInit",
-		"DoEditSectionLink": "TweekiHooks::onDoEditSectionLink",
+		"SkinEditSectionLinks": "TweekiHooks::onSkinEditSectionLinks",
 		"ParserBeforeTidy": "TweekiHooks::onParserBeforeTidy",
 		"AfterFinalPageOutput": "TweekiHooks::onAfterFinalPageOutput",
 		"MagicWordMagicWords": "TweekiHooks::onMagicWordMagicWords",
