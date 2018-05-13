@@ -349,7 +349,7 @@ class TweekiTemplate extends BaseTemplate {
 								'href_implicit' => false,
 								'id' => 'ca-edit-ext',
 								'icon' => 'pencil',
-								'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain()
+								'text' => wfMessage( 'tweeki-edit-ext', substr(stristr($this->data['title'],":",false),1) )->plain()
 								);
 							$button['items'] = $views;
 							if(count($this->data['action_urls']) > 0) {
@@ -362,7 +362,7 @@ class TweekiTemplate extends BaseTemplate {
 								'href' => $link['href'],
 								'id' => 'ca-edit',
 								'icon' => 'pencil',
-								'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain()
+								'text' => wfMessage( 'tweeki-edit-ext', substr(stristr($this->data['title'],":",false),1) )->plain()
 								);
 						}
 						return array($button);
