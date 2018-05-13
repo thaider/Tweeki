@@ -182,8 +182,12 @@ class TweekiTemplate extends BaseTemplate {
 		
 		//set 'namespace' and 'title_formatted' variables
 		$this->data['namespace'] = $this->getSkin()->getTitle()->getNsText();
+		//Set Short Page Title
+		$this->data['short_title'] = $this->data['title'];
 		$this->data['title_formatted'] = $this->data['title'];
 		if( strpos( $this->data['title'], $this->data['namespace'] . ":" ) !== false ) { 
+			//Re-Set Short Page Title
+			$this->data['short_title'] = substr(stristr($this->data['title'],":",false),1);
 			$this->data['title_formatted'] = '<span class="namespace">' . str_replace( ":", ":</span> ", $this->data['title'] );
 		}
 
@@ -349,7 +353,7 @@ class TweekiTemplate extends BaseTemplate {
 								'href_implicit' => false,
 								'id' => 'ca-edit-ext',
 								'icon' => 'pencil',
-								'text' => wfMessage( 'tweeki-edit-ext', substr(stristr($this->data['title'],":",false),1) )->plain()
+								'text' => wfMessage( 'tweeki-edit-ext', $this->data['short_title'] )->plain()
 								);
 							$button['items'] = $views;
 							if(count($this->data['action_urls']) > 0) {
@@ -362,7 +366,7 @@ class TweekiTemplate extends BaseTemplate {
 								'href' => $link['href'],
 								'id' => 'ca-edit',
 								'icon' => 'pencil',
-								'text' => wfMessage( 'tweeki-edit-ext', substr(stristr($this->data['title'],":",false),1) )->plain()
+								'text' => wfMessage( 'tweeki-edit-ext', $this->data['short_title'] )->plain()
 								);
 						}
 						return array($button);
