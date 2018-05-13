@@ -124,6 +124,7 @@ class TweekiTemplate extends BaseTemplate {
 		global $wgTweekiSkinHideAnon;
 		global $wgGroupPermissions;
 		global $wgTweekiSkinPageRenderer;
+		global $wgTweekiLinkNamespace;
 
 		// Build additional attributes for navigation urls
 		$nav = $this->data['content_navigation'];
@@ -183,12 +184,16 @@ class TweekiTemplate extends BaseTemplate {
 		//set 'namespace' and 'title_formatted' variables
 		$this->data['namespace'] = $this->getSkin()->getTitle()->getNsText();
 		//Set Short Page Title
-		$this->data['short_title'] = $this->data['title'];
+		$this->data['short_title'] = $this->getSkin()->getTitle()->getText();
 		$this->data['title_formatted'] = $this->data['title'];
 		if( strpos( $this->data['title'], $this->data['namespace'] . ":" ) !== false ) { 
-			//Re-Set Short Page Title
-			$this->data['short_title'] = substr(stristr($this->data['title'],":",false),1);
-			$this->data['title_formatted'] = '<span class="namespace">' . str_replace( ":", ":</span> ", $this->data['title'] );
+			//Check LinkNamespace option
+			if ($wgTweekiLinkNamespace) {
+				$nsLinkOrText = Linker::link(Title::newFromText( $this->data['namespace'] ),$this->data['namespace']);
+			} else {
+				$nsLinkOrText = $this->data['namespace'];
+			}
+			$this->data['title_formatted'] = '<span class="namespace">' . $nsLinkOrText . ":</span> " . $this->data['short_title'];
 		}
 
 		// Reverse horizontally rendered navigation elements
