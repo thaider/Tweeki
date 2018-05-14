@@ -429,7 +429,7 @@ class TweekiTemplate extends BaseTemplate {
 					$html = (wfMessage( 'tweeki-toolbox' )->plain() == "") ? wfMessage( 'toolbox' )->plain() : wfMessage( 'tweeki-toolbox' )->plain();
 					foreach($items as $key => $item) {
 						if(!isset( $item['text'] ) ) {
-							$item['text'] = $this->translator->translate( isset( $item['msg'] ) ? $item['msg'] : $key );
+							$item['text'] = wfMessage( isset( $item['msg'] ) ? $item['msg'] : $key )->text();
 						} 
 						if(preg_match( '/specialpages|whatlinkshere/', $key )) {
 							$divideditems[] = array();
@@ -503,7 +503,7 @@ class TweekiTemplate extends BaseTemplate {
 					$divideditems = array();
 					foreach($items as $key => $item) {
 						if(!isset( $item['text'] ) ) {
-							$item['text'] = $this->translator->translate( isset( $item['msg'] ) ? $item['msg'] : $key );
+							$item['text'] = wfMessage( isset( $item['msg'] ) ? $item['msg'] : $key )->text();
 						}
 						if(!isset( $item['href'] ) ) {
 							$item['href'] = $item['links'][0]['href'];
@@ -537,7 +537,7 @@ class TweekiTemplate extends BaseTemplate {
 					$divideditems = array();
 					foreach($items as $key => $item) {
 						if(!isset( $item['text'] ) ) {
-							$item['text'] = $this->translator->translate( isset( $item['msg'] ) ? $item['msg'] : $key );
+							$item['text'] = wfMessage( isset( $item['msg'] ) ? $item['msg'] : $key )->text();
 						}
 						if(!isset( $item['href'] ) ) {
 							$item['href'] = $item['links'][0]['href'];
