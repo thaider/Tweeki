@@ -764,7 +764,7 @@ class TweekiTemplate extends BaseTemplate {
 	private function renderNavbarElement( $side ) {
 		$element = 'navbar-' . $side;
 		$options = $this->getParsingOptions( $element );
-		$this->buildItems( wfMessage( 'tweeki-' . $element )->plain(), $options, $element );		
+		$this->buildItems( wfMessage( 'tweeki-' . $element )->toString(), $options, $element );		
 	}
 
 
