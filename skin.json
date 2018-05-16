@@ -125,7 +125,6 @@
 		"GetPreferences": "TweekiHooks::onGetPreferences",
 		"ParserFirstCallInit": "TweekiHooks::onParserFirstCallInit",
 		"SkinEditSectionLinks": "TweekiHooks::onSkinEditSectionLinks",
-		"ParserBeforeTidy": "TweekiHooks::onParserBeforeTidy",
 		"AfterFinalPageOutput": "TweekiHooks::onAfterFinalPageOutput",
 		"MagicWordMagicWords": "TweekiHooks::onMagicWordMagicWords",
 		"MagicWordwgVariableIDs": "TweekiHooks::onMagicWordwgVariableIDs",
