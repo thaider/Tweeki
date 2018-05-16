@@ -80,11 +80,13 @@ jQuery( function( $ ) {
 	
 	/**
 	 * HEADLINES
+	 *
+	 * If the headline is inside the span it's padding will prevent
+	 * links directly above the headline to be accessible
 	 */
-	// with fixed navbar a invisible padding is applied to .mw-headline that makes links unaccessible
 	$( '.mw-headline' ).each(function( i ) {
-		$( this ).clone().empty().prependTo( $( this ).parent() );
-		$( this ).children().unwrap();
+		$headline_text = $( this ).text();
+		$(this).text('').after($headline_text);
 	});
 
 

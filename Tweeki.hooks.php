@@ -792,22 +792,6 @@ class TweekiHooks {
 		}
 	}
 
-	/**
-	 * Empty span.mw-headline for correct internal linking
-	 *
-	 * If the headline is inside the span it's padding will prevent
-	 * links directly above the headline to be accessible
-	 *
-	 * @param $parser Parser current parser
-	 * @param $text
-	 */
-	public static function onParserBeforeTidy( &$parser, &$text ) {
-		$search = '/(<span class="mw-headline" id=".*">)(.*)(<\/span>)/';
-		$replace = '$1$3$2';
-		$text = preg_replace( $search, $replace, $text );
-		return true;
-	}
-
 
 	/**
 	 * Change TOC and page content of file pages to togglable tabs
