@@ -477,6 +477,11 @@ class TweekiHooks {
 				$button['data-placement'] = $options['data-placement'];
 			}
 				
+			// if data-slide attribute is set, add it
+			if ( isset( $options['data-slide'] ) ) {
+				$button['data-slide'] = $options['data-slide'];
+			}
+
 			// if title attribute is set, add it
 			if ( isset( $options['title'] ) ) {
 				$button['title'] = $options['title'];
