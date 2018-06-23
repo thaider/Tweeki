@@ -85,8 +85,8 @@ jQuery( function( $ ) {
 	 * links directly above the headline to be accessible
 	 */
 	$( '.mw-headline' ).each(function( i ) {
-		$headline_text = $( this ).text();
-		$(this).text('').after($headline_text);
+		$headline_contents = $( this ).contents();
+		$(this).text('').after($headline_contents);
 	});
 
 
