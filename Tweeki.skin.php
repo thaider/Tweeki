@@ -444,6 +444,33 @@ class TweekiTemplate extends BaseTemplate {
 						));					
 					break;
 
+				case 'TOOLBOX-EXT':
+					$items = array_reverse($this->getToolbox());
+					$divideditems = array();
+					$html = (wfMessage( 'tweeki-toolbox' )->plain() == "") ? wfMessage( 'toolbox' )->plain() : wfMessage( 'tweeki-toolbox' )->plain();
+					foreach($items as $key => $item) {
+						if(!isset( $item['text'] ) ) {
+							$item['text'] = $this->translator->translate( isset( $item['msg'] ) ? $item['msg'] : $key );
+						} 
+						if(preg_match( '/specialpages|whatlinkshere/', $key )) {
+							$divideditems[] = array();
+						}
+						$divideditems[$key] = $item;
+					}
+					$divideditems[] = [];
+					$divideditems['recent'] = [
+						'text' => wfMessage( 'recentchanges' )->plain(),
+						'href' => '/wiki/Special:RecentChanges',
+						'id' => 't-recentchanges',
+					];
+					return array(array( 
+						'href' => '#',
+						'html' => $html,
+						'id' => 't-tools',
+						'items' => $divideditems
+						));					
+					break;
+
 				case 'VARIANTS':
 					$theMsg = 'variants';
 					$items = $this->data['variant_urls'];
