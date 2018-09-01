@@ -187,7 +187,9 @@ class TweekiTemplate extends BaseTemplate {
 			$this->data['title_formatted'] = '<span class="namespace">' . str_replace( ":", ":</span> ", $this->data['title'] );
 		}
 
+		// according to #120, navigation elements are automatically reversed by css when UI is in RTL mode
 		// Reverse horizontally rendered navigation elements
+		/*
 		if ( $this->data['rtl'] ) {
 			$this->data['view_urls'] =
 				array_reverse( $this->data['view_urls'] );
@@ -196,6 +198,8 @@ class TweekiTemplate extends BaseTemplate {
 			$this->data['personal_urls'] =
 				array_reverse( $this->data['personal_urls'] );
 		}
+		*/
+
 		// Output HTML Page
 		$this->html( 'headelement' );
 		call_user_func_array( $wgTweekiSkinPageRenderer, array( $this ) );
