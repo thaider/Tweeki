@@ -38,6 +38,7 @@ class TweekiTemplate extends BaseTemplate {
 		$this->data['view_urls'] = $this->data['content_navigation']['views'];
 		$this->data['action_urls'] = $this->data['content_navigation']['actions'];
 		$this->data['variant_urls'] = $this->data['content_navigation']['variants'];
+		$this->data['watch_urls'] = [];
 
 		// Remove the watch/unwatch star from the "actions" menu
 		if ( $this->config->get( 'TweekiSkinUseIconWatch' ) ) {
