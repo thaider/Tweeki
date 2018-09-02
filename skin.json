@@ -1,15 +1,23 @@
 {
 	"name": "Tweeki",
-	"version": "1.0.5",
+	"version": "1.1.0",
 	"author": "Tobias Haider",
-	"url": "http://tweeki.thai-land.at",
-	"descriptionmsg": "tweeki-desc",
+	"url": "https://tweeki.thai-land.at",
+	"descriptionmsg": "tweeki-skin-desc",
+	"namemsg": "skinname-tweeki",
+	"license-name": "GPL-2.0-or-later",
 	"type": "skin",
+	"requires": {
+		"MediaWiki": ">= 1.29.0"
+	},
+	"ConfigRegistry": {
+		"tweeki": "GlobalVarConfig::newInstance"
+	},
 	"ValidSkinNames": {
 		"tweeki": "Tweeki"
 	},
 	"MessagesDirs": {
-		"SkinTweeki": [
+		"Tweeki": [
 			"i18n"
 		]
 	},
@@ -17,8 +25,18 @@
 		"TweekiMagic": "Tweeki.i18n.magic.php"
 	},
 	"AutoloadClasses": {
-		"SkinTweeki": "Tweeki.skin.php",
-		"TweekiHooks": "Tweeki.hooks.php"
+		"TweekiHooks": "includes/Hooks.php",
+		"SkinTweeki": "includes/SkinTweeki.php",
+		"TweekiTemplate": "includes/TweekiTemplate.php"
+	},
+	"Hooks": {
+		"GetPreferences": "TweekiHooks::onGetPreferences",
+		"ParserFirstCallInit": "TweekiHooks::onParserFirstCallInit",
+		"SkinEditSectionLinks": "TweekiHooks::onSkinEditSectionLinks",
+		"AfterFinalPageOutput": "TweekiHooks::onAfterFinalPageOutput",
+		"MagicWordMagicWords": "TweekiHooks::onMagicWordMagicWords",
+		"MagicWordwgVariableIDs": "TweekiHooks::onMagicWordwgVariableIDs",
+		"InternalParseBeforeLinks": "TweekiHooks::onInternalParseBeforeLinks"
 	},
 	"ResourceModules": {
 		"skins.tweeki.bootstrap.styles": {
@@ -121,15 +139,6 @@
 		"localBasePath": "",
 		"remoteSkinPath": "Tweeki"
 	},
-	"Hooks": {
-		"GetPreferences": "TweekiHooks::onGetPreferences",
-		"ParserFirstCallInit": "TweekiHooks::onParserFirstCallInit",
-		"SkinEditSectionLinks": "TweekiHooks::onSkinEditSectionLinks",
-		"AfterFinalPageOutput": "TweekiHooks::onAfterFinalPageOutput",
-		"MagicWordMagicWords": "TweekiHooks::onMagicWordMagicWords",
-		"MagicWordwgVariableIDs": "TweekiHooks::onMagicWordwgVariableIDs",
-		"InternalParseBeforeLinks": "TweekiHooks::onInternalParseBeforeLinks"
-	},
 	"config": {
 		"TweekiSkinHideAll": {
 			"footer-info": true
@@ -170,6 +179,7 @@
 		"TweekiSkinUseBtnParser": true,
 		"TweekiSkinUseScrollSpy": true,
 		"TweekiSkinUseTooltips": false,
+		"TweekiSkinUseIconWatch": false,
 		"TweekiSkinCustomEditSectionLink": true,
 		"TweekiSkinCustomCSS": [],
 		"TweekiSkinCustomizedBootstrap": null,
