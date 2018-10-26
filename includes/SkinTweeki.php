@@ -60,7 +60,7 @@ class SkinTweeki extends SkinTemplate {
 		if( $out->getUser()->getOption( 'tweeki-advanced' ) ) {
 			static::$bodyClasses[] = 'advanced';
 		}
-		wfRunHooks( 'SkinTweekiAdditionalBodyClasses', array( $this, &$GLOBALS['wgTweekiSkinAdditionalBodyClasses'] ) );
+		Hooks::run( 'SkinTweekiAdditionalBodyClasses', array( $this, &$GLOBALS['wgTweekiSkinAdditionalBodyClasses'] ) );
 		static::$bodyClasses = array_merge( static::$bodyClasses, $GLOBALS['wgTweekiSkinAdditionalBodyClasses'] );
 	}
 
@@ -84,7 +84,7 @@ class SkinTweeki extends SkinTemplate {
 		foreach( $GLOBALS['wgTweekiSkinCustomCSS'] as $customstyle ) {
 			$styles[] = $customstyle;
 		}
-		wfRunHooks( 'SkinTweekiStyleModules', array( $this, &$styles ) );
+		Hooks::run( 'SkinTweekiStyleModules', array( $this, &$styles ) );
 		$out->addModuleStyles( $styles );
 	}
 
