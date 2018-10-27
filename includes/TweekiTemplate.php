@@ -578,7 +578,7 @@ class TweekiTemplate extends BaseTemplate {
 			) &&
 			!$this->checkVisibilitySetting( $item, $this->config->get( 'TweekiSkinHideAll' ) ) // not hidden for all
 			&&
-			false !== wfRunHooks( 'SkinTweekiCheckVisibility', [ $this, $item ] ) // not hidden via hook
+			false !== Hooks::run( 'SkinTweekiCheckVisibility', [ $this, $item ] ) // not hidden via hook
 		) { 
 			return true;
 		}	else {
