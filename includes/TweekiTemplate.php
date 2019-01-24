@@ -71,7 +71,7 @@ class TweekiTemplate extends BaseTemplate {
 		$this->data['namespace'] = str_replace( "_", " ", $this->getSkin()->getTitle()->getNsText() );
 		$this->data['title_formatted'] = $this->data['title'];
 		if( $this->data['namespace'] !== '') {
-			$this->data['title_formatted'] = '<span class="namespace">' . $this->data['namespace'] . ":</span> " . $this->getSkin()->getTitle()->getBaseText();
+			$this->data['title_formatted'] = '<span class="namespace">' . $this->data['namespace'] . ":</span> " . $this->getSkin()->getTitle()->getText();
 		}
 
 		// Output HTML Page
