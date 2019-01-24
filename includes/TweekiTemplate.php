@@ -68,10 +68,10 @@ class TweekiTemplate extends BaseTemplate {
 		}
 		
 		//set 'namespace' and 'title_formatted' variables
-		$this->data['namespace'] = $this->getSkin()->getTitle()->getNsText();
+		$this->data['namespace'] = str_replace( "_", " ", $this->getSkin()->getTitle()->getNsText() );
 		$this->data['title_formatted'] = $this->data['title'];
-		if( strpos( $this->data['title'], $this->data['namespace'] . ":" ) !== false ) { 
-			$this->data['title_formatted'] = '<span class="namespace">' . str_replace( ":", ":</span> ", $this->data['title'] );
+		if( $this->data['namespace'] !== '') {
+			$this->data['title_formatted'] = '<span class="namespace">' . $this->data['namespace'] . ":</span> " . $this->getSkin()->getTitle()->getBaseText();
 		}
 
 		// Output HTML Page
