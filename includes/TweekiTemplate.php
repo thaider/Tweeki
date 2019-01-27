@@ -333,7 +333,7 @@ class TweekiTemplate extends BaseTemplate {
 					$divideditems[] = [];
 					$divideditems['recent'] = [
 						'text' => wfMessage( 'recentchanges' )->plain(),
-						'href' => '/wiki/Special:RecentChanges',
+						'href' => Title::newFromText( 'Special:RecentChanges' )->getLocalURL(),
 						'id' => 't-recentchanges',
 					];
 					return [[
