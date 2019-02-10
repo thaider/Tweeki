@@ -82,7 +82,7 @@
 		"skins.tweeki.awesome.styles": {
 			"position": "top",
 			"styles": {
-				"awesome/css/font-awesome.min.css": []
+				"awesome/css/all.min.css": []
 			}
 		},
 		"skins.tweeki.bootstraptheme.styles": {
