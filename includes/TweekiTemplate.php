@@ -930,15 +930,15 @@ class TweekiTemplate extends BaseTemplate {
 		if ( $this->config->has( 'TweekiReturnto' ) && $returnto == Title::newMainPage()->getFullText() ) {
 			$returnto = $this->config->get( 'TweekiReturnto' );
 		}
-		$action = $GLOBALS['wgScript'] . '?title=special:userlogin&amp;action=submitlogin&amp;type=login&amp;returnto=' . $returnto;
+		$action = $GLOBALS['wgScript'] . '?title=Special:UserLogin&amp;action=submitlogin&amp;type=login&amp;returnto=' . $returnto;
 		
 		//create login token if it doesn't exist
-		if( !$this->getSkin()->getRequest()->getSessionData( 'wsLoginToken' ) ) $this->getSkin()->getRequest()->setSessionData( 'wsLoginToken', MWCryptRand::generateHex( 32 ) );
-		$this->getSkin()->getUser->setCookies();
+		if( !$this->getSkin()->getRequest()->getSession()->getToken( '', 'login' ) ) $this->getSkin()->getRequest()->getSession()->resetToken( 'login' );
+		$this->getSkin()->getUser()->setCookies();
 
 		$dropdown['class'] = ' dropdown-toggle';
 		$dropdown['data-toggle'] = 'dropdown';
-		$dropdown['text'] = $this->getMsg( 'userlogin' )->text();
+		$dropdown['text'] = $this->getMsg( 'tweeki-login' )->text();
 		$dropdown['html'] = $dropdown['text'] . ' <b class="caret"></b>';
 		$dropdown['href'] = '#';
 		$dropdown['type'] = 'button';
@@ -948,7 +948,7 @@ class TweekiTemplate extends BaseTemplate {
 
 		echo '<li class="' . $wrapperclass . '">
 		' . $renderedDropdown . '
-		<ul class="dropdown-menu" role="menu" aria-labelledby="' . $this->getMsg( 'userlogin' )->text() . '" id="loginext">
+		<ul class="dropdown-menu" role="menu" aria-labelledby="' . $this->getMsg( 'tweeki-login' )->text() . '" id="loginext">
 			<form action="' . $action . '" method="post" name="userloginext" class="clearfix">
 				<div class="form-group">
 					<label for="wpName2" class="hidden-xs">
@@ -977,7 +977,11 @@ class TweekiTemplate extends BaseTemplate {
 						' . $this->getMsg( 'pt-login-button' )->text() . '
 					</button>
 				</div>
-				<input type="hidden" value="' . $wgRequest->getSessionData( 'wsLoginToken' ) . '" name="wpLoginToken">
+				<input type="hidden" id="wpEditToken" value="+\" name="wpEditToken">
+				<input type="hidden" value="Special:UserLogin" name="title">
+				<input name="authAction" type="hidden" value="login">
+				<input name="force" type="hidden">
+				<input type="hidden" value="' . $this->getSkin()->getRequest()->getSession()->getToken( '', 'login' ) . '" name="wpLoginToken">
 			</form>';
 	if( $this->getSkin()->getUser()->isAllowed( 'createaccount' ) ) {
 		echo	'<li class="nav" id="tw-createaccount">
