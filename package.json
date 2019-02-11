@@ -1,0 +1,24 @@
+{
+  "name": "tweeki",
+  "version": "0.0.1",
+  "description": "Bootstrap 4 scss compilation for default and custom Tweeki styles.",
+  "main": "assets/build.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thaider/Tweeki.git"
+  },
+  "keywords": [
+    "bootstrap",
+    "mediawiki",
+    "tweeki"
+  ],
+  "author": "Tobias Haider, Florian K. Martin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thaider/Tweeki/issues"
+  },
+  "homepage": "https://github.com/thaider/Tweeki#readme"
+}
