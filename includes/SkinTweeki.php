@@ -53,7 +53,18 @@ class SkinTweeki extends SkinTemplate {
 		parent::initPage( $out );
 
 		$out->addMeta( 'viewport', 'width=device-width, initial-scale=1' );
-		$out->addModules( 'skins.tweeki.scripts' );
+
+		// load scripts
+		if( !$this->tweekiConfig->get( 'TweekiSkinUseBootstrap4' ) ) {
+			$out->addModules( 'skins.tweeki.scripts' );
+		} else {
+			if( !$this->tweekiConfig->get( 'TweekiSkinUseCustomFiles' ) ) {
+				$out->addModules( 'skins.tweeki.bootstrap4.scripts' );
+			} else {
+				$out->addModules( 'skins.tweeki.bootstrap4.custom.scripts' );
+			}
+		}
+
 		if( $this->tweekiConfig->get( 'TweekiSkinUseTooltips' ) ) {
 			$out->addModules( 'skins.tweeki.tooltips' );
 		}
@@ -71,14 +82,27 @@ class SkinTweeki extends SkinTemplate {
 	function setupSkinUserCss( OutputPage $out ) {
 		parent::setupSkinUserCss( $out );
 		
-		$styles = $GLOBALS['wgTweekiSkinStyles']; 
-		if( $GLOBALS['wgTweekiSkinUseAwesome'] === true ) {
+		$styles = [];
+		// load scripts
+		if( !$this->tweekiConfig->get( 'TweekiSkinUseBootstrap4' ) ) {
+			$styles[] = 'skins.tweeki.styles';
+		} else {
+			if( !$this->tweekiConfig->get( 'TweekiSkinUseCustomFiles' ) ) {
+				$styles[] = 'skins.tweeki.bootstrap4.styles';
+			} else {
+				$styles[] = 'skins.tweeki.bootstrap4.custom.styles';
+			}
+		}
+		if( $this->tweekiConfig->get( 'TweekiSkinUseExternallinkStyles' ) ) {
+			$styles[] = 'skins.tweeki.externallinks.styles';
+		}
+		if( $this->tweekiConfig->get( 'TweekiSkinUseAwesome' ) ) {
 			$styles[] = 'skins.tweeki.awesome.styles';
 		}
-		if( $GLOBALS['wgTweekiSkinUseBootstrapTheme'] === true ) {
+		if( $this->tweekiConfig->get( 'TweekiSkinUseBootstrapTheme' ) ) {
 			$styles[] = 'skins.tweeki.bootstraptheme.styles';
 		}
-		if( isset( $GLOBALS['wgCookieWarningEnabled'] ) && $GLOBALS['wgCookieWarningEnabled'] === true ) {
+		if( $this->tweekiConfig->get( 'CookieWarningEnabled' ) ) {
 			$styles[] = 'skins.tweeki.cookiewarning.styles';
 		}
 		foreach( $GLOBALS['wgTweekiSkinCustomCSS'] as $customstyle ) {
