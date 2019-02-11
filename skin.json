@@ -1,6 +1,6 @@
 {
 	"name": "Tweeki",
-	"version": "1.1.0",
+	"version": "2.0.0-dev",
 	"author": "Tobias Haider",
 	"url": "https://tweeki.thai-land.at",
 	"descriptionmsg": "tweeki-skin-desc",
@@ -43,23 +43,33 @@
 			"position": "top",
 			"styles": "bootstrap/css/bootstrap.min.css"
 		},
+		"skins.tweeki.bootstrap4.styles": {
+			"position": "top",
+			"styles": {
+				"bootstrap4/css/bootstrap.min.css": {
+					"media": "screen"
+				},
+				"screen.less": {
+					"media": "screen"
+				},
+				"print.less": {
+					"media": "print"
+				}
+			}
+		},
 		"skins.tweeki.styles": {
 			"position": "top",
 			"styles": {
+				"mediawiki/mediawiki.less": {
+					"media": "screen"
+				},
 				"screen.less": {
 					"media": "screen"
 				},
 				"print.less": {
 					"media": "print"
 				},
-				"mediawiki/content.css": {
-					"media": "screen"
-				},
-				"mediawiki/elements.css": {
-					"media": "screen"
-				},
-				"mediawiki/interface.css": {
-					"media": "screen"
+				"bootstrap/css/bootstrap.min.css": {
 				}
 			}
 		},
@@ -108,6 +118,15 @@
 			"position": "bottom",
 			"scripts": [
 				"bootstrap/js/bootstrap.min.js"
+			],
+			"dependencies": [
+				"mediawiki.jqueryMsg"
+			]
+		},
+		"skins.tweeki.bootstrap4.scripts": {
+			"position": "bottom",
+			"scripts": [
+				"bootstrap4/js/bootstrap.min.js"
 			],
 			"dependencies": [
 				"mediawiki.jqueryMsg"
@@ -168,12 +187,6 @@
 			"LOGIN-EXT": "self::renderLoginExt",
 			"FOOTER": "self::renderStandardFooter"
 		},
-		"TweekiSkinStyles": [
-			"skins.tweeki.bootstrap.styles",
-			"skins.tweeki.styles",
-			"skins.tweeki.corrections.styles",
-			"skins.tweeki.externallinks.styles"
-		],
 		"TweekiSkinUseAwesome": true,
 		"TweekiSkinUseBootstrapTheme": true,
 		"TweekiSkinUseBootstrap4": false,
@@ -181,6 +194,7 @@
 		"TweekiSkinUseScrollSpy": true,
 		"TweekiSkinUseTooltips": false,
 		"TweekiSkinUseIconWatch": false,
+		"TweekiSkinUseExternallinkStyles": true,
 		"TweekiSkinCustomEditSectionLink": true,
 		"TweekiSkinCustomCSS": [],
 		"TweekiSkinUseCustomFiles": false,
