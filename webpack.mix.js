@@ -15,7 +15,7 @@ const mix = require('laravel-mix');
  */
 mix.js('resources/scripts/tweeki.js', 'public/js')
    .sass('resources/styles/tweeki.scss', 'public/css');
-
+   .browserSync({ proxy: 'mediawiki.fkm' });
 
 
 /*
@@ -26,7 +26,7 @@ mix.js('resources/scripts/tweeki.js', 'public/js')
  | Those functions are meant to be used for custom assets. If you would like
  | to create your own skin assets create the listed files and use the npm
  | scripts to create custom assets. Custom assets have to be activated
- | from whitin the skin settings to be used by your skin installtion.
+ | from whitin the skin settings to be used by your skin installation.
  |
  | You can rename the given files as follows to have a basic setup for your
  | own skin styles and scripts:

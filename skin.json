@@ -46,15 +46,13 @@
 		"skins.tweeki.bootstrap4.styles": {
 			"position": "top",
 			"styles": {
-				"bootstrap4/css/bootstrap.min.css": {
-					"media": "screen"
-				},
-				"screen.less": {
-					"media": "screen"
-				},
-				"print.less": {
-					"media": "print"
-				}
+				"public/css/tweeki.css": {}
+			}
+		},
+		"skins.tweeki.bootstrap4.custom.styles": {
+			"position": "top",
+			"styles": {
+				"public/css/custom.css": {}
 			}
 		},
 		"skins.tweeki.styles": {
@@ -200,28 +198,28 @@
 		"TweekiSkinUseCustomFiles": false,
 		"TweekiSkinCustomizedBootstrap": null,
 		"TweekiSkinImagePageTOCTabs": false,
-		"TweekiSkinGridNone": { 
-			"mainoffset": 1, 
-			"mainwidth": 10 
+		"TweekiSkinGridNone": {
+			"mainoffset": 1,
+			"mainwidth": 10
 		},
-		"TweekiSkinGridLeft": { 
-			"leftoffset": 0, 
-			"leftwidth": 3, 
-			"mainoffset": 0, 
-			"mainwidth": 9 
+		"TweekiSkinGridLeft": {
+			"leftoffset": 0,
+			"leftwidth": 3,
+			"mainoffset": 0,
+			"mainwidth": 9
 		},
-		"TweekiSkinGridRight": { 
-			"mainoffset": 0, 
-			"mainwidth": 9, 
-			"rightoffset": 0, 
+		"TweekiSkinGridRight": {
+			"mainoffset": 0,
+			"mainwidth": 9,
+			"rightoffset": 0,
 			"rightwidth": 3
 		},
 		"TweekiSkinGridBoth": {
-			"leftoffset": 0, 
-			"leftwidth": 2, 
-			"mainoffset": 0, 
-			"mainwidth": 8, 
-			"rightoffset": 0, 
+			"leftoffset": 0,
+			"leftwidth": 2,
+			"mainoffset": 0,
+			"mainwidth": 8,
+			"rightoffset": 0,
 			"rightwidth": 2
 		},
 		"TweekiSkinAdditionalBodyClasses": []

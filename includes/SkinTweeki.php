@@ -81,7 +81,7 @@ class SkinTweeki extends SkinTemplate {
 	 */
 	function setupSkinUserCss( OutputPage $out ) {
 		parent::setupSkinUserCss( $out );
-		
+
 		$styles = [];
 		// load scripts
 		if( !$this->tweekiConfig->get( 'TweekiSkinUseBootstrap4' ) ) {
@@ -102,9 +102,9 @@ class SkinTweeki extends SkinTemplate {
 		if( $this->tweekiConfig->get( 'TweekiSkinUseBootstrapTheme' ) ) {
 			$styles[] = 'skins.tweeki.bootstraptheme.styles';
 		}
-		if( $this->tweekiConfig->get( 'CookieWarningEnabled' ) ) {
-			$styles[] = 'skins.tweeki.cookiewarning.styles';
-		}
+		// if( $this->tweekiConfig->get( 'CookieWarningEnabled' ) ) {
+		// 	$styles[] = 'skins.tweeki.cookiewarning.styles';
+		// }
 		foreach( $GLOBALS['wgTweekiSkinCustomCSS'] as $customstyle ) {
 			$styles[] = $customstyle;
 		}
