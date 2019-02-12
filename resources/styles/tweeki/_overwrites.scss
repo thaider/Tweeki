@@ -30,8 +30,15 @@
 //   }
 // }
 
+html {
+  height: 100% !important;
+}
 
 body {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+
   .formtable {
     @extend .table;
   }
@@ -207,9 +214,11 @@ body {
    * Footer
    */
   .footer {
+    display: block;
     // @include make-row();
     background: $gray-200;
-    margin-top: $spacer * 2;
+    margin-top: auto !important;
+    // margin-bottom: 0; // $spacer * 2;
     padding-top: $spacer * 3;
     padding-bottom: $spacer * 3;
 
