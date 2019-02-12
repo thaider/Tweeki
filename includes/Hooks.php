@@ -698,7 +698,11 @@ class TweekiHooks {
 	static function makeLink( $item, $options = array() ) {
 		// nested links?
 		if ( isset( $item['links'] ) ) {
-			$item = $item['links'][0];
+			if( isset( $item['link'][0] ) ) {
+				$item = $item['links'][0];
+			} else {
+				return false;
+			}
 		}
 
 		if ( isset( $item['text'] ) ) {
@@ -717,7 +721,11 @@ class TweekiHooks {
 
 		// set icons for individual buttons (used by some navigational elements)
 		if ( isset( $item['icon'] )) {
-			$html = '<span class="glyphicon glyphicon-' . $item['icon'] . '"></span> ' . $html;
+			if( !self::isBS4() ) {
+				$html = '<span class="glyphicon glyphicon-' . $item['icon'] . '"></span> ' . $html;
+			} else {
+				$html = '<span class="fa fa-' . $item['icon'] . '"></span> ' . $html;
+			}
 		}
 
 		if ( isset( $options['text-wrapper'] ) ) {
@@ -740,7 +748,7 @@ class TweekiHooks {
 		if ( isset( $item['href'] ) || isset( $options['link-fallback'] ) ) {
 			$attrs = $item;
 //			foreach ( array( 'single-id', 'text', 'msg', 'tooltiponly' ) as $k ) {
-			foreach ( array( 'single-id', 'text', 'msg', 'tooltiponly', 'href_implicit', 'items', 'icon', 'html', 'tooltip-params' ) as $k ) {
+			foreach ( array( 'single-id', 'text', 'msg', 'tooltiponly', 'href_implicit', 'items', 'icon', 'html', 'tooltip-params', 'active' ) as $k ) {
 				unset( $attrs[$k] );
 			}
 
@@ -770,6 +778,16 @@ class TweekiHooks {
 					$attrs['class'] = $options['link-class'];
 				}
 			}
+			
+			// tweeki: pass on active class
+			if ( isset( $item['active'] ) && $item['active'] ) {
+				if ( !isset( $attrs['class'] ) ) {
+					$attrs['class'] = 'active';
+				} else {
+					$attrs['class'] = trim( $attrs['class'] . ' active' );
+				}
+			}
+
 			if ( isset( $attrs['data'] ) && is_array( $attrs['data'] ) ) {
 				foreach( $attrs['data'] as $datakey => $datavalue ) {
 					$attrs['data-' . $datakey] = $datavalue;
@@ -800,7 +818,7 @@ class TweekiHooks {
 		} else {
 			$link = $item;
 			// These keys are used by makeListItem and shouldn't be passed on to the link
-			foreach ( array( 'id', 'class', 'active', 'tag' ) as $k ) {
+			foreach ( array( 'id', 'class', 'tag' ) as $k ) {
 				unset( $link[$k] );
 			}
 			if ( isset( $item['id'] ) && !isset( $item['single-id'] ) ) {

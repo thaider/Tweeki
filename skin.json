@@ -46,7 +46,8 @@
 		"skins.tweeki.bootstrap4.styles": {
 			"position": "top",
 			"styles": {
-				"public/css/tweeki.css": {}
+				"public/css/tweeki.css": {},
+				"components/bs4.css": {}
 			}
 		},
 		"skins.tweeki.bootstrap4.custom.styles": {
