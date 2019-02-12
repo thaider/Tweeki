@@ -15,7 +15,9 @@ const mix = require('laravel-mix');
  */
 mix.js('resources/scripts/tweeki.js', 'public/js')
    .sass('resources/styles/tweeki.scss', 'public/css');
-   .browserSync({ proxy: 'mediawiki.fkm' });
+
+
+mix.browserSync({ proxy: process.env.MIX_LOCAL_PROXY_URL });
 
 
 /*

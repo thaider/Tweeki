@@ -16,7 +16,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
- * 
+ *
  * @file
  * @ingroup Skins
  */
@@ -46,13 +46,13 @@ class TweekiHooks {
 
 		return true;
 	}
-	
+
 	/**
 	 * Customizing registration
 	 */
 	public static function onRegistration() {
 		global $wgTweekiSkinCustomizedBootstrap, $wgResourceModules;
-	
+
 		/* Load customized bootstrap files */
 		if( isset( $wgTweekiSkinCustomizedBootstrap ) && ! is_null( $wgTweekiSkinCustomizedBootstrap ) ) {
 			$wgResourceModules['skins.tweeki.bootstrap.styles']['localBasePath'] = $wgTweekiSkinCustomizedBootstrap['localBasePath'];
@@ -245,24 +245,24 @@ class TweekiHooks {
 
 		foreach ( $lines as $line ) {
 			// empty line
-			if ( trim( $line ) == "" ) { 
+			if ( trim( $line ) == "" ) {
 				continue;
 			}
-			
+
 			// simple buttons
 			if ( strpos( $line, '*' ) !== 0 ) {
 				$buttons = array_merge( $buttons, TweekiHooks::parseButtonLink( trim( $line ), $parser, $frame ) );
 				end( $buttons );
 				$currentparentkey = key($buttons);
 			}
-				
+
 			// dropdown menus
 			else {
 				// no parent set?
 				if ( count( $buttons ) == 0 ) {
 					continue;
 				}
-				
+
 				$cleanline = ltrim( $line, '*' );
 				$cleanline = trim( $cleanline );
 				if ( !isset( $buttons[$currentparentkey]['items'] ) ) {
@@ -288,7 +288,7 @@ class TweekiHooks {
 		$extraAttribs = array();
 		$href_implicit = false;
 		$active = false;
-				
+
 		// semantic queries
 		if ( strpos( $line, '{{#ask:' ) === 0 ) {
 			if ( $parser->getTitle() instanceof Title ) {
@@ -417,7 +417,7 @@ class TweekiHooks {
 
 		// set wrapper
 		$wrapper = 'div';
-		if ( isset( $options['wrapper'] ) ) { 
+		if ( isset( $options['wrapper'] ) ) {
 			$wrapper = $options['wrapper'];
 		}
 
@@ -457,26 +457,26 @@ class TweekiHooks {
 			if ( isset( $options['aria-controls'] ) ) {
 				$button['aria-controls'] = $options['aria-controls'];
 			}
-				
+
 			if ( isset( $options['aria-expanded'] ) ) {
 				$button['aria-expanded'] = $options['aria-expanded'];
 			}
-				
+
 			// if data-target attribute is set, add it
 			if ( isset( $options['data-target'] ) ) {
 				$button['data-target'] = $options['data-target'];
 			}
-				
+
 			// if data-dismiss attribute is set, add it
 			if ( isset( $options['data-dismiss'] ) ) {
 				$button['data-dismiss'] = $options['data-dismiss'];
 			}
-				
+
 			// if data-placement attribute is set, add it
 			if ( isset( $options['data-placement'] ) ) {
 				$button['data-placement'] = $options['data-placement'];
 			}
-				
+
 			// if data-slide attribute is set, add it
 			if ( isset( $options['data-slide'] ) ) {
 				$button['data-slide'] = $options['data-slide'];
@@ -486,14 +486,14 @@ class TweekiHooks {
 			if ( isset( $options['title'] ) ) {
 				$button['title'] = $options['title'];
 			}
-				
+
 			// if data-toggle attribute is set, unset wrapper and add attribute and toggle-class
 			if ( isset( $options['data-toggle'] ) ) {
 				$wrapper = '';
 				$button['data-toggle'] = $options['data-toggle'];
 				$button['class'] .= ' ' . $options['data-toggle'] . '-toggle';
 			}
-			
+
 			// if html is not set, use text and sanitize it
 			if ( !isset( $button['html'] ) ) {
 				if( isset( $button['text'] ) ) {
@@ -503,7 +503,7 @@ class TweekiHooks {
 					$button['html'] = '#';
 				}
 			}
-			
+
 			// if fa attribute is set, add fa-icon to buttons
 			if ( isset( $options['fa'] ) ) {
 				$button['html'] = '<span class="fa fa-' . $options['fa'] . '"></span> ' . $button['html'];
@@ -518,9 +518,9 @@ class TweekiHooks {
 			}
 
 			// render wrapper
-			if ( 
-				( ( $currentwrapperclass != $wrapperclass || isset( $button['items'] ) ) && $wrapper != '' ) 
-				|| $wrapper == 'li' 
+			if (
+				( ( $currentwrapperclass != $wrapperclass || isset( $button['items'] ) ) && $wrapper != '' )
+				|| $wrapper == 'li'
 			) {
 				if ( $currentwrapperclass != '' ) {
 					$renderedButtons .= '</' . $wrapper . '>';
@@ -625,7 +625,7 @@ class TweekiHooks {
 
 	/**
 	 * Produce HTML for a link
-	 * 
+	 *
 	 * This is a slightly adapted copy of the makeLink function in SkinTemplate.php
 	 * -> some of the changed parts are marked by comments //
 	 *
@@ -725,7 +725,7 @@ class TweekiHooks {
 
 	/**
 	 * Produce HTML for a list item
-	 * 
+	 *
 	 * This is a slightly adapted copy of the makeListItem function in SkinTemplate.php
 	 * -> some of the changed parts are marked by comments //
 	 *
@@ -782,9 +782,9 @@ class TweekiHooks {
 	 * @todo: make this work with VisualEditor
 	 */
 	static function onSkinEditSectionLinks( $skin, $title, $section, $tooltip, &$links, $lang = false ) {
-		if( 
-			$skin->getSkinName() == 'tweeki' 
-			&& $GLOBALS['wgTweekiSkinCustomEditSectionLink'] == true 
+		if(
+			$skin->getSkinName() == 'tweeki'
+			&& $GLOBALS['wgTweekiSkinCustomEditSectionLink'] == true
 		) {
 			$icon = wfMessage( 'tweeki-editsection-icon' )->inLanguage( $lang )->parse();
 			$text = wfMessage( 'tweeki-editsection-text' )->inLanguage( $lang )->parse();
@@ -822,8 +822,8 @@ class TweekiHooks {
 		return true;
 	}
 
-	/** 
-	 * 
+	/**
+	 *
 	 */
 	public static function onMagicWordMagicWords( &$magicWords ) {
 		$magicWords[] = 'MAG_NUMBEREDHEADINGS';

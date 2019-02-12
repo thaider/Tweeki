@@ -93,21 +93,21 @@ class SkinTweeki extends SkinTemplate {
 				$styles[] = 'skins.tweeki.bootstrap4.custom.styles';
 			}
 		}
-		if( $this->tweekiConfig->get( 'TweekiSkinUseExternallinkStyles' ) ) {
-			$styles[] = 'skins.tweeki.externallinks.styles';
-		}
-		if( $this->tweekiConfig->get( 'TweekiSkinUseAwesome' ) ) {
-			$styles[] = 'skins.tweeki.awesome.styles';
-		}
-		if( $this->tweekiConfig->get( 'TweekiSkinUseBootstrapTheme' ) ) {
-			$styles[] = 'skins.tweeki.bootstraptheme.styles';
-		}
+		// if( $this->tweekiConfig->get( 'TweekiSkinUseExternallinkStyles' ) ) {
+		// 	$styles[] = 'skins.tweeki.externallinks.styles';
+		// }
+		// if( $this->tweekiConfig->get( 'TweekiSkinUseAwesome' ) ) {
+		// 	$styles[] = 'skins.tweeki.awesome.styles';
+		// }
+		// if( $this->tweekiConfig->get( 'TweekiSkinUseBootstrapTheme' ) ) {
+		// 	$styles[] = 'skins.tweeki.bootstraptheme.styles';
+		// }
 		// if( $this->tweekiConfig->get( 'CookieWarningEnabled' ) ) {
 		// 	$styles[] = 'skins.tweeki.cookiewarning.styles';
 		// }
-		foreach( $GLOBALS['wgTweekiSkinCustomCSS'] as $customstyle ) {
-			$styles[] = $customstyle;
-		}
+		// foreach( $GLOBALS['wgTweekiSkinCustomCSS'] as $customstyle ) {
+		// 	$styles[] = $customstyle;
+		// }
 		Hooks::run( 'SkinTweekiStyleModules', array( $this, &$styles ) );
 		$out->addModuleStyles( $styles );
 	}
