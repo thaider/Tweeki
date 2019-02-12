@@ -124,7 +124,7 @@
 		"skins.tweeki.bootstrap4.scripts": {
 			"position": "bottom",
 			"scripts": [
-				"bootstrap4/js/bootstrap.min.js"
+				"public/js/tweeki.js"
 			],
 			"dependencies": [
 				"mediawiki.jqueryMsg"

@@ -86,6 +86,9 @@ class SkinTweeki extends SkinTemplate {
 		// load scripts
 		if( !$this->tweekiConfig->get( 'TweekiSkinUseBootstrap4' ) ) {
 			$styles[] = 'skins.tweeki.styles';
+			if( $this->tweekiConfig->get( 'TweekiSkinUseBootstrapTheme' ) ) {
+				$styles[] = 'skins.tweeki.bootstraptheme.styles';
+			}
 		} else {
 			if( !$this->tweekiConfig->get( 'TweekiSkinUseCustomFiles' ) ) {
 				$styles[] = 'skins.tweeki.bootstrap4.styles';
@@ -98,9 +101,6 @@ class SkinTweeki extends SkinTemplate {
 		}
 		if( $this->tweekiConfig->get( 'TweekiSkinUseAwesome' ) ) {
 			$styles[] = 'skins.tweeki.awesome.styles';
-		}
-		if( $this->tweekiConfig->get( 'TweekiSkinUseBootstrapTheme' ) ) {
-			$styles[] = 'skins.tweeki.bootstraptheme.styles';
 		}
 		// if( $this->tweekiConfig->get( 'CookieWarningEnabled' ) ) {
 		// 	$styles[] = 'skins.tweeki.cookiewarning.styles';
