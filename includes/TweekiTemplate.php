@@ -136,7 +136,11 @@ class TweekiTemplate extends BaseTemplate {
 			$contentclass .= ' with-navbar-fixed';
 		}
 
-		$skin->renderNavbar();
+		if( !$this->config->get( 'TweekiSkinUseBootstrap4' ) ) {
+			$skin->renderNavbar();
+		} else {
+			$skin->renderNavbar4();
+		}
 ?>
 		<div id="mw-page-base"></div>
 		<div id="mw-head-base"></div>
@@ -673,6 +677,51 @@ class TweekiTemplate extends BaseTemplate {
 	}
 
 
+	private static function get_navbar_toggler ($nav_id = 'navigation', $icon_class = 'navbar-toggler-icon')
+	{
+		return "<button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#$nav_id\" aria-controls=\"$nav_id\" aria-expanded=\"false\" aria-label=\"Toggle navigation\"><span class=\"$icon_class\"></span></button>";
+	}
+
+
+	/**
+	 * Render Navbar for Bootstrap 4
+	 *
+	 * #TODO home link for navbar-brand
+	 * #TODO both navbars are possible with respective class
+	 */
+	public function renderNavbar4() {
+		$navbar_class = $this->getMsg( 'tweeki-navbar-class' );
+		$navbar_class = 'navbar navbar-expand-lg navbar-light bg-light';
+		if ( $this->checkVisibility( 'navbar' ) ) { ?>
+			<!-- navbar -->
+			<nav id="mw-navigation" class="<?php echo $navbar_class; ?>">
+				<?php if ( $this->checkVisibility( 'navbar-brand' ) ) { 
+					$this->renderBrand(); 
+				} ?>
+
+				<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div id="navbar" class="collapse navbar-collapse">
+					<?php if ( $this->checkVisibility( 'navbar-left' ) ) { ?>
+						<ul class="navbar-nav mr-auto">
+							<?php $this->renderNavbarElement4( 'left' ); ?>
+						</ul>
+					<?php } ?>
+
+					<?php if ( $this->checkVisibility( 'navbar-right' ) ) { ?>
+						<ul class="navbar-nav">
+							<?php $this->renderNavbarElement4( 'right' ); ?>
+						</ul>
+					<?php } ?>
+				</div>
+			</nav>
+			<!-- /navbar -->
+		<?php }
+	}
+
+
 	/**
 	 * Render Navbarelement
 	 *
@@ -681,7 +730,21 @@ class TweekiTemplate extends BaseTemplate {
 	private function renderNavbarElement( $side ) {
 		$element = 'navbar-' . $side;
 		$options = $this->getParsingOptions( $element );
-		$this->buildItems( wfMessage( 'tweeki-' . $element )->plain(), $options, $element );		
+		$this->buildItems( wfMessage( 'tweeki-' . $element )->plain(), $options, $element );	
+	}
+
+
+	/**
+	 * Render Navbarelement
+	 *
+	 * @param $side string
+	 */
+	private function renderNavbarElement4( $side ) {
+		$element = 'navbar-' . $side;
+		$options = $this->getParsingOptions( $element );
+		$options['wrapperclass'] = 'nav-item';
+		$options['class'] = 'nav-link';
+		$this->buildItems( wfMessage( 'tweeki-' . $element )->plain(), $options, $element );	
 	}
 
 

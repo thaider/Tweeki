@@ -26,6 +26,13 @@ class TweekiHooks {
 	protected static $anchorID = 0;
 
 	/**
+	 * Is this Wiki configured to use Bootstrap 4?
+	 */
+	static function isBS4() {
+		return $GLOBALS['wgTweekiSkinUseBootstrap4'];
+	}
+
+	/**
 	 * Setting up parser functions
 	 *
 	 * @param $parser Parser current parser
@@ -205,7 +212,7 @@ class TweekiHooks {
 
 		// set standard classes for all buttons in the group
 		if ( !isset( $args['class'] ) ) {
-			$args['class'][] = 'btn btn-default';
+			$args['class'][] = !self::isBS4() ? 'btn btn-default' : 'btn btn-secondary';
 		}
 		else {
 			$args['class'] = explode( ' ', $args['class'] );
@@ -447,7 +454,7 @@ class TweekiHooks {
 					$wrapperclass = 'dropdown';
 				}
 				else {
-					$wrapperclass = 'btn-group';
+					$wrapperclass = 'btn-group' . ( self::isBS4() ? ' mr-2' : '' );
 				}
 			}
 
@@ -504,15 +511,18 @@ class TweekiHooks {
 				}
 			}
 
-			// if fa attribute is set, add fa-icon to buttons
+			// if glyphicon, fa or icon attribute is set, add icon to buttons
+			if ( isset( $options['icon'] ) ) {
+				if( ! self::isBS4() ) {
+					$options['glyphicon'] = $options['icon'];
+				} else {
+					$options['fa'] = $options['icon'];
+				}
+			}
 			if ( isset( $options['fa'] ) ) {
 				$button['html'] = '<span class="fa fa-' . $options['fa'] . '"></span> ' . $button['html'];
 			}
 
-			// if glyphicon or icon attribute is set, add icon to buttons
-			if ( isset( $options['icon'] ) ) {
-				$options['glyphicon'] = $options['icon'];
-			}
 			if ( isset( $options['glyphicon'] ) ) {
 				$button['html'] = '<span class="glyphicon glyphicon-' . $options['glyphicon'] . '"></span> ' . $button['html'];
 			}
@@ -528,6 +538,9 @@ class TweekiHooks {
 				$renderedButtons .= '<' . $wrapper . ' class="' . $wrapperclass;
 				if ( isset( $button['active'] ) && $button['active'] === true ) {
 					$renderedButtons .= ' active';
+				}
+				if( self::isBS4() && isset( $button['items'] ) ) {
+					$renderedButtons .= ' dropdown';
 				}
 				if ( isset( $options['wrapperid'] ) ) {
 					$renderedButtons .= '" id="' . $options['wrapperid'];
@@ -568,25 +581,49 @@ class TweekiHooks {
 	static function buildDropdown( $dropdown, $dropdownclass = '' ) {
 		$renderedDropdown = '';
 
-		// split dropdown
-		if ( isset( $dropdown['href_implicit'] ) && $dropdown['href_implicit'] === false ) {
-			$renderedDropdown .= TweekiHooks::makeLink( $dropdown );
-			$caret = array(
-				'class' => 'dropdown-toggle ' . $dropdown['class'],
-				'href' => '#',
-				'html' => '&zwnj;<b class="caret"></b>',
-				'data-toggle' => 'dropdown'
-				);
-			$renderedDropdown .= TweekiHooks::makeLink( $caret );
-		}
+		if( ! self::isBS4() ) {
+			// split dropdown
+			if ( isset( $dropdown['href_implicit'] ) && $dropdown['href_implicit'] === false ) {
+				$renderedDropdown .= TweekiHooks::makeLink( $dropdown );
+				$caret = array(
+					'class' => 'dropdown-toggle ' . $dropdown['class'],
+					'href' => '#',
+					'html' => '&zwnj;<b class="caret"></b>',
+					'data-toggle' => 'dropdown'
+					);
+				$renderedDropdown .= TweekiHooks::makeLink( $caret );
+			}
 
-		// ordinary dropdown
-		else {
-			$dropdown['class'] .= ' dropdown-toggle';
-			$dropdown['data-toggle'] = 'dropdown';
-			$dropdown['html'] = $dropdown['html'] . ' <b class="caret"></b>';
-			$dropdown['href'] = '#';
-			$renderedDropdown .= TweekiHooks::makeLink( $dropdown );
+			// ordinary dropdown
+			else {
+				$dropdown['class'] .= ' dropdown-toggle';
+				$dropdown['data-toggle'] = 'dropdown';
+				$dropdown['html'] = $dropdown['html'] . ' <b class="caret"></b>';
+				$dropdown['href'] = '#';
+				$renderedDropdown .= TweekiHooks::makeLink( $dropdown );
+			}
+		} else {
+			// split dropdown
+			if ( isset( $dropdown['href_implicit'] ) && $dropdown['href_implicit'] === false ) {
+				$renderedDropdown .= TweekiHooks::makeLink( $dropdown );
+				$caret = array(
+					'class' => 'dropdown-toggle dropdown-toggle-split ' . $dropdown['class'],
+					'href' => '#',
+					'data-toggle' => 'dropdown',
+					'html' => '<span class="sr-only">Toggle Dropdown</span>',
+					'aria-haspopup' => 'true'
+					);
+				$renderedDropdown .= TweekiHooks::makeLink( $caret );
+			}
+
+			// ordinary dropdown
+			else {
+				$dropdown['class'] .= ' dropdown-toggle';
+				$dropdown['data-toggle'] = 'dropdown';
+				$dropdown['href'] = '#';
+				$dropdown['aria-haspopup'] = 'true';
+				$renderedDropdown .= TweekiHooks::makeLink( $dropdown );
+			}
 		}
 
 		$renderedDropdown .= TweekiHooks::buildDropdownMenu( $dropdown['items'], $dropdownclass );
@@ -601,24 +638,46 @@ class TweekiHooks {
 	 * @return String
 	 */
 	static function buildDropdownMenu( $dropdownmenu, $dropdownclass ) {
-		$renderedMenu = '<ul class="dropdown-menu ' . $dropdownclass . '" role="menu">';
+		if( ! self::isBS4() ) {
+			$renderedMenu = '<ul class="dropdown-menu ' . $dropdownclass . '" role="menu">';
 
-		foreach ( $dropdownmenu as $entry ) {
-			// divider
-			if ( ( !isset( $entry['text'] ) || $entry['text'] == "" ) // no 'text'
-				&& ( !isset( $entry['html'] ) || $entry['html'] == "" ) // and no 'html'
-			) {
-				$renderedMenu .= '<li class="divider" />';
+			foreach ( $dropdownmenu as $entry ) {
+				// divider
+				if ( ( !isset( $entry['text'] ) || $entry['text'] == "" ) // no 'text'
+					&& ( !isset( $entry['html'] ) || $entry['html'] == "" ) // and no 'html'
+				) {
+					$renderedMenu .= '<li class="divider" />';
+				}
+
+				// standard menu entry
+				else {
+					$entry['tabindex'] = '-1';
+					$renderedMenu .= TweekiHooks::makeListItem( $entry );
+				}
 			}
 
-			// standard menu entry
-			else {
-				$entry['tabindex'] = '-1';
-				$renderedMenu .= TweekiHooks::makeListItem( $entry );
+			$renderedMenu .= '</ul>';
+		} else {
+			$renderedMenu = '<div class="dropdown-menu ' . $dropdownclass . '">';
+
+			foreach ( $dropdownmenu as $entry ) {
+				// divider
+				if ( ( !isset( $entry['text'] ) || $entry['text'] == "" ) // no 'text'
+					&& ( !isset( $entry['html'] ) || $entry['html'] == "" ) // and no 'html'
+				) {
+					$renderedMenu .= '<div class="dropdown-divider"></div>';
+				}
+
+				// standard menu entry
+				else {
+					$entry['tabindex'] = '-1';
+					$entry['class'] = 'dropdown-item';
+					$renderedMenu .= TweekiHooks::makeLink( $entry );
+				}
 			}
+
+			$renderedMenu .= '</div>';
 		}
-
-		$renderedMenu .= '</ul>';
 		return $renderedMenu;
 	}
 
