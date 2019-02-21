@@ -304,7 +304,7 @@ class TweekiHooks {
 				if ( !is_numeric( $semanticHitNumber ) || $semanticHitNumber < 1 ) {
 					return array( array( 'text' => $semanticQuery, 'href' => 'INVALID QUERY' ) );
 				}
-				$semanticHits = $parser->recursiveTagParse( '{{#ask:' . $semanticQuery . '|format=list|link=none}}', false );
+				$semanticHits = $parser->recursiveTagParse( '{{#ask:' . $semanticQuery . '|link=none}}', false );
 				$semanticHits = explode( ',', $semanticHits );
 				$semanticLinks = array();
 				foreach ( $semanticHits as $semanticHit ) {
