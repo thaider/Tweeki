@@ -13,8 +13,8 @@ const mix = require('laravel-mix');
  | overwritten with any git update from the skin repository.
  |
  */
-mix.js('resources/scripts/tweeki.js', 'public/js')
-   .sass('resources/styles/tweeki.scss', 'public/css');
+mix.js('resources/scripts/tweeki.js', 'public/default/js')
+   .sass('resources/styles/tweeki.scss', 'public/default/css');
 
 
 mix.browserSync({ proxy: process.env.MIX_LOCAL_PROXY_URL });
@@ -37,7 +37,7 @@ mix.browserSync({ proxy: process.env.MIX_LOCAL_PROXY_URL });
  | - ./resources/styles/example.custom.scss    => ./resources/styles/custom.scss
  |
  * /
-mix.js('resources/scripts/custom.js', 'public/js')
-   .sass('resources/styles/custom.scss', 'public/css');
+mix.js('resources/scripts/custom.js', 'public/custom/js')
+   .sass('resources/styles/custom.scss', 'public/custom/css');
 
 /**/

@@ -46,7 +46,7 @@
 		"skins.tweeki.bootstrap4.styles": {
 			"position": "top",
 			"styles": {
-				"public/css/tweeki.css": {},
+				"public/default/css/tweeki.css": {},
 				"components/bs4.css": {},
 				"mediawiki/mediawiki.less": {}
 			}
@@ -54,7 +54,7 @@
 		"skins.tweeki.bootstrap4.custom.styles": {
 			"position": "top",
 			"styles": {
-				"public/css/custom.css": {}
+				"public/custom/css/custom.css": {}
 			}
 		},
 		"skins.tweeki.styles": {
