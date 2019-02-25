@@ -40,8 +40,11 @@ mix.browserSync({ proxy: process.env.MIX_LOCAL_PROXY_URL });
  |
  */
 mix.js('resources/scripts/custom.js', 'public/custom/js')
-   .sass('resources/styles/custom.scss', 'public/custom/css');
-   // .copyDirectory('resources/fonts', 'public/custom/fonts');
+   .sass('resources/styles/custom.scss', 'public/custom/css')
+   .options({
+      processCssUrls: false
+   })
+   .copyDirectory('resources/fonts', 'public/custom/fonts');
 
 mix.browserSync({ proxy: process.env.MIX_LOCAL_PROXY_URL });
 

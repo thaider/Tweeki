@@ -132,6 +132,15 @@
 				"mediawiki.jqueryMsg"
 			]
 		},
+		"skins.tweeki.bootstrap4.custom.scripts": {
+			"position": "bottom",
+			"scripts": [
+				"public/custom/js/custom.js"
+			],
+			"dependencies": [
+				"mediawiki.jqueryMsg"
+			]
+		},
 		"skins.tweeki.scripts": {
 			"position": "bottom",
 			"scripts": [
