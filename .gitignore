@@ -5,4 +5,6 @@ yarn.lock
 node_modules
 public/styles/custom.css
 public/scripts/custom.js
-
+resources/scripts/custom.js
+resources/styles/custom.scss
+resources/styles/custom/*.scss
