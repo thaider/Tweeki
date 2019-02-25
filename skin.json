@@ -40,6 +40,11 @@
 		"InternalParseBeforeLinks": "TweekiHooks::onInternalParseBeforeLinks"
 	},
 	"ResourceModules": {
+		"skins.tweeki.messages": {
+			"messages": [
+				"tweeki-toc-top"
+			]
+		},
 		"skins.tweeki.bootstrap.styles": {
 			"position": "top",
 			"styles": "bootstrap/css/bootstrap.min.css"
@@ -131,9 +136,6 @@
 			],
 			"dependencies": [
 				"mediawiki.jqueryMsg"
-			],
-			"messages": [
-				"tweeki-toc-top"
 			]
 		},
 		"skins.tweeki.bootstrap4.custom.scripts": {
@@ -143,9 +145,6 @@
 			],
 			"dependencies": [
 				"mediawiki.jqueryMsg"
-			],
-			"messages": [
-				"tweeki-toc-top"
 			]
 		},
 		"skins.tweeki.scripts": {
@@ -155,9 +154,6 @@
 			],
 			"dependencies": [
 				"skins.tweeki.bootstrap.scripts"
-			],
-			"messages": [
-				"tweeki-toc-top"
 			]
 		}
 	},
