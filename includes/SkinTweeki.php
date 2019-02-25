@@ -55,7 +55,9 @@ class SkinTweeki extends SkinTemplate {
 		$out->addMeta( 'viewport', 'width=device-width, initial-scale=1' );
 
 		// load scripts
-		if( !$this->tweekiConfig->get( 'TweekiSkinUseBootstrap4' ) ) {
+		if( $this->tweekiConfig->get( 'TweekiSkinCustomScriptModule' ) ) {
+			$out->addModules( $this->tweekiConfig->get( 'TweekiSkinCustomScriptModule' ) );
+		} elseif( !$this->tweekiConfig->get( 'TweekiSkinUseBootstrap4' ) ) {
 			$out->addModules( 'skins.tweeki.scripts' );
 		} else {
 			if( !$this->tweekiConfig->get( 'TweekiSkinUseCustomFiles' ) ) {
@@ -80,8 +82,10 @@ class SkinTweeki extends SkinTemplate {
 		parent::setupSkinUserCss( $out );
 
 		$styles = [];
-		// load scripts
-		if( !$this->tweekiConfig->get( 'TweekiSkinUseBootstrap4' ) ) {
+		// load styles
+		if( $this->tweekiConfig->get( 'TweekiSkinCustomStyleModule' ) ) {
+			$styles[] = $this->tweekiConfig->get( 'TweekiSkinCustomStyleModule' );
+		} elseif( !$this->tweekiConfig->get( 'TweekiSkinUseBootstrap4' ) ) {
 			$styles[] = 'skins.tweeki.styles';
 			if( $this->tweekiConfig->get( 'TweekiSkinUseBootstrapTheme' ) ) {
 				$styles[] = 'skins.tweeki.bootstraptheme.styles';

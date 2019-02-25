@@ -204,6 +204,8 @@
 		"TweekiSkinUseExternallinkStyles": true,
 		"TweekiSkinCustomEditSectionLink": true,
 		"TweekiSkinCustomCSS": [],
+		"TweekiSkinCustomScriptModule": false,
+		"TweekiSkinCustomStyleModule": false,
 		"TweekiSkinUseCustomFiles": false,
 		"TweekiSkinCustomizedBootstrap": null,
 		"TweekiSkinImagePageTOCTabs": false,
