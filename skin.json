@@ -47,7 +47,8 @@
 			"position": "top",
 			"styles": {
 				"public/css/tweeki.css": {},
-				"components/bs4.css": {}
+				"components/bs4.css": {},
+				"mediawiki/mediawiki.less": {}
 			}
 		},
 		"skins.tweeki.bootstrap4.custom.styles": {
