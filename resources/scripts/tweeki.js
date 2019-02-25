@@ -2,9 +2,13 @@ import jQuery from 'jquery';
 import bs from 'bootstrap';
 
 jQuery(document).ready(function ($) {
-  console.log('Document ready.');
 
-  console.log(mw);
+  if(mw.config.get('wgTweekiSkinUseTooltips') === true ) {
+    // initialize tooltips
+    $(document).ready(function() {
+      $('[data-toggle="tooltip"]').tooltip()
+    });
+  }
 
   /**
    * FOOTER
