@@ -30,6 +30,7 @@
 		"TweekiTemplate": "includes/TweekiTemplate.php"
 	},
 	"Hooks": {
+		"ResourceLoaderGetConfigVars": "TweekiHooks::onResourceLoaderGetConfigVars",
 		"GetPreferences": "TweekiHooks::onGetPreferences",
 		"ParserFirstCallInit": "TweekiHooks::onParserFirstCallInit",
 		"SkinEditSectionLinks": "TweekiHooks::onSkinEditSectionLinks",
@@ -130,6 +131,9 @@
 			],
 			"dependencies": [
 				"mediawiki.jqueryMsg"
+			],
+			"messages": [
+				"tweeki-toc-top"
 			]
 		},
 		"skins.tweeki.bootstrap4.custom.scripts": {
@@ -139,6 +143,9 @@
 			],
 			"dependencies": [
 				"mediawiki.jqueryMsg"
+			],
+			"messages": [
+				"tweeki-toc-top"
 			]
 		},
 		"skins.tweeki.scripts": {
@@ -151,15 +158,6 @@
 			],
 			"messages": [
 				"tweeki-toc-top"
-			]
-		},
-		"skins.tweeki.tooltips": {
-			"position": "bottom",
-			"scripts": [
-				"tweeki-tooltips-setup.js"
-			],
-			"dependencies": [
-				"skins.tweeki.scripts"
 			]
 		}
 	},

@@ -33,6 +33,13 @@ class TweekiHooks {
 	}
 
 	/**
+	 * Expose TweekiSkinUseTooltips configuration variable
+	 */
+	static function onResourceLoaderGetConfigVars( &$vars ) {
+		$vars['wgTweekiSkinUseTooltips'] = $GLOBALS['wgTweekiSkinUseTooltips'];
+	}
+
+	/**
 	 * Setting up parser functions
 	 *
 	 * @param $parser Parser current parser

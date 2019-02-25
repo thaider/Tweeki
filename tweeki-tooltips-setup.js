@@ -4,9 +4,11 @@
 
 jQuery( function( $ ) {
 			
-	// initialize tooltips
-	$(document).ready(function() {
-  	$('[data-toggle="tooltip"]').tooltip()
-	});
+	if( mw.config.get('wgTweekiSkinUseTooltips') === true ) {
+		// initialize tooltips
+		$(document).ready(function() {
+			$('[data-toggle="tooltip"]').tooltip()
+		});
+	}
 	
 });

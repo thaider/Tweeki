@@ -65,9 +65,6 @@ class SkinTweeki extends SkinTemplate {
 			}
 		}
 
-		if( $this->tweekiConfig->get( 'TweekiSkinUseTooltips' ) ) {
-			$out->addModules( 'skins.tweeki.tooltips' );
-		}
 		if( $out->getUser()->getOption( 'tweeki-advanced' ) ) {
 			static::$bodyClasses[] = 'advanced';
 		}
