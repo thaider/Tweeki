@@ -3,8 +3,8 @@ mix-manifest.json
 package-lock.json
 yarn.lock
 node_modules
-public/styles/custom.css
-public/scripts/custom.js
+public/custom
 resources/scripts/custom.js
 resources/styles/custom.scss
 resources/styles/custom/*.scss
+resources/fonts
