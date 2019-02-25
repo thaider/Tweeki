@@ -66,6 +66,8 @@
 		"skins.tweeki.styles": {
 			"position": "top",
 			"styles": {
+				"bootstrap/css/bootstrap.min.css": {
+				},
 				"mediawiki/mediawiki.less": {
 					"media": "screen"
 				},
@@ -74,8 +76,6 @@
 				},
 				"print.less": {
 					"media": "print"
-				},
-				"bootstrap/css/bootstrap.min.css": {
 				}
 			}
 		},
