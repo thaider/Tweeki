@@ -60,7 +60,7 @@
 		"skins.tweeki.bootstrap4.custom.styles": {
 			"position": "top",
 			"styles": {
-				"public/custom/css/custom.css": {}
+				"public/custom/css/custom.css": {},
 				"components/bs4.css": {},
 				"mediawiki/mediawiki.less": {}
 			}
