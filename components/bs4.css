@@ -51,7 +51,9 @@
 	animation: fa-spin 1s infinite linear;
 }
 
-
+.mw-content-ltr ul.nav, .mw-content-rtl .mw-content-ltr ul.nav {
+	margin-left:0;
+}
 
 
 

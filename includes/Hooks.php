@@ -467,38 +467,23 @@ class TweekiHooks {
 
 			$button['class'] = implode( ' ', array_unique( $button['class'] ) );
 
-			// if aria-attributes are set, add them
-			if ( isset( $options['aria-controls'] ) ) {
-				$button['aria-controls'] = $options['aria-controls'];
-			}
+			// set attributes
+			$allowed_attributes = [
+				'aria-controls',
+				'aria-expanded',
+				'aria-selected',
+				'data-target',
+				'data-dismiss',
+				'data-placement',
+				'data-slide',
+				'title',
+				'role',
+			];
 
-			if ( isset( $options['aria-expanded'] ) ) {
-				$button['aria-expanded'] = $options['aria-expanded'];
-			}
-
-			// if data-target attribute is set, add it
-			if ( isset( $options['data-target'] ) ) {
-				$button['data-target'] = $options['data-target'];
-			}
-
-			// if data-dismiss attribute is set, add it
-			if ( isset( $options['data-dismiss'] ) ) {
-				$button['data-dismiss'] = $options['data-dismiss'];
-			}
-
-			// if data-placement attribute is set, add it
-			if ( isset( $options['data-placement'] ) ) {
-				$button['data-placement'] = $options['data-placement'];
-			}
-
-			// if data-slide attribute is set, add it
-			if ( isset( $options['data-slide'] ) ) {
-				$button['data-slide'] = $options['data-slide'];
-			}
-
-			// if title attribute is set, add it
-			if ( isset( $options['title'] ) ) {
-				$button['title'] = $options['title'];
+			foreach( $allowed_attributes as $attribute ) {
+				if ( isset( $options[$attribute] ) ) {
+					$button[$attribute] = $options[$attribute];
+				}
 			}
 
 			// if data-toggle attribute is set, unset wrapper and add attribute and toggle-class
