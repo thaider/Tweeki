@@ -168,7 +168,8 @@
 			"footer-info": true
 		},
 		"TweekiSkinHideable": [
-			"firstHeading"
+			"firstHeading",
+			"sidebar-right"
 		],
 		"TweekiSkinHideAnon": {
 			"subnav": true,
