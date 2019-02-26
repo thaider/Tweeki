@@ -1,5 +1,5 @@
-/** 
- * neu 
+/**
+ * neu
  */
 
 /* Sticky Sidebar */
@@ -7,6 +7,7 @@
 	position: sticky;
 	top: 80px;
 	height: calc(100vh - 300px);
+	z-index: -1;
 }
 
 /* EDIT-EXT Dropdown */
@@ -56,7 +57,7 @@
 
 
 /**
- * anpassen 
+ * anpassen
  */
 
 .with-navbar.with-navbar-fixed {

@@ -1,5 +1,5 @@
-import jQuery from 'jquery';
-import bs from 'bootstrap';
+import 'jquery';
+import 'bootstrap';
 
 jQuery(document).ready(function ($) {
 
@@ -78,8 +78,14 @@ jQuery(document).ready(function ($) {
       $( "#toc" ).css( 'display', 'table' );
 
       // start scrollspy
-      $( '#toc ul' ).addClass( 'nav' );
-      $( 'body' ).css( 'position', 'relative' ).scrollspy( { target: '#toc' } );
+      $('#toc ul')
+        .addClass('nav flex-column')
+
+      $('#toc ul a')
+        .addClass('nav-link')
+
+      $('body')
+        .scrollspy({target: '#toc ul'});
       }
 
     }

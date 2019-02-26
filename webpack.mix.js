@@ -14,7 +14,7 @@ mix.webpackConfig({
  | overwirte the default Tweeki assets. Those files will also be
  | overwritten with any git update from the skin repository.
  |
- */
+ * /
 mix.js('resources/scripts/tweeki.js', 'public/default/js')
    .sass('resources/styles/tweeki.scss', 'public/default/css');
 

@@ -105,137 +105,154 @@ body {
    * TOC
    */
 
-  /* hide .toctogglespan, introduced in MW 1.32 */
-  #tweekiTOC .toctogglespan {
-    display:none;
+  #sidebar {
+
+    &-right {
+      display: flex;
+      flex-direction: column;
+
+      & > div {
+        margin-bottom: $spacer * 2;
+      }
+    }
+
+    #tweekiTOC {
+      position:relative;
+      height:100%;
+      overflow:hidden;
+      width:105%;
+    }
   }
 
-  #tweekiTOC #toc {
-    width:100%;
+  // Hide default TOC in content
+  #bodyContent #toc {
+    display: none;
   }
 
-  #tweekiTOC #toctitle h2, /* backwards compatibility for MW <1.30 */
-  #tweekiTOC .toctitle h2 {
-    font-size:10pt;
-    margin:0;
-    margin-top:35px;
-    line-height:1.7em;
-    font-weight:bold;
-    text-transform:uppercase;
-  }
-
-  #tweekiTOC #toctitle h2 a, /* backwards compatibility for MW <1.30 */
-  #tweekiTOC .toctitle h2 a {
-    font-size: 7pt;
-    font-weight: normal;
-    padding-left: 5px;
-    text-transform:none;
-  }
-
-  #sidebar #tweekiTOC {
-    position:relative;
-    height:100%;
-    overflow:hidden;
-    width:105%;
-  }
-
-  /* hide by default and make it visible by javascript only */
+  // hide by default and make it visible by javascript only
   #tweekiDropdownTOC {
     display:none;
   }
-  #toc {
-    display:none;
-  }
 
-  #tweekiTOC #toc ul > li > ul {
-    display:none;
-  }
+  #tweekiTOC {
+    font-size: $font-size-sm;
 
-  #tweekiTOC #toc ul > li a {
-    color:#999;
-  }
+    // hide .toctogglespan, introduced in MW 1.32
+    .toctogglespan,
+    .toctoggle,
+    .tocnumber {
+      display:none;
+    }
 
-  #tweekiTOC #toc ul > li a:hover,
-  #tweekiTOC #toc ul > li a:focus,
-  #tweekiTOC #toc ul > li a:hover {
-    color:#000;
-  }
+    // backwards compatibility for MW < 1.30
+    #toctitle,
+    .toctitle {
+      h2 {
+        font-size: $font-size-sm;
+        font-weight: normal;
+        // padding-left: 5px;
+        text-transform: none;
+        position: relative;
 
-  #tweekiTOC #toc ul > li > ul a {
-    font-size: small;
-  }
+        a {
+          @extend .badge;
 
-  #tweekiTOC #toc li.active > ul {
-    display:block;
-  }
+          display: block;
+          position: absolute;
+          font-size: 0.75rem;
+          right: 0;
+          top: 0;
+          background-color: $gray-200;
+          font-weight: normal;
+        }
+      }
+    }
 
-  #tweekiTOC #toc li.toclevel-1.active > a {
-    border-left: 2px solid #bbb;
-  }
+    #toc {
+      width:100%;
+      display:none;
 
-  #tweekiTOC #toc li.active > a {
-    color:#000;
-  }
+      a {
+        padding: 0;
+        color: #999;
 
-  #tweekiTOC #toc ul,
-  #tweekiTOC .toc ul {
-    margin:0 !important;
-  }
+        &.active,
+        &:hover,
+        &:focus,
+        &:hover {
+          color: #000;
+        }
+      }
 
-  #tweekiTOC #toc .nav > li > a {
-    padding: 0px 5px;
-  }
+      ul {
+        margin: 0 !important;
 
-  #tweekiTOC #toc .nav > li.toclevel-1 > a {
-    padding: 2px 5px;
-  }
+        & > li {
+          & > ul {
+            display: none;
+            border-left: 1px solid $gray-400;
+            margin: $spacer 0;
+            padding: 0 0 0 $spacer;
 
-  #tweekiTOC #toc .nav .nav li {
-    padding-left:15px;
-  }
+            li,
+            a {
+              font-size: 0.75rem;
+              line-height: 0.75rem * 1.5;
+              justify-content: flex-end;
+            }
+          }
 
-  #tweekiTOC .toctoggle {
-    display:none;
-  }
-
-  #tweekiTOC .tocnumber {
-    display:none;
+          .active + ul {
+            display: block;
+          }
+        }
+      }
+    }
   }
 
   #tw-filetoc {
-    margin-bottom:10px;
+    margin-bottom: $spacer;
   }
 
+  main {
+    margin-bottom: $spacer * 3;
+  }
 
-
-
+  #content {
+    padding: 0 $spacer * 2 0 0;
+  }
 
   /**
    * Footer
    */
-  .footer {
+  #footer {
     display: block;
-    // @include make-row();
     background: $gray-200;
     margin-top: auto !important;
-    // margin-bottom: 0; // $spacer * 2;
-    padding-top: $spacer * 3;
+    padding-top: $spacer;
     padding-bottom: $spacer * 3;
+    font-size: 0.75rem; // $font-size-xs;
+
+    a {
+      color: $gray-600;
+      text-decoration: none;
+      cursor: pointer;
+
+      &:hover {
+        color: $gray-800;
+        cursor: pointer;
+      }
+    }
 
     ul {
-      padding: 0 0 0 $spacer;
+      list-style: none;
+      padding: 0;
       margin: $spacer 0;
       color: $gray-600;
 
-      a {
-        color: $gray-600;
-        text-decoration: underline;
-        cursor: pointer;
-
-        &:hover {
-          color: $gray-800;
-          cursor: pointer;
-        }
+      li#footer-poweredbyico {
+        display: flex;
+        flex-direction: column;
       }
     }
   }
