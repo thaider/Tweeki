@@ -61,6 +61,8 @@
 			"position": "top",
 			"styles": {
 				"public/custom/css/custom.css": {}
+				"components/bs4.css": {},
+				"mediawiki/mediawiki.less": {}
 			}
 		},
 		"skins.tweeki.styles": {
