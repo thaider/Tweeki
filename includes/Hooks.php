@@ -160,7 +160,7 @@ class TweekiHooks {
 						</a>
 					</h4>
 				</div>
-				<div id="' . $parent . static::$anchorID . '" class="panel-collapse collapse">
+				<div id="' . $parent . static::$anchorID . '" class="panel-collapse collapse ' . ( isset( $args['class'] ) ? htmlentities( $args['class'] ) : '' ) . '">
 					<div class="panel-body">
 			' . $parser->recursiveTagParse( $input, $frame ) . '
 					</div>
