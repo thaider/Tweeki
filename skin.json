@@ -53,7 +53,6 @@
 			"position": "top",
 			"styles": {
 				"public/default/css/tweeki.css": {},
-				"components/bs4.css": {},
 				"mediawiki/mediawiki.less": {}
 			}
 		},
@@ -61,7 +60,6 @@
 			"position": "top",
 			"styles": {
 				"public/custom/css/custom.css": {},
-				"components/bs4.css": {},
 				"mediawiki/mediawiki.less": {}
 			}
 		},
