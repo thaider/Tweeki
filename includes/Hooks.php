@@ -56,6 +56,7 @@ class TweekiHooks {
 		}
 
 		$parser->setFunctionHook( 'tweekihide', 'TweekiHooks::setHiddenElements' );
+		$parser->setFunctionHook( 'tweekihideexcept', 'TweekiHooks::setHiddenElementsGroups' );
 		$parser->setFunctionHook( 'tweekibodyclass', 'TweekiHooks::addBodyclass' );
 
 		return true;
@@ -129,10 +130,30 @@ class TweekiHooks {
 	static function setHiddenElements( Parser $parser ) {
 		global $wgTweekiSkinHideAll, $wgTweekiSkinHideable;
 		$parser->disableCache();
-		// Argument 0 is $parser, so begin iterating at 1
 		for ( $i = 1; $i < func_num_args(); $i++ ) {
 			if ( in_array ( func_get_arg( $i ), $wgTweekiSkinHideable ) ) {
 				$wgTweekiSkinHideAll[] = func_get_arg( $i );
+			}
+		}
+		return '';
+	}
+
+	/**
+	 * Set elements that should be hidden except for specific groups
+	 *
+	 * @param $parser Parser current parser
+	 * @return string
+	 */
+	static function setHiddenElementsGroups( Parser $parser ) {
+		global $wgTweekiSkinHideAll, $wgTweekiSkinHideable;
+		$parser->disableCache();
+		$groups_except = explode( ',', func_get_arg( 1 ) );
+		$groups_user = $parser->getUser()->getEffectiveGroups();
+		if( count( array_intersect( $groups_except, $groups_user ) ) == 0 ) {
+			for ( $i = 2; $i < func_num_args(); $i++ ) {
+				if ( in_array ( func_get_arg( $i ), $wgTweekiSkinHideable ) ) {
+					$wgTweekiSkinHideAll[] = func_get_arg( $i );
+				}
 			}
 		}
 		return '';

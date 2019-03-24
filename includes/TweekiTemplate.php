@@ -674,6 +674,8 @@ class TweekiTemplate extends BaseTemplate {
 			) &&
 			!$this->checkVisibilitySetting( $item, $this->config->get( 'TweekiSkinHideAll' ) ) // not hidden for all
 			&&
+			!$this->checkVisibilityGroups( $item ) // not hidden for all OR user is in exempted group
+			&&
 			false !== Hooks::run( 'SkinTweekiCheckVisibility', [ $this, $item ] ) // not hidden via hook
 		) {
 			return true;
@@ -683,8 +685,8 @@ class TweekiTemplate extends BaseTemplate {
 	}
 
 	/**
-	 * Check if an element has an entry in a configuration option and if it's set to true
-	 * (i.e. the element should be hidden to the corresponding group)
+	 * Check if an element has an entry in a configuration option and if it's set to true 
+	 * (i.e. the element should be hidden)
 	 *
 	 * @param $item Element to be tested
 	 * @param $setting Configuration option to be searched
@@ -699,6 +701,38 @@ class TweekiTemplate extends BaseTemplate {
 		if( array_key_exists( $item, $setting ) ) {
 			return $setting[$item] ? true : false;
 		}
+		return false;
+	}
+
+
+	/**
+	 * Check if an element has an entry in $wgTweekiSkinExcept or if the user is
+	 * in the corresponding group
+	 *
+	 * @param $item Element to be tested
+	 *
+	 * @return Boolean returns true, if the element is hidden
+	 */
+	public function checkVisibilityGroups( $item ) {
+		// has the option been used?
+		if( !$this->config->has( 'TweekiSkinHideExcept' ) ) {
+			return false;
+		}
+
+		$group_settings = $this->config->get( 'TweekiSkinHideExcept' );
+
+		// has the option been set for this item?
+		if( isset( $group_settings[$item] ) && is_array( $group_settings[$item] ) ) {
+			$groups = $this->getSkin()->getUser()->getEffectiveGroups();
+
+			// is the user in the exempted group?
+			if( count( array_intersect( $group_settings[$item], $groups ) ) > 0 ) {
+				return false;
+			}
+
+			return true;
+		}
+
 		return false;
 	}
 
