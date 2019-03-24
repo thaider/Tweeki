@@ -85,6 +85,7 @@ class SkinTweeki extends SkinTemplate {
 		$styles = [];
 		// load styles
 		if( $this->tweekiConfig->get( 'TweekiSkinCustomStyleModule' ) ) {
+			$styles[] = 'skins.tweeki.bootstrap4.mediawiki.styles';
 			$styles[] = $this->tweekiConfig->get( 'TweekiSkinCustomStyleModule' );
 		} elseif( !$this->tweekiConfig->get( 'TweekiSkinUseBootstrap4' ) ) {
 			$styles[] = 'skins.tweeki.styles';
@@ -92,12 +93,19 @@ class SkinTweeki extends SkinTemplate {
 				$styles[] = 'skins.tweeki.bootstraptheme.styles';
 			}
 		} else {
+			$styles[] = 'skins.tweeki.bootstrap4.mediawiki.styles';
 			if( !$this->tweekiConfig->get( 'TweekiSkinUseCustomFiles' ) ) {
 				$styles[] = 'skins.tweeki.bootstrap4.styles';
 			} else {
 				$styles[] = 'skins.tweeki.bootstrap4.custom.styles';
 			}
 		}
+
+		// load last minute changes (outside webpack)
+		if( $this->tweekiConfig->get( 'TweekiSkinUseBootstrap4' ) ) {
+			$styles[] = 'skins.tweeki.bootstrap4.corrections.styles';
+		}
+
 		if( $this->tweekiConfig->get( 'TweekiSkinUseExternallinkStyles' ) ) {
 			$styles[] = 'skins.tweeki.externallinks.styles';
 		}

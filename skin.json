@@ -52,14 +52,18 @@
 		"skins.tweeki.bootstrap4.styles": {
 			"position": "top",
 			"styles": {
-				"public/default/css/tweeki.css": {},
-				"mediawiki/mediawiki.less": {}
+				"public/default/css/tweeki.css": {}
 			}
 		},
-		"skins.tweeki.bootstrap4.custom.styles": {
+		"skins.tweeki.bootstrap4.corrections.styles": {
 			"position": "top",
 			"styles": {
-				"public/custom/css/custom.css": {},
+				"components/bs4.css": {}
+			}
+		},
+		"skins.tweeki.bootstrap4.mediawiki.styles": {
+			"position": "top",
+			"styles": {
 				"mediawiki/mediawiki.less": {}
 			}
 		},
