@@ -84,10 +84,12 @@ jQuery( function( $ ) {
 	 * If the headline is inside the span it's padding will prevent
 	 * links directly above the headline to be accessible
 	 */
+	/* this is done on the server now
 	$( '.mw-headline' ).each(function( i ) {
 		$headline_contents = $( this ).contents();
 		$(this).text('').after($headline_contents);
 	});
+	*/
 
 
 	/**
