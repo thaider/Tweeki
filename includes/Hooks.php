@@ -47,6 +47,28 @@ class TweekiHooks {
 
 		return true;
 	}
+
+	public static function onOutputPageBeforeHTML( &$out, &$text ) {
+		/*		$text = preg_replace( '|(^.*<span class="mw-headline".*?>)(.*?)(</span>)(.*$)|m', '$1$3$2$4', $text ); */
+		$text = preg_replace_callback( 
+			'/^.*<span class="mw-headline".*$/m', 
+			function( $matches ) {
+				$doc = new DOMDocument();
+				$doc->loadHTML( $matches[0] );
+				$span = $doc->getElementsByTagName('span')[0];
+
+				$heading = $doc->createElement("span");
+				$heading->setAttribute( 'class', 'mw-headline-content' );
+				while( $span->firstChild ) {
+					$heading->appendChild( $span->removeChild( $span->firstChild ) );
+				}
+				$span->parentNode->insertBefore( $heading, $span );
+				$span->parentNode->insertBefore( $span, $heading );
+				return( $doc->saveHTML( $span->parentNode ) );
+			},
+			$text
+		);
+	}
 	
 	/**
 	 * Customizing registration
