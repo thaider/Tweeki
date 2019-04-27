@@ -59,16 +59,23 @@ class TweekiHooks {
 				$doc = new DOMDocument();
 				$html = mb_convert_encoding( $matches[0], 'HTML-ENTITIES', 'UTF-8' );
 				$doc->loadHTML( $html );
-				$span = $doc->getElementsByTagName('span')[0];
-
-				$heading = $doc->createElement("span");
-				$heading->setAttribute( 'class', 'mw-headline-content' );
-				while( $span->firstChild ) {
-					$heading->appendChild( $span->removeChild( $span->firstChild ) );
+				$spans = $doc->getElementsByTagName('span');
+				$mw_headline = '';
+				foreach( $spans as $span ) {
+					if( $span->getAttribute('class') == 'mw-headline' ) {
+						$mw_headline = $span;
+					}
 				}
-				$span->parentNode->insertBefore( $heading, $span );
-				$span->parentNode->insertBefore( $span, $heading );
-				return( $doc->saveHTML( $span->parentNode ) );
+				/* move the contents of .mw-headline to a newly created .mw-headline-content */
+				$mw_headline_content = $doc->createElement("span");
+				$mw_headline_content->setAttribute( 'class', 'mw-headline-content' );
+				while( $mw_headline->firstChild ) {
+					$mw_headline_content->appendChild( $mw_headline->removeChild( $mw_headline->firstChild ) );
+				}
+				/* put .mw-headline before .mw-headline-content */
+				$mw_headline->parentNode->insertBefore( $mw_headline_content, $mw_headline );
+				$mw_headline->parentNode->insertBefore( $mw_headline, $mw_headline_content );
+				return( $doc->saveHTML( $mw_headline->parentNode ) );
 			},
 			$text
 		);
