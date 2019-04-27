@@ -48,13 +48,17 @@ class TweekiHooks {
 		return true;
 	}
 
+	/**
+	 * Manipulate headlines – we need .mw-headline to be empty because it has a padding
+	 * that we need for correct positioning for anchors and this would render links above headlines inaccessible
+	 */
 	public static function onOutputPageBeforeHTML( &$out, &$text ) {
-		/*		$text = preg_replace( '|(^.*<span class="mw-headline".*?>)(.*?)(</span>)(.*$)|m', '$1$3$2$4', $text ); */
 		$text = preg_replace_callback( 
 			'/^.*<span class="mw-headline".*$/m', 
 			function( $matches ) {
 				$doc = new DOMDocument();
-				$doc->loadHTML( $matches[0] );
+				$html = mb_convert_encoding( $matches[0], 'HTML-ENTITIES', 'UTF-8' );
+				$doc->loadHTML( $html );
 				$span = $doc->getElementsByTagName('span')[0];
 
 				$heading = $doc->createElement("span");
