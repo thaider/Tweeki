@@ -198,7 +198,7 @@ class TweekiTemplate extends BaseTemplate {
 						<?php if( !$skin->checkEmptiness( 'subnav' ) ) { $skin->renderSubnav4( $mainclass ); } ?>
 
 						<!-- content -->
-						<div class="<?php echo $mainclass ?>" role="main">
+						<div class="<?php echo $mainclass ?>" id="maincontentwrapper" role="main">
 							<?php $skin->renderContent(); ?>
 						</div>
 						<!-- /content -->
