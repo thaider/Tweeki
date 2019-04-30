@@ -53,32 +53,28 @@ class TweekiHooks {
 	 * that we need for correct positioning for anchors and this would render links above headlines inaccessible
 	 */
 	public static function onOutputPageBeforeHTML( &$out, &$text ) {
-		$text = preg_replace_callback( 
-			'/^.*<span class="mw-headline".*$/m', 
-			function( $matches ) {
-				$doc = new DOMDocument();
-				$html = mb_convert_encoding( $matches[0], 'HTML-ENTITIES', 'UTF-8' );
-				$doc->loadHTML( $html );
-				$spans = $doc->getElementsByTagName('span');
-				$mw_headline = '';
-				foreach( $spans as $span ) {
-					if( $span->getAttribute('class') == 'mw-headline' ) {
-						$mw_headline = $span;
-					}
-				}
+		$doc = new DOMDocument();
+		$html = mb_convert_encoding( $text, 'HTML-ENTITIES', 'UTF-8' );
+		$doc->loadHTML( $html );
+		$spans = $doc->getElementsByTagName('span');
+		foreach( $spans as $span ) {
+			$mw_headline = '';
+			if( $span->getAttribute('class') == 'mw-headline' ) {
+				$mw_headline = $span;
+
 				/* move the contents of .mw-headline to a newly created .mw-headline-content */
 				$mw_headline_content = $doc->createElement("span");
 				$mw_headline_content->setAttribute( 'class', 'mw-headline-content' );
 				while( $mw_headline->firstChild ) {
 					$mw_headline_content->appendChild( $mw_headline->removeChild( $mw_headline->firstChild ) );
 				}
+
 				/* put .mw-headline before .mw-headline-content */
 				$mw_headline->parentNode->insertBefore( $mw_headline_content, $mw_headline );
 				$mw_headline->parentNode->insertBefore( $mw_headline, $mw_headline_content );
-				return( $doc->saveHTML( $mw_headline->parentNode ) );
-			},
-			$text
-		);
+				}
+			}
+		$text = $doc->saveHTML($doc->documentElement->firstChild->firstChild);
 	}
 	
 	/**
