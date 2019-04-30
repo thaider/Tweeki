@@ -59,7 +59,10 @@
 		"skins.tweeki.bootstrap4.corrections.styles": {
 			"position": "top",
 			"styles": {
-				"components/bs4.css": {}
+				"components/bs4.css": {},
+				"print.less": {
+					"media": "print"
+				}
 			}
 		},
 		"skins.tweeki.bootstrap4.mediawiki.styles": {
