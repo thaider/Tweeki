@@ -140,14 +140,14 @@ class TweekiHooks {
 	 * Enable use of <legend> tag
 	 */
 	static function legend( $input, array $args, Parser $parser, PPFrame $frame ) {
-		return array( '<legend>' . $input . '</legend>', "markerType" => 'nowiki' );
+		return array( '<legend>' . $parser->recursiveTagParse( $input ) . '</legend>', "markerType" => 'nowiki' );
 	}
 
 	/**
 	 * Enable use of <footer> tag
 	 */
 	static function footer( $input, array $args, Parser $parser, PPFrame $frame ) {
-		return array( '<footer>' . $input . '</footer>', "markerType" => 'nowiki' );
+		return array( '<footer>' . $parser->recursiveTagParse( $input ) . '</footer>', "markerType" => 'nowiki' );
 	}
 
 	/**
