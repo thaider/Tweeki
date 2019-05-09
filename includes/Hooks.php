@@ -69,26 +69,28 @@ class TweekiHooks {
 	public static function onOutputPageBeforeHTML( &$out, &$text ) {
 		$doc = new DOMDocument();
 		$html = mb_convert_encoding( $text, 'HTML-ENTITIES', 'UTF-8' );
-		$doc->loadHTML( $html );
-		$spans = $doc->getElementsByTagName('span');
-		foreach( $spans as $span ) {
-			$mw_headline = '';
-			if( $span->getAttribute('class') == 'mw-headline' ) {
-				$mw_headline = $span;
+		if( $html != '' ) {
+			$doc->loadHTML( $html );
+			$spans = $doc->getElementsByTagName('span');
+			foreach( $spans as $span ) {
+				$mw_headline = '';
+				if( $span->getAttribute('class') == 'mw-headline' ) {
+					$mw_headline = $span;
 
-				/* move the contents of .mw-headline to a newly created .mw-headline-content */
-				$mw_headline_content = $doc->createElement("span");
-				$mw_headline_content->setAttribute( 'class', 'mw-headline-content' );
-				while( $mw_headline->firstChild ) {
-					$mw_headline_content->appendChild( $mw_headline->removeChild( $mw_headline->firstChild ) );
-				}
+					/* move the contents of .mw-headline to a newly created .mw-headline-content */
+					$mw_headline_content = $doc->createElement("span");
+					$mw_headline_content->setAttribute( 'class', 'mw-headline-content' );
+					while( $mw_headline->firstChild ) {
+						$mw_headline_content->appendChild( $mw_headline->removeChild( $mw_headline->firstChild ) );
+					}
 
-				/* put .mw-headline before .mw-headline-content */
-				$mw_headline->parentNode->insertBefore( $mw_headline_content, $mw_headline );
-				$mw_headline->parentNode->insertBefore( $mw_headline, $mw_headline_content );
+					/* put .mw-headline before .mw-headline-content */
+					$mw_headline->parentNode->insertBefore( $mw_headline_content, $mw_headline );
+					$mw_headline->parentNode->insertBefore( $mw_headline, $mw_headline_content );
+					}
 				}
-			}
-		$text = $doc->saveHTML($doc->documentElement->firstChild->firstChild);
+			$text = $doc->saveHTML($doc->documentElement->firstChild->firstChild);
+		}
 	}
 	
 	/**
@@ -133,7 +135,7 @@ class TweekiHooks {
 	 * Enable TOC
 	 */
 	static function TOC( $input, array $args, Parser $parser, PPFrame $frame ) {
-		return array( '<div class="tweeki-toc">' . $input . '</div>' );
+		return array( '<div class="tweeki-toc">' . $parser->recursiveTagParse( $input ) . '</div>' );
 	}
 
 	/**
