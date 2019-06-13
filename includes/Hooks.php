@@ -58,7 +58,9 @@ class TweekiHooks {
 			$doc = new DOMDocument();
 			$html = mb_convert_encoding( $text, 'HTML-ENTITIES', 'UTF-8' );
 			if( $html != '' ) {
+				libxml_use_internal_errors(true);
 				$doc->loadHTML( $html );
+				libxml_clear_errors();
 				$spans = $doc->getElementsByTagName('span');
 				foreach( $spans as $span ) {
 					$mw_headline = '';
