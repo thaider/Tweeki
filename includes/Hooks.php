@@ -79,7 +79,7 @@ class TweekiHooks {
 						$mw_headline->parentNode->insertBefore( $mw_headline, $mw_headline_content );
 						}
 					}
-				$text = $doc->saveHTML($doc->documentElement->firstChild->firstChild);
+				$text = $doc->saveHTML();
 			}
 		}
 	}
