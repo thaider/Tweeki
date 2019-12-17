@@ -1068,7 +1068,7 @@ class TweekiTemplate extends BaseTemplate {
 	public function buildItems( $items, $options, $context ) {
 		$buttons = [];
 		$customItems = [];
-		$navbarItems = explode( ',', $items );
+		$navbarItems = preg_split( '/[\n,]/', $items );
 		foreach( $navbarItems as $navbarItem ) {
 			$navbarItem = trim( $navbarItem );
 			$navbarItem = $this->renderNavigation( $navbarItem, $context );

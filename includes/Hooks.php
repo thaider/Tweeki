@@ -341,7 +341,13 @@ class TweekiHooks {
 				if ( !isset( $buttons[$currentparentkey]['items'] ) ) {
 					$buttons[$currentparentkey]['items'] = array();
 				}
-				$buttons[$currentparentkey]['items'] = array_merge( $buttons[$currentparentkey]['items'], TweekiHooks::parseButtonLink( $cleanline, $parser, $frame ) );
+
+				// dropdown-headers (dropdown-lines that start with a colon)
+				if ( strpos( $cleanline, ':' ) === 0 ) {
+					$buttons[$currentparentkey]['items'][] = [ 'text' => ltrim( $cleanline, ':' ), 'header' => true ];
+				} else {
+					$buttons[$currentparentkey]['items'] = array_merge( $buttons[$currentparentkey]['items'], TweekiHooks::parseButtonLink( $cleanline, $parser, $frame ) );
+				}
 			}
 		}
 		return $buttons;
@@ -380,7 +386,7 @@ class TweekiHooks {
 				return $semanticLinks;
 			}
 			else {
-				$text = 'broken';
+				$text = 'INVALID-TITLE/QUERY-BROKEN';
 			}
 		}
 
@@ -700,6 +706,11 @@ class TweekiHooks {
 					$renderedMenu .= '<li class="divider" />';
 				}
 
+				// header
+				elseif ( isset( $entry['text'] ) && isset( $entry['header'] ) && $entry['header'] ) {
+					$renderedMenu .= '<li class="dropdown-header">' . $entry['text'] . '</li>';
+				}
+
 				// standard menu entry
 				else {
 					$entry['tabindex'] = '-1';
@@ -717,6 +728,11 @@ class TweekiHooks {
 					&& ( !isset( $entry['html'] ) || $entry['html'] == "" ) // and no 'html'
 				) {
 					$renderedMenu .= '<div class="dropdown-divider"></div>';
+				}
+
+				// header
+				elseif ( isset( $entry['text'] ) && isset( $entry['header'] ) && $entry['header'] ) {
+					$renderedMenu .= '<h6 class="dropdown-header">' . $entry['text'] . '</h6>';
 				}
 
 				// standard menu entry
