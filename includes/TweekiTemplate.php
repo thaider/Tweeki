@@ -623,7 +623,7 @@ class TweekiTemplate extends BaseTemplate {
 
 				case 'LANGUAGES':
 					$items = $this->data['language_urls'];
-					if (count($items) > 0 && $items) {
+					if (is_array($items) && count($items) > 0 && $items) { 
 						return [[
 							'href' => '#',
 							'text' => wfMessage( 'otherlanguages' ),

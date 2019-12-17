@@ -67,6 +67,8 @@ class TweekiHooks {
 	 * that we need for correct positioning for anchors and this would render links above headlines inaccessible
 	 */
 	public static function onOutputPageBeforeHTML( &$out, &$text ) {
+		// obsolete now with CSS's new scroll-padding-top
+		return true;
 		// Manipulation is harmful when executed on non-article pages (e.g. stops preview from working)
 		if( $out->isArticle() ) {
 			$doc = new DOMDocument();
