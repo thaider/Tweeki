@@ -765,7 +765,7 @@ class TweekiHooks {
 	static function makeLink( $item, $options = array() ) {
 		// nested links?
 		if ( isset( $item['links'] ) ) {
-			if( isset( $item['link'][0] ) ) {
+			if( isset( $item['links'][0] ) ) {
 				$item = $item['links'][0];
 			} else {
 				return false;
