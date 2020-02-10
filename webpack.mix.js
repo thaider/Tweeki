@@ -37,11 +37,11 @@ mix.js('resources/scripts/tweeki.js', 'public/default/js')
  |
  */
 mix.js('resources/scripts/custom.js', 'public/custom/js')
-   .sass('resources/styles/custom.scss', 'public/custom/css')
+   .sass('resources/styles/custom.scss', '../../extensions/SemanticOrganization/modules/tweeki/css')
    .options({
       processCssUrls: false
    })
-   .copyDirectory('resources/fonts', 'public/custom/fonts');
+   .copyDirectory('resources/fonts', '../../extensions/SemanticOrganization/modules/tweeki/fonts');
 
 mix.browserSync({ proxy: process.env.MIX_LOCAL_PROXY_URL });
 

@@ -100,6 +100,16 @@ body {
   }
 
 
+  /**
+   * Tabs
+   */
+
+  .nav {
+    &-tabs {
+      //
+    }
+  }
+
 
   /**
    * TOC
@@ -753,12 +763,62 @@ input[type=radio], input[type=checkbox] {
   animation: fa-spin 1s infinite linear;
 }
 
-.mw-content-ltr ul.nav, .mw-content-rtl .mw-content-ltr ul.nav {
-  margin-left:0;
-}
-.mw-content-ltr ul.nav.card-header-tabs, .mw-content-rtl .mw-content-ltr ul.nav.card-header-tabs {
-  margin-right:-.625rem;
-  margin-left:-.625rem;
-  margin-bottom:-.75rem
-}
 
+#bodyContent {
+  ul {
+    &.card-header-tabs {
+      padding: 0;
+
+      @extend .card-header-tabs;
+    }
+  }
+
+  .card {
+    &-header {
+      position: relative;
+
+      & > h3 {
+        margin-top: $spacer * 2;
+        margin-bottom: $spacer * 2;
+      }
+
+      & > a {
+        @extend .badge;
+        @extend .badge-secondary;
+
+        position: absolute;
+        top: $spacer;
+        left: $spacer;
+        font-weight: normal;
+      }
+    }
+
+    &-body {
+      &-table {
+        margin: 0 $spacer * -1.25;
+
+        .table,
+        .table.table-bordered {
+          border-left: 0;
+          border-right: 0;
+
+          thead,
+          tbody {
+            tr {
+              th,
+              td {
+                &:first-child {
+                  border-left: 0;
+                }
+
+                &:last-child {
+                  border-right: 0;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
