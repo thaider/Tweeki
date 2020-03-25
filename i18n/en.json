@@ -46,6 +46,8 @@
 	"tweeki-editsection-class": "tw-editsection-onhover",
 	"tweeki-editsection-icon": "<span class='fa fa-pen'></span>",
 	"tweeki-toc-top": "to top",
+	"tweeki-personaltools-icon": "user",
+	"tweeki-personaltools-text": "$1",
 	"prefs-tweeki-advanced": "Advanced features",
 	"prefs-tweeki-advanced-desc": "Show advanced features",
 	"prefs-tweeki-advanced-help": "Some features that you might know from other MediaWiki installations have possibly been hidden by the administrator in order not to confuse the average user. Set this option to show them."

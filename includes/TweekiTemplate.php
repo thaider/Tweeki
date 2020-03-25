@@ -537,8 +537,8 @@ class TweekiTemplate extends BaseTemplate {
 					if (count($items) > 0) {
 						return [[
 							'href' => '#',
-							'html' => '<span class="tweeki-username">' . $this->data['username'] . '</span>',
-							'icon' => 'user',
+							'html' => '<span class="tweeki-username">' . wfMessage( 'tweeki-personaltools-text', $this->data['username'] )->text() . '</span>',
+							'icon' => wfMessage( 'tweeki-personaltools-icon' )->text(),
 							'id' => 'pt-personaltools',
 							'items' => $divideditems
 							]];
@@ -570,9 +570,9 @@ class TweekiTemplate extends BaseTemplate {
 					if (count($items) > 0) {
 						return [[
 								'href' => '#',
-								'text' => $this->data['username'],
-								'icon' => 'user',
-								'id' => 'pt-personaltools',
+								'html' => '<span class="tweeki-username">' . wfMessage( 'tweeki-personaltools-text', $this->data['username'] )->text() . '</span>',
+								'icon' => wfMessage( 'tweeki-personaltools-icon' )->text(),
+								'id' => 'pt-personaltools-ext',
 								'items' => $divideditems
 								]];
 					}
