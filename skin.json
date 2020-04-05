@@ -48,7 +48,64 @@
 		},
 		"skins.tweeki.bootstrap.styles": {
 			"position": "top",
-			"styles": "bootstrap/css/bootstrap.min.css"
+			"styles": "bs3/bootstrap/css/bootstrap.min.css"
+		},
+		"skins.tweeki.styles": {
+			"position": "top",
+			"styles": {
+				"bs3/bootstrap/css/bootstrap.min.css": {
+				},
+				"bs3/mediawiki/mediawiki.less": {
+					"media": "screen"
+				},
+				"bs3/screen.less": {
+					"media": "screen"
+				},
+				"bs3/print.less": {
+					"media": "print"
+				}
+			}
+		},
+		"skins.tweeki.externallinks.styles": {
+			"position": "top",
+			"styles": {
+				"bs3/components/externallinks.less": {
+					"media": "screen"
+				}
+			}
+		},
+		"skins.tweeki.corrections.styles": {
+			"position": "top",
+			"styles": {
+				"bs3/components/corrections.less": {
+					"media": "screen"
+				}
+			}
+		},
+		"skins.tweeki.awesome.styles": {
+			"position": "top",
+			"styles": {
+				"awesome/css/all.min.css": []
+			}
+		},
+		"skins.tweeki.bootstraptheme.styles": {
+			"position": "top",
+			"styles": {
+				"bs3/bootstrap/css/bootstrap-theme.min.css": {
+					"media": "screen"
+				},
+				"bs3/components/corrections-theme.less": {
+					"media": "screen"
+				}
+			}
+		},
+		"skins.tweeki.cookiewarning.styles": {
+			"position": "top",
+			"styles": {
+				"bs3/components/cookiewarning.less": {
+					"media": "screen"
+				}
+			}
 		},
 		"skins.tweeki.bootstrap4.styles": {
 			"position": "top",
@@ -66,7 +123,7 @@
 			"position": "top",
 			"styles": {
 				"components/bs4.css": {},
-				"print.less": {
+				"bs3/print.less": {
 					"media": "print"
 				}
 			}
@@ -77,67 +134,19 @@
 				"mediawiki/mediawiki.less": {}
 			}
 		},
-		"skins.tweeki.styles": {
-			"position": "top",
-			"styles": {
-				"bootstrap/css/bootstrap.min.css": {
-				},
-				"mediawiki/mediawiki.less": {
-					"media": "screen"
-				},
-				"screen.less": {
-					"media": "screen"
-				},
-				"print.less": {
-					"media": "print"
-				}
-			}
-		},
-		"skins.tweeki.externallinks.styles": {
-			"position": "top",
-			"styles": {
-				"components/externallinks.less": {
-					"media": "screen"
-				}
-			}
-		},
-		"skins.tweeki.corrections.styles": {
-			"position": "top",
-			"styles": {
-				"components/corrections.less": {
-					"media": "screen"
-				}
-			}
-		},
-		"skins.tweeki.awesome.styles": {
-			"position": "top",
-			"styles": {
-				"awesome/css/all.min.css": []
-			}
-		},
-		"skins.tweeki.bootstraptheme.styles": {
-			"position": "top",
-			"styles": {
-				"bootstrap/css/bootstrap-theme.min.css": {
-					"media": "screen"
-				},
-				"components/corrections-theme.less": {
-					"media": "screen"
-				}
-			}
-		},
-		"skins.tweeki.cookiewarning.styles": {
-			"position": "top",
-			"styles": {
-				"components/cookiewarning.less": {
-					"media": "screen"
-				}
-			}
+		"skins.tweeki.scripts": {
+			"position": "bottom",
+			"scripts": [
+				"bs3/tweeki.js"
+			],
+			"dependencies": [
+				"skins.tweeki.bootstrap.scripts"
+			]
 		},
 		"skins.tweeki.bootstrap.scripts": {
 			"position": "bottom",
 			"scripts": [
-				"bootstrap/js/bootstrap.min.js"
+				"bs3/bootstrap/js/bootstrap.min.js"
 			],
 			"dependencies": [
 				"mediawiki.jqueryMsg"
@@ -159,15 +168,6 @@
 			],
 			"dependencies": [
 				"mediawiki.jqueryMsg"
-			]
-		},
-		"skins.tweeki.scripts": {
-			"position": "bottom",
-			"scripts": [
-				"tweeki.js"
-			],
-			"dependencies": [
-				"skins.tweeki.bootstrap.scripts"
 			]
 		}
 	},
