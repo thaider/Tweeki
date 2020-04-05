@@ -1,4 +1,7 @@
 <?php
+
+use MediaWiki\MediaWikiServices;
+
 /**
  * Hooks for Tweeki skin
  *
@@ -99,7 +102,7 @@ class TweekiHooks {
 			}
 		}
 	}
-	
+
 	/**
 	 * Customizing registration
 	 */
@@ -980,7 +983,17 @@ class TweekiHooks {
 	}
 
 	public static function onInternalParseBeforeLinks( &$parser, &$text, &$strip_state ) {
-		if ( MagicWord::get( 'MAG_NUMBEREDHEADINGS' )->matchAndRemove( $text ) ) {
+		$id = 'MAG_NUMBEREDHEADINGS';
+		if ( method_exists( MagicWord::class, 'get' ) ) {
+			// Before 1.35.
+			$magicWord = MagicWord::get( $id );
+		} else {
+			// 1.35 and above.
+			$magicWord = MediaWikiServices::getInstance()
+				->getMagicWordFactory()
+				->get( $id );
+		}
+		if ( $magicWord->matchAndRemove( $text ) ) {
 			$parser->mOptions->setNumberHeadings( true );
 		}
 		return true;

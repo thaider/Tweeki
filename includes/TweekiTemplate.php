@@ -21,7 +21,7 @@
  * @file
  * @ingroup Skins
  */
-
+use MediaWiki\Session\SessionManager;
 /**
  * QuickTemplate subclass for Vector
  * @ingroup Skins
@@ -1160,9 +1160,7 @@ class TweekiTemplate extends BaseTemplate {
 	 * Render Login-ext
 	 */
 	function renderLoginExt( $skin, $context ) {
-		if ( session_id() == '' ) {
-			wfSetupSession();
-		}
+		SessionManager::getGlobalSession()->persist();
 
 		//build path for form action
 		$returntotitle = $skin->getSkin()->getTitle();
