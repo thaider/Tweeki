@@ -30,6 +30,11 @@
 //   }
 // }
 
+html,
+body {
+  scroll-padding-top: 60px;
+}
+
 html {
   height: 100% !important;
 }
@@ -351,19 +356,6 @@ body {
  *
  * part of this has been taken from Garret LeSage's Strapping
  */
-
-
-/* correction for internal links with fixed navbar */
-.with-navbar.with-navbar-fixed .mw-headline {
-  padding-top: 70px;
-}
-
-/* hack to make scrollspy work in safari, chrome etc. */
-/* mw-headline needs to consume space on the screen to be considered “visible” */
-.with-navbar.with-navbar-fixed .mw-headline {
-  padding-left:1px;
-  margin-left:-1px;
-}
 
 
 /**
