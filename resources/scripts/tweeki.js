@@ -97,12 +97,14 @@ jQuery(document).ready(function ($) {
    * If the headline is inside the span it's padding will prevent
    * links directly above the headline to be accessible
    */
+  /*
   $('.mw-headline').each(function(i) {
     var headline_contents = $(this).contents();
 
     if (typeof headline_contents !== 'undefined')
       $(this).text('').after(headline_contents);
   });
+  */
 
 
   /**
