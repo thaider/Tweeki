@@ -4,6 +4,14 @@
 
 jQuery( function( $ ) {
 
+  if(mw.config.get('wgTweekiSkinUseTooltips') === true ) {
+  	console.log('here');
+    // initialize tooltips
+    $(document).ready(function() {
+      $('[data-toggle="tooltip"]').tooltip()
+    });
+  }
+
 	/** 
 	 * FOOTER 
 	 */
