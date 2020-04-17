@@ -122,7 +122,7 @@
 		"skins.tweeki.bootstrap4.corrections.styles": {
 			"position": "top",
 			"styles": {
-				"components/bs4.css": {},
+				"bs3/components/bs4.css": {},
 				"bs3/print.less": {
 					"media": "print"
 				}
@@ -131,7 +131,7 @@
 		"skins.tweeki.bootstrap4.mediawiki.styles": {
 			"position": "top",
 			"styles": {
-				"mediawiki/mediawiki.less": {}
+				"bs3/mediawiki/mediawiki.less": {}
 			}
 		},
 		"skins.tweeki.scripts": {
