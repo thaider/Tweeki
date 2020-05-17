@@ -11,7 +11,7 @@
 }
 
 /* EDIT-EXT Dropdown */
-#ca-edit-ext + .dropdown-toggle {
+[name=ca-edit-ext] + .dropdown-toggle {
 	max-width: 40px;
 }
 
