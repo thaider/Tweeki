@@ -286,6 +286,9 @@ class TweekiTemplate extends BaseTemplate {
 									'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain(),
 									'name' => 'ca-edit-ext'
 								];
+								if( isset( $views['edit'] ) ) {
+									$views['edit']['id'] = 'ca-edit-source';
+								}
 								$button['items'] = $views;
 								if(count($this->data['action_urls']) > 0) {
 									$button['items'][] = []; #divider
@@ -316,6 +319,9 @@ class TweekiTemplate extends BaseTemplate {
 									'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain(),
 									'name' => 'ca-edit-ext'
 									];
+								if( isset( $views['edit'] ) ) {
+									$views['edit']['id'] = 'ca-edit-source';
+								}
 								$button['items'] = $views;
 								if(count($this->data['action_urls']) > 0) {
 									$button['items'][] = []; #divider
