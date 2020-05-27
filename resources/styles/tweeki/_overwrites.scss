@@ -426,8 +426,13 @@ body {
 }
 
 /* correction for uls */
-.mw-content-ltr ul, .mw-content-rtl .mw-content-ltr ul {
-  margin:.3em 0 .6em 1.6em;
+.mw-content-ltr,
+.mw-content-rtl {
+  .mw-parser-output {
+    > ul {
+      margin: 0.3em 0 0.6em 1.6em;
+    }
+  }
 }
 
 /**
