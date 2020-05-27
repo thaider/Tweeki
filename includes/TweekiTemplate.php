@@ -752,7 +752,7 @@ class TweekiTemplate extends BaseTemplate {
 		$options = $this->getParsingOptions( 'subnav' );
 		if( !wfMessage( 'tweeki-subnav' )->isDisabled() && $this->checkVisibility( 'subnav' ) ) { ?>
 			<!-- subnav -->
-			<div id="page-header" class="row">
+			<div id="page-header" class="subnav row">
 				<div class="<?php echo $class; ?>">
 					<ul class="<?php $this->msg( 'tweeki-subnav-class' ) ?>">
 					<?php $this->buildItems( wfMessage( 'tweeki-subnav' )->plain(), $options, 'subnav' ); ?>
