@@ -42,7 +42,7 @@ class SkinTweeki extends SkinTemplate {
 			->makeConfig( 'tweeki' );
 	}
 
-	protected static $bodyClasses = array( 'tweeki-animateLayout' );
+	public static $bodyClasses = array( 'tweeki-animateLayout' );
 
 
 	/**
@@ -87,21 +87,7 @@ class SkinTweeki extends SkinTemplate {
 		Hooks::run( 'SkinTweekiStyleModules', array( $this, &$styles ) );
 		$out->addModuleStyles( $styles );
 	}
-
-	/**
-	 * Adds classes to the body element.
-	 *
-	 * @param $out OutputPage object
-	 * @param &$bodyAttrs Array of attributes that will be set on the body element
-	 */
-	function addToBodyAttributes( $out, &$bodyAttrs ) {
-		if ( isset( $bodyAttrs['class'] ) && strlen( $bodyAttrs['class'] ) > 0 ) {
-			$bodyAttrs['class'] .= ' ' . implode( ' ', static::$bodyClasses );
-		} else {
-			$bodyAttrs['class'] = implode( ' ', static::$bodyClasses );
-		}
-	}
-
+	
 	/**
 	 * Override to pass our Config instance to it
 	 * @param string $classname
