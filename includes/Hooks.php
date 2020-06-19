@@ -924,5 +924,13 @@ class TweekiHooks {
 		}
 		return true;
 	}
+	
+	public static function onOutputPageBodyAttributes( $out, $sk, &$bodyAttrs ) {
+		if ( isset( $bodyAttrs['class'] ) && strlen( $bodyAttrs['class'] ) > 0 ) {
+			$bodyAttrs['class'] .= ' ' . implode( ' ', SkinTweeki::$bodyClasses );
+		} else {
+			$bodyAttrs['class'] = implode( ' ', SkinTweeki::$bodyClasses );
+		}
+	}
 
 }
