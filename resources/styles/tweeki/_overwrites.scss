@@ -521,11 +521,18 @@ div.emptyPortlet {
 
 label {
   display:inline-block;
-  padding-top:5px;
+  //padding-top:5px;
+  margin-bottom:0;
 }
 
 input[type=radio], input[type=checkbox] {
   margin:-2px 0 0;
+}
+
+label > input[type=checkbox],
+label > input[type=radio] {
+  margin-right:5px;
+  vertical-align:middle;
 }
 
 
