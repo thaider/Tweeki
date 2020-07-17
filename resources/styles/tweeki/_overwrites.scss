@@ -124,20 +124,29 @@ body {
 
   #sidebar {
 
-    &-right {
+    &-right,
+    &-left {
       display: flex;
       flex-direction: column;
 
       & > div {
         // margin-bottom: $spacer * 2; – von Flo?
       }
-    }
 
-    #tweekiTOC {
-      position:relative;
-      height:100%;
-      overflow:hidden;
-      width:105%;
+      #tweekiTOC {
+        // position:relative;
+        // height:100%;
+        // overflow:hidden;
+        // width:105%;
+      }
+
+      #tweekiTOC {
+        margin-top:25px;
+      }
+
+      #tweekiTOC:first-child {
+        margin-top:0;
+      }
     }
   }
 
