@@ -38,7 +38,8 @@
 		"MagicWordMagicWords": "TweekiHooks::onMagicWordMagicWords",
 		"MagicWordwgVariableIDs": "TweekiHooks::onMagicWordwgVariableIDs",
 		"InternalParseBeforeLinks": "TweekiHooks::onInternalParseBeforeLinks",
-		"OutputPageBeforeHTML": "TweekiHooks::onOutputPageBeforeHTML"
+		"OutputPageBeforeHTML": "TweekiHooks::onOutputPageBeforeHTML",
+		"OutputPageBodyAttributes": "TweekiHooks::onOutputPageBodyAttributes"
 	},
 	"ResourceModules": {
 		"skins.tweeki.messages": {
