@@ -1,12 +1,12 @@
 # Tweeki, a Bootstrap based skin for MediaWiki
 
-Tweeki is a skin for **[MediaWiki](http://mediawiki.org/)** (1.25+) based on Twitter's 
+Tweeki is a skin for **[MediaWiki](http://mediawiki.org/)** (1.31+) based on Twitter's 
 **[Bootstrap](http://getbootstrap.com/)** (v3.3.7). It tries to implement as much of 
 Bootstrap's functionality as possible, allowing to use it very easily and with very 
 reduced markup, and features many configuration options.
 
 You can find an instance of Tweeki in action and the extended documentation at the 
-project's website **[tweeki.thai-land.at](http://tweeki.thai-land.at/)**
+project's website **[tweeki.kollabor.at](http://tweeki.kollabor.at/)**
 
 
 ## Get started
@@ -32,7 +32,7 @@ project's website **[tweeki.thai-land.at](http://tweeki.thai-land.at/)**
 
 ## Optional configuration
 
-Please refer to the project's website **[tweeki.thai-land.at](http://tweeki.thai-land.at/)** 
+Please refer to the project's website **[tweeki.kollabor.at](http://tweeki.kollabor.at/)** 
 for further information about configuration and customization options.
 
 
