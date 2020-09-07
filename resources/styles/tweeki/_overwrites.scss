@@ -402,7 +402,12 @@ body {
 }
 
 .with-navbar.with-navbar-fixed {
-  padding-top: 100px;
+  padding-top: 60px;
+}
+@media (min-width: 768px) {
+  .with-navbar.with-navbar-fixed {
+    padding-top:100px;
+  }
 }
 
 /* navigation - accessibility */
