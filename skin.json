@@ -30,6 +30,7 @@
 		"TweekiTemplate": "includes/TweekiTemplate.php"
 	},
 	"Hooks": {
+		"PageRenderingHash": "TweekiHooks::onPageRenderingHash",
 		"GetPreferences": "TweekiHooks::onGetPreferences",
 		"ParserFirstCallInit": "TweekiHooks::onParserFirstCallInit",
 		"SkinEditSectionLinks": "TweekiHooks::onSkinEditSectionLinks",

@@ -128,6 +128,20 @@ class TweekiHooks {
 	}
 
 	/**
+	 * Pages could be hidden for anonymous users or only be shown for specific groups
+	 * so we put a user's group memberships into the page rendering hash
+	 *
+	 * @param $confstr
+	 * @param $user
+	 * @param $options
+	 */
+	static function onPageRenderingHash( &$confstr, $user, &$options ) {
+		$groups = $user->getEffectiveGroups();
+		sort( $groups );
+		$confstr .= "!groups=" . join(',', $groups );
+	}
+
+	/**
 	 * Enable TOC
 	 */
 	static function TOC( $input, array $args, Parser $parser, PPFrame $frame ) {
@@ -156,7 +170,7 @@ class TweekiHooks {
 	 */
 	static function setHiddenElements( Parser $parser ) {
 		global $wgTweekiSkinHideAll, $wgTweekiSkinHideable;
-		$parser->disableCache();
+
 		for ( $i = 1; $i < func_num_args(); $i++ ) {
 			if ( in_array ( func_get_arg( $i ), $wgTweekiSkinHideable ) ) {
 				$wgTweekiSkinHideAll[] = func_get_arg( $i );
@@ -166,14 +180,14 @@ class TweekiHooks {
 	}
 
 	/**
-	 * Set elements that should be hidden except for specific groups
+	 * Set elements that should be hidden except for members of specific groups
 	 *
 	 * @param $parser Parser current parser
 	 * @return string
 	 */
 	static function setHiddenElementsGroups( Parser $parser ) {
 		global $wgTweekiSkinHideAll, $wgTweekiSkinHideable;
-		$parser->disableCache();
+
 		$groups_except = explode( ',', func_get_arg( 1 ) );
 		$groups_user = $parser->getUser()->getEffectiveGroups();
 		if( count( array_intersect( $groups_except, $groups_user ) ) == 0 ) {
@@ -193,8 +207,6 @@ class TweekiHooks {
 	 * @return string
 	 */
 	static function addBodyclass( Parser $parser ) {
-		$parser->disableCache();
-		// Argument 0 is $parser, so begin iterating at 1
 		for ( $i = 1; $i < func_num_args(); $i++ ) {
 			$GLOBALS['wgTweekiSkinAdditionalBodyClasses'][] = func_get_arg( $i );
 		}
