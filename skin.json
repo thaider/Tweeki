@@ -1,14 +1,14 @@
 {
 	"name": "Tweeki",
-	"version": "1.1.1",
+	"version": "1.1.2",
 	"author": "Tobias Haider",
-	"url": "https://tweeki.thai-land.at",
+	"url": "https://tweeki.kollabor.at",
 	"descriptionmsg": "tweeki-skin-desc",
 	"namemsg": "skinname-tweeki",
 	"license-name": "GPL-2.0-or-later",
 	"type": "skin",
 	"requires": {
-		"MediaWiki": ">= 1.29.0"
+		"MediaWiki": ">= 1.31.0"
 	},
 	"ConfigRegistry": {
 		"tweeki": "GlobalVarConfig::newInstance"
