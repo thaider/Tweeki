@@ -31,6 +31,7 @@
 	},
 	"Hooks": {
 		"ResourceLoaderGetConfigVars": "TweekiHooks::onResourceLoaderGetConfigVars",
+		"PageRenderingHash": "TweekiHooks::onPageRenderingHash",
 		"GetPreferences": "TweekiHooks::onGetPreferences",
 		"ParserFirstCallInit": "TweekiHooks::onParserFirstCallInit",
 		"SkinEditSectionLinks": "TweekiHooks::onSkinEditSectionLinks",
