@@ -874,7 +874,11 @@ class TweekiHooks {
 			$icon = wfMessage( 'tweeki-editsection-icon' )->inLanguage( $lang )->parse();
 			$text = wfMessage( 'tweeki-editsection-text' )->inLanguage( $lang )->parse();
 			$class = wfMessage( 'tweeki-editsection-class' )->inLanguage( $lang )->parse();
-			$text = $icon . ( ( $icon != '' ) ? ' ' : '' ) . $text;
+			if( version_compare( MW_VERSION, '1.34', '>=' ) ) {
+                                $text = new HtmlArmor( $icon . ( ( $icon != '' ) ? ' ' : '' ) . $text );
+                        } else {
+                                $text = $icon . ( ( $icon != '' ) ? ' ' : '' ) . $text;
+                        }
 
 			$links['editsection']['text'] = $text;
 			$links['editsection']['attribs']['class'] = $class;
