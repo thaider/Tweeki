@@ -52,6 +52,7 @@
 			"styles": "bs3/bootstrap/css/bootstrap.min.css"
 		},
 		"skins.tweeki.styles": {
+			"class": "ResourceLoaderSkinModule",
 			"position": "top",
 			"styles": {
 				"bs3/bootstrap/css/bootstrap.min.css": {
