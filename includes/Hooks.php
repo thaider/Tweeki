@@ -170,6 +170,7 @@ class TweekiHooks {
 	 */
 	static function setHiddenElements( Parser $parser ) {
 		global $wgTweekiSkinHideAll, $wgTweekiSkinHideable;
+		$parser->getOutput()->updateCacheExpiry(0);
 
 		for ( $i = 1; $i < func_num_args(); $i++ ) {
 			if ( in_array ( func_get_arg( $i ), $wgTweekiSkinHideable ) ) {
@@ -187,6 +188,7 @@ class TweekiHooks {
 	 */
 	static function setHiddenElementsGroups( Parser $parser ) {
 		global $wgTweekiSkinHideAll, $wgTweekiSkinHideable;
+		$parser->getOutput()->updateCacheExpiry(0);
 
 		$groups_except = explode( ',', func_get_arg( 1 ) );
 		$groups_user = $parser->getUser()->getEffectiveGroups();
@@ -207,6 +209,8 @@ class TweekiHooks {
 	 * @return string
 	 */
 	static function addBodyclass( Parser $parser ) {
+		$parser->getOutput()->updateCacheExpiry(0);
+
 		for ( $i = 1; $i < func_num_args(); $i++ ) {
 			$GLOBALS['wgTweekiSkinAdditionalBodyClasses'][] = func_get_arg( $i );
 		}
@@ -940,13 +944,4 @@ class TweekiHooks {
 		}
 		return true;
 	}
-	
-	public static function onOutputPageBodyAttributes( $out, $sk, &$bodyAttrs ) {
-		if ( isset( $bodyAttrs['class'] ) && strlen( $bodyAttrs['class'] ) > 0 ) {
-			$bodyAttrs['class'] .= ' ' . implode( ' ', SkinTweeki::$bodyClasses );
-		} else {
-			$bodyAttrs['class'] = implode( ' ', SkinTweeki::$bodyClasses );
-		}
-	}
-
 }
