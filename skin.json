@@ -46,6 +46,7 @@
 			"styles": "bootstrap/css/bootstrap.min.css"
 		},
 		"skins.tweeki.styles": {
+			"class": "ResourceLoaderSkinModule",
 			"position": "top",
 			"styles": {
 				"screen.less": {
