@@ -110,6 +110,7 @@
 			}
 		},
 		"skins.tweeki.bootstrap4.styles": {
+			"class": "ResourceLoaderSkinModule",
 			"position": "top",
 			"styles": {
 				"public/default/css/tweeki.css": {}
