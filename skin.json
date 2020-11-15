@@ -38,7 +38,8 @@
 		"MagicWordMagicWords": "TweekiHooks::onMagicWordMagicWords",
 		"MagicWordwgVariableIDs": "TweekiHooks::onMagicWordwgVariableIDs",
 		"InternalParseBeforeLinks": "TweekiHooks::onInternalParseBeforeLinks",
-		"OutputPageBeforeHTML": "TweekiHooks::onOutputPageBeforeHTML"
+		"OutputPageBeforeHTML": "TweekiHooks::onOutputPageBeforeHTML",
+		"BeforePageDisplay": "TweekiHooks::onBeforePageDisplay"
 	},
 	"ResourceModules": {
 		"skins.tweeki.bootstrap.styles": {

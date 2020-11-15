@@ -63,30 +63,6 @@ class SkinTweeki extends SkinTemplate {
 		Hooks::run( 'SkinTweekiAdditionalBodyClasses', array( $this, &$GLOBALS['wgTweekiSkinAdditionalBodyClasses'] ) );
 		static::$bodyClasses = array_merge( static::$bodyClasses, $GLOBALS['wgTweekiSkinAdditionalBodyClasses'] );
 	}
-
-	/**
-	 * Loads skin and user CSS files.
-	 * @param OutputPage $out
-	 */
-	function setupSkinUserCss( OutputPage $out ) {
-		parent::setupSkinUserCss( $out );
-		
-		$styles = $GLOBALS['wgTweekiSkinStyles']; 
-		if( $GLOBALS['wgTweekiSkinUseAwesome'] === true ) {
-			$styles[] = 'skins.tweeki.awesome.styles';
-		}
-		if( $GLOBALS['wgTweekiSkinUseBootstrapTheme'] === true ) {
-			$styles[] = 'skins.tweeki.bootstraptheme.styles';
-		}
-		if( isset( $GLOBALS['wgCookieWarningEnabled'] ) && $GLOBALS['wgCookieWarningEnabled'] === true ) {
-			$styles[] = 'skins.tweeki.cookiewarning.styles';
-		}
-		foreach( $GLOBALS['wgTweekiSkinCustomCSS'] as $customstyle ) {
-			$styles[] = $customstyle;
-		}
-		Hooks::run( 'SkinTweekiStyleModules', array( $this, &$styles ) );
-		$out->addModuleStyles( $styles );
-	}
 	
 	/**
 	 * Override to pass our Config instance to it

@@ -52,6 +52,27 @@ class TweekiHooks {
 	}
 
 	/**
+	 * Adding modules
+	 */
+	public static function onBeforePageDisplay( OutputPage $out, Skin $skin ) {
+		$styles = $GLOBALS['wgTweekiSkinStyles']; 
+		if( $GLOBALS['wgTweekiSkinUseAwesome'] === true ) {
+			$styles[] = 'skins.tweeki.awesome.styles';
+		}
+		if( $GLOBALS['wgTweekiSkinUseBootstrapTheme'] === true ) {
+			$styles[] = 'skins.tweeki.bootstraptheme.styles';
+		}
+		if( isset( $GLOBALS['wgCookieWarningEnabled'] ) && $GLOBALS['wgCookieWarningEnabled'] === true ) {
+			$styles[] = 'skins.tweeki.cookiewarning.styles';
+		}
+		foreach( $GLOBALS['wgTweekiSkinCustomCSS'] as $customstyle ) {
+			$styles[] = $customstyle;
+		}
+		Hooks::run( 'SkinTweekiStyleModules', array( $this, &$styles ) );
+		$out->addModuleStyles( $styles );
+	}
+
+	/**
 	 * Manipulate headlines – we need .mw-headline to be empty because it has a padding
 	 * that we need for correct positioning for anchors and this would render links above headlines inaccessible
 	 */
