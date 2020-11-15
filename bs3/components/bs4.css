@@ -1,0 +1,71 @@
+/**
+ * neu
+ */
+
+/* Sticky Sidebar */
+.sidebar-sticky {
+	position: sticky;
+	top: 80px;
+	height: calc(100vh - 300px);
+	z-index: 1;
+}
+
+/* EDIT-EXT Dropdown */
+[name=ca-edit-ext] + .dropdown-toggle {
+	max-width: 40px;
+}
+
+
+/* Watch/Unwatch Icon Styling */
+#ca-unwatch.icon a,
+#ca-watch.icon a {
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	display: inline-block;
+	font-style: normal;
+	font-variant: normal;
+	text-rendering: auto;
+	font-family: "Font Awesome 5 Free";
+	height:40px;
+	width:2.2rem;
+	overflow:hidden;
+}
+.navbar #ca-unwatch.icon a,
+.navbar #ca-watch.icon a {
+	/* should be 1.2em + padding of .navbar-expand-lg .navbar-nav -nav-link */
+	width:2.2rem;
+}
+#ca-unwatch.icon a:before,
+#ca-watch.icon a:before {
+	content: "\f005";
+	/* hide text */
+	padding-right:50em;
+}
+#ca-unwatch.icon a {
+	font-weight: 900;
+}
+#ca-watch.icon a {
+	font-weight: 400;
+}
+#ca-unwatch.icon a.loading,
+#ca-watch.icon a.loading {
+	animation: fa-spin 1s infinite linear;
+}
+
+.mw-content-ltr ul.nav, .mw-content-rtl .mw-content-ltr ul.nav {
+	margin-left:0;
+}
+.mw-content-ltr ul.nav.card-header-tabs, .mw-content-rtl .mw-content-ltr ul.nav.card-header-tabs {
+	margin-right:-.625rem;
+	margin-left:-.625rem;
+	margin-bottom:-.75rem
+}
+
+
+
+/**
+ * newest stuff
+ */
+#bodyContent ul.select2-choices {
+	padding:0;
+}

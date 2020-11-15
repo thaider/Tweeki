@@ -1,0 +1,844 @@
+@import "navigation";
+
+/**
+ * Grid spacing
+ */
+
+// #contentwrapper {
+//   padding-top: $spacer * 3;
+//   padding-bottom: $spacer * 3;
+//   min-height: 70vh;
+// }
+
+
+.navbar {
+  .form-group {
+    // margin-bottom: 0;
+  }
+
+  .nav.icon {
+    @extend .nav-item;
+  }
+}
+
+
+// #ca-unwatch,
+// #ca-watch {
+//   &.icon a {
+//     width: $spacer;
+//     height: $spacer;
+//     display: inline-block;
+//     background: fuchsia;
+//   }
+// }
+
+html,
+body {
+  scroll-padding-top: 60px;
+}
+
+html {
+  height: 100% !important;
+}
+
+body {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+
+  .formtable {
+    @extend .table;
+  }
+
+  .oo-ui {
+    &-buttonElement {
+      & > * {
+        font-weight: normal !important;
+      }
+    }
+
+    &-buttonElement-button {
+      @extend .btn;
+
+      padding: $spacer * 0.3 $spacer !important;
+    }
+
+    &-widget-enabled {
+      [type="checkbox"] {
+        &:checked {
+          & + span {
+            background-color: $primary !important;
+            border-color: $primary !important;
+          }
+        }
+      }
+    }
+  }
+
+  .cancelLink {
+    .oo-ui-buttonElement-button,
+    .oo-ui-buttonInputWidget {
+      background: $danger;
+
+      .oo-ui-labelElement-label {
+        color: $white;
+      }
+    }
+  }
+
+  .editButtons {
+    .editHelp {
+      margin: $spacer * 0.5 0 $spacer;
+      display: block;
+      width: 100%;
+      font-size: $font-size-sm;
+      color: $gray-600;
+
+      a {
+        font-weight: normal;
+        color: $gray-600;
+        text-decoration: underline;
+
+        &:hover {
+          color: $gray-800;
+        }
+      }
+    }
+  }
+
+
+  /**
+   * Tabs
+   */
+
+  .nav {
+    &-tabs {
+      //
+    }
+  }
+
+
+  /**
+   * TOC
+   */
+
+  #sidebar {
+
+    &-right,
+    &-left {
+      display: flex;
+      flex-direction: column;
+
+      & > div {
+        // margin-bottom: $spacer * 2; – von Flo?
+      }
+
+      #tweekiTOC {
+        // position:relative;
+        // height:100%;
+        // overflow:hidden;
+        // width:105%;
+      }
+
+      #tweekiTOC {
+        margin-top:25px;
+      }
+
+      #tweekiTOC:first-child {
+        margin-top:0;
+      }
+    }
+  }
+
+  // Hide default TOC in content
+  #bodyContent #toc {
+    display: none;
+  }
+
+  // hide by default and make it visible by javascript only
+  #tweekiDropdownTOC {
+    display:none;
+  }
+
+  #tweekiTOC {
+    font-size: $font-size-sm;
+
+    // hide .toctogglespan, introduced in MW 1.32
+    .toctogglespan,
+    .toctoggle,
+    .tocnumber {
+      display:none;
+    }
+
+    // backwards compatibility for MW < 1.30
+    #toctitle,
+    .toctitle {
+      h2 {
+        font-size: $font-size-sm;
+        font-weight: normal;
+        // padding-left: 5px;
+        text-transform: none;
+        position: relative;
+
+        a {
+          @extend .badge;
+
+          display: block;
+          position: absolute;
+          font-size: 0.75rem;
+          right: 0;
+          top: 0;
+          background-color: $gray-200;
+          font-weight: normal;
+        }
+      }
+    }
+
+    #toc {
+      width:100%;
+      display:none;
+
+      a {
+        padding: 0;
+        color: #999;
+
+        &.active,
+        &:hover,
+        &:focus,
+        &:hover {
+          color: #000;
+        }
+      }
+
+      ul {
+        margin: 0 !important;
+
+        & > li {
+          & > ul {
+            display: none;
+            border-left: 1px solid $gray-400;
+            margin: $spacer 0;
+            padding: 0 0 0 $spacer;
+
+            li,
+            a {
+              font-size: 0.75rem;
+              line-height: 0.75rem * 1.5;
+              justify-content: flex-end;
+            }
+          }
+
+          .active + ul {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+
+  #tw-filetoc {
+    margin-bottom: $spacer;
+  }
+
+  main {
+    margin-bottom: $spacer * 3;
+  }
+
+  #content {
+    //padding: 0 $spacer * 2 0 0;
+  }
+
+  /**
+   * Footer
+   */
+  #footer {
+    display: block;
+    background: $gray-200;
+    margin-top: auto !important;
+    padding-top: $spacer;
+    padding-bottom: $spacer * 3;
+    font-size: 0.75rem; // $font-size-xs;
+
+    a {
+      color: $gray-600;
+      text-decoration: none;
+      cursor: pointer;
+
+      &:hover {
+        color: $gray-800;
+        cursor: pointer;
+      }
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: $spacer 0;
+      color: $gray-600;
+
+      li#footer-poweredbyico {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+
+  /**
+   * Cookie Warning
+   */
+  .mw-cookiewarning-container {
+    top:unset;
+    bottom:0;
+    text-align:center;
+  }
+
+  .mw-editsection-bracket {
+    display:none;
+  }
+
+  /**
+   * Theme corrections
+   */
+   /**
+
+  /* FORM BUTTONS (derived from .btn + .btn-default) */
+  /* .btn-default { */
+  input[type=submit], input[type=button] {
+    @extend .btn;
+    @extend .btn-secondary;
+  }
+
+  /*.btn-default:active,
+  .btn-default.active,*/
+  input[type=submit]:active, input[type=button]:active,
+  input[type=submit].active, input[type=button].active {
+    // @extend .btn;
+    // @extend .btn-secondary;
+  }
+
+  /*.btn-default {* /
+  input[type=submit], input[type=button] {
+    text-shadow: 0 1px 0 #fff;
+    background-image: -webkit-linear-gradient(top, #fff 0%, #e0e0e0 100%);
+    background-image:      -o-linear-gradient(top, #fff 0%, #e0e0e0 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#e0e0e0));
+    background-image:         linear-gradient(to bottom, #fff 0%, #e0e0e0 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe0e0e0', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+    background-repeat: repeat-x;
+    border-color: #dbdbdb;
+    border-color: #ccc;
+  }
+  /*.btn-default:hover,
+  .btn-default:focus {* /
+  input[type=submit]:hover, input[type=button]:hover,
+  input[type=submit]:focus, input[type=button]:focus {
+    background-color: #e0e0e0;
+    background-position: 0 -15px;
+  }
+  /*.btn-default:active,
+  .btn-default.active {* /
+  input[type=submit]:active, input[type=button]:active,
+  input[type=submit].active, input[type=button].active {
+    background-color: #e0e0e0;
+    border-color: #dbdbdb;
+  }
+  /*.btn-default.disabled,
+  .btn-default:disabled,
+  .btn-default[disabled] {* /
+  input[type=submit]:disabled, input[type=button]:disabled,
+  input[type=submit].disabled, input[type=button].disabled,
+  input[type=submit][disabled], input[type=button][disabled] {
+    background-color: #e0e0e0;
+    background-image: none;
+  }
+  /**/
+}
+
+
+
+
+/**
+ * Tweeki Base (less import)
+ */
+
+/**
+ * Tweeki screen styles
+ *
+ * part of this has been taken from Garret LeSage's Strapping
+ */
+
+
+/**
+ * CONTENT
+ */
+
+#content {
+  clear:both;
+  margin-bottom:1em;
+  padding-top:.5em;
+  padding-bottom:1em;
+}
+
+@include media-breakpoint-up(md) {
+  #content {
+    padding:1em 2em;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+  }
+}
+
+
+
+/**
+ * CORRECTION FOR MAIN CONTENT
+ */
+.with-navbar {
+}
+
+.without-navbar {
+  padding-top:20px;
+}
+
+.with-navbar.with-navbar-fixed {
+  padding-top: 60px;
+}
+@media (min-width: 768px) {
+  .with-navbar.with-navbar-fixed {
+    padding-top:100px;
+  }
+}
+
+/* navigation - accessibility */
+#mw-navigation h2 {
+    position: absolute;
+    top: -9999px;
+}
+
+/* image in brand */
+.navbar-brand img {
+  height:40px;
+  margin-top:-10px;
+}
+
+/* correction for searchform in navbar */
+#searchform + .navbar-nav.navbar-right:last-child {
+    margin-right: 0;
+}
+
+/* correction for dropdowns (conflicting with mediawiki.legacy.shared) */
+.mw-content-ltr ul.dropdown-menu {
+  margin: 2px 0 0;
+  padding: 5px 0;
+}
+
+/* correction for selflinks in dropdowns (they're no links actually) */
+.dropdown-menu > li > .selflink {
+  padding: 3px 20px;
+  display: block;
+}
+
+/* correction for uls */
+.mw-content-ltr,
+.mw-content-rtl {
+  .mw-parser-output {
+    > ul {
+      margin: 0.3em 0 0.6em 1.6em;
+    }
+  }
+}
+
+/**
+ * SMALL CORRECTIONS
+ */
+
+/* postedit: would otherwise be hidden behind navbar */
+.postedit {
+  top: 5em !important;
+}
+
+/* editsectionlink: hide brackets */
+.mw-editsection-bracket {
+  display:none;
+}
+
+/* show editsectionlink only on hover */
+.tw-editsection-onhover {
+  display:none;
+  color:#ccc;
+}
+.tw-editsection-onhover:hover,
+.tw-editsection-onhover:focus {
+  color:#666;
+  text-decoration:none;
+}
+.mw-editsection {
+  vertical-align:middle;
+}
+h1:hover .tw-editsection-onhover,
+h2:hover .tw-editsection-onhover,
+h3:hover .tw-editsection-onhover,
+h4:hover .tw-editsection-onhover,
+h5:hover .tw-editsection-onhover,
+h6:hover .tw-editsection-onhover {
+  display:inline-block;
+}
+
+/* hide categories */
+#catlinks {
+  display:none;
+}
+
+/* make edit window bigger */
+#wpTextbox1 {
+  width:100%;
+}
+
+.firstHeading,
+.tweekiFirstHeading {
+  text-align:center;
+  margin-bottom:15px;
+  margin-top:10px;
+  font-weight:600;
+  letter-spacing:-.01em;
+}
+
+.tweekiFirstHeading {
+  background-color:#fff;
+  border:1px dashed #ccc;
+  padding:5px;
+  border-radius:2px;
+}
+
+.firstHeading .namespace {
+  font-weight:300;
+}
+
+/* Hide empty portlets */
+div.emptyPortlet {
+  display: none;
+}
+
+/* Sub-navigation */
+#siteSub {
+  display: none;
+}
+
+#jump-to-nav {
+  display: none;
+}
+
+.mw-body .printfooter {
+  display: none;
+}
+
+label {
+  display:inline-block;
+  //padding-top:5px;
+  margin-bottom:0;
+}
+
+input[type=radio], input[type=checkbox] {
+  margin:-2px 0 0;
+}
+
+label > input[type=checkbox],
+label > input[type=radio] {
+  margin-right:5px;
+  vertical-align:middle;
+}
+
+
+/**
+ * HISTORY
+ */
+
+#contentSub br {
+  display: none;
+}
+
+#mw-revision-info,
+#mw-revision-nav {
+  background: #f6f6f6;
+  border: 1px solid #eee;
+  display: block;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  width: auto;
+}
+
+#mw-revision-info {
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  font-size: 16px;
+  padding-bottom: 0.25em;
+}
+
+#mw-revision-nav {
+  border-radius: 0 0 6px 6px;
+  border-top: none;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/**
+ * LOGIN-EXT
+ */
+
+#loginext {
+  padding:0 10px;
+}
+
+@include media-breakpoint-up(md) {
+  #loginext {
+    width:250px;
+  }
+}
+
+#loginext .form-group {
+    margin-bottom:2px;
+}
+
+#loginext #wpLoginAttempt2 {
+    margin-top:8px;
+    margin-bottom:5px;
+}
+
+#loginext label {
+    margin-bottom: 3px;
+}
+
+#tw-createaccount {
+  text-align:center;
+}
+
+.dropdown-menu > li#tw-createaccount > a:hover,
+.dropdown-menu > li#tw-createaccount > a:focus {
+  color:#000;
+  background-color:transparent;
+}
+
+
+
+/**
+ * PREFERENCES
+ */
+
+/* TODO: is this just a duplication of Bootstrap's nav-tabs?
+ then we should mark it somehow to check after updates... */
+
+#preferences .mainLegend {
+  display: none;
+}
+
+#preftoc {
+  margin: 40px 0 -2px;
+}
+
+#preferences {
+  border: 1px solid #ccc;
+  margin: 0 20px;
+}
+
+#preftoc ul,
+#preftoc li {
+  display: inline;
+  list-style: none;
+}
+
+#preftoc li a {
+  position: relative;
+  z-index: 2;
+  font: inherit;
+  margin: 0;
+  padding: 8px 15px;
+  display: inline-block;
+}
+
+#preftoc li.selected a {
+  background-color: white;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  color: inherit;
+  cursor: default;
+  padding: 7px 14px;
+}
+
+#preferences fieldset.prefsection {
+  margin: 0;
+  padding: 40px;
+}
+
+#preferences legend {
+  border-bottom: none;
+}
+
+#preferences fieldset + fieldset > legend {
+  padding-top: 40px;
+}
+
+#preferences .mw-label label {
+  white-space: nowrap;
+  margin: 0;
+  color: #777;
+}
+
+#preferences td {
+  padding: 5px;
+}
+
+#preferences .htmlform-tip {
+  color: #999;
+  padding: 1em 0 3em 12em;
+}
+
+#preferences div.mw-prefs-buttons {
+  margin: 20px auto 0;
+  padding: 40px 40px 20px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.mw-prefs-buttons a,
+.mw-prefs-buttons input {
+  font: inherit;
+  padding: 3px 15px;
+}
+
+.mw-prefs-buttons a {
+  padding: 8px 20px;
+  float: left;
+}
+
+.mw-prefs-buttons input {
+  float: right;
+}
+
+
+
+
+/**
+ * Visual Editor
+ */
+.ve-ui-toolbar *,
+.ve-ui-overlay * {
+  box-sizing:content-box;
+}
+
+
+/**
+ * neu
+ */
+
+/* Sticky Sidebar */
+.sidebar-sticky {
+  position: sticky;
+  top: 80px;
+  height: calc(100vh - 300px);
+  z-index: 1;
+}
+
+/* EDIT-EXT Dropdown */
+#ca-edit-ext + .dropdown-toggle {
+  max-width: 40px;
+}
+
+
+/* Watch/Unwatch Icon Styling */
+#ca-unwatch.icon a,
+#ca-watch.icon a {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  font-family: "Font Awesome 5 Free";
+  height:40px;
+  width:2.2rem;
+  overflow:hidden;
+}
+.navbar #ca-unwatch.icon a,
+.navbar #ca-watch.icon a {
+  /* should be 1.2em + padding of .navbar-expand-lg .navbar-nav -nav-link */
+  width:2.2rem;
+}
+#ca-unwatch.icon a:before,
+#ca-watch.icon a:before {
+  content: "\f005";
+  /* hide text */
+  padding-right:50em;
+}
+#ca-unwatch.icon a {
+  font-weight: 900;
+}
+#ca-watch.icon a {
+  font-weight: 400;
+}
+#ca-unwatch.icon a.loading,
+#ca-watch.icon a.loading {
+  animation: fa-spin 1s infinite linear;
+}
+
+
+#bodyContent {
+  ul {
+    &.card-header-tabs {
+      padding: 0;
+
+      @extend .card-header-tabs;
+    }
+  }
+
+  .card {
+    &-header {
+      position: relative;
+
+      & > h3 {
+        margin-top: $spacer * 2;
+        margin-bottom: $spacer * 2;
+      }
+
+      & > a {
+        @extend .badge;
+        @extend .badge-secondary;
+
+        position: absolute;
+        top: $spacer;
+        left: $spacer;
+        font-weight: normal;
+      }
+    }
+
+    &-body {
+      &-table {
+        margin: 0 $spacer * -1.25;
+
+        .table,
+        .table.table-bordered {
+          border-left: 0;
+          border-right: 0;
+
+          thead,
+          tbody {
+            tr {
+              th,
+              td {
+                &:first-child {
+                  border-left: 0;
+                }
+
+                &:last-child {
+                  border-right: 0;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

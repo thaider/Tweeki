@@ -1,6 +1,6 @@
 {
 	"name": "Tweeki",
-	"version": "1.1.3",
+	"version": "1.2.0",
 	"author": "Tobias Haider",
 	"url": "https://tweeki.kollabor.at",
 	"descriptionmsg": "tweeki-skin-desc",
@@ -30,6 +30,7 @@
 		"TweekiTemplate": "includes/TweekiTemplate.php"
 	},
 	"Hooks": {
+		"ResourceLoaderGetConfigVars": "TweekiHooks::onResourceLoaderGetConfigVars",
 		"PageRenderingHash": "TweekiHooks::onPageRenderingHash",
 		"GetPreferences": "TweekiHooks::onGetPreferences",
 		"ParserFirstCallInit": "TweekiHooks::onParserFirstCallInit",
@@ -42,35 +43,36 @@
 		"BeforePageDisplay": "TweekiHooks::onBeforePageDisplay"
 	},
 	"ResourceModules": {
+		"skins.tweeki.messages": {
+			"messages": [
+				"tweeki-toc-top"
+			]
+		},
 		"skins.tweeki.bootstrap.styles": {
 			"position": "top",
-			"styles": "bootstrap/css/bootstrap.min.css"
+			"styles": "bs3/bootstrap/css/bootstrap.min.css"
 		},
 		"skins.tweeki.styles": {
 			"class": "ResourceLoaderSkinModule",
 			"position": "top",
 			"styles": {
-				"screen.less": {
+				"bs3/bootstrap/css/bootstrap.min.css": {
+				},
+				"bs3/mediawiki/mediawiki.less": {
 					"media": "screen"
 				},
-				"print.less": {
+				"bs3/screen.less": {
+					"media": "screen"
+				},
+				"bs3/print.less": {
 					"media": "print"
-				},
-				"mediawiki/content.css": {
-					"media": "screen"
-				},
-				"mediawiki/elements.css": {
-					"media": "screen"
-				},
-				"mediawiki/interface.css": {
-					"media": "screen"
 				}
 			}
 		},
 		"skins.tweeki.externallinks.styles": {
 			"position": "top",
 			"styles": {
-				"components/externallinks.less": {
+				"bs3/components/externallinks.less": {
 					"media": "screen"
 				}
 			}
@@ -78,7 +80,7 @@
 		"skins.tweeki.corrections.styles": {
 			"position": "top",
 			"styles": {
-				"components/corrections.less": {
+				"bs3/components/corrections.less": {
 					"media": "screen"
 				}
 			}
@@ -92,10 +94,10 @@
 		"skins.tweeki.bootstraptheme.styles": {
 			"position": "top",
 			"styles": {
-				"bootstrap/css/bootstrap-theme.min.css": {
+				"bs3/bootstrap/css/bootstrap-theme.min.css": {
 					"media": "screen"
 				},
-				"components/corrections-theme.less": {
+				"bs3/components/corrections-theme.less": {
 					"media": "screen"
 				}
 			}
@@ -103,39 +105,73 @@
 		"skins.tweeki.cookiewarning.styles": {
 			"position": "top",
 			"styles": {
-				"components/cookiewarning.less": {
+				"bs3/components/cookiewarning.less": {
 					"media": "screen"
 				}
 			}
 		},
+		"skins.tweeki.bootstrap4.styles": {
+			"class": "ResourceLoaderSkinModule",
+			"position": "top",
+			"styles": {
+				"public/default/css/tweeki.css": {}
+			}
+		},
+		"skins.tweeki.bootstrap4.custom.styles": {
+			"position": "top",
+			"styles": {
+				"public/custom/css/custom.css": {}
+			}
+		},
+		"skins.tweeki.bootstrap4.corrections.styles": {
+			"position": "top",
+			"styles": {
+				"bs3/components/bs4.css": {},
+				"bs3/print.less": {
+					"media": "print"
+				}
+			}
+		},
+		"skins.tweeki.bootstrap4.mediawiki.styles": {
+			"position": "top",
+			"styles": {
+				"bs3/mediawiki/mediawiki.less": {}
+			}
+		},
+		"skins.tweeki.scripts": {
+			"position": "bottom",
+			"scripts": [
+				"bs3/tweeki.js"
+			],
+			"dependencies": [
+				"skins.tweeki.bootstrap.scripts"
+			]
+		},
 		"skins.tweeki.bootstrap.scripts": {
 			"position": "bottom",
 			"scripts": [
-				"bootstrap/js/bootstrap.min.js"
+				"bs3/bootstrap/js/bootstrap.min.js"
 			],
 			"dependencies": [
 				"mediawiki.jqueryMsg"
 			]
 		},
-		"skins.tweeki.scripts": {
+		"skins.tweeki.bootstrap4.scripts": {
 			"position": "bottom",
 			"scripts": [
-				"tweeki.js"
+				"public/default/js/tweeki.js"
 			],
 			"dependencies": [
-				"skins.tweeki.bootstrap.scripts"
-			],
-			"messages": [
-				"tweeki-toc-top"
+				"mediawiki.jqueryMsg"
 			]
 		},
-		"skins.tweeki.tooltips": {
+		"skins.tweeki.bootstrap4.custom.scripts": {
 			"position": "bottom",
 			"scripts": [
-				"tweeki-tooltips-setup.js"
+				"public/custom/js/custom.js"
 			],
 			"dependencies": [
-				"skins.tweeki.scripts"
+				"mediawiki.jqueryMsg"
 			]
 		}
 	},
@@ -148,7 +184,8 @@
 			"footer-info": true
 		},
 		"TweekiSkinHideable": [
-			"firstHeading"
+			"firstHeading",
+			"sidebar-right"
 		],
 		"TweekiSkinHideAnon": {
 			"subnav": true,
@@ -172,12 +209,6 @@
 			"LOGIN-EXT": "self::renderLoginExt",
 			"FOOTER": "self::renderStandardFooter"
 		},
-		"TweekiSkinStyles": [
-			"skins.tweeki.bootstrap.styles",
-			"skins.tweeki.styles",
-			"skins.tweeki.corrections.styles",
-			"skins.tweeki.externallinks.styles"
-		],
 		"TweekiSkinUseAwesome": true,
 		"TweekiSkinUseBootstrapTheme": true,
 		"TweekiSkinUseBootstrap4": false,
@@ -185,33 +216,36 @@
 		"TweekiSkinUseScrollSpy": true,
 		"TweekiSkinUseTooltips": false,
 		"TweekiSkinUseIconWatch": false,
+		"TweekiSkinUseExternallinkStyles": true,
 		"TweekiSkinCustomEditSectionLink": true,
 		"TweekiSkinCustomCSS": [],
+		"TweekiSkinCustomScriptModule": false,
+		"TweekiSkinCustomStyleModule": false,
 		"TweekiSkinUseCustomFiles": false,
 		"TweekiSkinCustomizedBootstrap": null,
 		"TweekiSkinImagePageTOCTabs": false,
-		"TweekiSkinGridNone": { 
-			"mainoffset": 1, 
-			"mainwidth": 10 
+		"TweekiSkinGridNone": {
+			"mainoffset": 1,
+			"mainwidth": 10
 		},
-		"TweekiSkinGridLeft": { 
-			"leftoffset": 0, 
-			"leftwidth": 3, 
-			"mainoffset": 0, 
-			"mainwidth": 9 
+		"TweekiSkinGridLeft": {
+			"leftoffset": 0,
+			"leftwidth": 3,
+			"mainoffset": 0,
+			"mainwidth": 9
 		},
-		"TweekiSkinGridRight": { 
-			"mainoffset": 0, 
-			"mainwidth": 9, 
-			"rightoffset": 0, 
+		"TweekiSkinGridRight": {
+			"mainoffset": 0,
+			"mainwidth": 9,
+			"rightoffset": 0,
 			"rightwidth": 3
 		},
 		"TweekiSkinGridBoth": {
-			"leftoffset": 0, 
-			"leftwidth": 2, 
-			"mainoffset": 0, 
-			"mainwidth": 8, 
-			"rightoffset": 0, 
+			"leftoffset": 0,
+			"leftwidth": 2,
+			"mainoffset": 0,
+			"mainwidth": 8,
+			"rightoffset": 0,
 			"rightwidth": 2
 		},
 		"TweekiSkinAdditionalBodyClasses": []

@@ -53,10 +53,21 @@ class SkinTweeki extends SkinTemplate {
 		parent::initPage( $out );
 
 		$out->addMeta( 'viewport', 'width=device-width, initial-scale=1' );
-		$out->addModules( 'skins.tweeki.scripts' );
-		if( $this->tweekiConfig->get( 'TweekiSkinUseTooltips' ) ) {
-			$out->addModules( 'skins.tweeki.tooltips' );
+		$out->addModules( 'skins.tweeki.messages' );
+
+		// load scripts
+		if( $this->tweekiConfig->get( 'TweekiSkinCustomScriptModule' ) ) {
+			$out->addModules( $this->tweekiConfig->get( 'TweekiSkinCustomScriptModule' ) );
+		} elseif( !$this->tweekiConfig->get( 'TweekiSkinUseBootstrap4' ) ) {
+			$out->addModules( 'skins.tweeki.scripts' );
+		} else {
+			if( !$this->tweekiConfig->get( 'TweekiSkinUseCustomFiles' ) ) {
+				$out->addModules( 'skins.tweeki.bootstrap4.scripts' );
+			} else {
+				$out->addModules( 'skins.tweeki.bootstrap4.custom.scripts' );
+			}
 		}
+
 		if( $out->getUser()->getOption( 'tweeki-advanced' ) ) {
 			static::$bodyClasses[] = 'advanced';
 		}

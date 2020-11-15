@@ -1,3 +1,4 @@
+
 /**
  * MediaWiki style sheet for general styles on complex content
  *
@@ -8,31 +9,26 @@
 
 /* Warning */
 .mw-warning {
-	border: 1px solid #aaa;
-	background-color: #f9f9f9;
-	padding: 5px;
-	font-size: 95%;
-}
-
-.mw-warning {
 	margin-left: 50px;
 	margin-right: 50px;
 	text-align: center;
 }
 
 /* Images */
-/* @noflip */div.floatright, table.floatright {
-	margin: 0 0 .5em .5em;
-	border: 0;
+/* @noflip */
+div.floatright,
+table.floatright {
+	margin: 0 0 0.5em 0.5em;
 }
 
 div.floatright p {
 	font-style: italic;
 }
 
-/* @noflip */div.floatleft, table.floatleft {
-	margin: 0 .5em .5em 0;
-	border: 0;
+/* @noflip */
+div.floatleft,
+table.floatleft {
+	margin: 0 0.5em 0.5em 0;
 }
 
 div.floatleft p {
@@ -41,26 +37,29 @@ div.floatleft p {
 
 /* Thumbnails */
 div.thumb {
-	margin-bottom: .5em;
+	margin-bottom: 0.5em;
 	width: auto;
 	background-color: transparent;
 }
 
 div.thumbinner {
-	border: 1px solid #ccc;
+	border: 1px solid #c8ccd1;
 	padding: 3px;
-	background-color: #f9f9f9;
+	background-color: #f8f9fa;
 	font-size: 94%;
 	text-align: center;
+	/* new block formatting context,
+	 * to clear background from floating content  */
 	overflow: hidden;
 }
 
 html .thumbimage {
-	border: 1px solid #ccc;
+	background-color: #fff;
+	border: 1px solid #c8ccd1;
 }
 
 html .thumbcaption {
-	border: none;
+	border: 0;
 	line-height: 1.4em;
 	padding: 3px;
 	font-size: 94%;
@@ -84,8 +83,11 @@ div.magnify a {
 	width: 15px;
 	height: 11px;
 	/* Default styles when there's no .mw-content-ltr or .mw-content-rtl, overridden below */
+
+	/* Use same SVG support hack as mediawiki.legacy's shared.css */
+	background-image: url( images/magnify-clip-ltr.png );
 	/* @embed */
-	background: url(images/magnify-clip-ltr.png) center center no-repeat;
+	background-image: linear-gradient( transparent, transparent ), url( images/magnify-clip-ltr.svg );
 	/* Don't annoy people who copy-paste everything too much */
 	-moz-user-select: none;
 	-webkit-user-select: none;
@@ -94,7 +96,7 @@ div.magnify a {
 }
 
 img.thumbborder {
-	border: 1px solid #dddddd;
+	border: 1px solid #eaecf0;
 }
 
 /* Directionality-specific styles for thumbnails - their positioning depends on content language */
@@ -113,8 +115,10 @@ img.thumbborder {
 
 /* @noflip */
 .mw-content-ltr div.magnify a {
+	/* Use same SVG support hack as mediawiki.legacy's shared.css */
+	background-image: url( images/magnify-clip-ltr.png );
 	/* @embed */
-	background-image: url(images/magnify-clip-ltr.png);
+	background-image: linear-gradient( transparent, transparent ), url( images/magnify-clip-ltr.svg );
 }
 
 /* @noflip */
@@ -131,18 +135,49 @@ img.thumbborder {
 
 /* @noflip */
 .mw-content-rtl div.magnify a {
+	/* Use same SVG support hack as mediawiki.legacy's shared.css */
+	background-image: url( images/magnify-clip-rtl.png );
 	/* @embed */
-	background-image: url(images/magnify-clip-rtl.png);
+	background-image: linear-gradient( transparent, transparent ), url( images/magnify-clip-rtl.svg );
 }
 
 /* @noflip */
 div.tright {
-	margin: .5em 0 1.3em 1.4em;
+	margin: 0.5em 0 1.3em 1.4em;
 }
 
 /* @noflip */
 div.tleft {
-	margin: .5em 1.4em 1.3em 0;
+	margin: 0.5em 1.4em 1.3em 0;
+}
+
+/* Hide elements that are marked as "empty" according to legacy Tidy rules,
+ * except if a client script removes the mw-hide-empty-elt class from the body
+ */
+body.mw-hide-empty-elt .mw-empty-elt {
+	display: none;
+}
+
+/* Display editsection links smaller and next to headings */
+.mw-editsection,
+.mw-editsection-like {
+  font-size: small;
+  font-weight: normal;
+  margin-left: 1em;
+  vertical-align: baseline;
+  /* Reset line-height; headings tend to have it set to larger values */
+  line-height: 1em;
+}
+/* Correct directionality when page dir is different from site/user dir */
+/* @noflip */
+.mw-content-ltr .mw-editsection,
+.mw-content-rtl .mw-content-ltr .mw-editsection {
+  margin-left: 1em;
+}
+/* @noflip */
+.mw-content-rtl .mw-editsection,
+.mw-content-ltr .mw-content-rtl .mw-editsection {
+  margin-right: 1em;
 }
 
 /* Display editsection links smaller and next to headings */

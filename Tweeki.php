@@ -13,3 +13,6 @@ if ( function_exists( 'wfLoadSkin' ) ) {
 } else {
 	die( 'This version of the Tweeki skin requires MediaWiki 1.25+' );
 }
+
+// $parser = new ParserOutput();
+// $parser->setEnableOOUI(false);

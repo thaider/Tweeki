@@ -1,0 +1,27 @@
+/* Watch/Unwatch Icon Styling */
+#ca-unwatch.icon a,
+#ca-watch.icon a {
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	display: inline-block;
+	font-style: normal;
+	font-variant: normal;
+	text-rendering: auto;
+	font-family: "Font Awesome 5 Free";
+	width:3em;
+	height:3em;
+	overflow:hidden;
+	white-space: nowrap;
+}
+#ca-unwatch.icon a:before,
+#ca-watch.icon a:before {
+	content: "\f005";
+	/* hide text */
+	padding-right:50em;
+}
+#ca-unwatch.icon a {
+	font-weight: 900;
+}
+#ca-watch.icon a {
+	font-weight: 400;
+}
