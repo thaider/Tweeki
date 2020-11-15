@@ -66,6 +66,52 @@ class TweekiHooks {
 	}
 
 	/**
+	 * Adding modules
+	 */
+	public static function onBeforePageDisplay( OutputPage $out, Skin $skin ) {
+		$config = \MediaWiki\MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'tweeki' );
+
+		$styles = [];
+		// load styles
+		if( $config->get( 'TweekiSkinCustomStyleModule' ) ) {
+			$styles[] = 'skins.tweeki.bootstrap4.mediawiki.styles';
+			$styles[] = $this->tweekiConfig->get( 'TweekiSkinCustomStyleModule' );
+		} elseif( !$config->get( 'TweekiSkinUseBootstrap4' ) ) {
+			$styles[] = 'skins.tweeki.styles';
+			if( $config->get( 'TweekiSkinUseBootstrapTheme' ) ) {
+				$styles[] = 'skins.tweeki.bootstraptheme.styles';
+			}
+		} else {
+			$styles[] = 'skins.tweeki.bootstrap4.mediawiki.styles';
+			if( !$config->get( 'TweekiSkinUseCustomFiles' ) ) {
+				$styles[] = 'skins.tweeki.bootstrap4.styles';
+			} else {
+				$styles[] = 'skins.tweeki.bootstrap4.custom.styles';
+			}
+		}
+
+		// load last minute changes (outside webpack)
+		if( $config->get( 'TweekiSkinUseBootstrap4' ) ) {
+			$styles[] = 'skins.tweeki.bootstrap4.corrections.styles';
+		}
+
+		if( $config->get( 'TweekiSkinUseExternallinkStyles' ) ) {
+			$styles[] = 'skins.tweeki.externallinks.styles';
+		}
+		if( $config->get( 'TweekiSkinUseAwesome' ) ) {
+			$styles[] = 'skins.tweeki.awesome.styles';
+		}
+		// if( $config->get( 'CookieWarningEnabled' ) ) {
+		// 	$styles[] = 'skins.tweeki.cookiewarning.styles';
+		// }
+		foreach( $GLOBALS['wgTweekiSkinCustomCSS'] as $customstyle ) {
+			$styles[] = $customstyle;
+		}
+		Hooks::run( 'SkinTweekiStyleModules', array( $skin, &$styles ) );
+		$out->addModuleStyles( $styles );
+	}
+
+	/**
 	 * Manipulate headlines – we need .mw-headline to be empty because it has a padding
 	 * that we need for correct positioning for anchors and this would render links above headlines inaccessible
 	 */

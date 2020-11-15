@@ -74,53 +74,6 @@ class SkinTweeki extends SkinTemplate {
 		Hooks::run( 'SkinTweekiAdditionalBodyClasses', array( $this, &$GLOBALS['wgTweekiSkinAdditionalBodyClasses'] ) );
 		static::$bodyClasses = array_merge( static::$bodyClasses, $GLOBALS['wgTweekiSkinAdditionalBodyClasses'] );
 	}
-
-	/**
-	 * Loads skin and user CSS files.
-	 * @param OutputPage $out
-	 */
-	function setupSkinUserCss( OutputPage $out ) {
-		parent::setupSkinUserCss( $out );
-
-		$styles = [];
-		// load styles
-		if( $this->tweekiConfig->get( 'TweekiSkinCustomStyleModule' ) ) {
-			$styles[] = 'skins.tweeki.bootstrap4.mediawiki.styles';
-			$styles[] = $this->tweekiConfig->get( 'TweekiSkinCustomStyleModule' );
-		} elseif( !$this->tweekiConfig->get( 'TweekiSkinUseBootstrap4' ) ) {
-			$styles[] = 'skins.tweeki.styles';
-			if( $this->tweekiConfig->get( 'TweekiSkinUseBootstrapTheme' ) ) {
-				$styles[] = 'skins.tweeki.bootstraptheme.styles';
-			}
-		} else {
-			$styles[] = 'skins.tweeki.bootstrap4.mediawiki.styles';
-			if( !$this->tweekiConfig->get( 'TweekiSkinUseCustomFiles' ) ) {
-				$styles[] = 'skins.tweeki.bootstrap4.styles';
-			} else {
-				$styles[] = 'skins.tweeki.bootstrap4.custom.styles';
-			}
-		}
-
-		// load last minute changes (outside webpack)
-		if( $this->tweekiConfig->get( 'TweekiSkinUseBootstrap4' ) ) {
-			$styles[] = 'skins.tweeki.bootstrap4.corrections.styles';
-		}
-
-		if( $this->tweekiConfig->get( 'TweekiSkinUseExternallinkStyles' ) ) {
-			$styles[] = 'skins.tweeki.externallinks.styles';
-		}
-		if( $this->tweekiConfig->get( 'TweekiSkinUseAwesome' ) ) {
-			$styles[] = 'skins.tweeki.awesome.styles';
-		}
-		// if( $this->tweekiConfig->get( 'CookieWarningEnabled' ) ) {
-		// 	$styles[] = 'skins.tweeki.cookiewarning.styles';
-		// }
-		foreach( $GLOBALS['wgTweekiSkinCustomCSS'] as $customstyle ) {
-			$styles[] = $customstyle;
-		}
-		Hooks::run( 'SkinTweekiStyleModules', array( $this, &$styles ) );
-		$out->addModuleStyles( $styles );
-	}
 	
 	/**
 	 * Override to pass our Config instance to it
