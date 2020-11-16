@@ -289,21 +289,37 @@ class TweekiHooks {
 	static function buildAccordion( $input, array $args, Parser $parser, PPFrame $frame ) {
 		static::$anchorID++;
 		$parent = $parser->recursiveTagParse( $args['parent'], $frame );
-		$panel = '
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h4 class="panel-title">
-						<a data-toggle="collapse" data-parent="#' . $parent . '" href="#' . $parent . static::$anchorID . '">
-							' . $parser->recursiveTagParse( $args['heading'], $frame ) . '
-						</a>
-					</h4>
-				</div>
-				<div id="' . $parent . static::$anchorID . '" class="panel-collapse collapse ' . ( isset( $args['class'] ) ? htmlentities( $args['class'] ) : '' ) . '">
-					<div class="panel-body">
-			' . $parser->recursiveTagParse( $input, $frame ) . '
+		if( ! self::isBS4() ) {
+			$panel = '
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#' . $parent . '" href="#' . $parent . static::$anchorID . '">
+								' . $parser->recursiveTagParse( $args['heading'], $frame ) . '
+							</a>
+						</h4>
 					</div>
-				</div>
-			</div>';
+					<div id="' . $parent . static::$anchorID . '" class="panel-collapse collapse ' . ( isset( $args['class'] ) ? htmlentities( $args['class'] ) : '' ) . '">
+						<div class="panel-body">
+				' . $parser->recursiveTagParse( $input, $frame ) . '
+						</div>
+					</div>
+				</div>';
+		} else {
+			$panel = '
+				<div class="card">
+					<div class="card-header" id="' . $parent . static::$anchorID . 'Heading">
+						<h2 class="mb-0">
+							<button class="btn btn-link" type="button" data-toggle="collapse" data-parent="#' . $parent . '" data-target="#' . $parent . static::$anchorID . '" aria-expanded="' . ( isset( $args['class'] ) && $args['class'] == 'show' ? 'true' : 'false' ) . '" aria-controls="' . $parent . static::$anchorID . '">
+								' . $parser->recursiveTagParse( $args['heading'], $frame ) . '
+							</button>
+						</h2>
+					</div>
+					<div id="' . $parent . static::$anchorID . '" class="collapse ' . ( isset( $args['class'] ) ? htmlentities( $args['class'] ) : '' ) . '" aria-labelledby="' . $parent . static::$anchorID . 'Heading" data-parent="#' . $parent . '">
+						<div class="card-body">' . $parser->recursiveTagParse( $input, $frame ) . '</div>
+					</div>
+				</div>';
+		}
 		return $panel;
 	}
 
