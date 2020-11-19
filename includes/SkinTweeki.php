@@ -42,9 +42,6 @@ class SkinTweeki extends SkinTemplate {
 			->makeConfig( 'tweeki' );
 	}
 
-	public static $bodyClasses = array( 'tweeki-animateLayout' );
-
-
 	/**
 	 * Initializes output page and sets up skin-specific parameters
 	 * @param OutputPage $out Object to initialize
@@ -67,12 +64,6 @@ class SkinTweeki extends SkinTemplate {
 				$out->addModules( 'skins.tweeki.bootstrap4.custom.scripts' );
 			}
 		}
-
-		if( $out->getUser()->getOption( 'tweeki-advanced' ) ) {
-			static::$bodyClasses[] = 'advanced';
-		}
-		Hooks::run( 'SkinTweekiAdditionalBodyClasses', array( $this, &$GLOBALS['wgTweekiSkinAdditionalBodyClasses'] ) );
-		static::$bodyClasses = array_merge( static::$bodyClasses, $GLOBALS['wgTweekiSkinAdditionalBodyClasses'] );
 	}
 	
 	/**

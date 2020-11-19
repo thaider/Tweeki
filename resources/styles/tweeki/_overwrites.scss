@@ -842,3 +842,16 @@ label > input[type=radio] {
     }
   }
 }
+
+
+/**
+ * Body class display classes
+ */
+.tweeki-advanced .d-advanced-none,
+.tweeki-non-advanced .d-non-advanced-none,
+.tweeki-user-logged-in .d-logged-in-none,
+.tweeki-user-logged-in .d-anon,
+.tweeki-user-anon .d-anon-none,
+.tweeki-user-anon .d-logged-in {
+  display:none
+}

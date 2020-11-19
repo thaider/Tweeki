@@ -75,7 +75,7 @@ class TweekiHooks {
 		// load styles
 		if( $config->get( 'TweekiSkinCustomStyleModule' ) ) {
 			$styles[] = 'skins.tweeki.bootstrap4.mediawiki.styles';
-			$styles[] = $this->tweekiConfig->get( 'TweekiSkinCustomStyleModule' );
+			$styles[] = $config->get( 'TweekiSkinCustomStyleModule' );
 		} elseif( !$config->get( 'TweekiSkinUseBootstrap4' ) ) {
 			$styles[] = 'skins.tweeki.styles';
 			if( $config->get( 'TweekiSkinUseBootstrapTheme' ) ) {
@@ -199,6 +199,29 @@ class TweekiHooks {
 		$groups = $user->getEffectiveGroups();
 		sort( $groups );
 		$confstr .= "!groups=" . join(',', $groups );
+	}
+
+	/**
+	 * Add body classes
+	 *
+	 * @param $out
+	 * @param $sk
+	 * @param $bodyAttrs
+	 */
+	static function onOutputPageBodyAttributes( $out, $sk, &$bodyAttrs ) {
+		$additionalBodyClasses = [ 'tweeki-animateLayout' ];
+
+		$user = $out->getUser();
+		$additionalBodyClasses[] = $user->getOption( 'tweeki-advanced' ) ? 'tweeki-advanced' : 'tweeki-non-advanced';
+		$additionalBodyClasses[] = $user->isLoggedIn() ? 'tweeki-user-logged-in' : 'tweeki-user-anon';
+		
+		$additionalBodyClasses = array_merge( $additionalBodyClasses, $GLOBALS['wgTweekiSkinAdditionalBodyClasses'] );
+
+		Hooks::run( 'SkinTweekiAdditionalBodyClasses', [ $sk, &$additionalBodyClasses ] );
+
+		if( count( $additionalBodyClasses ) > 0 ) {
+			$bodyAttrs['class'] = $bodyAttrs['class'] . ' ' . preg_replace( "/[^a-zA-Z0-9_\s-]/", "", implode( " ", $additionalBodyClasses ) );
+		}
 	}
 
 	/**
