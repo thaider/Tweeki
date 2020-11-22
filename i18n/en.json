@@ -3,7 +3,7 @@
 		"authors": []
 	},
 	"skinname-tweeki": "Tweeki",
-	"tweeki-skin-desc": "Tweeki is built on top of Strapping which is built on top of a modified Vector theme from MediaWiki and utilizes Twitter's Bootstrap for base layout, typography, and additional widgets.",
+	"tweeki-skin-desc": "A skin based on Bootstrap",
 	"userpage": "User Page",
 	"tweeki.css": "/* CSS placed here will affect users of the Tweeki skin */",
 	"tweeki.js": "/* Any JavaScript here will be loaded for users using the Tweeki skin */",
