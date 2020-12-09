@@ -48,19 +48,21 @@ class TweekiHooks {
 	 * @param $parser Parser current parser
 	 */
 	static function onParserFirstCallInit( Parser $parser ) {
-		$parser->setHook( 'TOC', 'TweekiHooks::TOC' );
-		$parser->setHook( 'legend', 'TweekiHooks::legend' );
-		$parser->setHook( 'footer', 'TweekiHooks::footer' );
-		$parser->setHook( 'accordion', 'TweekiHooks::buildAccordion' );
-		$parser->setHook( 'label', 'TweekiHooks::buildLabel' );
+		if( $GLOBALS['wgOut']->getSkin()->getSkinName() == 'tweeki' ) {
+			$parser->setHook( 'TOC', 'TweekiHooks::TOC' );
+			$parser->setHook( 'legend', 'TweekiHooks::legend' );
+			$parser->setHook( 'footer', 'TweekiHooks::footer' );
+			$parser->setHook( 'accordion', 'TweekiHooks::buildAccordion' );
+			$parser->setHook( 'label', 'TweekiHooks::buildLabel' );
 
-		if ( true === $GLOBALS['wgTweekiSkinUseBtnParser'] ) {
-			$parser->setHook( 'btn', 'TweekiHooks::buildButtons' );
+			if ( true === $GLOBALS['wgTweekiSkinUseBtnParser'] ) {
+				$parser->setHook( 'btn', 'TweekiHooks::buildButtons' );
+			}
+
+			$parser->setFunctionHook( 'tweekihide', 'TweekiHooks::setHiddenElements' );
+			$parser->setFunctionHook( 'tweekihideexcept', 'TweekiHooks::setHiddenElementsGroups' );
+			$parser->setFunctionHook( 'tweekibodyclass', 'TweekiHooks::addBodyclass' );
 		}
-
-		$parser->setFunctionHook( 'tweekihide', 'TweekiHooks::setHiddenElements' );
-		$parser->setFunctionHook( 'tweekihideexcept', 'TweekiHooks::setHiddenElementsGroups' );
-		$parser->setFunctionHook( 'tweekibodyclass', 'TweekiHooks::addBodyclass' );
 
 		return true;
 	}
@@ -69,46 +71,48 @@ class TweekiHooks {
 	 * Adding modules
 	 */
 	public static function onBeforePageDisplay( OutputPage $out, Skin $skin ) {
-		$config = \MediaWiki\MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'tweeki' );
+		if( $skin->getSkinName() == 'tweeki' ) {
+			$config = \MediaWiki\MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'tweeki' );
 
-		$styles = [];
-		// load styles
-		if( $config->get( 'TweekiSkinCustomStyleModule' ) ) {
-			$styles[] = 'skins.tweeki.bootstrap4.mediawiki.styles';
-			$styles[] = $config->get( 'TweekiSkinCustomStyleModule' );
-		} elseif( !$config->get( 'TweekiSkinUseBootstrap4' ) ) {
-			$styles[] = 'skins.tweeki.styles';
-			if( $config->get( 'TweekiSkinUseBootstrapTheme' ) ) {
-				$styles[] = 'skins.tweeki.bootstraptheme.styles';
-			}
-		} else {
-			$styles[] = 'skins.tweeki.bootstrap4.mediawiki.styles';
-			if( !$config->get( 'TweekiSkinUseCustomFiles' ) ) {
-				$styles[] = 'skins.tweeki.bootstrap4.styles';
+			$styles = [];
+			// load styles
+			if( $config->get( 'TweekiSkinCustomStyleModule' ) ) {
+				$styles[] = 'skins.tweeki.bootstrap4.mediawiki.styles';
+				$styles[] = $config->get( 'TweekiSkinCustomStyleModule' );
+			} elseif( !$config->get( 'TweekiSkinUseBootstrap4' ) ) {
+				$styles[] = 'skins.tweeki.styles';
+				if( $config->get( 'TweekiSkinUseBootstrapTheme' ) ) {
+					$styles[] = 'skins.tweeki.bootstraptheme.styles';
+				}
 			} else {
-				$styles[] = 'skins.tweeki.bootstrap4.custom.styles';
+				$styles[] = 'skins.tweeki.bootstrap4.mediawiki.styles';
+				if( !$config->get( 'TweekiSkinUseCustomFiles' ) ) {
+					$styles[] = 'skins.tweeki.bootstrap4.styles';
+				} else {
+					$styles[] = 'skins.tweeki.bootstrap4.custom.styles';
+				}
 			}
-		}
 
-		// load last minute changes (outside webpack)
-		if( $config->get( 'TweekiSkinUseBootstrap4' ) ) {
-			$styles[] = 'skins.tweeki.bootstrap4.corrections.styles';
-		}
+			// load last minute changes (outside webpack)
+			if( $config->get( 'TweekiSkinUseBootstrap4' ) ) {
+				$styles[] = 'skins.tweeki.bootstrap4.corrections.styles';
+			}
 
-		if( $config->get( 'TweekiSkinUseExternallinkStyles' ) ) {
-			$styles[] = 'skins.tweeki.externallinks.styles';
+			if( $config->get( 'TweekiSkinUseExternallinkStyles' ) ) {
+				$styles[] = 'skins.tweeki.externallinks.styles';
+			}
+			if( $config->get( 'TweekiSkinUseAwesome' ) ) {
+				$styles[] = 'skins.tweeki.awesome.styles';
+			}
+			// if( $config->get( 'CookieWarningEnabled' ) ) {
+			// 	$styles[] = 'skins.tweeki.cookiewarning.styles';
+			// }
+			foreach( $GLOBALS['wgTweekiSkinCustomCSS'] as $customstyle ) {
+				$styles[] = $customstyle;
+			}
+			Hooks::run( 'SkinTweekiStyleModules', [ $skin, &$styles ] );
+			$out->addModuleStyles( $styles );
 		}
-		if( $config->get( 'TweekiSkinUseAwesome' ) ) {
-			$styles[] = 'skins.tweeki.awesome.styles';
-		}
-		// if( $config->get( 'CookieWarningEnabled' ) ) {
-		// 	$styles[] = 'skins.tweeki.cookiewarning.styles';
-		// }
-		foreach( $GLOBALS['wgTweekiSkinCustomCSS'] as $customstyle ) {
-			$styles[] = $customstyle;
-		}
-		Hooks::run( 'SkinTweekiStyleModules', [ $skin, &$styles ] );
-		$out->addModuleStyles( $styles );
 	}
 
 	/**
@@ -153,10 +157,12 @@ class TweekiHooks {
 	 * Customizing registration
 	 */
 	public static function onRegistration() {
-		global $wgTweekiSkinCustomizedBootstrap, $wgResourceModules;
 
 		/* Load customized bootstrap files */
-		if( isset( $wgTweekiSkinCustomizedBootstrap ) && ! is_null( $wgTweekiSkinCustomizedBootstrap ) ) {
+		if( 
+			isset( $GLOBALS['wgTweekiSkinCustomizedBootstrap'] ) 
+			&& ! is_null( $GLOBALS['wgTweekiSkinCustomizedBootstrap'] ) 
+		) {
 			$wgResourceModules['skins.tweeki.bootstrap.styles']['localBasePath'] = $wgTweekiSkinCustomizedBootstrap['localBasePath'];
 			$wgResourceModules['skins.tweeki.bootstrap.styles']['remoteExtPath'] = $wgTweekiSkinCustomizedBootstrap['remoteExtPath'];
 			unset( $wgResourceModules['skins.tweeki.bootstrap.styles']['remoteSkinPath'] );
@@ -209,18 +215,20 @@ class TweekiHooks {
 	 * @param $bodyAttrs
 	 */
 	static function onOutputPageBodyAttributes( $out, $sk, &$bodyAttrs ) {
-		$additionalBodyClasses = [ 'tweeki-animateLayout' ];
+		if( $sk->getSkinName() == 'tweeki' ) {
+			$additionalBodyClasses = [ 'tweeki-animateLayout' ];
 
-		$user = $out->getUser();
-		$additionalBodyClasses[] = $user->getOption( 'tweeki-advanced' ) ? 'tweeki-advanced' : 'tweeki-non-advanced';
-		$additionalBodyClasses[] = $user->isLoggedIn() ? 'tweeki-user-logged-in' : 'tweeki-user-anon';
-		
-		$additionalBodyClasses = array_merge( $additionalBodyClasses, $GLOBALS['wgTweekiSkinAdditionalBodyClasses'] );
+			$user = $out->getUser();
+			$additionalBodyClasses[] = $user->getOption( 'tweeki-advanced' ) ? 'tweeki-advanced' : 'tweeki-non-advanced';
+			$additionalBodyClasses[] = $user->isLoggedIn() ? 'tweeki-user-logged-in' : 'tweeki-user-anon';
+			
+			$additionalBodyClasses = array_merge( $additionalBodyClasses, $GLOBALS['wgTweekiSkinAdditionalBodyClasses'] );
 
-		Hooks::run( 'SkinTweekiAdditionalBodyClasses', [ $sk, &$additionalBodyClasses ] );
+			Hooks::run( 'SkinTweekiAdditionalBodyClasses', [ $sk, &$additionalBodyClasses ] );
 
-		if( count( $additionalBodyClasses ) > 0 ) {
-			$bodyAttrs['class'] = $bodyAttrs['class'] . ' ' . preg_replace( "/[^a-zA-Z0-9_\s-]/", "", implode( " ", $additionalBodyClasses ) );
+			if( count( $additionalBodyClasses ) > 0 ) {
+				$bodyAttrs['class'] = $bodyAttrs['class'] . ' ' . preg_replace( "/[^a-zA-Z0-9_\s-]/", "", implode( " ", $additionalBodyClasses ) );
+			}
 		}
 	}
 
@@ -253,6 +261,7 @@ class TweekiHooks {
 	 */
 	static function setHiddenElements( Parser $parser ) {
 		global $wgTweekiSkinHideAll, $wgTweekiSkinHideable;
+
 		$parser->getOutput()->updateCacheExpiry(0);
 
 		for ( $i = 1; $i < func_num_args(); $i++ ) {
@@ -271,6 +280,7 @@ class TweekiHooks {
 	 */
 	static function setHiddenElementsGroups( Parser $parser ) {
 		global $wgTweekiSkinHideAll, $wgTweekiSkinHideable;
+
 		$parser->getOutput()->updateCacheExpiry(0);
 
 		$groups_except = explode( ',', func_get_arg( 1 ) );
@@ -923,7 +933,7 @@ class TweekiHooks {
 		}
 
 		// allow empty first argument in the <btn> tag
-		if( $item['href'] == '' ) {
+		if( isset( $item['href'] ) && $item['href'] == '' ) {
 			unset( $item['href'] );
 			$options['link-fallback'] = 'span';
 		}
@@ -1067,7 +1077,11 @@ class TweekiHooks {
 	 * @param $outputPage OutputPage
 	 */
 	public static function onAfterFinalPageOutput( $outputPage ) {
-		if( $outputPage->getTitle()->getNamespace() == 6 && $GLOBALS['wgTweekiSkinImagePageTOCTabs'] == true ) {
+		if( 
+			$outputPage->getSkin()->getSkinName() == 'tweeki'
+			&& $outputPage->getTitle()->getNamespace() == 6 
+			&& $GLOBALS['wgTweekiSkinImagePageTOCTabs'] == true 
+		) {
 			$out = ob_get_clean();
 			$out = str_replace( '<ul id="filetoc">', '<ul id="tw-filetoc" class="nav nav-tabs nav-justified">', $out );
 			$out = str_replace( '<li><a href="#file">', '<li class="active"><a href="#file" class="tab-toggle" data-toggle="tab">', $out );
@@ -1086,7 +1100,30 @@ class TweekiHooks {
 	}
 
 	/**
+	 * Implement numbered headings
+	 * 
+	 * code from https://www.mediawiki.org/wiki/Extension:MagicNumberedHeadings
+	 */
+	/**
+	 * @copyright Copyright © 2007, Purodha Blissenabch.
+	 * @license GPL-2.0-or-later
 	 *
+	 * This program is free software; you can redistribute it and/or
+	 * modify it under the terms of the GNU General Public License
+	 * as published by the Free Software Foundation, version 2
+	 * of the License.
+	 *
+	 * The above copyright notice and this permission notice shall be included in
+	 * all copies or substantial portions of the Software.
+	 *
+	 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	 * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	 * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	 * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	 * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	 * SOFTWARE.
+	 * See the GNU General Public License for more details.
 	 */
 	public static function onMagicWordMagicWords( &$magicWords ) {
 		$magicWords[] = 'MAG_NUMBEREDHEADINGS';
