@@ -41,7 +41,10 @@
 		"InternalParseBeforeLinks": "TweekiHooks::onInternalParseBeforeLinks",
 		"OutputPageBeforeHTML": "TweekiHooks::onOutputPageBeforeHTML",
 		"BeforePageDisplay": "TweekiHooks::onBeforePageDisplay",
-		"OutputPageBodyAttributes": "TweekiHooks::onOutputPageBodyAttributes"
+		"OutputPageBodyAttributes": "TweekiHooks::onOutputPageBodyAttributes",
+		"HtmlPageLinkRendererEnd" : [
+			"TweekiHooks::onHtmlPageLinkRendererEnd"
+		]
 	},
 	"ResourceModules": {
 		"skins.tweeki.messages": {
@@ -249,7 +252,8 @@
 			"rightoffset": 0,
 			"rightwidth": 2
 		},
-		"TweekiSkinAdditionalBodyClasses": []
+		"TweekiSkinAdditionalBodyClasses": [],
+		"TweekiSkinUseRealnames": false
 	},
 	"callback": "TweekiHooks::onRegistration",
 	"manifest_version": 1

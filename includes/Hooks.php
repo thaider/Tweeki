@@ -27,6 +27,7 @@ use MediaWiki\MediaWikiServices;
 class TweekiHooks {
 
 	protected static $anchorID = 0;
+	protected static $realnames = [];
 
 	/**
 	 * Is this Wiki configured to use Bootstrap 4?
@@ -62,6 +63,7 @@ class TweekiHooks {
 			$parser->setFunctionHook( 'tweekihide', 'TweekiHooks::setHiddenElements' );
 			$parser->setFunctionHook( 'tweekihideexcept', 'TweekiHooks::setHiddenElementsGroups' );
 			$parser->setFunctionHook( 'tweekibodyclass', 'TweekiHooks::addBodyclass' );
+			$parser->setFunctionHook( 'tweekirealname', 'TweekiHooks::renderRealname' );
 		}
 
 		return true;
@@ -231,6 +233,29 @@ class TweekiHooks {
 			}
 		}
 	}
+
+
+	/**
+	 * Use real names instead of user names
+	 */
+	static function onHtmlPageLinkRendererEnd(  $linkRenderer, $target, $isKnown, &$text, &$attribs, &$ret ) {
+		if( $GLOBALS['wgTweekiSkinUseRealnames'] == true && $target->getNamespace() === 2 ) {
+			$userkey = $target->getDBKey();
+
+			// use real name if link text hadn't been set explicitly to be different from the page name
+			$title = Title::newFromText( HtmlArmor::getHtml( $text ) );
+			if( 
+				$title && 
+				( 
+					$title->getPrefixedText() == $target->getPrefixedText() 
+					|| $title->getText() == $target->getText()
+				)
+			) {
+				$text = self::getRealname( $userkey );
+			}
+		}
+	}
+
 
 	/**
 	 * Enable TOC
@@ -498,7 +523,7 @@ class TweekiHooks {
 				if( $semanticHitNumber < 1 ) {
 					return [
 						[
-							'text' => wfMessage( 'tweeki-no-entries' )->plain(), 
+							'html' => '<span class="dropdown-item-text">' . wfMessage( 'tweeki-no-entries' )->plain() . '</span>', 
 						]
 					];
 				}
@@ -578,6 +603,23 @@ class TweekiHooks {
 				}
 				$title = $title->fixSpecialName();
 				$href = $title->getLinkURL();
+				if( $GLOBALS['wgTweekiSkinUseRealnames'] == true && $title->exists() && $title->getNamespace() === 2 ) {
+					$userkey = $title->getDBKey();
+
+					// use real name if link text hadn't been set explicitly
+					if( $href_implicit ) {
+						$title_from_text = Title::newFromText( HtmlArmor::getHtml( $text ) );
+						if( 
+							$title_from_text && 
+							( 
+								$title->getPrefixedText() == $title_from_text->getPrefixedText() 
+								|| $title->getText() == $title_from_text->getText()
+							)
+						) {
+							$text = self::getRealname( $userkey );
+						}
+					}
+				}
 			} else {
 				// allow empty first argument
 				if( $href != '' ) {
@@ -600,6 +642,41 @@ class TweekiHooks {
 		}
 		$link = array_merge( $link, $extraAttribs );
 		return [ $link ];
+	}
+
+
+	/**
+	 * Render a user's real name
+	 *
+	 * @param Parser $parser
+	 * @param String $user User name
+	 *
+	 * @return String User's real name
+	 */
+	static function renderRealName( $parser, $user ) {
+		$realname = self::getRealname( $user );
+
+		return [ $realname ];
+	}
+
+
+	/**
+	 * Get a user's real name
+	 *
+	 * @param String $user User name
+	 *
+	 * @return String User's real name
+	 */
+	static function getRealname( $userkey ) {
+		if( !$userkey ) {
+			return $userkey;
+		}
+		if( !isset( self::$realnames[$userkey] ) ) {
+			$user = User::newFromName( $userkey );
+			self::$realnames[$userkey] = $user->getRealName() ?: $user->getName();
+		}
+
+		return self::$realnames[$userkey];
 	}
 
 	/**
@@ -878,18 +955,14 @@ class TweekiHooks {
 	/**
 	 * Produce HTML for a link
 	 *
-	 * This is a slightly adapted copy of the makeLink function in SkinTemplate.php
+	 * This is a slightly adapted copy of the makeLink function in Skin.php
 	 * -> some of the changed parts are marked by comments //
 	 *
 	 * @param $item array
 	 * @param $options array
-	 *
-	 * @TODO SkinTemplate's makeLink function has been replaced by Linker::link()
-	 * this function should be adapted accordingly or it will likely produce further
-	 * misbehavior in the future (see github issue #68)
 	 */
 	static function makeLink( $item, $options = [] ) {
-		// nested links?
+		// tweeki: nested links?
 		if ( isset( $item['links'] ) ) {
 			if( isset( $item['links'][0] ) ) {
 				$item = $item['links'][0];
@@ -898,21 +971,27 @@ class TweekiHooks {
 			}
 		}
 
+		// tweeki: get text
+		$text = '';
 		if ( isset( $item['text'] ) ) {
 			$text = $item['text'];
 		} else {
-//			$text = $this->translator->translate( isset( $item['msg'] ) ? $item['msg'] : $key );
-			$text = '';
+			if( isset( $item['msg'] ) ) {
+				$msgText = wfMessage( $item['msg'] )->inContentLanguage();
+				if ( $msgText->exists() ) {
+					$text = $msgText->parse();
+				}
+			}
 		}
 
 		$html = htmlspecialchars( $text );
 
-		// set raw html
+		// tweeki: set raw html
 		if ( isset( $item['html'] )) {
 			$html = $item['html'];
 		}
 
-		// set icons for individual buttons (used by some navigational elements)
+		// tweeki: set icons for individual buttons (used by some navigational elements)
 		if ( isset( $item['icon'] )) {
 			if( !self::isBS4() ) {
 				$html = '<span class="glyphicon glyphicon-' . $item['icon'] . '"></span> ' . $html;
@@ -928,11 +1007,11 @@ class TweekiHooks {
 			}
 			while ( count( $wrapper ) > 0 ) {
 				$element = array_pop( $wrapper );
-				$html = Html::rawElement( $element['tag'], isset( $element['attributes'] ) ? $element['attributes'] : null, $html );
+				$html = Html::rawElement( $element['tag'], $element['attributes'] ?? null, $html );
 			}
 		}
 
-		// allow empty first argument in the <btn> tag
+		// tweeki: allow empty first argument in the <btn> tag
 		if( isset( $item['href'] ) && $item['href'] == '' ) {
 			unset( $item['href'] );
 			$options['link-fallback'] = 'span';
@@ -940,21 +1019,40 @@ class TweekiHooks {
 
 		if ( isset( $item['href'] ) || isset( $options['link-fallback'] ) ) {
 			$attrs = $item;
-			foreach ( [ 'single-id', 'text', 'msg', 'tooltiponly', 'href_implicit', 'items', 'icon', 'html', 'tooltip-params', 'active' ] as $k ) {
+			foreach ( [ 'single-id', 'text', 'msg', 'tooltiponly', 'context', 'primary', 'href_implicit', 'items', 'icon', 'html', 'tooltip-params', 'exists', 'active' ] as $k ) {
 				unset( $attrs[$k] );
+			}
+
+			if ( isset( $attrs['data'] ) ) {
+				foreach ( $attrs['data'] as $key => $value ) {
+					$attrs[ 'data-' . $key ] = $value;
+				}
+				unset( $attrs[ 'data' ] );
 			}
 
 			if ( isset( $item['id'] ) && !isset( $item['single-id'] ) ) {
 				$item['single-id'] = $item['id'];
 			}
+
+			$tooltipParams = [];
+			if ( isset( $item['tooltip-params'] ) ) {
+				$tooltipParams = $item['tooltip-params'];
+			}
+
 			if ( isset( $item['single-id'] ) ) {
+				$tooltipOption = isset( $item['exists'] ) && $item['exists'] === false ? 'nonexisting' : null;
+
 				if ( isset( $item['tooltiponly'] ) && $item['tooltiponly'] ) {
-					$title = Linker::titleAttrib( $item['single-id'] );
+					$title = Linker::titleAttrib( $item['single-id'], $tooltipOption, $tooltipParams );
 					if ( $title !== false ) {
 						$attrs['title'] = $title;
 					}
 				} else {
-					$tip = Linker::tooltipAndAccesskeyAttribs( $item['single-id'] );
+					$tip = Linker::tooltipAndAccesskeyAttribs( 
+						$item['single-id'],
+						$tooltipParams,
+						$tooltipOption
+					);
 					if ( isset( $tip['title'] ) && $tip['title'] !== false ) {
 						$attrs['title'] = $tip['title'];
 					}
@@ -965,7 +1063,12 @@ class TweekiHooks {
 			}
 			if ( isset( $options['link-class'] ) ) {
 				if ( isset( $attrs['class'] ) ) {
-					$attrs['class'] .= " {$options['link-class']}";
+					// In the future, this should accept an array of classes, not a string
+					if ( is_array( $attrs['class'] ) ) {
+						$attrs['class'][] = $options['link-class'];
+					} else {
+						$attrs['class'] .= " {$options['link-class']}";
+					}
 				} else {
 					$attrs['class'] = $options['link-class'];
 				}
@@ -980,13 +1083,9 @@ class TweekiHooks {
 				}
 			}
 
-			if ( isset( $attrs['data'] ) && is_array( $attrs['data'] ) ) {
-				foreach( $attrs['data'] as $datakey => $datavalue ) {
-					$attrs['data-' . $datakey] = $datavalue;
-				}
-				unset( $attrs['data'] );
-			}
-			$html = Html::rawElement( isset( $attrs['href'] ) ? 'a' : $options['link-fallback'], $attrs, $html );
+			$html = Html::rawElement( isset( $attrs['href'] ) 
+				? 'a' 
+				: $options['link-fallback'], $attrs, $html );
 		}
 
 		return $html;
