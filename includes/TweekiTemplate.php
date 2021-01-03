@@ -21,7 +21,10 @@
  * @file
  * @ingroup Skins
  */
+
+use MediaWiki\MediaWikiServices;
 use MediaWiki\Session\SessionManager;
+
 /**
  * QuickTemplate subclass for Vector
  * @ingroup Skins
@@ -607,8 +610,8 @@ class TweekiTemplate extends BaseTemplate {
 					foreach ( $this->data['sidebar'] as $name => $content ) {
 						if ( empty ( $content ) ) {
 							if( strpos( $name, '|' ) !== false ) {
-								/* TODO: replace $wgParser with local parser - might not work properly */
-								$sidebarItem = TweekiHooks::parseButtonLink( $name, $GLOBALS['wgParser'], false );
+								$parser = MediaWikiServices::getInstance()->getParser();
+								$sidebarItem = TweekiHooks::parseButtonLink( $name, $parser, false );
 								$sidebar[] = $sidebarItem[0];
 								continue;
 							}
@@ -1118,16 +1121,10 @@ class TweekiTemplate extends BaseTemplate {
 	 * @param $customItems array
 	 */
 	private function renderCustomNavigation( &$buttons, &$customItems ) {
-
-		/* TODO: check for unintended consequences, there are probably more elegant ways to do this... */
-		$options = new ParserOptions();
-		$localParser = new Parser();
-		$localParser->Title ( $this->getSkin()->getTitle() );
-		$localParser->Options( $options );
-		$localParser->clearState();
+		$parser = MediaWikiServices::getInstance()->getParser();
 
 		if( count( $customItems ) !== 0 ) {
-			$newButtons = TweekiHooks::parseButtons( implode( chr(10), $customItems ), $localParser, false );
+			$newButtons = TweekiHooks::parseButtons( implode( chr(10), $customItems ), $parser, false );
 			$buttons = array_merge( $buttons, $newButtons );
 			$customItems = [];
 		}
