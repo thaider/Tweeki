@@ -402,7 +402,11 @@ class TweekiTemplate extends BaseTemplate {
 					break;
 
 				case 'TOOLBOX':
-					$items = array_reverse($this->getToolbox());
+					if( version_compare( MW_VERSION, '1.35', '>=' ) ) {
+						$items = array_reverse($this->get('sidebar')['TOOLBOX']);
+					} else {
+						$items = array_reverse($this->getToolbox());
+					}
 					$divideditems = [];
 					$html = (wfMessage( 'tweeki-toolbox' )->plain() == "") ? wfMessage( 'toolbox' )->plain() : wfMessage( 'tweeki-toolbox' )->plain();
 					foreach($items as $key => $item) {
@@ -423,7 +427,11 @@ class TweekiTemplate extends BaseTemplate {
 					break;
 
 				case 'TOOLBOX-EXT':
-					$items = array_reverse($this->getToolbox());
+					if( version_compare( MW_VERSION, '1.35', '>=' ) ) {
+						$items = array_reverse($this->get('sidebar')['TOOLBOX']);
+					} else {
+						$items = array_reverse($this->getToolbox());
+					}
 					$divideditems = [];
 					$html = (wfMessage( 'tweeki-toolbox' )->plain() == "") ? wfMessage( 'toolbox' )->plain() : wfMessage( 'tweeki-toolbox' )->plain();
 					foreach($items as $key => $item) {
@@ -1121,7 +1129,16 @@ class TweekiTemplate extends BaseTemplate {
 	 * @param $customItems array
 	 */
 	private function renderCustomNavigation( &$buttons, &$customItems ) {
-		$parser = MediaWikiServices::getInstance()->getParser();
+
+		if( version_compare( MW_VERSION, '1.35', '>=' ) ) {
+			$parser = MediaWikiServices::getInstance()->getParser();
+		} else {
+			$options = new ParserOptions();
+			$parser = new Parser();
+			$parser->Title ( $this->getSkin()->getTitle() );
+			$parser->Options( $options );
+			$parser->clearState();
+		}
 
 		if( count( $customItems ) !== 0 ) {
 			$newButtons = TweekiHooks::parseButtons( implode( chr(10), $customItems ), $parser, false );
