@@ -889,3 +889,17 @@ label > input[type=radio] {
 #bodyContent ul.select2-choices {
   padding:0;
 }
+
+
+
+
+
+a.mw-selflink {
+  color: inherit;
+  text-decoration: none;
+
+  @include hover() {
+    color: inherit;
+    text-decoration: none;
+  }
+}
