@@ -42,9 +42,8 @@
 		"OutputPageBeforeHTML": "TweekiHooks::onOutputPageBeforeHTML",
 		"BeforePageDisplay": "TweekiHooks::onBeforePageDisplay",
 		"OutputPageBodyAttributes": "TweekiHooks::onOutputPageBodyAttributes",
-		"HtmlPageLinkRendererEnd" : [
-			"TweekiHooks::onHtmlPageLinkRendererEnd"
-		]
+		"HtmlPageLinkRendererEnd" : "TweekiHooks::onHtmlPageLinkRendererEnd",
+		"SelfLinkBegin" : "TweekiHooks::onSelfLinkBegin"
 	},
 	"ResourceModules": {
 		"skins.tweeki.messages": {

@@ -255,6 +255,23 @@ class TweekiHooks {
 			}
 		}
 	}
+	static function onSelfLinkBegin( Title $nt, &$html, &$trail, &$prefix, &$ret ) {
+		if( $GLOBALS['wgTweekiSkinUseRealnames'] == true && $nt->getNamespace() === 2 ) {
+			$userkey = $nt->getDBKey();
+
+			// use real name if link text hadn't been set explicitly to be different from the page name
+			$title = Title::newFromText( HtmlArmor::getHtml( $html ) );
+			if( 
+				$title && 
+				( 
+					$title->getPrefixedText() == $nt->getPrefixedText() 
+					|| $title->getText() == $nt->getText()
+				)
+			) {
+				$html = self::getRealname( $userkey );
+			}
+		}
+	}
 
 
 	/**
