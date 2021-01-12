@@ -1190,8 +1190,8 @@ class TweekiTemplate extends BaseTemplate {
 		//build path for form action
 		$returntotitle = $skin->getSkin()->getTitle();
 		$returnto = $returntotitle->getFullText();
-		if ( $returnto == SpecialPage::getTitleFor( 'UserLogin' )
-			|| $returnto == SpecialPage::getTitleFor( 'UserLogout' )
+		if ( $returntotitle->equals( SpecialPage::getTitleFor( 'Userlogin' ) )
+			|| $returntotitle->equals( SpecialPage::getTitleFor( 'Userlogout' ) )
 			|| !$returntotitle->exists() ) {
 			$returnto = Title::newMainPage()->getFullText();
 		}
