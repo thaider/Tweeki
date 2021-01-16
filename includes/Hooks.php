@@ -523,10 +523,11 @@ class TweekiHooks {
 		$extraAttribs = [];
 		$href_implicit = false;
 		$active = false;
+		$current_title = $parser->getTitle();
 
 		// semantic queries
 		if ( strpos( $line, '{{#ask:' ) === 0 ) {
-			if ( $parser->getTitle() instanceof Title ) {
+			if ( !is_null( $current_title ) && $current_title instanceof Title ) {
 				$semanticQuery = substr( $line, 7, -2 );
 				$semanticHitNumber = $parser->recursiveTagParse( '{{#ask:' . $semanticQuery . '|format=count}}', false );
 				if ( !is_numeric( $semanticHitNumber ) ) {
@@ -579,7 +580,7 @@ class TweekiHooks {
 			$text = $msgText->parse();
 		}
 		else {
-			if ( $parser->getTitle() instanceof Title ) {
+			if ( !is_null( $current_title ) && $current_title instanceof Title ) {
 				$text = $parser->recursiveTagParse( $text, $frame );
 			}
 			else {
@@ -593,7 +594,7 @@ class TweekiHooks {
 			$href = $msgLink->parse();
 		}
 		else {
-			if ( $parser->getTitle() instanceof Title ) {
+			if ( !is_null( $current_title ) && $current_title instanceof Title ) {
 				$href = $parser->replaceVariables( $href, $frame );
 			}
 			else {
@@ -615,7 +616,7 @@ class TweekiHooks {
 		} else {
 			$title = Title::newFromText( $href );
 			if ( $title ) {
-				if( $title->equals( $parser->getTitle() ) ) {
+				if( $title->equals( $current_title ) ) {
 					$active = true;
 				}
 				$title = $title->fixSpecialName();
@@ -655,7 +656,8 @@ class TweekiHooks {
 			'active' => $active
 		];
 		if( $line[0] != '' ) {
-			$link['id'] = 'n-' . Sanitizer::escapeId( strtr( $line[0], ' ', '-' ), 'noninitial' );
+			$link['id'] = urlencode( strtolower( strtr( $line[0], ' ', '-' ) ) );
+			$link['id'] = 'n-' . Sanitizer::escapeIdForAttribute( $link['id'] );
 		}
 		$link = array_merge( $link, $extraAttribs );
 		return [ $link ];
