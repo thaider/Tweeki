@@ -271,7 +271,8 @@ class TweekiTemplate extends BaseTemplate {
 					if(count( $views ) > 0) {
 						unset( $views['view'] );
 						$link = array_shift( $views );
-						$link['icon'] = 'pencil';
+						$link['icon'] = wfMessage( 'tweeki-edit-icon' )->plain();
+						unset( $link['class'] ); // interferes with btn classing
 						return [ $link ];
 					}
 					return [];
@@ -321,7 +322,7 @@ class TweekiTemplate extends BaseTemplate {
 									'href' => $link['href'],
 									'href_implicit' => false,
 									'id' => 'ca-edit',
-									'icon' => 'pen',
+									'icon' => wfMessage( 'tweeki-edit-ext-icon' )->plain(),
 									'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain(),
 									'name' => 'ca-edit-ext'
 									];
@@ -338,7 +339,7 @@ class TweekiTemplate extends BaseTemplate {
 								$button = [
 									'href' => $link['href'],
 									'id' => 'ca-edit',
-									'icon' => 'pencil',
+									'icon' => wfMessage( 'tweeki-edit-ext-icon' )->plain(),
 									'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain()
 									];
 							}
@@ -370,14 +371,19 @@ class TweekiTemplate extends BaseTemplate {
 				case 'NAMESPACES':
 					$items = $this->data['namespace_urls'];
 					$text = wfMessage( 'namespaces' );
+					/*
 					foreach ( $items as $key => $link ) {
 						if ( array_key_exists( 'context', $link ) && $link['context'] == 'subject' ) {
 							$text = $link['text'];
 						}
-						if ( array_key_exists( 'attributes', $link ) && false !== strpos( $link['attributes'], 'selected' ) ) {
+						if ( 
+							array_key_exists( 'attributes', $link ) && false !== strpos( $link['attributes'], 'selected' ) 
+							|| array_key_exists( 'class', $link ) && false !== strpos( $link['class'], 'selected' ) 
+						) {
 							unset( $items[$key] );
 						}
 					}
+					*/
 					return [[
 						'href' => '#',
 						'text' => $text,
@@ -388,15 +394,18 @@ class TweekiTemplate extends BaseTemplate {
 
 				case 'TALK':
 					$items = $this->data['namespace_urls'];
-					$text = wfMessage( 'namespaces' );
 					foreach ( $items as $key => &$link ) {
-						if ( array_key_exists( 'context', $link ) && $link['context'] == 'subject' ) {
-							$text = $link['text'];
+						if( isset( $link['context'] ) ) {
+							$link['icon'] = wfMessage( 'tweeki-namespace-' . $link['context'] . '-icon' )->plain();
 						}
-						if ( array_key_exists( 'attributes', $link ) && false !== strpos( $link['attributes'], 'selected' ) ) {
+						if ( 
+							array_key_exists( 'attributes', $link ) && false !== strpos( $link['attributes'], 'selected' ) 
+							|| array_key_exists( 'class', $link ) && false !== strpos( $link['class'], 'selected' ) 
+						) {
 							unset( $items[$key] );
+						} else {
+							unset( $link['class'] ); // interferes with btn classing
 						}
-						unset( $link['class'] ); // interferes with btn classing
 					}
 					return $items;
 					break;
@@ -479,6 +488,28 @@ class TweekiTemplate extends BaseTemplate {
 							'id' => 'ca-views',
 							'items' => $items
 							]];
+					}
+					break;
+
+				case 'HISTORY':
+					$button = null;
+					$views = $this->data['view_urls'];
+					if( isset( $views['history'] )  ) {
+						if ( 
+							array_key_exists( 'attributes', $views['history'] ) && false !== strpos( $views['history']['attributes'], 'selected' ) 
+							|| array_key_exists( 'class', $views['history'] ) && false !== strpos( $views['history']['class'], 'selected' ) 
+						) {
+							$button = array_shift( $this->data['namespace_urls'] );
+						} else {
+							$button = $views['history'];
+							$button['icon'] = wfMessage( 'tweeki-history-icon' )->plain();
+						}
+					}
+					if( !is_null( $button ) ) {
+						$button['options'] = [ 'wrapperid' => $button['id'] ];
+						unset( $button['id'] );
+						unset( $button['class'] );
+						return [ $button ];
 					}
 					break;
 

@@ -827,17 +827,6 @@ label > input[type=radio] {
 /**
  * Watch/Unwatch Icon Styling 
  */
- // possibly obsolete?
-#ca-watch,
-#ca-unwatch {
-  visibility:hidden;
-}
-// possibly obsolete?
-#ca-unwatch.icon a::before, 
-#ca-watch.icon a::before {
-    visibility: visible;
-}
-
 #ca-unwatch.icon a,
 #ca-watch.icon a {
   -moz-osx-font-smoothing: grayscale;
