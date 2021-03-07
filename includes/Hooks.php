@@ -523,7 +523,7 @@ class TweekiHooks {
 		$extraAttribs = [];
 		$href_implicit = false;
 		$active = false;
-		$current_title = $parser->getTitle();
+		$current_title = $parser instanceof Parser ? $parser->getTitle() : null;
 
 		// semantic queries
 		if ( strpos( $line, '{{#ask:' ) === 0 ) {
@@ -616,7 +616,7 @@ class TweekiHooks {
 		} else {
 			$title = Title::newFromText( $href );
 			if ( $title ) {
-				if( $title->equals( $current_title ) ) {
+				if( !is_null( $current_title ) && $current_title instanceof Title && $title->equals( $current_title ) ) {
 					$active = true;
 				}
 				$title = $title->fixSpecialName();

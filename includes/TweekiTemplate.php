@@ -1163,6 +1163,9 @@ class TweekiTemplate extends BaseTemplate {
 
 		if( version_compare( MW_VERSION, '1.35', '>=' ) ) {
 			$parser = MediaWikiServices::getInstance()->getParser();
+			$parser->setOptions( ParserOptions::newFromContext( $this->getSkin()->getContext() ) );
+			$parser->setTitle( $this->getSkin()->getTitle() );
+			$parser->clearState();
 		} else {
 			$options = new ParserOptions();
 			$parser = new Parser();
