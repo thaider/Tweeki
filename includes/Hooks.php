@@ -792,11 +792,7 @@ class TweekiHooks {
 
 			// if glyphicon, fa or icon attribute is set, add icon to buttons
 			if ( isset( $options['icon'] ) ) {
-				if( ! self::isBS4() ) {
-					$options['glyphicon'] = $options['icon'];
-				} else {
-					$options['fa'] = $options['icon'];
-				}
+				$options['fa'] = $options['icon'];
 			}
 			if ( isset( $options['fa'] ) ) {
 				$button['html'] = '<span class="fa fa-' . $options['fa'] . '"></span> ' . $button['html'];
@@ -1012,11 +1008,7 @@ class TweekiHooks {
 
 		// tweeki: set icons for individual buttons (used by some navigational elements)
 		if ( isset( $item['icon'] )) {
-			if( !self::isBS4() ) {
-				$html = '<span class="glyphicon glyphicon-' . $item['icon'] . '"></span> ' . $html;
-			} else {
-				$html = '<span class="fa fa-' . $item['icon'] . '"></span> ' . $html;
-			}
+			$html = '<span class="fa fa-' . $item['icon'] . '"></span> ' . $html;
 		}
 
 		if ( isset( $options['text-wrapper'] ) ) {

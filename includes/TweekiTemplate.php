@@ -289,7 +289,7 @@ class TweekiTemplate extends BaseTemplate {
 									'href' => $link['href'],
 									'href_implicit' => false,
 									'id' => 'ca-edit',
-									'icon' => 'pencil',
+									'icon' => 'pen',
 									'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain(),
 									'name' => 'ca-edit-ext'
 								];
@@ -306,7 +306,7 @@ class TweekiTemplate extends BaseTemplate {
 								$button = [
 									'href' => $link['href'],
 									'id' => 'ca-edit',
-									'icon' => 'pencil',
+									'icon' => 'pen',
 									'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain()
 									];
 							}

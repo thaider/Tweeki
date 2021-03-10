@@ -276,7 +276,7 @@ th {
   font-family: "Glyphicons Halflings";
   font-style: normal;
   font-weight: 400;
-  line-height: 1;
+  line-height: .9;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
