@@ -1299,6 +1299,7 @@ class TweekiTemplate extends BaseTemplate {
 		echo '
 			</ul>
 			</li>';
+		/*
 		echo '<script>
 				$( document ).ready( function() {
 					$( "#n-login" ).click( function() {
@@ -1308,6 +1309,7 @@ class TweekiTemplate extends BaseTemplate {
 					});
 				});
 				</script>';
+		*/
 	}
 
 	/**
