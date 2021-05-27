@@ -188,9 +188,9 @@ class TweekiTemplate extends BaseTemplate {
 			$mainclass = 'col-md-' . $main_width;
 			if( $main_offset > 0 ) {
 				$mainclass .= ' offset-md-' . $main_offset;
-			} 
+			}
 
-			$skin->renderNavbar4();
+			call_user_func_array( $this->config->get( 'TweekiSkinNavbarRenderer' ), [ $this ] );
 ?>
 			<main role="main">
 				<div id="mw-page-base"></div>
@@ -376,9 +376,9 @@ class TweekiTemplate extends BaseTemplate {
 						if ( array_key_exists( 'context', $link ) && $link['context'] == 'subject' ) {
 							$text = $link['text'];
 						}
-						if ( 
-							array_key_exists( 'attributes', $link ) && false !== strpos( $link['attributes'], 'selected' ) 
-							|| array_key_exists( 'class', $link ) && false !== strpos( $link['class'], 'selected' ) 
+						if (
+							array_key_exists( 'attributes', $link ) && false !== strpos( $link['attributes'], 'selected' )
+							|| array_key_exists( 'class', $link ) && false !== strpos( $link['class'], 'selected' )
 						) {
 							unset( $items[$key] );
 						}
@@ -398,9 +398,9 @@ class TweekiTemplate extends BaseTemplate {
 						if( isset( $link['context'] ) ) {
 							$link['icon'] = wfMessage( 'tweeki-namespace-' . $link['context'] . '-icon' )->plain();
 						}
-						if ( 
-							array_key_exists( 'attributes', $link ) && false !== strpos( $link['attributes'], 'selected' ) 
-							|| array_key_exists( 'class', $link ) && false !== strpos( $link['class'], 'selected' ) 
+						if (
+							array_key_exists( 'attributes', $link ) && false !== strpos( $link['attributes'], 'selected' )
+							|| array_key_exists( 'class', $link ) && false !== strpos( $link['class'], 'selected' )
 						) {
 							unset( $items[$key] );
 						} else {
@@ -495,9 +495,9 @@ class TweekiTemplate extends BaseTemplate {
 					$button = null;
 					$views = $this->data['view_urls'];
 					if( isset( $views['history'] )  ) {
-						if ( 
-							array_key_exists( 'attributes', $views['history'] ) && false !== strpos( $views['history']['attributes'], 'selected' ) 
-							|| array_key_exists( 'class', $views['history'] ) && false !== strpos( $views['history']['class'], 'selected' ) 
+						if (
+							array_key_exists( 'attributes', $views['history'] ) && false !== strpos( $views['history']['attributes'], 'selected' )
+							|| array_key_exists( 'class', $views['history'] ) && false !== strpos( $views['history']['class'], 'selected' )
 						) {
 							$button = array_shift( $this->data['namespace_urls'] );
 						} else {
@@ -676,7 +676,7 @@ class TweekiTemplate extends BaseTemplate {
 
 				case 'LANGUAGES':
 					$items = $this->data['language_urls'];
-					if (is_array($items) && count($items) > 0 && $items) { 
+					if (is_array($items) && count($items) > 0 && $items) {
 						return [[
 							'href' => '#',
 							'text' => wfMessage( 'otherlanguages' ),
@@ -738,7 +738,7 @@ class TweekiTemplate extends BaseTemplate {
 	}
 
 	/**
-	 * Check if an element has an entry in a configuration option and if it's set to true 
+	 * Check if an element has an entry in a configuration option and if it's set to true
 	 * (i.e. the element should be hidden)
 	 *
 	 * @param $item Element to be tested

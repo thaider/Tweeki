@@ -203,6 +203,7 @@
 		},
 		"TweekiSkinFooterIcons": false,
 		"TweekiSkinPageRenderer": "self::renderPage",
+		"TweekiSkinNavbarRenderer": "self::renderNavbar4",
 		"TweekiSkinNavigationalElements": [],
 		"TweekiSkinSpecialElements": {
 			"FIRSTHEADING": "self::renderFirstHeading",
