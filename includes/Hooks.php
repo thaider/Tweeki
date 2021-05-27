@@ -28,6 +28,10 @@ class TweekiHooks {
 
 	protected static $anchorID = 0;
 	protected static $realnames = [];
+	
+	static function getSkinTweekiSkin() {
+		return $GLOBALS['wgOut']->getSkin()->getSkinName() === 'tweeki';
+	}
 
 	/**
 	 * Is this Wiki configured to use Bootstrap 4?
@@ -49,22 +53,20 @@ class TweekiHooks {
 	 * @param $parser Parser current parser
 	 */
 	static function onParserFirstCallInit( Parser $parser ) {
-		if( $GLOBALS['wgOut']->getSkin()->getSkinName() == 'tweeki' ) {
-			$parser->setHook( 'TOC', 'TweekiHooks::TOC' );
-			$parser->setHook( 'legend', 'TweekiHooks::legend' );
-			$parser->setHook( 'footer', 'TweekiHooks::footer' );
-			$parser->setHook( 'accordion', 'TweekiHooks::buildAccordion' );
-			$parser->setHook( 'label', 'TweekiHooks::buildLabel' );
+		$parser->setHook( 'TOC', 'TweekiHooks::TOC' );
+		$parser->setHook( 'legend', 'TweekiHooks::legend' );
+		$parser->setHook( 'footer', 'TweekiHooks::footer' );
+		$parser->setHook( 'accordion', 'TweekiHooks::buildAccordion' );
+		$parser->setHook( 'label', 'TweekiHooks::buildLabel' );
 
-			if ( true === $GLOBALS['wgTweekiSkinUseBtnParser'] ) {
-				$parser->setHook( 'btn', 'TweekiHooks::buildButtons' );
-			}
-
-			$parser->setFunctionHook( 'tweekihide', 'TweekiHooks::setHiddenElements' );
-			$parser->setFunctionHook( 'tweekihideexcept', 'TweekiHooks::setHiddenElementsGroups' );
-			$parser->setFunctionHook( 'tweekibodyclass', 'TweekiHooks::addBodyclass' );
-			$parser->setFunctionHook( 'tweekirealname', 'TweekiHooks::renderRealname' );
+		if ( $GLOBALS['wgTweekiSkinUseBtnParser'] === true ) {
+			$parser->setHook( 'btn', 'TweekiHooks::buildButtons' );
 		}
+
+		$parser->setFunctionHook( 'tweekihide', 'TweekiHooks::setHiddenElements' );
+		$parser->setFunctionHook( 'tweekihideexcept', 'TweekiHooks::setHiddenElementsGroups' );
+		$parser->setFunctionHook( 'tweekibodyclass', 'TweekiHooks::addBodyclass' );
+		$parser->setFunctionHook( 'tweekirealname', 'TweekiHooks::renderRealname' );
 
 		return true;
 	}
@@ -261,6 +263,10 @@ class TweekiHooks {
 	 * Enable TOC
 	 */
 	static function TOC( $input, array $args, Parser $parser, PPFrame $frame ) {
+		if ( !self::getSkinTweekiSkin() ) {
+			return [];
+		}
+
 		return [ '<div class="tweeki-toc">' . $parser->recursiveTagParse( $input ) . '</div>' ];
 	}
 
@@ -268,6 +274,10 @@ class TweekiHooks {
 	 * Enable use of <legend> tag
 	 */
 	static function legend( $input, array $args, Parser $parser, PPFrame $frame ) {
+		if ( !self::getSkinTweekiSkin() ) {
+			return [];
+		}
+
 		return [ '<legend>' . $parser->recursiveTagParse( $input ) . '</legend>', "markerType" => 'nowiki' ];
 	}
 
@@ -275,6 +285,10 @@ class TweekiHooks {
 	 * Enable use of <footer> tag
 	 */
 	static function footer( $input, array $args, Parser $parser, PPFrame $frame ) {
+		if ( !self::getSkinTweekiSkin() ) {
+			return [];
+		}
+
 		return [ '<footer>' . $parser->recursiveTagParse( $input ) . '</footer>', "markerType" => 'nowiki' ];
 	}
 
@@ -286,6 +300,10 @@ class TweekiHooks {
 	 */
 	static function setHiddenElements( Parser $parser ) {
 		global $wgTweekiSkinHideAll, $wgTweekiSkinHideable;
+
+		if ( !self::getSkinTweekiSkin() ) {
+			return [];
+		}
 
 		$parser->getOutput()->updateCacheExpiry(0);
 
@@ -305,6 +323,10 @@ class TweekiHooks {
 	 */
 	static function setHiddenElementsGroups( Parser $parser ) {
 		global $wgTweekiSkinHideAll, $wgTweekiSkinHideable;
+
+		if ( !self::getSkinTweekiSkin() ) {
+			return [];
+		}
 
 		$parser->getOutput()->updateCacheExpiry(0);
 
@@ -327,6 +349,10 @@ class TweekiHooks {
 	 * @return string
 	 */
 	static function addBodyclass( Parser $parser ) {
+		if ( !self::getSkinTweekiSkin() ) {
+			return '';
+		}
+
 		$parser->getOutput()->updateCacheExpiry(0);
 
 		for ( $i = 1; $i < func_num_args(); $i++ ) {
@@ -345,6 +371,10 @@ class TweekiHooks {
 	 * @return string
 	 */
 	static function buildAccordion( $input, array $args, Parser $parser, PPFrame $frame ) {
+		if ( !self::getSkinTweekiSkin() ) {
+			return '';
+		}
+
 		static::$anchorID++;
 		$parent = $parser->recursiveTagParse( $args['parent'], $frame );
 		if( ! self::isBS4() ) {
@@ -390,6 +420,10 @@ class TweekiHooks {
 	 * @return string
 	 */
 	static function buildLabel( $input, array $args, Parser $parser, PPFrame $frame ) {
+		if ( !self::getSkinTweekiSkin() ) {
+			return '';
+		}
+
 		return '<label>' . $parser->recursiveTagParse( $input ) . '</label>';
 	}
 
@@ -403,6 +437,10 @@ class TweekiHooks {
 	 * @return string
 	 */
 	static function buildButtons( $input, array $args, Parser $parser, PPFrame $frame ) {
+		if ( !self::getSkinTweekiSkin() ) {
+			return '';
+		}
+
 		$sizes = [
 			'large' => 'btn-lg',
 			'lg' => 'btn-lg',
@@ -654,6 +692,10 @@ class TweekiHooks {
 	 * @return String User's real name
 	 */
 	static function renderRealName( $parser, $user ) {
+		if ( !self::getSkinTweekiSkin() ) {
+			return '';
+		}
+
 		$realname = self::getRealname( $user );
 
 		return [ $realname ];
