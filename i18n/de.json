@@ -1,11 +1,17 @@
 {
-	"tweeki-desc": "Eie auf Bootstrap basierende Skin.",
+	"@metadata": {
+		"authors": [
+			"Thaider",
+			"Kghbln"
+		]
+	},
+	"tweeki-desc": "Eine auf Bootstrap gestützte Benutzeroberfläche",
 	"userpage": "Benutzerseite",
 	"tweeki-edit-ext": "$1 bearbeiten",
 	"tweeki-login": "Anmelden / Registrieren",
-	"prefs-tweeki-advanced": "Erweiterte Features",
-	"prefs-tweeki-advanced-desc": "Erweiterte Features anzeigen",
-	"prefs-tweeki-advanced-help": "Einige Features, die du möglicherweise aus anderen MediaWiki-Installationen kennst, wurden vom Administrator dieser Seite versteckt, um durchschnittliche Nutzer nicht zu verwirren. Benutze diese Option, um sie anzuzeigen.",
+	"prefs-tweeki-advanced": "Erweiterte Funktionen",
+	"prefs-tweeki-advanced-desc": "Erweiterte Funktionen anzeigen",
+	"prefs-tweeki-advanced-help": "Einige Funktionen, die du möglicherweise von anderen Wikis kennst, wurden versteckt, um durchschnittliche Nutzer nicht zu verwirren. Benutze diese Option, um sie anzuzeigen.",
 	"tweeki-toc-top": "nach oben",
 	"tweeki-no-entries": "keine Einträge…"
 }
