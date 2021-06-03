@@ -83,6 +83,7 @@ class TweekiTemplate extends BaseTemplate {
 		// Output HTML Page
 		$this->html( 'headelement' );
 		call_user_func_array( $this->config->get( 'TweekiSkinPageRenderer' ), [ $this ] );
+		$this->printTrail();
 ?>
 	</body>
 </html>
@@ -99,10 +100,10 @@ class TweekiTemplate extends BaseTemplate {
 	 *
 	 * @param $skin Skin skin object
 	 */
-	private function renderPage( $skin ) {
+	public static function renderPage( $skin ) {
 		// load defaults for layout without sidebar
-		$main_offset = $this->config->get( 'TweekiSkinGridNone' )['mainoffset'];
-		$main_width = $this->config->get( 'TweekiSkinGridNone' )['mainwidth'];
+		$main_offset = $skin->getConfig( 'TweekiSkinGridNone' )['mainoffset'];
+		$main_width = $skin->getConfig( 'TweekiSkinGridNone' )['mainwidth'];
 		$left_width = 0;
 		$left_offset = 0;
 		$right_width = 0;
@@ -112,25 +113,25 @@ class TweekiTemplate extends BaseTemplate {
 			$sidebar_left = $skin->checkVisibility( 'sidebar-left' ) && !$skin->checkEmptiness( 'sidebar-left' );
 			$sidebar_right = $skin->checkVisibility( 'sidebar-right' ) && !$skin->checkEmptiness( 'sidebar-right' );
 			if( $sidebar_left && $sidebar_right ) { // both sidebars
-				$left_offset = $this->config->get( 'TweekiSkinGridBoth' )['leftoffset'];
-				$left_width = $this->config->get( 'TweekiSkinGridBoth' )['leftwidth'];
-				$main_offset = $left_offset + $left_width + $this->config->get( 'TweekiSkinGridBoth' )['mainoffset'];
-				$main_width = $this->config->get( 'TweekiSkinGridBoth' )['mainwidth'];
-				$right_offset = $main_offset + $main_width + $this->config->get( 'TweekiSkinGridBoth' )['rightoffset'];
-				$right_width = $this->config->get( 'TweekiSkinGridBoth' )['rightwidth'];
+				$left_offset = $skin->getConfig( 'TweekiSkinGridBoth' )['leftoffset'];
+				$left_width = $skin->getConfig( 'TweekiSkinGridBoth' )['leftwidth'];
+				$main_offset = $left_offset + $left_width + $skin->getConfig( 'TweekiSkinGridBoth' )['mainoffset'];
+				$main_width = $skin->config->get( 'TweekiSkinGridBoth' )['mainwidth'];
+				$right_offset = $main_offset + $main_width + $skin->getConfig( 'TweekiSkinGridBoth' )['rightoffset'];
+				$right_width = $skin->getConfig( 'TweekiSkinGridBoth' )['rightwidth'];
 			}
 			if( $sidebar_left XOR $sidebar_right ) { // only one of the sidebars
 				if( $sidebar_left ) {
-					$left_offset = $this->config->get( 'TweekiSkinGridLeft' )['leftoffset'];
-					$left_width = $this->config->get( 'TweekiSkinGridLeft' )['leftwidth'];
-					$main_offset = $left_offset + $left_width + $this->config->get( 'TweekiSkinGridLeft' )['mainoffset'];
-					$main_width = $this->config->get( 'TweekiSkinGridLeft' )['mainwidth'];
+					$left_offset = $skin->getConfig( 'TweekiSkinGridLeft' )['leftoffset'];
+					$left_width = $skin->getConfig( 'TweekiSkinGridLeft' )['leftwidth'];
+					$main_offset = $left_offset + $left_width + $skin->getConfig( 'TweekiSkinGridLeft' )['mainoffset'];
+					$main_width = $skin->getConfig( 'TweekiSkinGridLeft' )['mainwidth'];
 				}
 				else {
-					$main_offset = $this->config->get( 'TweekiSkinGridRight' )['mainoffset'];
-					$main_width = $this->config->get( 'TweekiSkinGridRight' )['mainwidth'];
-					$right_offset = $main_offset + $main_width + $this->config->get( 'TweekiSkinGridRight' )['rightoffset'];
-					$right_width = $this->config->get( 'TweekiSkinGridRight' )['rightwidth'];
+					$main_offset = $skin->getConfig( 'TweekiSkinGridRight' )['mainoffset'];
+					$main_width = $skin->getConfig( 'TweekiSkinGridRight' )['mainwidth'];
+					$right_offset = $main_offset + $main_width + $skin->getConfig( 'TweekiSkinGridRight' )['rightoffset'];
+					$right_width = $skin->getConfig( 'TweekiSkinGridRight' )['rightwidth'];
 				}
 			}
 		}
@@ -147,7 +148,7 @@ class TweekiTemplate extends BaseTemplate {
 
 
 
-		if( !$this->isBS4() ) {
+		if( !$skin->isBS4() ) {
 
 			$mainclass = 'col-md-offset-' . $main_offset . ' col-md-' . $main_width;
 
@@ -190,7 +191,7 @@ class TweekiTemplate extends BaseTemplate {
 				$mainclass .= ' offset-md-' . $main_offset;
 			}
 
-			call_user_func_array( $this->config->get( 'TweekiSkinNavbarRenderer' ), [ $this ] );
+			call_user_func_array( $skin->getConfig( 'TweekiSkinNavbarRenderer' ), [ $skin ] );
 ?>
 			<main role="main">
 				<div id="mw-page-base"></div>
@@ -228,9 +229,10 @@ class TweekiTemplate extends BaseTemplate {
 <?php
 			$skin->renderFooter4();
 		}
+	}
 
-
-		$skin->printTrail();
+	public function getConfig( $config ) {
+		return $this->config->get($config);
 	}
 
 	/**
@@ -882,14 +884,14 @@ class TweekiTemplate extends BaseTemplate {
 	/**
 	 * Render Navbar for Bootstrap 4
 	 */
-	public function renderNavbar4() {
-		$navbar_class = $this->getMsg( 'tweeki-navbar-class' );
-		if ( $this->checkVisibility( 'navbar' ) ) { ?>
+	public static function renderNavbar4($skin) {
+		$navbar_class = $skin->getMsg( 'tweeki-navbar-class' );
+		if ( $skin->checkVisibility( 'navbar' ) ) { ?>
 			<header>
 				<nav id="mw-navigation" class="<?php echo $navbar_class; ?>">
 					<div class="<?php echo wfMessage( 'tweeki-container-class' )->plain(); ?>">
-						<?php if ( $this->checkVisibility( 'navbar-brand' ) ) {
-							$this->renderBrand();
+						<?php if ( $skin->checkVisibility( 'navbar-brand' ) ) {
+							$skin->renderBrand();
 						} ?>
 
 						<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -897,15 +899,15 @@ class TweekiTemplate extends BaseTemplate {
 						</button>
 
 						<div id="navbar" class="collapse navbar-collapse">
-							<?php if ( $this->checkVisibility( 'navbar-left' ) ) { ?>
+							<?php if ( $skin->checkVisibility( 'navbar-left' ) ) { ?>
 								<ul class="navbar-nav mr-auto">
-									<?php $this->renderNavbarElement4( 'left' ); ?>
+									<?php $skin->renderNavbarElement4( 'left' ); ?>
 								</ul>
 							<?php } ?>
 
-							<?php if ( $this->checkVisibility( 'navbar-right' ) ) { ?>
+							<?php if ( $skin->checkVisibility( 'navbar-right' ) ) { ?>
 								<ul class="navbar-nav">
-									<?php $this->renderNavbarElement4( 'right' ); ?>
+									<?php $skin->renderNavbarElement4( 'right' ); ?>
 								</ul>
 							<?php } ?>
 						</div>
@@ -921,7 +923,7 @@ class TweekiTemplate extends BaseTemplate {
 	 *
 	 * @param $side string
 	 */
-	private function renderNavbarElement( $side ) {
+	public function renderNavbarElement( $side ) {
 		$element = 'navbar-' . $side;
 		$options = $this->getParsingOptions( $element );
 		$this->buildItems( wfMessage( 'tweeki-' . $element )->plain(), $options, $element );
@@ -933,7 +935,7 @@ class TweekiTemplate extends BaseTemplate {
 	 *
 	 * @param $side string
 	 */
-	private function renderNavbarElement4( $side ) {
+	public function renderNavbarElement4( $side ) {
 		$element = 'navbar-' . $side;
 		$options = $this->getParsingOptions( $element );
 
@@ -1192,7 +1194,7 @@ class TweekiTemplate extends BaseTemplate {
 	/**
 	 * Render TOC
 	 */
-	function renderTOC( $skin, $context ) {
+	public function renderTOC( $skin, $context ) {
 		if( $context == 'sidebar-left' || $context == 'sidebar-right' ) {
 			echo '<div id="tweekiTOC"></div>';
 		} else {
@@ -1203,7 +1205,7 @@ class TweekiTemplate extends BaseTemplate {
 	/**
 	 * Render logo
 	 */
-	function renderLogo( $skin, $context ) {
+	public function renderLogo( $skin, $context ) {
 		$mainPageLink = $skin->data['nav_urls']['mainpage']['href'];
 		$toolTip = Xml::expandAttributes( Linker::tooltipAndAccesskeyAttribs( 'p-logo' ) );
 		echo '
@@ -1218,7 +1220,7 @@ class TweekiTemplate extends BaseTemplate {
 	/**
 	 * Render Login-ext
 	 */
-	function renderLoginExt( $skin, $context ) {
+	public function renderLoginExt( $skin, $context ) {
 		SessionManager::getGlobalSession()->persist();
 
 		//build path for form action
@@ -1315,9 +1317,9 @@ class TweekiTemplate extends BaseTemplate {
 	/**
 	 * Render search
 	 */
-	function renderSearch( $skin, $context ) {
+	public function renderSearch( $skin, $context ) {
 
-		if ( !$this->isBS4() ) {
+		if ( !$skin->isBS4() ) {
 
 			if( $context == 'subnav' ) {
 				echo '<li class="nav dropdown">';
@@ -1335,11 +1337,11 @@ class TweekiTemplate extends BaseTemplate {
 				echo 'class="navbar-form navbar-right" ';
 			}
 			echo 'action="';
-			$this->text( 'wgScript' );
+			$skin->text( 'wgScript' );
 			echo '" id="searchform">
 					<div class="form-group">';
 
-			echo $this->makeSearchInput( [
+			echo $skin->makeSearchInput( [
 				'id' => 'searchInput',
 				'class' => 'search-query form-control',
 				'placeholder' => $skin->getMsg( 'search' )->text()
@@ -1381,11 +1383,11 @@ class TweekiTemplate extends BaseTemplate {
 				echo 'class="navbar-form navbar-right" ';
 			}
 			echo 'action="';
-			$this->text( 'wgScript' );
+			$skin->text( 'wgScript' );
 			echo '" id="searchform">
 					<div class="form-inline">';
 
-			echo $this->makeSearchInput( [
+			echo $skin->makeSearchInput( [
 				'id' => 'searchInput',
 				'class' => 'search-query form-control',
 				'placeholder' => $skin->getMsg( 'search' )->text()
@@ -1437,7 +1439,7 @@ class TweekiTemplate extends BaseTemplate {
 	/**
 	 * Render standard MediaWiki footer
 	 */
-	private function renderStandardFooter( $options ) {
+	public function renderStandardFooter( $options ) {
 
 		// Render Bootstrap 3 Footer
 		if (!$this->isBS4() ) :
