@@ -1466,7 +1466,11 @@ class TweekiTemplate extends BaseTemplate {
 					echo '</ul>';
 				}
 			}
-			$footericons = $this->getFooterIcons( "icononly" );
+			if( version_compare( MW_VERSION, '1.35', '>=' ) ) {
+				$footericons = $this->get('footericons');
+			} else {
+				$footericons = $this->getFooterIcons( "icononly" );
+			}
 			if ( count( $footericons ) > 0 && $this->checkVisibility( 'footer-icons' ) ) {
 				echo '<ul id="footer-icons">';
 				foreach ( $footericons as $blockName => $footerIcons ) {
@@ -1514,7 +1518,11 @@ class TweekiTemplate extends BaseTemplate {
 				}
 			}
 
-			$footericons = $this->getFooterIcons( "icononly" );
+			if( version_compare( MW_VERSION, '1.35', '>=' ) ) {
+				$footericons = $this->get('footericons');
+			} else {
+				$footericons = $this->getFooterIcons( "icononly" );
+			}
 			if ( count( $footericons ) > 0 && $this->checkVisibility( 'footer-icons' ) ) {
 				echo '<div class="'.$widget_class.'"><ul id="footer-icons">';
 				foreach ( $footericons as $blockName => $footerIcons ) {
