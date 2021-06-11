@@ -49,6 +49,7 @@
 	"tweeki-personaltools-text": "$1",
 	"tweeki-edit-icon": "pen",
 	"tweeki-edit-ext": "Edit $1",
+	"tweeki-edit-ext-nav": "<span class='fa fa-pen'></span>",
 	"tweeki-edit-ext-icon": "pen",
 	"tweeki-namespace-talk-icon": "comments",
 	"tweeki-history-icon": "history",

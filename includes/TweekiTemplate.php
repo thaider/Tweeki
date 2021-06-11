@@ -285,26 +285,31 @@ class TweekiTemplate extends BaseTemplate {
 						$views = $this->data['view_urls'];
 						if(count( $views ) > 0) {
 							unset( $views['view'] );
-							$link = array_shift( $views );
 							if ( $this->checkVisibility( 'EDIT-EXT-special' ) ) {
-								$button = [
-									'href' => $link['href'],
-									'href_implicit' => false,
-									'id' => 'ca-edit',
-									'icon' => 'pen',
-									'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain(),
-									'name' => 'ca-edit-ext'
-								];
-								if( isset( $views['edit'] ) ) {
-									$views['edit']['id'] = 'ca-edit-source';
-								}
-								$button['items'] = $views;
-								if(count($this->data['action_urls']) > 0) {
-									$button['items'][] = []; #divider
-									$actions = $this->renderNavigation( 'ACTIONS' );
-									$button['items'] = array_merge( $button['items'], $actions[0]['items'] );
+								echo $context;
+								if( strpos( $context, 'nav' ) !== false ) {
+								} else {
+									$link = array_shift( $views );
+									$button = [
+										'href' => $link['href'],
+										'href_implicit' => false,
+										'id' => 'ca-edit',
+										'icon' => 'pen',
+										'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain(),
+										'name' => 'ca-edit-ext'
+									];
+									if( isset( $views['edit'] ) ) {
+										$views['edit']['id'] = 'ca-edit-source';
+									}
+									$button['items'] = $views;
+									if(count($this->data['action_urls']) > 0) {
+										$button['items'][] = []; #divider
+										$actions = $this->renderNavigation( 'ACTIONS' );
+										$button['items'] = array_merge( $button['items'], $actions[0]['items'] );
+									}
 								}
 							} else {
+								$link = array_shift( $views );
 								$button = [
 									'href' => $link['href'],
 									'id' => 'ca-edit',
@@ -318,26 +323,37 @@ class TweekiTemplate extends BaseTemplate {
 						$views = $this->data['view_urls'];
 						if(count( $views ) > 0) {
 							unset( $views['view'] );
-							$link = array_shift( $views );
 							if ( $this->checkVisibility( 'EDIT-EXT-special' ) ) {
-								$button = [
-									'href' => $link['href'],
-									'href_implicit' => false,
-									'id' => 'ca-edit',
-									'icon' => wfMessage( 'tweeki-edit-ext-icon' )->plain(),
-									'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain(),
-									'name' => 'ca-edit-ext'
-									];
-								if( isset( $views['edit'] ) ) {
-									$views['edit']['id'] = 'ca-edit-source';
-								}
-								$button['items'] = $views;
+								$items = $views;
 								if(count($this->data['action_urls']) > 0) {
-									$button['items'][] = []; #divider
+									$items[] = []; #divider
 									$actions = $this->renderNavigation( 'ACTIONS' );
-									$button['items'] = array_merge( $button['items'], $actions[0]['items'] );
+									$items = array_merge( $items, $actions[0]['items'] );
+								}
+								if( strpos( $context, 'nav' ) !== false ) {
+									$button = [
+										'href' => '#',
+										'html' => wfMessage( 'tweeki-edit-ext-nav' )->plain(),
+										'id' => 'ca-edit-ext',
+										'items' => $items
+										];
+								} else {
+									$link = array_shift( $views );
+									$button = [
+										'href' => $link['href'],
+										'href_implicit' => false,
+										'id' => 'ca-edit',
+										'icon' => wfMessage( 'tweeki-edit-ext-icon' )->plain(),
+										'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain(),
+										'name' => 'ca-edit-ext'
+										];
+									if( isset( $items['edit'] ) ) {
+										$views['edit']['id'] = 'ca-edit-source';
+									}
+									$button['items'] = $items;
 								}
 							} else {
+								$link = array_shift( $views );
 								$button = [
 									'href' => $link['href'],
 									'id' => 'ca-edit',
