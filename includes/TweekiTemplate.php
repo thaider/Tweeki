@@ -282,34 +282,29 @@ class TweekiTemplate extends BaseTemplate {
 
 				case 'EDIT-EXT':
 					if( !$this->isBS4() ) {
+						$link = array_shift( $views );
 						$views = $this->data['view_urls'];
 						if(count( $views ) > 0) {
 							unset( $views['view'] );
 							if ( $this->checkVisibility( 'EDIT-EXT-special' ) ) {
-								echo $context;
-								if( strpos( $context, 'nav' ) !== false ) {
-								} else {
-									$link = array_shift( $views );
-									$button = [
-										'href' => $link['href'],
-										'href_implicit' => false,
-										'id' => 'ca-edit',
-										'icon' => 'pen',
-										'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain(),
-										'name' => 'ca-edit-ext'
-									];
-									if( isset( $views['edit'] ) ) {
-										$views['edit']['id'] = 'ca-edit-source';
-									}
-									$button['items'] = $views;
-									if(count($this->data['action_urls']) > 0) {
-										$button['items'][] = []; #divider
-										$actions = $this->renderNavigation( 'ACTIONS' );
-										$button['items'] = array_merge( $button['items'], $actions[0]['items'] );
-									}
+								$button = [
+									'href' => $link['href'],
+									'href_implicit' => false,
+									'id' => 'ca-edit',
+									'icon' => 'pen',
+									'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain(),
+									'name' => 'ca-edit-ext'
+								];
+								if( isset( $views['edit'] ) ) {
+									$views['edit']['id'] = 'ca-edit-source';
+								}
+								$button['items'] = $views;
+								if(count($this->data['action_urls']) > 0) {
+									$button['items'][] = []; #divider
+									$actions = $this->renderNavigation( 'ACTIONS' );
+									$button['items'] = array_merge( $button['items'], $actions[0]['items'] );
 								}
 							} else {
-								$link = array_shift( $views );
 								$button = [
 									'href' => $link['href'],
 									'id' => 'ca-edit',
@@ -330,7 +325,7 @@ class TweekiTemplate extends BaseTemplate {
 									$actions = $this->renderNavigation( 'ACTIONS' );
 									$items = array_merge( $items, $actions[0]['items'] );
 								}
-								if( strpos( $context, 'nav' ) !== false ) {
+								if( strpos( $context, 'navbar' ) !== false ) {
 									$button = [
 										'href' => '#',
 										'html' => wfMessage( 'tweeki-edit-ext-nav' )->plain(),
