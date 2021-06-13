@@ -892,3 +892,11 @@ a.mw-selflink {
     text-decoration: none;
   }
 }
+
+
+// make mw-collapsible work in card headers
+.card .mw-collapsible-toggle {
+  position:relative;
+  z-index: 1;
+  padding: $card-spacer-y $card-spacer-x;
+}
