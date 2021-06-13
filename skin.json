@@ -39,7 +39,6 @@
 		"MagicWordMagicWords": "TweekiHooks::onMagicWordMagicWords",
 		"MagicWordwgVariableIDs": "TweekiHooks::onMagicWordwgVariableIDs",
 		"InternalParseBeforeLinks": "TweekiHooks::onInternalParseBeforeLinks",
-		"OutputPageBeforeHTML": "TweekiHooks::onOutputPageBeforeHTML",
 		"BeforePageDisplay": "TweekiHooks::onBeforePageDisplay",
 		"OutputPageBodyAttributes": "TweekiHooks::onOutputPageBodyAttributes",
 		"HtmlPageLinkRendererEnd" : "TweekiHooks::onHtmlPageLinkRendererEnd",
@@ -88,12 +87,6 @@
 				}
 			}
 		},
-		"skins.tweeki.awesome.styles": {
-			"position": "top",
-			"styles": {
-				"awesome/css/all.min.css": []
-			}
-		},
 		"skins.tweeki.bootstraptheme.styles": {
 			"position": "top",
 			"styles": {
@@ -117,13 +110,15 @@
 			"class": "ResourceLoaderSkinModule",
 			"position": "top",
 			"styles": {
-				"public/default/css/tweeki.css": {}
+				"public/default/css/tweeki.css": {},
+				"awesome/css/all.min.css": {}
 			}
 		},
 		"skins.tweeki.bootstrap4.custom.styles": {
 			"position": "top",
 			"styles": {
-				"public/custom/css/custom.css": {}
+				"public/custom/css/custom.css": {},
+				"awesome/css/all.min.css": {}
 			}
 		},
 		"skins.tweeki.bootstrap4.corrections.styles": {
@@ -184,77 +179,157 @@
 	},
 	"config": {
 		"TweekiSkinHideAll": {
-			"footer-info": true
+			"value": {
+				"footer-info": true
+			},
+			"descriptionmsg": "tweeki-config-hideall"
 		},
-		"TweekiSkinHideable": [
-			"firstHeading",
-			"sidebar-right"
-		],
+		"TweekiSkinHideable": {
+			"value": [
+				"firstHeading",
+				"sidebar-right"
+			],
+			"descriptionmsg": "tweeki-config-hideable"
+		},
 		"TweekiSkinHideAnon": {
-			"subnav": true,
-			"PERSONAL": true,
-			"TOOLBOX" : true
+			"value": {
+				"subnav": true,
+				"PERSONAL": true,
+				"TOOLBOX" : true
+			},
+			"descriptionmsg": "tweeki-config-hideanon"
 		},
 		"TweekiSkinHideLoggedin": {
-			"footer-custom": true
+			"value": {
+				"footer-custom": true
+			},
+			"descriptionmsg": "tweeki-config-hideloggedin"
 		},
 		"TweekiSkinHideNonAdvanced": {
-			"EDIT-EXT-special": true
+			"value": {
+				"EDIT-EXT-special": true
+			},
+			"descriptionmsg": "tweeki-config-hidenonadvanced"
 		},
-		"TweekiSkinFooterIcons": false,
-		"TweekiSkinPageRenderer": "self::renderPage",
-		"TweekiSkinNavbarRenderer": "self::renderNavbar4",
-		"TweekiSkinNavigationalElements": [],
+		"TweekiSkinHideExcept": {
+			"value": {},
+			"descriptionmsg": "tweeki-config-hideexcept"
+		},
+		"TweekiSkinFooterIcons": {
+			"value": false,
+			"descriptionmsg": "tweeki-config-footericons"
+		},
+		"TweekiSkinPageRenderer": {
+			"value": "self::renderPage",
+			"descriptionmsg": "tweeki-config-pagerenderer"
+		},
+		"TweekiSkinNavbarRenderer": {
+			"value": "self::renderNavbar",
+			"descriptionmsg": "tweeki-config-navbarrenderer"
+		},
+		"TweekiSkinNavigationalElements": {
+			"value": [],
+			"descriptionmsg": "tweeki-config-navigationalelements"
+		},
 		"TweekiSkinSpecialElements": {
-			"FIRSTHEADING": "self::renderFirstHeading",
-			"TOC": "self::renderTOC",
-			"SEARCH": "self::renderSearch",
-			"LOGO": "self::renderLogo",
-			"LOGIN-EXT": "self::renderLoginExt",
-			"FOOTER": "self::renderStandardFooter"
+			"value": {
+				"FIRSTHEADING": "self::renderFirstHeading",
+				"TOC": "self::renderTOC",
+				"SEARCH": "self::renderSearch",
+				"LOGO": "self::renderLogo",
+				"LOGIN-EXT": "self::renderLoginExt",
+				"FOOTER": "self::renderStandardFooter"
+			},
+			"descriptionmsg": "tweeki-config-specialelements"
 		},
-		"TweekiSkinUseAwesome": true,
-		"TweekiSkinUseBootstrapTheme": true,
-		"TweekiSkinUseBootstrap4": false,
-		"TweekiSkinUseBtnParser": true,
-		"TweekiSkinUseScrollSpy": true,
-		"TweekiSkinUseTooltips": false,
-		"TweekiSkinUseIconWatch": false,
-		"TweekiSkinUseExternallinkStyles": true,
-		"TweekiSkinCustomEditSectionLink": true,
-		"TweekiSkinCustomCSS": [],
-		"TweekiSkinCustomScriptModule": false,
-		"TweekiSkinCustomStyleModule": false,
-		"TweekiSkinUseCustomFiles": false,
-		"TweekiSkinCustomizedBootstrap": null,
-		"TweekiSkinImagePageTOCTabs": false,
+		"TweekiSkinUseBtnParser": {
+			"value": true,
+			"descriptionmsg": "tweeki-config-usebtnparser"
+		},
+		"TweekiSkinUseScrollSpy": {
+			"value": true,
+			"descriptionmsg": "tweeki-config-usescrollspy"
+		},
+		"TweekiSkinUseTooltips": {
+			"value": false,
+			"descriptionmsg": "tweeki-config-usetooltips"
+		},
+		"TweekiSkinUseIconWatch": {
+			"value": false,
+			"descriptionmsg": "tweeki-config-useiconwatch"
+		},
+		"TweekiSkinUseExternallinkStyles": {
+			"value": true,
+			"descriptionmsg": "tweeki-config-useexternallinkstyles"
+		},
+		"TweekiSkinCustomEditSectionLink": {
+			"value": true,
+			"descriptionmsg": "tweeki-config-customeditsectionlink"
+		},
+		"TweekiSkinCustomCSS": {
+			"value": [],
+			"descriptionmsg": "tweeki-config-customcss"
+		},
+		"TweekiSkinCustomScriptModule": {
+			"value": false,
+			"descriptionmsg": "tweeki-config-customscriptmodule"
+		},
+		"TweekiSkinCustomStyleModule": {
+			"value": false,
+			"descriptionmsg": "tweeki-config-customstylemodule"
+		},
+		"TweekiSkinUseCustomFiles": {
+			"value": false,
+			"descriptionmsg": "tweeki-config-usecustomfiles"
+		},
+		"TweekiSkinImagePageTOCTabs": {
+			"value": false,
+			"descriptionmsg": "tweeki-config-imagepagetoctabs"
+		},
 		"TweekiSkinGridNone": {
-			"mainoffset": 1,
-			"mainwidth": 10
+			"value": {
+				"mainoffset": 1,
+				"mainwidth": 10
+			},
+			"descriptionmsg": "tweeki-config-gridnone"
 		},
 		"TweekiSkinGridLeft": {
-			"leftoffset": 0,
-			"leftwidth": 3,
-			"mainoffset": 0,
-			"mainwidth": 9
+			"value": {
+				"leftoffset": 0,
+				"leftwidth": 3,
+				"mainoffset": 0,
+				"mainwidth": 9
+			},
+			"descriptionmsg": "tweeki-config-gridleft"
 		},
 		"TweekiSkinGridRight": {
-			"mainoffset": 0,
-			"mainwidth": 9,
-			"rightoffset": 0,
-			"rightwidth": 3
+			"value": {
+				"mainoffset": 0,
+				"mainwidth": 9,
+				"rightoffset": 0,
+				"rightwidth": 3
+			},
+			"descriptionmsg": "tweeki-config-gridright"
 		},
 		"TweekiSkinGridBoth": {
-			"leftoffset": 0,
-			"leftwidth": 2,
-			"mainoffset": 0,
-			"mainwidth": 8,
-			"rightoffset": 0,
-			"rightwidth": 2
+			"value": {
+				"leftoffset": 0,
+				"leftwidth": 2,
+				"mainoffset": 0,
+				"mainwidth": 8,
+				"rightoffset": 0,
+				"rightwidth": 2
+			},
+			"descriptionmsg": "tweeki-config-gridboth"
 		},
-		"TweekiSkinAdditionalBodyClasses": [],
-		"TweekiSkinUseRealnames": false
+		"TweekiSkinAdditionalBodyClasses": {
+			"value": [],
+			"descriptionmsg": "tweeki-config-additionalbodyclasses"
+		},
+		"TweekiSkinUseRealnames": {
+			"value": false,
+			"descriptionmsg": "tweeki-config-userealnames"
+		}
 	},
-	"callback": "TweekiHooks::onRegistration",
-	"manifest_version": 1
+	"manifest_version": 2
 }

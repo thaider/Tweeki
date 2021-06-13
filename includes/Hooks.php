@@ -1,6 +1,8 @@
 <?php
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\Linker\LinkTarget;
 
 /**
  * Hooks for Tweeki skin
@@ -29,30 +31,33 @@ class TweekiHooks {
 	protected static $anchorID = 0;
 	protected static $realnames = [];
 
-	static function getSkinTweekiSkin() {
+
+	/**
+	 * Is Tweeki used as a skin for the current page?
+	 *
+	 * @return boolean
+	 */
+	public static function getSkinTweekiSkin() {
 		return $GLOBALS['wgOut']->getSkin()->getSkinName() === 'tweeki';
 	}
 
-	/**
-	 * Is this Wiki configured to use Bootstrap 4?
-	 */
-	static function isBS4() {
-		return $GLOBALS['wgTweekiSkinUseBootstrap4'];
-	}
 
 	/**
 	 * Expose TweekiSkinUseTooltips configuration variable
+	 *
+	 * @param array $vars
 	 */
-	static function onResourceLoaderGetConfigVars( &$vars ) {
+	public static function onResourceLoaderGetConfigVars( array &$vars ) {
 		$vars['wgTweekiSkinUseTooltips'] = $GLOBALS['wgTweekiSkinUseTooltips'];
 	}
+
 
 	/**
 	 * Setting up parser functions
 	 *
-	 * @param $parser Parser current parser
+	 * @param Parser $parser Parser object being initialized
 	 */
-	static function onParserFirstCallInit( Parser $parser ) {
+	public static function onParserFirstCallInit( Parser $parser ) {
 		$parser->setHook( 'TOC', 'TweekiHooks::TOC' );
 		$parser->setHook( 'legend', 'TweekiHooks::legend' );
 		$parser->setHook( 'footer', 'TweekiHooks::footer' );
@@ -67,29 +72,30 @@ class TweekiHooks {
 		$parser->setFunctionHook( 'tweekihideexcept', 'TweekiHooks::setHiddenElementsGroups' );
 		$parser->setFunctionHook( 'tweekibodyclass', 'TweekiHooks::addBodyclass' );
 		$parser->setFunctionHook( 'tweekirealname', 'TweekiHooks::renderRealname' );
-
-		return true;
 	}
+
 
 	/**
 	 * Adding modules
+	 *
+	 * @param OutputPage $out The OutputPage object.
+	 * @param Skin $skin Skin object that will be used to generate the page
 	 */
 	public static function onBeforePageDisplay( OutputPage $out, Skin $skin ) {
 		if( $skin->getSkinName() == 'tweeki' ) {
 			$config = \MediaWiki\MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'tweeki' );
 
 			$styles = [];
-			// load styles
+
+			// load mediawiki styles
+			$styles[] = 'skins.tweeki.bootstrap4.mediawiki.styles';
+
+			// load externally defined style module
 			if( $config->get( 'TweekiSkinCustomStyleModule' ) ) {
-				$styles[] = 'skins.tweeki.bootstrap4.mediawiki.styles';
 				$styles[] = $config->get( 'TweekiSkinCustomStyleModule' );
-			} elseif( !$config->get( 'TweekiSkinUseBootstrap4' ) ) {
-				$styles[] = 'skins.tweeki.styles';
-				if( $config->get( 'TweekiSkinUseBootstrapTheme' ) ) {
-					$styles[] = 'skins.tweeki.bootstraptheme.styles';
-				}
+
+			// or: load modules defined by tweeki
 			} else {
-				$styles[] = 'skins.tweeki.bootstrap4.mediawiki.styles';
 				if( !$config->get( 'TweekiSkinUseCustomFiles' ) ) {
 					$styles[] = 'skins.tweeki.bootstrap4.styles';
 				} else {
@@ -98,127 +104,70 @@ class TweekiHooks {
 			}
 
 			// load last minute changes (outside webpack)
-			if( $config->get( 'TweekiSkinUseBootstrap4' ) ) {
-				$styles[] = 'skins.tweeki.bootstrap4.corrections.styles';
-			}
+			$styles[] = 'skins.tweeki.bootstrap4.corrections.styles';
 
+			// load external link styles
 			if( $config->get( 'TweekiSkinUseExternallinkStyles' ) ) {
 				$styles[] = 'skins.tweeki.externallinks.styles';
 			}
-			if( $config->get( 'TweekiSkinUseAwesome' ) ) {
-				$styles[] = 'skins.tweeki.awesome.styles';
-			}
+
 			// if( $config->get( 'CookieWarningEnabled' ) ) {
 			// 	$styles[] = 'skins.tweeki.cookiewarning.styles';
 			// }
+
+			// load additional modules
 			foreach( $GLOBALS['wgTweekiSkinCustomCSS'] as $customstyle ) {
 				$styles[] = $customstyle;
 			}
+
 			Hooks::run( 'SkinTweekiStyleModules', [ $skin, &$styles ] );
+
 			$out->addModuleStyles( $styles );
 		}
 	}
 
-	/**
-	 * Manipulate headlines – we need .mw-headline to be empty because it has a padding
-	 * that we need for correct positioning for anchors and this would render links above headlines inaccessible
-	 */
-	public static function onOutputPageBeforeHTML( &$out, &$text ) {
-		// obsolete now with CSS's new scroll-padding-top
-		return true;
-		// Manipulation is harmful when executed on non-article pages (e.g. stops preview from working)
-		if( $out->isArticle() ) {
-			$doc = new DOMDocument();
-			$html = mb_convert_encoding( $text, 'HTML-ENTITIES', 'UTF-8' );
-			if( $html != '' ) {
-				libxml_use_internal_errors(true);
-				$doc->loadHTML( $html );
-				libxml_clear_errors();
-				$spans = $doc->getElementsByTagName('span');
-				foreach( $spans as $span ) {
-					$mw_headline = '';
-					if( $span->getAttribute('class') == 'mw-headline' ) {
-						$mw_headline = $span;
-
-						/* move the contents of .mw-headline to a newly created .mw-headline-content */
-						$mw_headline_content = $doc->createElement("span");
-						$mw_headline_content->setAttribute( 'class', 'mw-headline-content' );
-						while( $mw_headline->firstChild ) {
-							$mw_headline_content->appendChild( $mw_headline->removeChild( $mw_headline->firstChild ) );
-						}
-
-						/* put .mw-headline before .mw-headline-content */
-						$mw_headline->parentNode->insertBefore( $mw_headline_content, $mw_headline );
-						$mw_headline->parentNode->insertBefore( $mw_headline, $mw_headline_content );
-						}
-					}
-				$text = $doc->saveHTML($doc->documentElement->firstChild->firstChild);
-			}
-		}
-	}
-
-	/**
-	 * Customizing registration
-	 */
-	public static function onRegistration() {
-
-		/* Load customized bootstrap files */
-		if( 
-			isset( $GLOBALS['wgTweekiSkinCustomizedBootstrap'] ) 
-			&& ! is_null( $GLOBALS['wgTweekiSkinCustomizedBootstrap'] ) 
-		) {
-			$wgResourceModules['skins.tweeki.bootstrap.styles']['localBasePath'] = $wgTweekiSkinCustomizedBootstrap['localBasePath'];
-			$wgResourceModules['skins.tweeki.bootstrap.styles']['remoteExtPath'] = $wgTweekiSkinCustomizedBootstrap['remoteExtPath'];
-			unset( $wgResourceModules['skins.tweeki.bootstrap.styles']['remoteSkinPath'] );
-			$wgResourceModules['skins.tweeki.bootstraptheme.styles']['localBasePath'] = $wgTweekiSkinCustomizedBootstrap['localBasePath'];
-			$wgResourceModules['skins.tweeki.bootstraptheme.styles']['remoteExtPath'] = $wgTweekiSkinCustomizedBootstrap['remoteExtPath'];
-			unset( $wgResourceModules['skins.tweeki.bootstraptheme.styles']['remoteSkinPath'] );
-			$wgResourceModules['skins.tweeki.bootstrap.scripts']['localBasePath'] = $wgTweekiSkinCustomizedBootstrap['localBasePath'];
-			$wgResourceModules['skins.tweeki.bootstrap.scripts']['remoteExtPath'] = $wgTweekiSkinCustomizedBootstrap['remoteExtPath'];
-			unset( $wgResourceModules['skins.tweeki.bootstrap.scripts']['remoteSkinPath'] );
-		}
-	}
 
 	/**
 	 * GetPreferences hook
 	 *
 	 * Adds Tweeki-releated items to the preferences
 	 *
-	 * @param $user User current user
-	 * @param $defaultPreferences array list of default user preference controls
+	 * @param User $user User whose preferences are being modified
+	 * @param array $preferences Preferences description array, to be fed to an HTMLForm object
 	 */
-	public static function onGetPreferences( $user, &$defaultPreferences ) {
-		$defaultPreferences['tweeki-advanced'] = [
+	public static function onGetPreferences( User $user, array &$preferences ) {
+		$preferences['tweeki-advanced'] = [
 			'type' => 'toggle',
 			'label-message' => 'prefs-tweeki-advanced-desc',
 			'section' => 'rendering/tweeki-advanced',
 			'help-message' => 'prefs-tweeki-advanced-help'
 		];
-		return true;
 	}
+
 
 	/**
 	 * Pages could be hidden for anonymous users or only be shown for specific groups
 	 * so we put a user's group memberships into the page rendering hash
 	 *
-	 * @param $confstr
-	 * @param $user
-	 * @param $options
+	 * @param string $confstr Reference to a hash key string which can be modified
+	 * @param User $user User object that is requesting the page
+	 * @param array $options Array of options used to generate the $confstr hash key
 	 */
-	static function onPageRenderingHash( &$confstr, $user, &$options ) {
+	static function onPageRenderingHash( &$confstr, User $user, array &$options ) {
 		$groups = $user->getEffectiveGroups();
 		sort( $groups );
 		$confstr .= "!groups=" . join(',', $groups );
 	}
 
+
 	/**
 	 * Add body classes
 	 *
-	 * @param $out
-	 * @param $sk
-	 * @param $bodyAttrs
+	 * @param OutputPage $out The OutputPage which called the hook, can be used to get the real title
+	 * @param Skin $sk The Skin that called OutputPage::headElement
+	 * @param array $bodyAttrs An array of attributes for the body tag passed to Html::openElement
 	 */
-	static function onOutputPageBodyAttributes( $out, $sk, &$bodyAttrs ) {
+	static function onOutputPageBodyAttributes( OutputPage $out, Skin $sk, array &$bodyAttrs ) {
 		if( $sk->getSkinName() == 'tweeki' ) {
 			$additionalBodyClasses = [ 'tweeki-animateLayout' ];
 
@@ -239,8 +188,15 @@ class TweekiHooks {
 
 	/**
 	 * Use real names instead of user names
+	 *
+	 * @param LinkRenderer $linkRenderer the LinkRenderer object
+	 * @param LinkTarget $target the LinkTarget that the link is pointing to
+	 * @param boolean $isKnown boolean indicating whether the page is known or not
+	 * @param string|HtmlArmor $text the contents that the <a> tag should have; either a plain, unescaped string or a HtmlArmor object.
+	 * @param array $attribs the final HTML attributes of the <a> tag, after processing, in associative array form.
+	 * @param string $ret the value to return if your hook returns false.
 	 */
-	static function onHtmlPageLinkRendererEnd(  $linkRenderer, $target, $isKnown, &$text, &$attribs, &$ret ) {
+	public static function onHtmlPageLinkRendererEnd(  LinkRenderer $linkRenderer, LinkTarget $target, $isKnown, &$text, array &$attribs, &$ret ) {
 		if( $GLOBALS['wgTweekiSkinUseRealnames'] == true && $target->getNamespace() === 2 ) {
 			$userkey = $target->getDBKey();
 
@@ -257,7 +213,18 @@ class TweekiHooks {
 			}
 		}
 	}
-	static function onSelfLinkBegin( Title $nt, &$html, &$trail, &$prefix, &$ret ) {
+
+
+	/**
+	 * Use real names instead of user names in selflinks
+	 *
+	 * @param Title $nt the title object of the page
+	 * @param string $html Link text
+	 * @param string $trail Text after link
+	 * @param string $prefix Text before link
+	 * @param string $ret Self link text to be used if the hook returns false
+	 */
+	public static function onSelfLinkBegin( Title $nt, &$html, &$trail, &$prefix, &$ret ) {
 		if( $GLOBALS['wgTweekiSkinUseRealnames'] == true && $nt->getNamespace() === 2 ) {
 			$userkey = $nt->getDBKey();
 
@@ -277,178 +244,134 @@ class TweekiHooks {
 
 
 	/**
-	 * Enable TOC
+	 * Customize edit section links
+	 *
+	 * @param Skin $skin Skin object rendering the UI
+	 * @param Title $title  Title object for the title being linked to
+	 * @param string $section The designation of the section being pointed to, to be included in the link
+	 * @param string $tooltip The default tooltip.
+	 * @param array $links Array containing all link detail arrays.
+	 * @param string $lang The language code to use for the link in the wfMessage function
+	 *
+	 * @todo: make this work with VisualEditor
 	 */
-	static function TOC( $input, array $args, Parser $parser, PPFrame $frame ) {
+	static function onSkinEditSectionLinks( Skin $skin, Title $title, $section, $tooltip, array &$links, $lang = false ) {
+		if(
+			$skin->getSkinName() == 'tweeki'
+			&& $GLOBALS['wgTweekiSkinCustomEditSectionLink'] == true
+		) {
+			$icon = wfMessage( 'tweeki-editsection-icon' )->inLanguage( $lang )->parse();
+			$text = wfMessage( 'tweeki-editsection-text' )->inLanguage( $lang )->parse();
+			$class = wfMessage( 'tweeki-editsection-class' )->inLanguage( $lang )->parse();
+			$text = new HtmlArmor( $icon . ( ( $icon != '' ) ? ' ' : '' ) . $text );
+			$links['editsection']['text'] = $text;
+			$links['editsection']['attribs']['class'] = $class;
+		}
+	}
+
+
+	/**
+	 * Change TOC and page content of file pages to togglable tabs
+	 *
+	 * @param OutputPage $outputPage
+	 */
+	public static function onAfterFinalPageOutput( OutputPage $outputPage ) {
+		if(
+			$outputPage->getSkin()->getSkinName() == 'tweeki'
+			&& $outputPage->getTitle()->getNamespace() == 6
+			&& $GLOBALS['wgTweekiSkinImagePageTOCTabs'] == true
+		) {
+			$out = ob_get_clean();
+			$out = str_replace( '<ul id="filetoc">', '<ul id="tw-filetoc" class="nav nav-tabs nav-justified">', $out );
+			$out = str_replace( '<li><a href="#file">', '<li class="active"><a href="#file" class="tab-toggle" data-toggle="tab">', $out );
+			$out = str_replace( '<a href="#filehistory">', '<a href="#filehistory" class="tab-toggle" data-toggle="tab">', $out );
+			$out = str_replace( '<a href="#filelinks">', '<a href="#filelinks" class="tab-toggle" data-toggle="tab">', $out );
+			$out = str_replace( '<a href="#metadata">', '<a href="#metadata" class="tab-toggle" data-toggle="tab">', $out );
+			$out = str_replace( '<div class="fullImageLink" id="file"', '<div class="tab-content"><div id="file" class="tab-pane fade in active"><div class="fullImageLink"', $out );
+			$out = str_replace( '<h2 id="filehistory"', '</div><div id="filehistory" class="tab-pane fade"><h2', $out );
+			$out = str_replace( '<h2 id="filelinks"', '</div><div id="filelinks" class="tab-pane fade"><h2', $out );
+			$out = str_replace( '<h2 id="metadata"', '</div><div id="metadata" class="tab-pane fade"><h2', $out );
+			$out = $out . '</div></div>';
+			ob_start();
+			echo $out;
+		}
+	}
+
+
+	/**
+	 * Enable use of <toc> tag
+	 */
+	public static function TOC( $input, array $args, Parser $parser, PPFrame $frame ) {
 		if ( !self::getSkinTweekiSkin() ) {
 			return [];
 		}
 		return [ '<div class="tweeki-toc">' . $parser->recursiveTagParse( $input ) . '</div>' ];
 	}
 
+
 	/**
 	 * Enable use of <legend> tag
 	 */
-	static function legend( $input, array $args, Parser $parser, PPFrame $frame ) {
+	public static function legend( $input, array $args, Parser $parser, PPFrame $frame ) {
 		if ( !self::getSkinTweekiSkin() ) {
 			return [];
 		}
 		return [ '<legend>' . $parser->recursiveTagParse( $input ) . '</legend>', "markerType" => 'nowiki' ];
 	}
 
+
 	/**
 	 * Enable use of <footer> tag
 	 */
-	static function footer( $input, array $args, Parser $parser, PPFrame $frame ) {
+	public static function footer( $input, array $args, Parser $parser, PPFrame $frame ) {
 		if ( !self::getSkinTweekiSkin() ) {
 			return [];
 		}
 		return [ '<footer>' . $parser->recursiveTagParse( $input ) . '</footer>', "markerType" => 'nowiki' ];
 	}
 
-	/**
-	 * Set elements that should be hidden
-	 *
-	 * @param $parser Parser current parser
-	 * @return string
-	 */
-	static function setHiddenElements( Parser $parser ) {
-		global $wgTweekiSkinHideAll, $wgTweekiSkinHideable;
-
-		if ( !self::getSkinTweekiSkin() ) {
-			return '';
-		}
-
-		$parser->getOutput()->updateCacheExpiry(0);
-
-		for ( $i = 1; $i < func_num_args(); $i++ ) {
-			if ( in_array ( func_get_arg( $i ), $wgTweekiSkinHideable ) ) {
-				$wgTweekiSkinHideAll[] = func_get_arg( $i );
-			}
-		}
-		return '';
-	}
 
 	/**
-	 * Set elements that should be hidden except for members of specific groups
-	 *
-	 * @param $parser Parser current parser
-	 * @return string
+	 * Enable use of <accordion> tag
 	 */
-	static function setHiddenElementsGroups( Parser $parser ) {
-		global $wgTweekiSkinHideAll, $wgTweekiSkinHideable;
-
-		if ( !self::getSkinTweekiSkin() ) {
-			return '';
-		}
-
-		$parser->getOutput()->updateCacheExpiry(0);
-
-		$groups_except = explode( ',', func_get_arg( 1 ) );
-		$groups_user = $parser->getUser()->getEffectiveGroups();
-		if( count( array_intersect( $groups_except, $groups_user ) ) == 0 ) {
-			for ( $i = 2; $i < func_num_args(); $i++ ) {
-				if ( in_array ( func_get_arg( $i ), $wgTweekiSkinHideable ) ) {
-					$wgTweekiSkinHideAll[] = func_get_arg( $i );
-				}
-			}
-		}
-		return '';
-	}
-
-	/**
-	 * Add classes to body
-	 *
-	 * @param $parser Parser current parser
-	 * @return string
-	 */
-	static function addBodyclass( Parser $parser ) {
-		if ( !self::getSkinTweekiSkin() ) {
-			return '';
-		}
-
-		$parser->getOutput()->updateCacheExpiry(0);
-
-		for ( $i = 1; $i < func_num_args(); $i++ ) {
-			$GLOBALS['wgTweekiSkinAdditionalBodyClasses'][] = func_get_arg( $i );
-		}
-		return '';
-	}
-
-	/**
-	 * Build accordeon
-	 *
-	 * @param $input string
-	 * @param $args array tag arguments
-	 * @param $parser Parser current parser
-	 * @param $frame PPFrame current frame
-	 * @return string
-	 */
-	static function buildAccordion( $input, array $args, Parser $parser, PPFrame $frame ) {
+	public static function buildAccordion( $input, array $args, Parser $parser, PPFrame $frame ) {
 		if ( !self::getSkinTweekiSkin() ) {
 			return '';
 		}
 		static::$anchorID++;
 		$parent = $parser->recursiveTagParse( $args['parent'], $frame );
-		if( ! self::isBS4() ) {
-			$panel = '
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h4 class="panel-title">
-							<a data-toggle="collapse" data-parent="#' . $parent . '" href="#' . $parent . static::$anchorID . '">
-								' . $parser->recursiveTagParse( $args['heading'], $frame ) . '
-							</a>
-						</h4>
-					</div>
-					<div id="' . $parent . static::$anchorID . '" class="panel-collapse collapse ' . ( isset( $args['class'] ) ? htmlentities( $args['class'] ) : '' ) . '">
-						<div class="panel-body">
-				' . $parser->recursiveTagParse( $input, $frame ) . '
-						</div>
-					</div>
-				</div>';
-		} else {
-			$panel = '
-				<div class="card">
-					<div class="card-header" id="' . $parent . static::$anchorID . 'Heading">
-						<h2 class="mb-0">
-							<button class="btn btn-link" type="button" data-toggle="collapse" data-parent="#' . $parent . '" data-target="#' . $parent . static::$anchorID . '" aria-expanded="' . ( isset( $args['class'] ) && $args['class'] == 'show' ? 'true' : 'false' ) . '" aria-controls="' . $parent . static::$anchorID . '">
-								' . $parser->recursiveTagParse( $args['heading'], $frame ) . '
-							</button>
-						</h2>
-					</div>
-					<div id="' . $parent . static::$anchorID . '" class="collapse ' . ( isset( $args['class'] ) ? htmlentities( $args['class'] ) : '' ) . '" aria-labelledby="' . $parent . static::$anchorID . 'Heading" data-parent="#' . $parent . '">
-						<div class="card-body">' . $parser->recursiveTagParse( $input, $frame ) . '</div>
-					</div>
-				</div>';
-		}
-		return $panel;
+		$card = '
+			<div class="card">
+				<div class="card-header" id="' . $parent . static::$anchorID . 'Heading">
+					<h2 class="mb-0">
+						<button class="btn btn-link" type="button" data-toggle="collapse" data-parent="#' . $parent . '" data-target="#' . $parent . static::$anchorID . '" aria-expanded="' . ( isset( $args['class'] ) && $args['class'] == 'show' ? 'true' : 'false' ) . '" aria-controls="' . $parent . static::$anchorID . '">
+							' . $parser->recursiveTagParse( $args['heading'], $frame ) . '
+						</button>
+					</h2>
+				</div>
+				<div id="' . $parent . static::$anchorID . '" class="collapse ' . ( isset( $args['class'] ) ? htmlentities( $args['class'] ) : '' ) . '" aria-labelledby="' . $parent . static::$anchorID . 'Heading" data-parent="#' . $parent . '">
+					<div class="card-body">' . $parser->recursiveTagParse( $input, $frame ) . '</div>
+				</div>
+			</div>';
+		return $card;
 	}
 
+
 	/**
-	 * Build label
-	 * @param $input string
-	 * @param $args array tag arguments
-	 * @param $parser Parser current parser
-	 * @param $frame PPFrame current frame
-	 * @return string
+	 * Enable use of <label> tag
 	 */
-	static function buildLabel( $input, array $args, Parser $parser, PPFrame $frame ) {
+	public static function buildLabel( $input, array $args, Parser $parser, PPFrame $frame ) {
 		if ( !self::getSkinTweekiSkin() ) {
 			return '';
 		}
 		return '<label>' . $parser->recursiveTagParse( $input ) . '</label>';
 	}
 
+
 	/**
-	 * Build buttons, groups of buttons and dropdowns
-	 *
-	 * @param $input string
-	 * @param $args array tag arguments
-	 * @param $parser Parser current parser
-	 * @param $frame PPFrame current frame
-	 * @return string
+	 * Enable use of <btn> tag
 	 */
-	static function buildButtons( $input, array $args, Parser $parser, PPFrame $frame ) {
+	public static function buildButtons( $input, array $args, Parser $parser, PPFrame $frame ) {
 		if ( !self::getSkinTweekiSkin() ) {
 			return '';
 		}
@@ -467,7 +390,7 @@ class TweekiHooks {
 
 		// set standard classes for all buttons in the group
 		if ( !isset( $args['class'] ) ) {
-			$args['class'][] = !self::isBS4() ? 'btn btn-default' : 'btn btn-secondary';
+			$args['class'][] = 'btn btn-secondary';
 		}
 		else {
 			$args['class'] = explode( ' ', $args['class'] );
@@ -494,11 +417,88 @@ class TweekiHooks {
 
 
 	/**
+	 * Set elements that should be hidden
+	 */
+	static function setHiddenElements( Parser $parser ) {
+		if ( !self::getSkinTweekiSkin() ) {
+			return '';
+		}
+
+		$parser->getOutput()->updateCacheExpiry(0);
+
+		for ( $i = 1; $i < func_num_args(); $i++ ) {
+			if ( in_array ( func_get_arg( $i ), $GLOBALS['wgTweekiSkinHideable'] ) ) {
+				$GLOBALS['wgTweekiSkinHideAll'][] = func_get_arg( $i );
+			}
+		}
+		return '';
+	}
+
+
+	/**
+	 * Set elements that should be hidden except for members of specific groups
+	 */
+	static function setHiddenElementsGroups( Parser $parser ) {
+		if ( !self::getSkinTweekiSkin() ) {
+			return '';
+		}
+
+		$parser->getOutput()->updateCacheExpiry(0);
+
+		$groups_except = explode( ',', func_get_arg( 1 ) );
+		$groups_user = $parser->getUser()->getEffectiveGroups();
+		if( count( array_intersect( $groups_except, $groups_user ) ) == 0 ) {
+			for ( $i = 2; $i < func_num_args(); $i++ ) {
+				if ( in_array ( func_get_arg( $i ), $GLOBALS['wgTweekiSkinHideable'] ) ) {
+					$GLOBALS['wgTweekiSkinHideAll'][] = func_get_arg( $i );
+				}
+			}
+		}
+		return '';
+	}
+
+
+	/**
+	 * Add classes to body
+	 */
+	static function addBodyclass( Parser $parser ) {
+		if ( !self::getSkinTweekiSkin() ) {
+			return '';
+		}
+
+		$parser->getOutput()->updateCacheExpiry(0);
+
+		for ( $i = 1; $i < func_num_args(); $i++ ) {
+			$GLOBALS['wgTweekiSkinAdditionalBodyClasses'][] = func_get_arg( $i );
+		}
+		return '';
+	}
+
+
+	/**
+	 * Render a user's real name
+	 *
+	 * @param Parser $parser
+	 * @param String $user User name
+	 * @return array User's real name
+	 */
+	static function renderRealName( Parser $parser, $user ) {
+		if ( !self::getSkinTweekiSkin() ) {
+			return [];
+		}
+
+		$realname = self::getRealname( $user );
+
+		return [ $realname ];
+	}
+
+
+	/**
 	 * Parse string input into array
 	 *
-	 * @param $buttongroup string one or more buttons
-	 * @param $parser Parser current parser
-	 * @param $frame PPFrame current frame
+	 * @param string $buttongroup one or more buttons
+	 * @param Parser $parser current parser
+	 * @param PPFrame $frame current frame
 	 * @return array
 	 */
 	static function parseButtons( $buttongroup, Parser $parser, $frame ) {
@@ -547,12 +547,11 @@ class TweekiHooks {
 	 * Parse specific link
 	 *
 	 * @param $line string
-	 * @param $parser Parser current parser
-	 * @param $frame Frame current frame
+	 * @param Parser $parser current parser
+	 * @param PPFrame $frame current frame
 	 * @return array
 	 */
-	static function parseButtonLink( $line, $parser, $frame ) {
-
+	static function parseButtonLink( $line, Parser $parser, $frame ) {
 		$extraAttribs = [];
 		$href_implicit = false;
 		$active = false;
@@ -637,14 +636,12 @@ class TweekiHooks {
 
 		if ( preg_match( '/^(?i:' . wfUrlProtocols() . ')/', $href ) ) {
 			// Parser::getExternalLinkAttribs won't work here because of the Namespace things
-			global $wgNoFollowLinks, $wgNoFollowDomainExceptions;
-			if ( $wgNoFollowLinks && !wfMatchesDomainList( $href, $wgNoFollowDomainExceptions ) ) {
+			if ( $GLOBALS['wgNoFollowLinks'] && !wfMatchesDomainList( $href, $GLOBALS['wgNoFollowDomainExceptions'] ) ) {
 				$extraAttribs['rel'] = 'nofollow';
 			}
 
-			global $wgExternalLinkTarget;
-			if ( $wgExternalLinkTarget ) {
-				$extraAttribs['target'] = $wgExternalLinkTarget;
+			if ( $GLOBALS['wgExternalLinkTarget'] ) {
+				$extraAttribs['target'] = $GLOBALS['wgExternalLinkTarget'];
 			}
 		} else {
 			$title = Title::newFromText( $href );
@@ -694,25 +691,6 @@ class TweekiHooks {
 		}
 		$link = array_merge( $link, $extraAttribs );
 		return [ $link ];
-	}
-
-
-	/**
-	 * Render a user's real name
-	 *
-	 * @param Parser $parser
-	 * @param String $user User name
-	 *
-	 * @return String User's real name
-	 */
-	static function renderRealName( $parser, $user ) {
-		if ( !self::getSkinTweekiSkin() ) {
-			return [];
-		}
-
-		$realname = self::getRealname( $user );
-
-		return [ $realname ];
 	}
 
 
@@ -785,7 +763,7 @@ class TweekiHooks {
 					$wrapperclass = 'dropdown';
 				}
 				else {
-					$wrapperclass = 'btn-group' . ( self::isBS4() ? ' mr-2' : '' );
+					$wrapperclass = 'btn-group mr-2';
 				}
 			}
 
@@ -851,7 +829,7 @@ class TweekiHooks {
 				if ( isset( $button['active'] ) && $button['active'] === true ) {
 					$renderedButtons .= ' active';
 				}
-				if( self::isBS4() && isset( $button['items'] ) ) {
+				if( isset( $button['items'] ) ) {
 					$renderedButtons .= ' dropdown';
 				}
 				if ( isset( $options['wrapperid'] ) ) {
@@ -887,55 +865,33 @@ class TweekiHooks {
 	/**
 	 * Build dropdown
 	 *
-	 * @param $dropdown array
+	 * @param array $dropdown
+	 * @param string $dropdownclass
 	 * @return String
 	 */
 	static function buildDropdown( $dropdown, $dropdownclass = '' ) {
 		$renderedDropdown = '';
 
-		if( ! self::isBS4() ) {
-			// split dropdown
-			if ( isset( $dropdown['href_implicit'] ) && $dropdown['href_implicit'] === false ) {
-				$renderedDropdown .= TweekiHooks::makeLink( $dropdown );
-				$caret = [
-					'class' => 'dropdown-toggle ' . $dropdown['class'],
-					'href' => '#',
-					'html' => '&zwnj;<b class="caret"></b>',
-					'data-toggle' => 'dropdown'
-				];
-				$renderedDropdown .= TweekiHooks::makeLink( $caret );
-			}
+		// split dropdown
+		if ( isset( $dropdown['href_implicit'] ) && $dropdown['href_implicit'] === false ) {
+			$renderedDropdown .= TweekiHooks::makeLink( $dropdown );
+			$caret = [
+				'class' => 'dropdown-toggle dropdown-toggle-split ' . $dropdown['class'],
+				'href' => '#',
+				'data-toggle' => 'dropdown',
+				'html' => '<span class="sr-only">Toggle Dropdown</span>',
+				'aria-haspopup' => 'true'
+			];
+			$renderedDropdown .= TweekiHooks::makeLink( $caret );
+		}
 
-			// ordinary dropdown
-			else {
-				$dropdown['class'] .= ' dropdown-toggle';
-				$dropdown['data-toggle'] = 'dropdown';
-				$dropdown['html'] = $dropdown['html'] . ' <b class="caret"></b>';
-				$dropdown['href'] = '#';
-				$renderedDropdown .= TweekiHooks::makeLink( $dropdown );
-			}
-		} else {
-			// split dropdown
-			if ( isset( $dropdown['href_implicit'] ) && $dropdown['href_implicit'] === false ) {
-				$renderedDropdown .= TweekiHooks::makeLink( $dropdown );
-				$caret = [
-					'class' => 'dropdown-toggle dropdown-toggle-split ' . $dropdown['class'],
-					'href' => '#',
-					'data-toggle' => 'dropdown',
-					'html' => '<span class="sr-only">Toggle Dropdown</span>',
-					'aria-haspopup' => 'true'
-				];
-				$renderedDropdown .= TweekiHooks::makeLink( $caret );
-			}
-
-			// ordinary dropdown
-			else {
-				$dropdown['class'] .= ' dropdown-toggle';
-				$dropdown['data-toggle'] = 'dropdown';
-				$dropdown['href'] = '#';
-				$dropdown['aria-haspopup'] = 'true';
-				$renderedDropdown .= TweekiHooks::makeLink( $dropdown );
-			}
+		// ordinary dropdown
+		else {
+			$dropdown['class'] .= ' dropdown-toggle';
+			$dropdown['data-toggle'] = 'dropdown';
+			$dropdown['href'] = '#';
+			$dropdown['aria-haspopup'] = 'true';
+			$renderedDropdown .= TweekiHooks::makeLink( $dropdown );
 		}
 
 		$renderedDropdown .= TweekiHooks::buildDropdownMenu( $dropdown['items'], $dropdownclass );
@@ -946,60 +902,35 @@ class TweekiHooks {
 	/**
 	 * Build dropdown-menu (ul)
 	 *
-	 * @param $dropdownmenu array
+	 * @param array $dropdownmenu
+	 * @param string $dropdownclass
 	 * @return String
 	 */
-	static function buildDropdownMenu( $dropdownmenu, $dropdownclass ) {
-		if( ! self::isBS4() ) {
-			$renderedMenu = '<ul class="dropdown-menu ' . $dropdownclass . '" role="menu">';
+	static function buildDropdownMenu( array $dropdownmenu, $dropdownclass ) {
+		$renderedMenu = '<div class="dropdown-menu ' . $dropdownclass . '">';
 
-			foreach ( $dropdownmenu as $entry ) {
-				// divider
-				if ( ( !isset( $entry['text'] ) || $entry['text'] == "" ) // no 'text'
-					&& ( !isset( $entry['html'] ) || $entry['html'] == "" ) // and no 'html'
-				) {
-					$renderedMenu .= '<li class="divider" />';
-				}
-
-				// header
-				elseif ( isset( $entry['text'] ) && isset( $entry['header'] ) && $entry['header'] ) {
-					$renderedMenu .= '<li class="dropdown-header">' . $entry['text'] . '</li>';
-				}
-
-				// standard menu entry
-				else {
-					$entry['tabindex'] = '-1';
-					$renderedMenu .= TweekiHooks::makeListItem( $entry );
-				}
+		foreach ( $dropdownmenu as $entry ) {
+			// divider
+			if ( ( !isset( $entry['text'] ) || $entry['text'] == "" ) // no 'text'
+				&& ( !isset( $entry['html'] ) || $entry['html'] == "" ) // and no 'html'
+			) {
+				$renderedMenu .= '<div class="dropdown-divider"></div>';
 			}
 
-			$renderedMenu .= '</ul>';
-		} else {
-			$renderedMenu = '<div class="dropdown-menu ' . $dropdownclass . '">';
-
-			foreach ( $dropdownmenu as $entry ) {
-				// divider
-				if ( ( !isset( $entry['text'] ) || $entry['text'] == "" ) // no 'text'
-					&& ( !isset( $entry['html'] ) || $entry['html'] == "" ) // and no 'html'
-				) {
-					$renderedMenu .= '<div class="dropdown-divider"></div>';
-				}
-
-				// header
-				elseif ( isset( $entry['text'] ) && isset( $entry['header'] ) && $entry['header'] ) {
-					$renderedMenu .= '<h6 class="dropdown-header">' . $entry['text'] . '</h6>';
-				}
-
-				// standard menu entry
-				else {
-					$entry['tabindex'] = '-1';
-					$entry['class'] = 'dropdown-item';
-					$renderedMenu .= TweekiHooks::makeLink( $entry );
-				}
+			// header
+			elseif ( isset( $entry['text'] ) && isset( $entry['header'] ) && $entry['header'] ) {
+				$renderedMenu .= '<h6 class="dropdown-header">' . $entry['text'] . '</h6>';
 			}
 
-			$renderedMenu .= '</div>';
+			// standard menu entry
+			else {
+				$entry['tabindex'] = '-1';
+				$entry['class'] = 'dropdown-item';
+				$renderedMenu .= TweekiHooks::makeLink( $entry );
+			}
 		}
+
+		$renderedMenu .= '</div>';
 		return $renderedMenu;
 	}
 
@@ -1010,10 +941,10 @@ class TweekiHooks {
 	 * This is a slightly adapted copy of the makeLink function in Skin.php
 	 * -> some of the changed parts are marked by comments //
 	 *
-	 * @param $item array
-	 * @param $options array
+	 * @param array $item
+	 * @param array $options
 	 */
-	static function makeLink( $item, $options = [] ) {
+	static function makeLink( array $item, array $options = [] ) {
 		// tweeki: nested links?
 		if ( isset( $item['links'] ) ) {
 			if( isset( $item['links'][0] ) ) {
@@ -1139,16 +1070,17 @@ class TweekiHooks {
 		return $html;
 	}
 
+
 	/**
 	 * Produce HTML for a list item
 	 *
 	 * This is a slightly adapted copy of the makeListItem function in SkinTemplate.php
 	 * -> some of the changed parts are marked by comments //
 	 *
-	 * @param $item array
-	 * @param $options array
+	 * @param array $item
+	 * @param array $options
 	 */
-	static function makeListItem( $item, $options = [] ) {
+	static function makeListItem( array $item, array $options = [] ) {
 		if ( isset( $item['links'] ) ) {
 			$html = '';
 			foreach ( $item['links'] as $linkKey => $link ) {
@@ -1185,66 +1117,6 @@ class TweekiHooks {
 		return Html::rawElement( isset( $options['tag'] ) ? $options['tag'] : 'li', $attrs, $html );
 	}
 
-	/**
-	 * Customize edit section links
-	 *
-	 * @param $skin Skin current skin
-	 * @param $title Title
-	 * @param $section String section
-	 * @param $tooltip
-	 * @param $links Array link details
-	 * @param $lang String language
-	 *
-	 * @todo: make this work with VisualEditor
-	 */
-	static function onSkinEditSectionLinks( $skin, $title, $section, $tooltip, &$links, $lang = false ) {
-		if(
-			$skin->getSkinName() == 'tweeki'
-			&& $GLOBALS['wgTweekiSkinCustomEditSectionLink'] == true
-		) {
-			$icon = wfMessage( 'tweeki-editsection-icon' )->inLanguage( $lang )->parse();
-			$text = wfMessage( 'tweeki-editsection-text' )->inLanguage( $lang )->parse();
-			$class = wfMessage( 'tweeki-editsection-class' )->inLanguage( $lang )->parse();
-			if( version_compare( MW_VERSION, '1.34', '>=' ) ) {
-                                $text = new HtmlArmor( $icon . ( ( $icon != '' ) ? ' ' : '' ) . $text );
-                        } else {
-                                $text = $icon . ( ( $icon != '' ) ? ' ' : '' ) . $text;
-                        }
-
-			$links['editsection']['text'] = $text;
-			$links['editsection']['attribs']['class'] = $class;
-			return true;
-		}
-	}
-
-
-	/**
-	 * Change TOC and page content of file pages to togglable tabs
-	 *
-	 * @param $outputPage OutputPage
-	 */
-	public static function onAfterFinalPageOutput( $outputPage ) {
-		if( 
-			$outputPage->getSkin()->getSkinName() == 'tweeki'
-			&& $outputPage->getTitle()->getNamespace() == 6 
-			&& $GLOBALS['wgTweekiSkinImagePageTOCTabs'] == true 
-		) {
-			$out = ob_get_clean();
-			$out = str_replace( '<ul id="filetoc">', '<ul id="tw-filetoc" class="nav nav-tabs nav-justified">', $out );
-			$out = str_replace( '<li><a href="#file">', '<li class="active"><a href="#file" class="tab-toggle" data-toggle="tab">', $out );
-			$out = str_replace( '<a href="#filehistory">', '<a href="#filehistory" class="tab-toggle" data-toggle="tab">', $out );
-			$out = str_replace( '<a href="#filelinks">', '<a href="#filelinks" class="tab-toggle" data-toggle="tab">', $out );
-			$out = str_replace( '<a href="#metadata">', '<a href="#metadata" class="tab-toggle" data-toggle="tab">', $out );
-			$out = str_replace( '<div class="fullImageLink" id="file"', '<div class="tab-content"><div id="file" class="tab-pane fade in active"><div class="fullImageLink"', $out );
-			$out = str_replace( '<h2 id="filehistory"', '</div><div id="filehistory" class="tab-pane fade"><h2', $out );
-			$out = str_replace( '<h2 id="filelinks"', '</div><div id="filelinks" class="tab-pane fade"><h2', $out );
-			$out = str_replace( '<h2 id="metadata"', '</div><div id="metadata" class="tab-pane fade"><h2', $out );
-			$out = $out . '</div></div>';
-			ob_start();
-			echo $out;
-		}
-		return true;
-	}
 
 	/**
 	 * Implement numbered headings
@@ -1284,15 +1156,9 @@ class TweekiHooks {
 
 	public static function onInternalParseBeforeLinks( &$parser, &$text, &$strip_state ) {
 		$id = 'MAG_NUMBEREDHEADINGS';
-		if ( method_exists( MagicWord::class, 'get' ) ) {
-			// Before 1.35.
-			$magicWord = MagicWord::get( $id );
-		} else {
-			// 1.35 and above.
-			$magicWord = MediaWikiServices::getInstance()
-				->getMagicWordFactory()
-				->get( $id );
-		}
+		$magicWord = MediaWikiServices::getInstance()
+			->getMagicWordFactory()
+			->get( $id );
 		if ( $magicWord->matchAndRemove( $text ) ) {
 			$parser->mOptions->setNumberHeadings( true );
 		}
