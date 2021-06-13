@@ -333,7 +333,7 @@ class TweekiTemplate extends BaseTemplate {
 										'items' => $items
 										];
 								} else {
-									$link = array_shift( $views );
+									$link = array_shift( $items );
 									$button = [
 										'href' => $link['href'],
 										'href_implicit' => false,
@@ -343,14 +343,13 @@ class TweekiTemplate extends BaseTemplate {
 										'name' => 'ca-edit-ext'
 										];
 									if( isset( $items['edit'] ) ) {
-										$views['edit']['id'] = 'ca-edit-source';
+										$items['edit']['id'] = 'ca-edit-source';
 									}
 									$button['items'] = $items;
 								}
 							} else {
-								$link = array_shift( $views );
 								$button = [
-									'href' => $link['href'],
+									'href' => $views[0]['href'],
 									'id' => 'ca-edit',
 									'icon' => wfMessage( 'tweeki-edit-ext-icon' )->plain(),
 									'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain()
