@@ -595,9 +595,9 @@ class TweekiTemplate extends BaseTemplate {
 						$divideditems['login']['links'][0]['text'] = wfMessage( 'tweeki-login' )->plain();
 						return [ $divideditems['login'] ];
 					}
-					if ( array_key_exists( 'anonlogin', $divideditems ) ) {
-						$divideditems['anonlogin']['links'][0]['text'] = wfMessage( 'tweeki-login' )->plain();
-						return [ $divideditems['anonlogin'] ];
+					if ( array_key_exists( 'login-private', $divideditems ) ) {
+						$divideditems['login-private']['links'][0]['text'] = wfMessage( 'tweeki-login' )->plain();
+						return [ $divideditems['login-private'] ];
 					}
 					if (count($items) > 0) {
 						return [[
@@ -629,7 +629,7 @@ class TweekiTemplate extends BaseTemplate {
 					if ( array_key_exists( 'login', $divideditems ) ) {
 						return [ [ 'special' => 'LOGIN-EXT' ] ];
 					}
-					if ( array_key_exists( 'anonlogin', $divideditems ) ) {
+					if ( array_key_exists( 'login-private', $divideditems ) ) {
 						return [ [ 'special' => 'LOGIN-EXT' ] ];
 					}
 					if (count($items) > 0) {
@@ -649,9 +649,9 @@ class TweekiTemplate extends BaseTemplate {
 						$items['login']['links'][0]['text'] = wfMessage( 'tweeki-login' )->plain();
 						return [ $items['login'] ];
 					}
-					if ( array_key_exists( 'anonlogin', $items ) ) {
-						$items['anonlogin']['links'][0]['text'] = wfMessage( 'tweeki-login' )->plain();
-						return [ $items['anonlogin'] ];
+					if ( array_key_exists( 'login-private', $items ) ) {
+						$items['login-private']['links'][0]['text'] = wfMessage( 'tweeki-login' )->plain();
+						return [ $items['login-private'] ];
 					}
 					return [];
 				break;
@@ -1253,6 +1253,9 @@ class TweekiTemplate extends BaseTemplate {
 		$this->getSkin()->getUser()->setCookies();
 
 		$dropdown['class'] = ' dropdown-toggle';
+		if( strpos( $context, 'navbar' ) === 0 ) {
+			$dropdown['class'] .= ' nav-link';
+		}
 		$dropdown['data-toggle'] = 'dropdown';
 		$dropdown['text'] = $this->getMsg( 'tweeki-login' )->text();
 		$dropdown['html'] = $dropdown['text'] . ' <b class="caret"></b>';
@@ -1260,7 +1263,7 @@ class TweekiTemplate extends BaseTemplate {
 		$dropdown['type'] = 'button';
 		$dropdown['id'] = 'n-login-ext';
 		$renderedDropdown = TweekiHooks::makeLink( $dropdown);
-		$wrapperclass = ( $context == 'footer' ) ? 'dropup' : 'nav';
+		$wrapperclass = ( $context == 'footer' ) ? 'dropup' : 'nav-item dropdown';
 
 		echo '<li class="' . $wrapperclass . '">
 		' . $renderedDropdown . '
@@ -1289,7 +1292,7 @@ class TweekiTemplate extends BaseTemplate {
 				] );
 		echo '</div>
 				<div class="form-group">
-					<button type="submit" name="wpLoginAttempt" tabindex="103" id="wpLoginAttempt2" class="pull-right btn btn-default btn-block">
+					<button type="submit" name="wpLoginAttempt" tabindex="103" id="wpLoginAttempt2" class="float-right btn btn-secondary btn-block">
 						' . $this->getMsg( 'pt-login-button' )->text() . '
 					</button>
 				</div>

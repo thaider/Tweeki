@@ -790,6 +790,11 @@ class TweekiHooks {
 			}
 
 			$button['class'] = implode( ' ', array_unique( $button['class'] ) );
+			if( isset( $button['links'] ) ) {
+				foreach( $button['links'] as &$link ) {
+					$link['class'] = $button['class'];
+				}
+			}
 
 			// set attributes
 			$allowed_attributes = [
