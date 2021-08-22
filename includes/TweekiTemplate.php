@@ -282,8 +282,8 @@ class TweekiTemplate extends BaseTemplate {
 
 				case 'EDIT-EXT':
 					if( !$this->isBS4() ) {
-						$link = array_shift( $views );
 						$views = $this->data['view_urls'];
+						$link = array_shift( $views );
 						if(count( $views ) > 0) {
 							unset( $views['view'] );
 							if ( $this->checkVisibility( 'EDIT-EXT-special' ) ) {
