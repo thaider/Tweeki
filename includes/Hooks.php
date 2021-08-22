@@ -154,7 +154,8 @@ class TweekiHooks {
 	 * @param array $options Array of options used to generate the $confstr hash key
 	 */
 	static function onPageRenderingHash( &$confstr, User $user, array &$options ) {
-		$groups = $user->getEffectiveGroups();
+		$userGroupManager = MediaWikiServices::getInstance()->getUserGroupManager();
+		$groups = $userGroupManager->getUserEffectiveGroups($user);
 		sort( $groups );
 		$confstr .= "!groups=" . join(',', $groups );
 	}
@@ -446,7 +447,8 @@ class TweekiHooks {
 		$parser->getOutput()->updateCacheExpiry(0);
 
 		$groups_except = explode( ',', func_get_arg( 1 ) );
-		$groups_user = $parser->getUser()->getEffectiveGroups();
+		$userGroupManager = MediaWikiServices::getInstance()->getUserGroupManager();
+		$groups_user = $userGroupManager->getUserEffectiveGroups($parser->getUser());
 		if( count( array_intersect( $groups_except, $groups_user ) ) == 0 ) {
 			for ( $i = 2; $i < func_num_args(); $i++ ) {
 				if ( in_array ( func_get_arg( $i ), $GLOBALS['wgTweekiSkinHideable'] ) ) {
