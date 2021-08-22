@@ -788,7 +788,8 @@ class TweekiTemplate extends BaseTemplate {
 
 		// has the option been set for this item?
 		if( isset( $group_settings[$item] ) && is_array( $group_settings[$item] ) ) {
-			$groups = $this->getSkin()->getUser()->getEffectiveGroups();
+			$userGroupManager = MediaWikiServices::getInstance()->getUserGroupManager();
+			$groups = $userGroupManager->getUserEffectiveGroups($this->getSkin()->getUser());
 
 			// is the user in the exempted group?
 			if( count( array_intersect( $group_settings[$item], $groups ) ) > 0 ) {

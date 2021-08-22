@@ -1,6 +1,7 @@
 <?php
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\User\UserGroupManager;
 
 /**
  * Hooks for Tweeki skin
@@ -28,6 +29,11 @@ class TweekiHooks {
 
 	protected static $anchorID = 0;
 	protected static $realnames = [];
+	private $userGroupManager;
+
+	public function __construct( UserGroupManager $userGroupManager ) {
+		$this->userGroupManager = $userGroupManager;
+	}
 
 	static function getSkinTweekiSkin() {
 		return $GLOBALS['wgOut']->getSkin()->getSkinName() === 'tweeki';
@@ -206,7 +212,8 @@ class TweekiHooks {
 	 * @param $options
 	 */
 	static function onPageRenderingHash( &$confstr, $user, &$options ) {
-		$groups = $user->getEffectiveGroups();
+		$userGroupManager = MediaWikiServices::getInstance()->getUserGroupManager();
+		$groups = $userGroupManager->getUserEffectiveGroups($user);
 		sort( $groups );
 		$confstr .= "!groups=" . join(',', $groups );
 	}
@@ -345,7 +352,8 @@ class TweekiHooks {
 		$parser->getOutput()->updateCacheExpiry(0);
 
 		$groups_except = explode( ',', func_get_arg( 1 ) );
-		$groups_user = $parser->getUser()->getEffectiveGroups();
+		$userGroupManager = MediaWikiServices::getInstance()->getUserGroupManager();
+		$groups_user = $userGroupManager->getUserEffectiveGroups($parser->getUser());
 		if( count( array_intersect( $groups_except, $groups_user ) ) == 0 ) {
 			for ( $i = 2; $i < func_num_args(); $i++ ) {
 				if ( in_array ( func_get_arg( $i ), $wgTweekiSkinHideable ) ) {
