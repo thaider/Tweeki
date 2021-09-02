@@ -283,9 +283,9 @@ class TweekiTemplate extends BaseTemplate {
 				case 'EDIT-EXT':
 					if( !$this->isBS4() ) {
 						$views = $this->data['view_urls'];
-						$link = array_shift( $views );
 						if(count( $views ) > 0) {
 							unset( $views['view'] );
+							$link = array_shift( $views );
 							if ( $this->checkVisibility( 'EDIT-EXT-special' ) ) {
 								$button = [
 									'href' => $link['href'],
@@ -348,8 +348,9 @@ class TweekiTemplate extends BaseTemplate {
 									$button['items'] = $items;
 								}
 							} else {
+								$link = array_shift( $views );
 								$button = [
-									'href' => $views[0]['href'],
+									'href' => $link['href'],
 									'id' => 'ca-edit',
 									'icon' => wfMessage( 'tweeki-edit-ext-icon' )->plain(),
 									'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain()
