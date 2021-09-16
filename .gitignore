@@ -1,3 +1,4 @@
+!*.gitkeep/
 .env
 mix-manifest.json
 package-lock.json
