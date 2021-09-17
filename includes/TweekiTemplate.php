@@ -618,7 +618,7 @@ class TweekiTemplate extends BaseTemplate {
 							$item['text'] = wfMessage( isset( $item['msg'] ) ? $item['msg'] : $key )->text();
 						}
 						if(!isset( $item['href'] ) ) {
-							$item['href'] = $item['links'][0]['href'];
+							$item['href'] = isset( $item['links'][0]['href'] ) ? $item['links'][0]['href'] : '';
 						}
 						if(preg_match( '/preferences|logout/', $key )) {
 							$divideditems[] = [];
