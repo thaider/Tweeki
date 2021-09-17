@@ -1,4 +1,4 @@
 import 'jquery';
 import 'bootstrap';
 
-import 'tweeki/tweeki'
+import './tweeki/tweeki'
