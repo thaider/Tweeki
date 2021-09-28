@@ -273,8 +273,9 @@ class TweekiTemplate extends BaseTemplate {
 								$button['items'] = $items;
 							}
 						} else {
+							$link = array_shift( $views );
 							$button = [
-								'href' => $views[0]['href'],
+								'href' => $link['href'],
 								'id' => 'ca-edit',
 								'icon' => wfMessage( 'tweeki-edit-ext-icon' )->plain(),
 								'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain()
@@ -508,11 +509,11 @@ class TweekiTemplate extends BaseTemplate {
 						$divideditems[$key] = $item;
 					}
 					if ( array_key_exists( 'login', $divideditems ) ) {
-						$divideditems['login']['links'][0]['text'] = wfMessage( 'tweeki-login' )->plain();
+						$divideditems['login']['text'] = wfMessage( 'tweeki-login' )->plain();
 						return [ $divideditems['login'] ];
 					}
 					if ( array_key_exists( 'login-private', $divideditems ) ) {
-						$divideditems['login-private']['links'][0]['text'] = wfMessage( 'tweeki-login' )->plain();
+						$divideditems['login-private']['text'] = wfMessage( 'tweeki-login' )->plain();
 						return [ $divideditems['login-private'] ];
 					}
 					if (count($items) > 0) {
@@ -534,7 +535,7 @@ class TweekiTemplate extends BaseTemplate {
 							$item['text'] = wfMessage( isset( $item['msg'] ) ? $item['msg'] : $key )->text();
 						}
 						if(!isset( $item['href'] ) ) {
-							$item['href'] = $item['links'][0]['href'];
+							$item['href'] = isset( $item['links'][0]['href'] ) ? $item['links'][0]['href'] : '';
 						}
 						if(preg_match( '/preferences|logout/', $key )) {
 							$divideditems[] = [];
@@ -1058,8 +1059,8 @@ class TweekiTemplate extends BaseTemplate {
 
 		echo '<li class="' . $wrapperclass . '">
 		' . $renderedDropdown . '
-		<ul class="dropdown-menu" role="menu" aria-labelledby="' . $this->getMsg( 'tweeki-login' )->text() . '" id="loginext">
-			<form action="' . $action . '" method="post" name="userloginext" class="clearfix">
+		<div class="dropdown-menu" role="menu" aria-labelledby="' . $this->getMsg( 'tweeki-login' )->text() . '" id="loginext">
+			<form action="' . $action . '" method="post" name="userloginext" class="clearfix p-1">
 				<div class="form-group">
 					<label for="wpName2" class="hidden-xs">
 						' . $this->getMsg( 'userlogin-yourname' )->text() . '
@@ -1103,7 +1104,7 @@ class TweekiTemplate extends BaseTemplate {
 		}
 
 		echo '
-			</ul>
+			</div>
 			</li>';
 		/*
 		echo '<script>
