@@ -50,50 +50,24 @@
 				"tweeki-toc-top"
 			]
 		},
-		"skins.tweeki.bootstrap.styles": {
-			"position": "top",
-			"styles": "bs3/bootstrap/css/bootstrap.min.css"
-		},
 		"skins.tweeki.styles": {
 			"class": "ResourceLoaderSkinModule",
 			"position": "top",
 			"styles": {
-				"bs3/bootstrap/css/bootstrap.min.css": {
-				},
-				"bs3/mediawiki/mediawiki.less": {
-					"media": "screen"
-				},
-				"bs3/screen.less": {
-					"media": "screen"
-				},
-				"bs3/print.less": {
-					"media": "print"
-				}
+				"public/default/css/tweeki.css": {}
+			}
+		},
+		"skins.tweeki.custom.styles": {
+			"class": "ResourceLoaderSkinModule",
+			"position": "top",
+			"styles": {
+				"public/custom/css/custom.css": {}
 			}
 		},
 		"skins.tweeki.externallinks.styles": {
 			"position": "top",
 			"styles": {
 				"bs3/components/externallinks.less": {
-					"media": "screen"
-				}
-			}
-		},
-		"skins.tweeki.corrections.styles": {
-			"position": "top",
-			"styles": {
-				"bs3/components/corrections.less": {
-					"media": "screen"
-				}
-			}
-		},
-		"skins.tweeki.bootstraptheme.styles": {
-			"position": "top",
-			"styles": {
-				"bs3/bootstrap/css/bootstrap-theme.min.css": {
-					"media": "screen"
-				},
-				"bs3/components/corrections-theme.less": {
 					"media": "screen"
 				}
 			}
@@ -106,56 +80,27 @@
 				}
 			}
 		},
-		"skins.tweeki.bootstrap4.styles": {
-			"class": "ResourceLoaderSkinModule",
+		"skins.tweeki.print.styles": {
 			"position": "top",
 			"styles": {
-				"public/default/css/tweeki.css": {},
-				"awesome/css/all.min.css": {}
-			}
-		},
-		"skins.tweeki.bootstrap4.custom.styles": {
-			"class": "ResourceLoaderSkinModule",
-			"position": "top",
-			"styles": {
-				"public/custom/css/custom.css": {},
-				"awesome/css/all.min.css": {}
-			}
-		},
-		"skins.tweeki.bootstrap4.corrections.styles": {
-			"position": "top",
-			"styles": {
-				"bs3/components/bs4.css": {},
 				"bs3/print.less": {
 					"media": "print"
 				}
 			}
 		},
-		"skins.tweeki.bootstrap4.mediawiki.styles": {
+		"skins.tweeki.mediawiki.styles": {
 			"position": "top",
 			"styles": {
 				"bs3/mediawiki/mediawiki.less": {}
 			}
 		},
+		"skins.tweeki.awesome.styles": {
+			"position": "top",
+			"styles": {
+				"awesome/css/all.min.css": {}
+			}
+		},
 		"skins.tweeki.scripts": {
-			"position": "bottom",
-			"scripts": [
-				"bs3/tweeki.js"
-			],
-			"dependencies": [
-				"skins.tweeki.bootstrap.scripts"
-			]
-		},
-		"skins.tweeki.bootstrap.scripts": {
-			"position": "bottom",
-			"scripts": [
-				"bs3/bootstrap/js/bootstrap.min.js"
-			],
-			"dependencies": [
-				"mediawiki.jqueryMsg"
-			]
-		},
-		"skins.tweeki.bootstrap4.scripts": {
 			"position": "bottom",
 			"scripts": [
 				"public/default/js/tweeki.js"
@@ -164,7 +109,7 @@
 				"mediawiki.jqueryMsg"
 			]
 		},
-		"skins.tweeki.bootstrap4.custom.scripts": {
+		"skins.tweeki.custom.scripts": {
 			"position": "bottom",
 			"scripts": [
 				"public/custom/js/custom.js"

@@ -88,7 +88,10 @@ class TweekiHooks {
 			$styles = [];
 
 			// load mediawiki styles
-			$styles[] = 'skins.tweeki.bootstrap4.mediawiki.styles';
+			$styles[] = 'skins.tweeki.mediawiki.styles';
+
+			// load font awesome
+			$styles[] = 'skins.tweeki.awesome.styles';
 
 			// load externally defined style module
 			if( $config->get( 'TweekiSkinCustomStyleModule' ) ) {
@@ -97,14 +100,14 @@ class TweekiHooks {
 			// or: load modules defined by tweeki
 			} else {
 				if( !$config->get( 'TweekiSkinUseCustomFiles' ) ) {
-					$styles[] = 'skins.tweeki.bootstrap4.styles';
+					$styles[] = 'skins.tweeki.styles';
 				} else {
-					$styles[] = 'skins.tweeki.bootstrap4.custom.styles';
+					$styles[] = 'skins.tweeki.custom.styles';
 				}
 			}
 
 			// load last minute changes (outside webpack)
-			$styles[] = 'skins.tweeki.bootstrap4.corrections.styles';
+			$styles[] = 'skins.tweeki.print.styles';
 
 			// load external link styles
 			if( $config->get( 'TweekiSkinUseExternallinkStyles' ) ) {

@@ -60,9 +60,9 @@ class SkinTweeki extends SkinTemplate {
 		// or: load modules defined by tweeki
 		} else {
 			if( !$this->tweekiConfig->get( 'TweekiSkinUseCustomFiles' ) ) {
-				$out->addModules( 'skins.tweeki.bootstrap4.scripts' );
+				$out->addModules( 'skins.tweeki.scripts' );
 			} else {
-				$out->addModules( 'skins.tweeki.bootstrap4.custom.scripts' );
+				$out->addModules( 'skins.tweeki.custom.scripts' );
 			}
 		}
 	}
