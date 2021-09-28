@@ -60,7 +60,7 @@ body {
     &-buttonElement-button {
       @extend .btn;
 
-      padding: $spacer * 0.3 $spacer !important;
+      // padding: $spacer * 0.3 $spacer !important; // causes problems e.g. on recent changes with buttons with icons
     }
 
     &-widget-enabled {
