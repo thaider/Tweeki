@@ -4,6 +4,12 @@ jQuery(document).ready(function ($) {
     // initialize tooltips
     $(document).ready(function() {
       $('[data-toggle="tooltip"]').tooltip()
+
+      // Page Forms: tooltips for multiple instance forms
+      $('.addAboveButton, .removeButton').tooltip();
+      $(document).on('click', '.multipleTemplateAdder', function(e) {
+        $('.addAboveButton, .removeButton').tooltip();
+      });
     });
   }
 
