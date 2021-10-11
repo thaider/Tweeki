@@ -218,7 +218,7 @@ class TweekiTemplate extends BaseTemplate {
 			}
 			// was this element defined in LocalSettings?
 			if ( isset( $this->config->get( 'TweekiSkinNavigationalElements' )[ $element ] ) ) {
-				return call_user_func( $this->config->get( 'TweekiSkinNavigationalElements' )[ $element ], $this );
+				return call_user_func( $this->config->get( 'TweekiSkinNavigationalElements' )[ $element ], $this, $context );
 			}
 			// is it a special element with special non-buttonesque rendering?
 			if ( isset( $this->config->get( 'TweekiSkinSpecialElements' )[ $element ] ) ) {
