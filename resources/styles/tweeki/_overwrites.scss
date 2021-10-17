@@ -11,6 +11,20 @@
 // }
 
 
+@include media-breakpoint-up(md) {
+  #sidebar {
+    &-right {
+      order:2;
+    }
+    &-left {
+      order:0;
+    }
+  }
+  #maincontentwrapper {
+    order:1;
+  }
+}
+
 .navbar {
   .form-group {
     // margin-bottom: 0;
@@ -148,6 +162,7 @@ body {
         margin-top:0;
       }
     }
+
   }
 
   // Hide default TOC in content

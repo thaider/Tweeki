@@ -185,6 +185,40 @@ class TweekiTemplate extends BaseTemplate {
 			$skin->renderFooter();
 
 		} else {
+			// load defaults for layout without sidebar
+			$main_offset = $skin->getConfig( 'TweekiSkinGridNone' )['mainoffset'];
+			$main_width = $skin->getConfig( 'TweekiSkinGridNone' )['mainwidth'];
+			$left_width = 0;
+			$left_offset = 0;
+			$right_width = 0;
+			$right_offset = 0;
+			// TODO: check for situational emptiness of sidebar (e.g. on special pages)
+			if( true ) {
+				$sidebar_left = $skin->checkVisibility( 'sidebar-left' ) && !$skin->checkEmptiness( 'sidebar-left' );
+				$sidebar_right = $skin->checkVisibility( 'sidebar-right' ) && !$skin->checkEmptiness( 'sidebar-right' );
+				if( $sidebar_left && $sidebar_right ) { // both sidebars
+					$left_offset = $skin->getConfig( 'TweekiSkinGridBoth' )['leftoffset'];
+					$left_width = $skin->getConfig( 'TweekiSkinGridBoth' )['leftwidth'];
+					$main_offset = $skin->getConfig( 'TweekiSkinGridBoth' )['mainoffset'];
+					$main_width = $skin->config->get( 'TweekiSkinGridBoth' )['mainwidth'];
+					$right_offset = $skin->getConfig( 'TweekiSkinGridBoth' )['rightoffset'];
+					$right_width = $skin->getConfig( 'TweekiSkinGridBoth' )['rightwidth'];
+				}
+				if( $sidebar_left XOR $sidebar_right ) { // only one of the sidebars
+					if( $sidebar_left ) {
+						$left_offset = $skin->getConfig( 'TweekiSkinGridLeft' )['leftoffset'];
+						$left_width = $skin->getConfig( 'TweekiSkinGridLeft' )['leftwidth'];
+						$main_offset = $skin->getConfig( 'TweekiSkinGridLeft' )['mainoffset'];
+						$main_width = $skin->getConfig( 'TweekiSkinGridLeft' )['mainwidth'];
+					}
+					else {
+						$main_offset = $skin->getConfig( 'TweekiSkinGridRight' )['mainoffset'];
+						$main_width = $skin->getConfig( 'TweekiSkinGridRight' )['mainwidth'];
+						$right_offset = $skin->getConfig( 'TweekiSkinGridRight' )['rightoffset'];
+						$right_width = $skin->getConfig( 'TweekiSkinGridRight' )['rightwidth'];
+					}
+				}
+			}
 
 			$mainclass = 'col-md-' . $main_width;
 			if( $main_offset > 0 ) {
