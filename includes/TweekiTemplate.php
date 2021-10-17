@@ -593,11 +593,17 @@ class TweekiTemplate extends BaseTemplate {
 						$divideditems[$key] = $item;
 					}
 					if ( array_key_exists( 'login', $divideditems ) ) {
-						$divideditems['login']['links'][0]['text'] = wfMessage( 'tweeki-login' )->plain();
+						if( array_key_exists( 'createaccount', $divideditems ) ) { // If ConfirmAccount Extension is used
+							return [ $divideditems['login'], $divideditems['createaccount'] ];
+						}
+						$divideditems['login']['text'] = wfMessage( 'tweeki-login' )->plain();
 						return [ $divideditems['login'] ];
 					}
 					if ( array_key_exists( 'login-private', $divideditems ) ) {
-						$divideditems['login-private']['links'][0]['text'] = wfMessage( 'tweeki-login' )->plain();
+						if( array_key_exists( 'createaccount', $divideditems ) ) { // If ConfirmAccount Extension is used
+							return [ $divideditems['login-private'], $divideditems['createaccount'] ];
+						}
+						$divideditems['login-private']['text'] = wfMessage( 'tweeki-login' )->plain();
 						return [ $divideditems['login-private'] ];
 					}
 					if (count($items) > 0) {
@@ -647,10 +653,16 @@ class TweekiTemplate extends BaseTemplate {
 				case 'LOGIN':
 					$items = $this->getPersonalTools();
 					if ( array_key_exists( 'login', $items ) ) {
+						if( array_key_exists( 'createaccount', $items ) ) { // If ConfirmAccount Extension is used
+							return [ $items['login'], $items['createaccount'] ];
+						}
 						$items['login']['links'][0]['text'] = wfMessage( 'tweeki-login' )->plain();
 						return [ $items['login'] ];
 					}
 					if ( array_key_exists( 'login-private', $items ) ) {
+						if( array_key_exists( 'createaccount', $items ) ) { // If ConfirmAccount Extension is used
+							return [ $items['login-private'], $items['createaccount'] ];
+						}
 						$items['login-private']['links'][0]['text'] = wfMessage( 'tweeki-login' )->plain();
 						return [ $items['login-private'] ];
 					}
@@ -1306,9 +1318,15 @@ class TweekiTemplate extends BaseTemplate {
 			</form>';
 
 		if( $this->getSkin()->getUser()->isAllowed( 'createaccount' ) ) {
-			echo	'<li class="nav" id="tw-createaccount">
-					<a href="' . $GLOBALS['wgScript'] . '?title=special:userlogin&amp;type=signup" class="center-block">
+			echo	'<li class="nav center" id="tw-createaccount">
+					<a href="' . $GLOBALS['wgScript'] . '?title=special:userlogin&amp;type=signup">
 						' . $this->getMsg( 'createaccount' )->text() . '
+					</a>
+				</li>';
+		} else if( array_key_exists( 'createaccount', $this->getPersonalTools() ) ) { // ConfirmAccount Extension
+			echo	'<li class="nav center" id="tw-requestaccount">
+					<a href="' . $GLOBALS['wgScript'] . '?title=special:requestaccount">
+						' . $this->getMsg( 'requestaccount-login' )->text() . '
 					</a>
 				</li>';
 		}
