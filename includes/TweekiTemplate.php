@@ -114,28 +114,26 @@ class TweekiTemplate extends BaseTemplate {
 			if( $sidebar_left && $sidebar_right ) { // both sidebars
 				$left_offset = $skin->getConfig( 'TweekiSkinGridBoth' )['leftoffset'];
 				$left_width = $skin->getConfig( 'TweekiSkinGridBoth' )['leftwidth'];
-				$main_offset = $left_offset + $left_width + $skin->getConfig( 'TweekiSkinGridBoth' )['mainoffset'];
+				$main_offset = $skin->getConfig( 'TweekiSkinGridBoth' )['mainoffset'];
 				$main_width = $skin->config->get( 'TweekiSkinGridBoth' )['mainwidth'];
-				$right_offset = $main_offset + $main_width + $skin->getConfig( 'TweekiSkinGridBoth' )['rightoffset'];
+				$right_offset = $skin->getConfig( 'TweekiSkinGridBoth' )['rightoffset'];
 				$right_width = $skin->getConfig( 'TweekiSkinGridBoth' )['rightwidth'];
 			}
 			if( $sidebar_left XOR $sidebar_right ) { // only one of the sidebars
 				if( $sidebar_left ) {
 					$left_offset = $skin->getConfig( 'TweekiSkinGridLeft' )['leftoffset'];
 					$left_width = $skin->getConfig( 'TweekiSkinGridLeft' )['leftwidth'];
-					$main_offset = $left_offset + $left_width + $skin->getConfig( 'TweekiSkinGridLeft' )['mainoffset'];
+					$main_offset = $skin->getConfig( 'TweekiSkinGridLeft' )['mainoffset'];
 					$main_width = $skin->getConfig( 'TweekiSkinGridLeft' )['mainwidth'];
 				}
 				else {
 					$main_offset = $skin->getConfig( 'TweekiSkinGridRight' )['mainoffset'];
 					$main_width = $skin->getConfig( 'TweekiSkinGridRight' )['mainwidth'];
-					$right_offset = $main_offset + $main_width + $skin->getConfig( 'TweekiSkinGridRight' )['rightoffset'];
+					$right_offset = $skin->getConfig( 'TweekiSkinGridRight' )['rightoffset'];
 					$right_width = $skin->getConfig( 'TweekiSkinGridRight' )['rightwidth'];
 				}
 			}
 		}
-
-
 
 		$contentclass = $skin->data['userstateclass'];
 		$contentclass .= ' ' . wfMessage( 'tweeki-container-class' )->escaped();
@@ -509,10 +507,16 @@ class TweekiTemplate extends BaseTemplate {
 						$divideditems[$key] = $item;
 					}
 					if ( array_key_exists( 'login', $divideditems ) ) {
+						if( array_key_exists( 'createaccount', $divideditems ) ) { // If ConfirmAccount Extension is used
+							return [ $divideditems['login'], $divideditems['createaccount'] ];
+						}
 						$divideditems['login']['text'] = wfMessage( 'tweeki-login' )->plain();
 						return [ $divideditems['login'] ];
 					}
 					if ( array_key_exists( 'login-private', $divideditems ) ) {
+						if( array_key_exists( 'createaccount', $divideditems ) ) { // If ConfirmAccount Extension is used
+							return [ $divideditems['login-private'], $divideditems['createaccount'] ];
+						}
 						$divideditems['login-private']['text'] = wfMessage( 'tweeki-login' )->plain();
 						return [ $divideditems['login-private'] ];
 					}
@@ -563,10 +567,16 @@ class TweekiTemplate extends BaseTemplate {
 				case 'LOGIN':
 					$items = $this->getPersonalTools();
 					if ( array_key_exists( 'login', $items ) ) {
+						if( array_key_exists( 'createaccount', $items ) ) { // If ConfirmAccount Extension is used
+							return [ $items['login'], $items['createaccount'] ];
+						}
 						$items['login']['links'][0]['text'] = wfMessage( 'tweeki-login' )->plain();
 						return [ $items['login'] ];
 					}
 					if ( array_key_exists( 'login-private', $items ) ) {
+						if( array_key_exists( 'createaccount', $items ) ) { // If ConfirmAccount Extension is used
+							return [ $items['login-private'], $items['createaccount'] ];
+						}
 						$items['login-private']['links'][0]['text'] = wfMessage( 'tweeki-login' )->plain();
 						return [ $items['login-private'] ];
 					}
@@ -1096,11 +1106,17 @@ class TweekiTemplate extends BaseTemplate {
 			</form>';
 
 		if( $this->getSkin()->getUser()->isAllowed( 'createaccount' ) ) {
-			echo	'<li class="nav" id="tw-createaccount">
-					<a href="' . $GLOBALS['wgScript'] . '?title=special:userlogin&amp;type=signup" class="center-block">
+			echo	'<div class="nav center mb-2" id="tw-createaccount">
+					<a href="' . $GLOBALS['wgScript'] . '?title=special:userlogin&amp;type=signup">
 						' . $this->getMsg( 'createaccount' )->text() . '
 					</a>
-				</li>';
+				</div>';
+		} else if( array_key_exists( 'createaccount', $this->getPersonalTools() ) ) { // ConfirmAccount Extension
+			echo	'<div class="nav center mb-2" id="tw-requestaccount">
+					<a href="' . $GLOBALS['wgScript'] . '?title=special:requestaccount">
+						' . $this->getMsg( 'requestaccount-login' )->text() . '
+					</a>
+				</div>';
 		}
 
 		echo '

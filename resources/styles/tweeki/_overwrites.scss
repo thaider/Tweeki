@@ -11,6 +11,20 @@
 // }
 
 
+@include media-breakpoint-up(md) {
+  #sidebar {
+    &-right {
+      order:2;
+    }
+    &-left {
+      order:0;
+    }
+  }
+  #maincontentwrapper {
+    order:1;
+  }
+}
+
 .navbar {
   .form-group {
     // margin-bottom: 0;
@@ -899,4 +913,9 @@ a.mw-selflink {
   position:relative;
   z-index: 1;
   padding: $card-spacer-y $card-spacer-x;
+}
+
+
+.btn-block + .btn-block.dropdown-toggle {
+  margin-top:0;
 }
