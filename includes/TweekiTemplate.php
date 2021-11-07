@@ -641,13 +641,26 @@ class TweekiTemplate extends BaseTemplate {
 						return [ $divideditems['login-private'] ];
 					}
 					if (count($items) > 0) {
-						return [[
+						$personal = [
 							'href' => '#',
 							'html' => '<span class="tweeki-username">' . wfMessage( 'tweeki-personaltools-text', $this->data['username'] )->text() . '</span>',
 							'icon' => wfMessage( 'tweeki-personaltools-icon' )->text(),
 							'id' => 'pt-personaltools',
 							'items' => $divideditems
-							]];
+						];
+						if( $GLOBALS['wgTweekiSkinUserImageProperty'] !== false ) {
+							$userImages = \SMW\StoreFactory::getStore()->getPropertyValues( \SMW\DIWikiPage::newFromTitle( $this->getSkin()->getUser()->getUserPage() ), \SMW\DIProperty::newFromUserLabel( $GLOBALS['wgTweekiSkinUserImageProperty'] ) );
+							//die(var_dump( \SMW\DIProperty::newFromUserLabel( $GLOBALS['wgTweekiSkinUserImageProperty'] ) ) );
+							if ( !empty( $userImages ) ) {
+								$userImage = reset( $userImages );
+								if ( is_a( $userImage, '\SMW\DIWikiPage' ) && $userImage->getNamespace() === NS_FILE ) {
+									$imagePage = new WikiFilePage( $userImage->getTitle() );
+									$personal['html'] = '<img src="' . $imagePage->getFile()->createThumb( 31, 31 ) . '" class="tweeki-user-image">';
+									unset( $personal['icon'] );
+								}
+							}
+						}
+						return [$personal];
 					}
 					break;
 

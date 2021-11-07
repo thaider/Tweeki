@@ -1,6 +1,6 @@
 {
 	"name": "Tweeki",
-	"version": "1.2.5",
+	"version": "1.2.6",
 	"author": "Tobias Haider",
 	"url": "https://tweeki.kollabor.at",
 	"descriptionmsg": "tweeki-skin-desc",
@@ -254,7 +254,8 @@
 			"rightwidth": 2
 		},
 		"TweekiSkinAdditionalBodyClasses": [],
-		"TweekiSkinUseRealnames": false
+		"TweekiSkinUseRealnames": false,
+		"TweekiSkinUserImageProperty": false
 	},
 	"callback": "TweekiHooks::onRegistration",
 	"manifest_version": 1
