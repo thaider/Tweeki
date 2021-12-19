@@ -231,7 +231,7 @@ class TweekiHooks {
 
 			$user = $out->getUser();
 			$additionalBodyClasses[] = $user->getOption( 'tweeki-advanced' ) ? 'tweeki-advanced' : 'tweeki-non-advanced';
-			$additionalBodyClasses[] = $user->isLoggedIn() ? 'tweeki-user-logged-in' : 'tweeki-user-anon';
+			$additionalBodyClasses[] = $user->isRegistered() ? 'tweeki-user-logged-in' : 'tweeki-user-anon';
 			
 			$additionalBodyClasses = array_merge( $additionalBodyClasses, $GLOBALS['wgTweekiSkinAdditionalBodyClasses'] );
 
