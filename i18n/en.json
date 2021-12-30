@@ -84,5 +84,6 @@
 	"tweeki-config-gridright": "Offsets and widths for the main content and the right sidebar.",
 	"tweeki-config-gridboth": "Offsets and widths for the left sidebar, the main content and the right sidebar.",
 	"tweeki-config-additionalbodyclasses": "Add your custom body classes. You can use the <code><nowiki>{{#tweekibodyclasses}}</nowiki></code> parser function to add classes per page or via a template call. And you can also use the <code>SkinTweekiAdditionalBodyClasses</code> hook.",
-	"tweeki-config-userealnames": "When displaying links to user pages, use their real name if they provide one instead of the user name."
+	"tweeki-config-userealnames": "When displaying links to user pages, use their real name if they provide one instead of the user name.",
+	"tweeki-config-userimageproperty": "Set this to the name of a semantic property linking to the page of a user's image"
 }

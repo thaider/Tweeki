@@ -275,6 +275,10 @@
 		"TweekiSkinUseRealnames": {
 			"value": false,
 			"descriptionmsg": "tweeki-config-userealnames"
+		},
+		"TweekiSkinUserImageProperty": {
+			"value": false,
+			"descrpitionmsg": "tweeki-config-userimageproperty"
 		}
 	},
 	"manifest_version": 2
