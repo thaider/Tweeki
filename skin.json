@@ -67,37 +67,21 @@
 		"skins.tweeki.externallinks.styles": {
 			"position": "top",
 			"styles": {
-				"bs3/components/externallinks.less": {
+				"public/legacy/css/externallinks.less": {
 					"media": "screen"
-				}
-			}
-		},
-		"skins.tweeki.cookiewarning.styles": {
-			"position": "top",
-			"styles": {
-				"bs3/components/cookiewarning.less": {
-					"media": "screen"
-				}
-			}
-		},
-		"skins.tweeki.print.styles": {
-			"position": "top",
-			"styles": {
-				"bs3/print.less": {
-					"media": "print"
 				}
 			}
 		},
 		"skins.tweeki.mediawiki.styles": {
 			"position": "top",
 			"styles": {
-				"bs3/mediawiki/mediawiki.less": {}
+				"public/legacy/mediawiki/mediawiki.less": {}
 			}
 		},
 		"skins.tweeki.awesome.styles": {
 			"position": "top",
 			"styles": {
-				"awesome/css/all.min.css": {}
+				"public/awesome/css/all.min.css": {}
 			}
 		},
 		"skins.tweeki.scripts": {

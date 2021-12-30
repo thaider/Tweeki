@@ -8,11 +8,8 @@
 @import "tweeki/variables";
 /* @import "custom/variables"; */
 
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-
 @import "~bootstrap/scss/bootstrap";
 
-@import "tweeki/overwrites";
+@import "tweeki/index";
 
-/* @import "custom/custom"; */
+/* @import "custom/index"; */

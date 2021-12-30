@@ -106,17 +106,10 @@ class TweekiHooks {
 				}
 			}
 
-			// load last minute changes (outside webpack)
-			$styles[] = 'skins.tweeki.print.styles';
-
 			// load external link styles
 			if( $config->get( 'TweekiSkinUseExternallinkStyles' ) ) {
 				$styles[] = 'skins.tweeki.externallinks.styles';
 			}
-
-			// if( $config->get( 'CookieWarningEnabled' ) ) {
-			// 	$styles[] = 'skins.tweeki.cookiewarning.styles';
-			// }
 
 			// load additional modules
 			foreach( $GLOBALS['wgTweekiSkinCustomCSS'] as $customstyle ) {
