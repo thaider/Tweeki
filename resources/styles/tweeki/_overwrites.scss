@@ -9,6 +9,10 @@
 //   min-height: 70vh;
 // }
 
+#maincontentwrapper {
+  overflow-wrap:break-word; // headings and content that is to long should break
+}
+
 
 @include media-breakpoint-up(md) {
   #sidebar {
@@ -515,13 +519,6 @@ h6:hover .tw-editsection-onhover {
   margin-top:10px;
   font-weight:600;
   letter-spacing:-.01em;
-}
-
-.tweekiFirstHeading {
-  background-color:#fff;
-  border:1px dashed #ccc;
-  padding:5px;
-  border-radius:2px;
 }
 
 .firstHeading .namespace {

@@ -42,3 +42,15 @@ Tweeki is open source, and built on open source projects.
 
 Please check out the [LICENSE file](https://github.com/thaider/Tweeki/blob/master/LICENSE) 
 for details.
+
+## Development
+
+Suggestions for improvements, ideally in the form of pull request, are always warmly welcome.
+
+In case you aren't able to implement some new feature that you would like to see in Tweeki,
+consider hiring one of these people:
+
+* Tobias Haider (Tweeki's maintainer)
+* ...
+
+If you're a developer and want to be put on this list, just drop me a note...
