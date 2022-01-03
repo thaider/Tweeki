@@ -30,11 +30,6 @@ class TweekiHooks {
 
 	protected static $anchorID = 0;
 	protected static $realnames = [];
-	private $userGroupManager;
-
-	public function __construct( UserGroupManager $userGroupManager ) {
-		$this->userGroupManager = $userGroupManager;
-	}
 
 
 	/**
