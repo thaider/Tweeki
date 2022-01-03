@@ -1,5 +1,8 @@
 jQuery(document).ready(function ($) {
 
+  /**
+   * TOOLTIPS
+   */
   if(mw.config.get('wgTweekiSkinUseTooltips') === true ) {
     // initialize tooltips
     $(document).ready(function() {
@@ -12,6 +15,7 @@ jQuery(document).ready(function ($) {
       });
     });
   }
+
 
   /**
    * FOOTER
@@ -95,22 +99,6 @@ jQuery(document).ready(function ($) {
 
 
   /**
-   * HEADLINES
-   *
-   * If the headline is inside the span it's padding will prevent
-   * links directly above the headline to be accessible
-   */
-  /*
-  $('.mw-headline').each(function(i) {
-    var headline_contents = $(this).contents();
-
-    if (typeof headline_contents !== 'undefined')
-      $(this).text('').after(headline_contents);
-  });
-  */
-
-
-  /**
    * LOGIN-EXT
    */
   // don't close dropdown when clicking in the login form
@@ -124,6 +112,8 @@ jQuery(document).ready(function ($) {
       setTimeout( '$( "#wpName2" ).focus();', 100 );
     }
   });
+
+
 
   /**
    * Fix VisualEditor scroll stickiness
@@ -143,7 +133,7 @@ jQuery(document).ready(function ($) {
      // does then the navbar is fixed and run this code if
      if ( $( '.navbar-fixed-top').length ) {
       var $el = $('.oo-ui-toolbar-bar > .oo-ui-toolbar-actions');
-      var $headerheight = $('#mw-head').height();
+      var $headerheight = $('#mw-navigation').innerHeight();
       var isPositionFixed = ($el.parent().css('position') == 'fixed');
 
       if ($(this).scrollTop() > $headerheight && !isPositionFixed){

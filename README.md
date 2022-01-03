@@ -1,7 +1,7 @@
 # Tweeki, a Bootstrap based skin for MediaWiki
 
-Tweeki is a skin for **[MediaWiki](http://mediawiki.org/)** (1.31+) based on
-**[Bootstrap](http://getbootstrap.com/)** (v3.4.1 and v4.4.1). It tries to implement as 
+Tweeki is a skin for **[MediaWiki](http://mediawiki.org/)** (1.35+) based on
+**[Bootstrap](http://getbootstrap.com/)** (v4.6.0). It tries to implement as
 much of Bootstrap's functionality as possible, allowing to use it very easily and with 
 very reduced markup, and features many configuration options.
 
@@ -42,3 +42,15 @@ Tweeki is open source, and built on open source projects.
 
 Please check out the [LICENSE file](https://github.com/thaider/Tweeki/blob/master/LICENSE) 
 for details.
+
+## Development
+
+Suggestions for improvements, ideally in the form of pull request, are always warmly welcome.
+
+In case you aren't able to implement some new feature that you would like to see in Tweeki,
+consider hiring one of these people:
+
+* Tobias Haider (Tweeki's maintainer)
+* ...
+
+If you're a developer and want to be put on this list, just drop me a note...

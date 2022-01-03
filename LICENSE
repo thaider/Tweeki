@@ -2,7 +2,7 @@ All the PHP, .css and .js are originally derived from
 MediaWiki's vector theme, which is GPLv2:
 http://gnu.org/licenses/gpl-2.0
 
-Bootstrap and Glyphicons are licensed under MIT License:
+Bootstrap is licensed under MIT License:
 https://github.com/twbs/bootstrap/blob/master/LICENSE
 
 FontAwesome Code is licensed under MIT License:

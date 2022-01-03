@@ -1,0 +1,33 @@
+/* Tweeki print styles */
+
+@media print {
+	/* hide most of the unimportant stuff */
+	.noprint,
+	#mw-navigation,
+	#mw-page-base,
+	#mw-head-base,
+	#toc,
+	.sidebar-wrapper,
+	body #footer,
+	#page-header,
+	body #sidebar-left,
+	body #sidebar-right {
+		display:none;
+	}
+
+	#maincontentwrapper {
+		max-width:100%;
+		flex:auto;
+	}
+
+	.printfooter {
+		color:#666;
+		font-style:italic;
+		font-size:smaller;
+	}
+
+	/* print accordions */
+	.collapse {
+		display:block;
+	}
+}

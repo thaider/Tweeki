@@ -1,4 +1,3 @@
-@import "navigation";
 
 /**
  * Grid spacing
@@ -10,6 +9,24 @@
 //   min-height: 70vh;
 // }
 
+#maincontentwrapper {
+  overflow-wrap:break-word; // headings and content that is to long should break
+}
+
+
+@include media-breakpoint-up(md) {
+  #sidebar {
+    &-right {
+      order:2;
+    }
+    &-left {
+      order:0;
+    }
+  }
+  #maincontentwrapper {
+    order:1;
+  }
+}
 
 @include media-breakpoint-up(md) {
   #sidebar {
@@ -74,7 +91,7 @@ body {
     &-buttonElement-button {
       @extend .btn;
 
-      padding: $spacer * 0.3 $spacer !important;
+      // padding: $spacer * 0.3 $spacer !important; // causes problems e.g. on recent changes with buttons with icons
     }
 
     &-widget-enabled {
@@ -519,13 +536,6 @@ h6:hover .tw-editsection-onhover {
   letter-spacing:-.01em;
 }
 
-.tweekiFirstHeading {
-  background-color:#fff;
-  border:1px dashed #ccc;
-  padding:5px;
-  border-radius:2px;
-}
-
 .firstHeading .namespace {
   font-weight:300;
 }
@@ -914,6 +924,11 @@ a.mw-selflink {
   position:relative;
   z-index: 1;
   padding: $card-spacer-y $card-spacer-x;
+}
+
+
+.btn-block + .btn-block.dropdown-toggle {
+  margin-top:0;
 }
 
 

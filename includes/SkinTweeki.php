@@ -42,6 +42,7 @@ class SkinTweeki extends SkinTemplate {
 			->makeConfig( 'tweeki' );
 	}
 
+
 	/**
 	 * Initializes output page and sets up skin-specific parameters
 	 * @param OutputPage $out Object to initialize
@@ -52,20 +53,21 @@ class SkinTweeki extends SkinTemplate {
 		$out->addMeta( 'viewport', 'width=device-width, initial-scale=1' );
 		$out->addModules( 'skins.tweeki.messages' );
 
-		// load scripts
+		// load externally defined script module
 		if( $this->tweekiConfig->get( 'TweekiSkinCustomScriptModule' ) ) {
 			$out->addModules( $this->tweekiConfig->get( 'TweekiSkinCustomScriptModule' ) );
-		} elseif( !$this->tweekiConfig->get( 'TweekiSkinUseBootstrap4' ) ) {
-			$out->addModules( 'skins.tweeki.scripts' );
+
+		// or: load modules defined by tweeki
 		} else {
 			if( !$this->tweekiConfig->get( 'TweekiSkinUseCustomFiles' ) ) {
-				$out->addModules( 'skins.tweeki.bootstrap4.scripts' );
+				$out->addModules( 'skins.tweeki.scripts' );
 			} else {
-				$out->addModules( 'skins.tweeki.bootstrap4.custom.scripts' );
+				$out->addModules( 'skins.tweeki.custom.scripts' );
 			}
 		}
 	}
 	
+
 	/**
 	 * Override to pass our Config instance to it
 	 * @param string $classname
@@ -76,6 +78,7 @@ class SkinTweeki extends SkinTemplate {
 	public function setupTemplate( $classname, $repository = false, $cache_dir = false ) {
 		return new $classname( $this->tweekiConfig );
 	}
+
 
 	/**
 	 * Whether the logo should be preloaded with an HTTP link header or not

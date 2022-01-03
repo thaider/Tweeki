@@ -91,7 +91,6 @@ class TweekiTemplate extends BaseTemplate {
 	}
 
 
-
 	/**
 	 * Render the whole page
 	 *
@@ -115,28 +114,26 @@ class TweekiTemplate extends BaseTemplate {
 			if( $sidebar_left && $sidebar_right ) { // both sidebars
 				$left_offset = $skin->getConfig( 'TweekiSkinGridBoth' )['leftoffset'];
 				$left_width = $skin->getConfig( 'TweekiSkinGridBoth' )['leftwidth'];
-				$main_offset = $left_offset + $left_width + $skin->getConfig( 'TweekiSkinGridBoth' )['mainoffset'];
+				$main_offset = $skin->getConfig( 'TweekiSkinGridBoth' )['mainoffset'];
 				$main_width = $skin->config->get( 'TweekiSkinGridBoth' )['mainwidth'];
-				$right_offset = $main_offset + $main_width + $skin->getConfig( 'TweekiSkinGridBoth' )['rightoffset'];
+				$right_offset = $skin->getConfig( 'TweekiSkinGridBoth' )['rightoffset'];
 				$right_width = $skin->getConfig( 'TweekiSkinGridBoth' )['rightwidth'];
 			}
 			if( $sidebar_left XOR $sidebar_right ) { // only one of the sidebars
 				if( $sidebar_left ) {
 					$left_offset = $skin->getConfig( 'TweekiSkinGridLeft' )['leftoffset'];
 					$left_width = $skin->getConfig( 'TweekiSkinGridLeft' )['leftwidth'];
-					$main_offset = $left_offset + $left_width + $skin->getConfig( 'TweekiSkinGridLeft' )['mainoffset'];
+					$main_offset = $skin->getConfig( 'TweekiSkinGridLeft' )['mainoffset'];
 					$main_width = $skin->getConfig( 'TweekiSkinGridLeft' )['mainwidth'];
 				}
 				else {
 					$main_offset = $skin->getConfig( 'TweekiSkinGridRight' )['mainoffset'];
 					$main_width = $skin->getConfig( 'TweekiSkinGridRight' )['mainwidth'];
-					$right_offset = $main_offset + $main_width + $skin->getConfig( 'TweekiSkinGridRight' )['rightoffset'];
+					$right_offset = $skin->getConfig( 'TweekiSkinGridRight' )['rightoffset'];
 					$right_width = $skin->getConfig( 'TweekiSkinGridRight' )['rightwidth'];
 				}
 			}
 		}
-
-
 
 		$contentclass = $skin->data['userstateclass'];
 		$contentclass .= ' ' . wfMessage( 'tweeki-container-class' )->escaped();
@@ -146,128 +143,53 @@ class TweekiTemplate extends BaseTemplate {
 			$contentclass .= ' with-navbar-fixed';
 		}
 
+		$mainclass = 'col-md-' . $main_width;
+		if( $main_offset > 0 ) {
+			$mainclass .= ' offset-md-' . $main_offset;
+		}
 
-
-		if( !$skin->isBS4() ) {
-
-			$mainclass = 'col-md-offset-' . $main_offset . ' col-md-' . $main_width;
-
-			$skin->renderNavbar();
-
+		call_user_func_array( $skin->getConfig( 'TweekiSkinNavbarRenderer' ), [ $skin ] );
 ?>
+		<main role="main">
 			<div id="mw-page-base"></div>
 			<div id="mw-head-base"></div>
 			<a id="top"></a>
 
-			<!-- content -->
+
 			<div id="contentwrapper" class="<?php echo $contentclass; ?>">
 
-				<?php if( !$skin->checkEmptiness( 'subnav' ) ) { $skin->renderSubnav( $mainclass ); } ?>
-
 				<div class="row">
-					<div class="<?php echo $mainclass ?>" role="main">
+					<?php if( !$skin->checkEmptiness( 'subnav' ) ) { $skin->renderSubnav( $mainclass ); } ?>
+
+					<!-- content -->
+					<div class="<?php echo $mainclass ?>" id="maincontentwrapper" role="main">
 						<?php $skin->renderContent(); ?>
 					</div>
+					<!-- /content -->
+
+<?php
+					if( !$skin->checkEmptiness( 'sidebar-left' ) ) {
+						$leftclass = 'col-md-' . $left_width;
+						$skin->renderSidebar( 'left', $leftclass );
+					}
+					if( !$skin->checkEmptiness( 'sidebar-right' ) ) {
+						$rightclass = 'col-md-' . $right_width;
+						$skin->renderSidebar( 'right', $rightclass );
+					}
+?>
 				</div>
 			</div>
-			<!-- /content -->
-
-<?php
-			if( !$skin->checkEmptiness( 'sidebar-left' ) ) {
-				$leftclass = 'col-md-' . $left_width . ' col-md-offset-' . $left_offset;
-				$skin->renderSidebar( 'left', $leftclass );
-			}
-			if( !$skin->checkEmptiness( 'sidebar-right' ) ) {
-				$rightclass = 'col-md-' . $right_width . ' col-md-offset-' . $right_offset;
-				$skin->renderSidebar( 'right', $rightclass );
-			}
-
-			$skin->renderFooter();
-
-		} else {
-			// load defaults for layout without sidebar
-			$main_offset = $skin->getConfig( 'TweekiSkinGridNone' )['mainoffset'];
-			$main_width = $skin->getConfig( 'TweekiSkinGridNone' )['mainwidth'];
-			$left_width = 0;
-			$left_offset = 0;
-			$right_width = 0;
-			$right_offset = 0;
-			// TODO: check for situational emptiness of sidebar (e.g. on special pages)
-			if( true ) {
-				$sidebar_left = $skin->checkVisibility( 'sidebar-left' ) && !$skin->checkEmptiness( 'sidebar-left' );
-				$sidebar_right = $skin->checkVisibility( 'sidebar-right' ) && !$skin->checkEmptiness( 'sidebar-right' );
-				if( $sidebar_left && $sidebar_right ) { // both sidebars
-					$left_offset = $skin->getConfig( 'TweekiSkinGridBoth' )['leftoffset'];
-					$left_width = $skin->getConfig( 'TweekiSkinGridBoth' )['leftwidth'];
-					$main_offset = $skin->getConfig( 'TweekiSkinGridBoth' )['mainoffset'];
-					$main_width = $skin->config->get( 'TweekiSkinGridBoth' )['mainwidth'];
-					$right_offset = $skin->getConfig( 'TweekiSkinGridBoth' )['rightoffset'];
-					$right_width = $skin->getConfig( 'TweekiSkinGridBoth' )['rightwidth'];
-				}
-				if( $sidebar_left XOR $sidebar_right ) { // only one of the sidebars
-					if( $sidebar_left ) {
-						$left_offset = $skin->getConfig( 'TweekiSkinGridLeft' )['leftoffset'];
-						$left_width = $skin->getConfig( 'TweekiSkinGridLeft' )['leftwidth'];
-						$main_offset = $skin->getConfig( 'TweekiSkinGridLeft' )['mainoffset'];
-						$main_width = $skin->getConfig( 'TweekiSkinGridLeft' )['mainwidth'];
-					}
-					else {
-						$main_offset = $skin->getConfig( 'TweekiSkinGridRight' )['mainoffset'];
-						$main_width = $skin->getConfig( 'TweekiSkinGridRight' )['mainwidth'];
-						$right_offset = $skin->getConfig( 'TweekiSkinGridRight' )['rightoffset'];
-						$right_width = $skin->getConfig( 'TweekiSkinGridRight' )['rightwidth'];
-					}
-				}
-			}
-
-			$mainclass = 'col-md-' . $main_width;
-			if( $main_offset > 0 ) {
-				$mainclass .= ' offset-md-' . $main_offset;
-			}
-
-			call_user_func_array( $skin->getConfig( 'TweekiSkinNavbarRenderer' ), [ $skin ] );
-?>
-			<main role="main">
-				<div id="mw-page-base"></div>
-				<div id="mw-head-base"></div>
-				<a id="top"></a>
-
-
-				<div id="contentwrapper" class="<?php echo $contentclass; ?>">
-
-					<div class="row">
-						<?php if( !$skin->checkEmptiness( 'subnav' ) ) { $skin->renderSubnav4( $mainclass ); } ?>
-
-						<!-- content -->
-						<div class="<?php echo $mainclass ?>" id="maincontentwrapper" role="main">
-							<?php $skin->renderContent(); ?>
-						</div>
-						<!-- /content -->
-
-	<?php
-						if( !$skin->checkEmptiness( 'sidebar-left' ) ) {
-							$leftclass = 'col-md-' . $left_width;
-							$skin->renderSidebar4( 'left', $leftclass );
-						}
-						if( !$skin->checkEmptiness( 'sidebar-right' ) ) {
-							$rightclass = 'col-md-' . $right_width;
-							$skin->renderSidebar4( 'right', $rightclass );
-						}
-
-	?>
-					</div>
-				</div>
-			</main>
+		</main>
 
 
 <?php
-			$skin->renderFooter4();
-		}
+		$skin->renderFooter();
 	}
 
 	public function getConfig( $config ) {
 		return $this->config->get($config);
 	}
+
 
 	/**
 	 * Render one or more navigations elements by name, automatically reversed by css
@@ -293,7 +215,7 @@ class TweekiTemplate extends BaseTemplate {
 			}
 			// was this element defined in LocalSettings?
 			if ( isset( $this->config->get( 'TweekiSkinNavigationalElements' )[ $element ] ) ) {
-				return call_user_func( $this->config->get( 'TweekiSkinNavigationalElements' )[ $element ], $this );
+				return call_user_func( $this->config->get( 'TweekiSkinNavigationalElements' )[ $element ], $this, $context );
 			}
 			// is it a special element with special non-buttonesque rendering?
 			if ( isset( $this->config->get( 'TweekiSkinSpecialElements' )[ $element ] ) ) {
@@ -315,83 +237,48 @@ class TweekiTemplate extends BaseTemplate {
 					break;
 
 				case 'EDIT-EXT':
-					if( !$this->isBS4() ) {
-						$views = $this->data['view_urls'];
-						if(count( $views ) > 0) {
-							unset( $views['view'] );
-							$link = array_shift( $views );
-							if ( $this->checkVisibility( 'EDIT-EXT-special' ) ) {
+					$views = $this->data['view_urls'];
+					if(count( $views ) > 0) {
+						unset( $views['view'] );
+						if ( $this->checkVisibility( 'EDIT-EXT-special' ) ) {
+							$items = $views;
+							if(count($this->data['action_urls']) > 0) {
+								$items[] = []; #divider
+								$actions = $this->renderNavigation( 'ACTIONS' );
+								$items = array_merge( $items, $actions[0]['items'] );
+							}
+							if( strpos( $context, 'navbar' ) !== false ) {
+								$button = [
+									'href' => '#',
+									'html' => wfMessage( 'tweeki-edit-ext-nav' )->plain(),
+									'id' => 'ca-edit-ext',
+									'items' => $items
+									];
+							} else {
+								$link = array_shift( $items );
 								$button = [
 									'href' => $link['href'],
 									'href_implicit' => false,
 									'id' => 'ca-edit',
-									'icon' => 'pen',
+									'icon' => wfMessage( 'tweeki-edit-ext-icon' )->plain(),
 									'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain(),
 									'name' => 'ca-edit-ext'
+									];
+								if( isset( $items['edit'] ) ) {
+									$items['edit']['id'] = 'ca-edit-source';
+								}
+								$button['items'] = $items;
+							}
+						} else {
+							$link = array_shift( $views );
+							$button = [
+								'href' => $link['href'],
+								'id' => 'ca-edit',
+								'icon' => wfMessage( 'tweeki-edit-ext-icon' )->plain(),
+								'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain()
 								];
-								if( isset( $views['edit'] ) ) {
-									$views['edit']['id'] = 'ca-edit-source';
-								}
-								$button['items'] = $views;
-								if(count($this->data['action_urls']) > 0) {
-									$button['items'][] = []; #divider
-									$actions = $this->renderNavigation( 'ACTIONS' );
-									$button['items'] = array_merge( $button['items'], $actions[0]['items'] );
-								}
-							} else {
-								$button = [
-									'href' => $link['href'],
-									'id' => 'ca-edit',
-									'icon' => 'pen',
-									'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain()
-									];
-							}
-							return [ $button ];
 						}
-					} else {
-						$views = $this->data['view_urls'];
-						if(count( $views ) > 0) {
-							unset( $views['view'] );
-							if ( $this->checkVisibility( 'EDIT-EXT-special' ) ) {
-								$items = $views;
-								if(count($this->data['action_urls']) > 0) {
-									$items[] = []; #divider
-									$actions = $this->renderNavigation( 'ACTIONS' );
-									$items = array_merge( $items, $actions[0]['items'] );
-								}
-								if( strpos( $context, 'navbar' ) !== false ) {
-									$button = [
-										'href' => '#',
-										'html' => wfMessage( 'tweeki-edit-ext-nav' )->plain(),
-										'id' => 'ca-edit-ext',
-										'items' => $items
-										];
-								} else {
-									$link = array_shift( $items );
-									$button = [
-										'href' => $link['href'],
-										'href_implicit' => false,
-										'id' => 'ca-edit',
-										'icon' => wfMessage( 'tweeki-edit-ext-icon' )->plain(),
-										'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain(),
-										'name' => 'ca-edit-ext'
-										];
-									if( isset( $items['edit'] ) ) {
-										$items['edit']['id'] = 'ca-edit-source';
-									}
-									$button['items'] = $items;
-								}
-							} else {
-								$link = array_shift( $views );
-								$button = [
-									'href' => $link['href'],
-									'id' => 'ca-edit',
-									'icon' => wfMessage( 'tweeki-edit-ext-icon' )->plain(),
-									'text' => wfMessage( 'tweeki-edit-ext', $this->data['namespace'] )->plain()
-									];
-							}
-							return [ $button ];
-						}
+						return [ $button ];
 					}
 					return [];
 					break;
@@ -458,11 +345,7 @@ class TweekiTemplate extends BaseTemplate {
 					break;
 
 				case 'TOOLBOX':
-					if( version_compare( MW_VERSION, '1.35', '>=' ) ) {
-						$items = array_reverse($this->get('sidebar')['TOOLBOX']);
-					} else {
-						$items = array_reverse($this->getToolbox());
-					}
+					$items = array_reverse($this->get('sidebar')['TOOLBOX']);
 					$divideditems = [];
 					$html = (wfMessage( 'tweeki-toolbox' )->plain() == "") ? wfMessage( 'toolbox' )->plain() : wfMessage( 'tweeki-toolbox' )->plain();
 					foreach($items as $key => $item) {
@@ -483,11 +366,7 @@ class TweekiTemplate extends BaseTemplate {
 					break;
 
 				case 'TOOLBOX-EXT':
-					if( version_compare( MW_VERSION, '1.35', '>=' ) ) {
-						$items = array_reverse($this->get('sidebar')['TOOLBOX']);
-					} else {
-						$items = array_reverse($this->getToolbox());
-					}
+					$items = array_reverse($this->get('sidebar')['TOOLBOX']);
 					$divideditems = [];
 					$html = (wfMessage( 'tweeki-toolbox' )->plain() == "") ? wfMessage( 'toolbox' )->plain() : wfMessage( 'tweeki-toolbox' )->plain();
 					foreach($items as $key => $item) {
@@ -647,8 +526,8 @@ class TweekiTemplate extends BaseTemplate {
 							'icon' => wfMessage( 'tweeki-personaltools-icon' )->text(),
 							'id' => 'pt-personaltools',
 							'items' => $divideditems
-						];
-						if( $GLOBALS['wgTweekiSkinUserImageProperty'] !== false ) {
+							];
+						if( isset( $GLOBALS['wgTweekiSkinUserImageProperty'] ) && $GLOBALS['wgTweekiSkinUserImageProperty'] !== false ) {
 							$userImages = \SMW\StoreFactory::getStore()->getPropertyValues( \SMW\DIWikiPage::newFromTitle( $this->getSkin()->getUser()->getUserPage() ), \SMW\DIProperty::newFromUserLabel( $GLOBALS['wgTweekiSkinUserImageProperty'] ) );
 							//die(var_dump( \SMW\DIProperty::newFromUserLabel( $GLOBALS['wgTweekiSkinUserImageProperty'] ) ) );
 							if ( !empty( $userImages ) ) {
@@ -809,6 +688,7 @@ class TweekiTemplate extends BaseTemplate {
 		}
 	}
 
+
 	/**
 	 * Check if an element has an entry in a configuration option and if it's set to true
 	 * (i.e. the element should be hidden)
@@ -870,25 +750,6 @@ class TweekiTemplate extends BaseTemplate {
 		$options = $this->getParsingOptions( 'subnav' );
 		if( !wfMessage( 'tweeki-subnav' )->isDisabled() && $this->checkVisibility( 'subnav' ) ) { ?>
 			<!-- subnav -->
-			<div id="page-header" class="subnav row">
-				<div class="<?php echo $class; ?>">
-					<ul class="<?php $this->msg( 'tweeki-subnav-class' ) ?>">
-					<?php $this->buildItems( wfMessage( 'tweeki-subnav' )->plain(), $options, 'subnav' ); ?>
-					</ul>
-				</div>
-			</div>
-			<!-- /subnav -->
-		<?php }
-	}
-
-
-	/**
-	 * Render Subnavigation for Bootstrap 4
-	 */
-	public function renderSubnav4( $class ) {
-		$options = $this->getParsingOptions( 'subnav' );
-		if( !wfMessage( 'tweeki-subnav' )->isDisabled() && $this->checkVisibility( 'subnav' ) ) { ?>
-			<!-- subnav -->
 			<div id="page-header" class="<?php echo $class; ?>">
 				<ul class="<?php $this->msg( 'tweeki-subnav-class' ) ?>">
 				<?php $this->buildItems( wfMessage( 'tweeki-subnav' )->plain(), $options, 'subnav' ); ?>
@@ -901,61 +762,10 @@ class TweekiTemplate extends BaseTemplate {
 
 	/**
 	 * Render Navbar
+	 *
+	 * @param $skin
 	 */
-	public function renderNavbar() {
-		if ( $this->checkVisibility( 'navbar' ) ) { ?>
-			<!-- navbar -->
-			<div id="mw-navigation" class="<?php $this->msg( 'tweeki-navbar-class' ); ?>" role="navigation">
-				<h2><?php $this->msg( 'navigation-heading' ) ?></h2>
-				<div id="mw-head" class="navbar-inner">
-					<div class="<?php $this->msg( 'tweeki-container-class' ); ?>">
-
-						<div class="navbar-header">
-							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-								<span class="sr-only">Toggle navigation</span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-							</button>
-
-							<?php if ( $this->checkVisibility( 'navbar-brand' ) ) {
-								$this->renderBrand();
-								} ?>
-
-						</div>
-
-						<div id="navbar" class="navbar-collapse collapse">
-						<?php if ( $this->checkVisibility( 'navbar-left' ) ) { ?>
-							<ul class="nav navbar-nav">
-							<?php $this->renderNavbarElement( 'left' ); ?>
-							</ul>
-						<?php } ?>
-
-						<?php if ( $this->checkVisibility( 'navbar-right' ) ) { ?>
-							<ul class="nav navbar-nav navbar-right">
-							<?php $this->renderNavbarElement( 'right' ); ?>
-							</ul>
-						</div>
-						<?php } ?>
-
-					</div>
-				</div>
-			</div>
-			<!-- /navbar -->
-		<?php }
-	}
-
-
-	private static function get_navbar_toggler ($nav_id = 'navigation', $icon_class = 'navbar-toggler-icon')
-	{
-		return "<button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#$nav_id\" aria-controls=\"$nav_id\" aria-expanded=\"false\" aria-label=\"Toggle navigation\"><span class=\"$icon_class\"></span></button>";
-	}
-
-
-	/**
-	 * Render Navbar for Bootstrap 4
-	 */
-	public static function renderNavbar4($skin) {
+	public static function renderNavbar($skin) {
 		$navbar_class = $skin->getMsg( 'tweeki-navbar-class' );
 		if ( $skin->checkVisibility( 'navbar' ) ) { ?>
 			<header>
@@ -972,13 +782,13 @@ class TweekiTemplate extends BaseTemplate {
 						<div id="navbar" class="collapse navbar-collapse">
 							<?php if ( $skin->checkVisibility( 'navbar-left' ) ) { ?>
 								<ul class="navbar-nav mr-auto">
-									<?php $skin->renderNavbarElement4( 'left' ); ?>
+									<?php $skin->renderNavbarElement( 'left' ); ?>
 								</ul>
 							<?php } ?>
 
 							<?php if ( $skin->checkVisibility( 'navbar-right' ) ) { ?>
 								<ul class="navbar-nav">
-									<?php $skin->renderNavbarElement4( 'right' ); ?>
+									<?php $skin->renderNavbarElement( 'right' ); ?>
 								</ul>
 							<?php } ?>
 						</div>
@@ -997,18 +807,6 @@ class TweekiTemplate extends BaseTemplate {
 	public function renderNavbarElement( $side ) {
 		$element = 'navbar-' . $side;
 		$options = $this->getParsingOptions( $element );
-		$this->buildItems( wfMessage( 'tweeki-' . $element )->plain(), $options, $element );
-	}
-
-
-	/**
-	 * Render Navbarelement
-	 *
-	 * @param $side string
-	 */
-	public function renderNavbarElement4( $side ) {
-		$element = 'navbar-' . $side;
-		$options = $this->getParsingOptions( $element );
 
 		$options['wrapperclass'] = 'nav-item';
 		$options['class'] = 'nav-link';
@@ -1023,32 +821,6 @@ class TweekiTemplate extends BaseTemplate {
 	 * @param $class string
 	 */
 	public function renderSidebar( $side, $class = '' ) {
-		$element = 'sidebar-' . $side;
-		$options = $this->getParsingOptions( $element );
-		/* TODO: can we move these criteria elsewhere? rather there should be some handling for empty sidebars */
-		if ( ( true || count( $this->data['view_urls'] ) > 0 || $this->data['isarticle'] ) && $this->checkVisibility( $element ) ) { ?>
-			<!-- <?php echo $element; ?> -->
-			<div class="sidebar-wrapper <?php echo $element; ?>-wrapper">
-				<div class="sidebar-container <?php echo wfMessage( 'tweeki-container-class' )->plain(); ?>">
-					<div class="row">
-						<div id="<?php echo $element; if( $class !== '' ) { echo '" class="' . $class; } ?>">
-							<?php $this->buildItems( wfMessage( 'tweeki-' . $element )->plain(), $options, $element ); ?>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- /<?php echo $element;?> -->
-		<?php }
-	}
-
-
-	/**
-	 * Render Sidebar for BS4
-	 *
-	 * @param $side string
-	 * @param $class string
-	 */
-	public function renderSidebar4( $side, $class = '' ) {
 		$element = 'sidebar-' . $side;
 		$options = $this->getParsingOptions( $element );
 		$classes = $class;
@@ -1124,24 +896,11 @@ class TweekiTemplate extends BaseTemplate {
 			</div>
 			<!-- /bodyContent -->
 		</div>
-	<?php }
-
-
-	/**
-	 * Render Footer
-	 */
-	public function renderFooter() {
-		$options = $this->getParsingOptions( 'footer' );
-		if ( $this->checkVisibility( 'footer' ) ) { ?>
-			<!-- footer -->
-			<div id="footer" role="contentinfo" class="footer <?php $this->msg( 'tweeki-container-class' ); ?> <?php $this->msg( 'tweeki-footer-class' ); ?>"<?php $this->html( 'userlangattributes' ) ?>>
-			<?php $this->buildItems( wfMessage( 'tweeki-footer' )->plain(), $options, 'footer' ); ?>
-			</div>
-			<!-- /footer -->
-		<?php }
+		<?php
 	}
 
-	public function renderFooter4() {
+
+	public function renderFooter() {
 		$options = $this->getParsingOptions( 'footer' );
 		if ( $this->checkVisibility( 'footer' ) ) { ?>
 			<footer id="footer" role="contentinfo" class="footer <?php $this->msg( 'tweeki-footer-class' ); ?>"<?php $this->html( 'userlangattributes' ) ?>>
@@ -1233,19 +992,10 @@ class TweekiTemplate extends BaseTemplate {
 	 * @param $customItems array
 	 */
 	private function renderCustomNavigation( &$buttons, &$customItems ) {
-
-		if( version_compare( MW_VERSION, '1.35', '>=' ) ) {
-			$parser = MediaWikiServices::getInstance()->getParser();
-			$parser->setOptions( ParserOptions::newFromContext( $this->getSkin()->getContext() ) );
-			$parser->setTitle( $this->getSkin()->getTitle() );
-			$parser->clearState();
-		} else {
-			$options = new ParserOptions();
-			$parser = new Parser();
-			$parser->Title ( $this->getSkin()->getTitle() );
-			$parser->Options( $options );
-			$parser->clearState();
-		}
+		$parser = MediaWikiServices::getInstance()->getParser();
+		$parser->setOptions( ParserOptions::newFromContext( $this->getSkin()->getContext() ) );
+		$parser->setTitle( $this->getSkin()->getTitle() );
+		$parser->clearState();
 
 		if( count( $customItems ) !== 0 ) {
 			$newButtons = TweekiHooks::parseButtons( implode( chr(10), $customItems ), $parser, false );
@@ -1262,6 +1012,7 @@ class TweekiTemplate extends BaseTemplate {
 		echo '<div class="tweekiFirstHeading">' . $skin->data[ 'title_formatted' ] . '</div>';
 	}
 
+
 	/**
 	 * Render TOC
 	 */
@@ -1272,6 +1023,7 @@ class TweekiTemplate extends BaseTemplate {
 			echo '<li class="nav dropdown" id="tweekiDropdownTOC"><a id="n-toc" class="dropdown-toggle" data-toggle="dropdown" href="#">' . wfMessage( 'Toc' )->text() . '<span class="caret"></span></a><ul class="dropdown-menu pull-right" role="menu" id="tweekiTOC"><li><a href="#">' . wfMessage( 'tweeki-toc-top' )->text() . '</a></li><li class="divider"></li></ul></li>';
 		}
 	}
+
 
 	/**
 	 * Render logo
@@ -1287,6 +1039,7 @@ class TweekiTemplate extends BaseTemplate {
 		$skin->html( 'sitename' );
 		echo '"></a>';
 	}
+
 
 	/**
 	 * Render Login-ext
@@ -1328,8 +1081,8 @@ class TweekiTemplate extends BaseTemplate {
 
 		echo '<li class="' . $wrapperclass . '">
 		' . $renderedDropdown . '
-		<ul class="dropdown-menu" role="menu" aria-labelledby="' . $this->getMsg( 'tweeki-login' )->text() . '" id="loginext">
-			<form action="' . $action . '" method="post" name="userloginext" class="clearfix">
+		<div class="dropdown-menu" role="menu" aria-labelledby="' . $this->getMsg( 'tweeki-login' )->text() . '" id="loginext">
+			<form action="' . $action . '" method="post" name="userloginext" class="clearfix p-1">
 				<div class="form-group">
 					<label for="wpName2" class="hidden-xs">
 						' . $this->getMsg( 'userlogin-yourname' )->text() . '
@@ -1365,21 +1118,21 @@ class TweekiTemplate extends BaseTemplate {
 			</form>';
 
 		if( $this->getSkin()->getUser()->isAllowed( 'createaccount' ) ) {
-			echo	'<li class="nav center" id="tw-createaccount">
+			echo	'<div class="nav center mb-2" id="tw-createaccount">
 					<a href="' . $GLOBALS['wgScript'] . '?title=special:userlogin&amp;type=signup">
 						' . $this->getMsg( 'createaccount' )->text() . '
 					</a>
-				</li>';
+				</div>';
 		} else if( array_key_exists( 'createaccount', $this->getPersonalTools() ) ) { // ConfirmAccount Extension
-			echo	'<li class="nav center" id="tw-requestaccount">
+			echo	'<div class="nav center mb-2" id="tw-requestaccount">
 					<a href="' . $GLOBALS['wgScript'] . '?title=special:requestaccount">
 						' . $this->getMsg( 'requestaccount-login' )->text() . '
 					</a>
-				</li>';
+				</div>';
 		}
 
 		echo '
-			</ul>
+			</div>
 			</li>';
 		/*
 		echo '<script>
@@ -1394,103 +1147,53 @@ class TweekiTemplate extends BaseTemplate {
 		*/
 	}
 
+
 	/**
 	 * Render search
 	 */
 	public function renderSearch( $skin, $context ) {
+		if( $context == 'subnav' ) {
+			echo '<li class="nav dropdown">';
+		}
+		if( strpos( $context, 'navbar' ) === 0 ) {
+			echo '</ul>';
+		}
+		echo '
+			<form ';
 
-		if ( !$skin->isBS4() ) {
+		if( $context == 'navbar-left' ) {
+			echo 'class="navbar-form navbar-left" ';
+		}
+		if( $context == 'navbar-right' ) {
+			echo 'class="navbar-form navbar-right" ';
+		}
+		echo 'action="';
+		$skin->text( 'wgScript' );
+		echo '" id="searchform">
+				<div class="form-inline">';
 
-			if( $context == 'subnav' ) {
-				echo '<li class="nav dropdown">';
-			}
-			if( strpos( $context, 'navbar' ) === 0 ) {
-				echo '</ul>';
-			}
-			echo '
-				<form ';
+		echo $skin->makeSearchInput( [
+			'id' => 'searchInput',
+			'class' => 'search-query form-control',
+			'placeholder' => $skin->getMsg( 'search' )->text()
+		] );
 
-			if( $context == 'navbar-left' ) {
-				echo 'class="navbar-form navbar-left" ';
-			}
-			if( $context == 'navbar-right' ) {
-				echo 'class="navbar-form navbar-right" ';
-			}
-			echo 'action="';
-			$skin->text( 'wgScript' );
-			echo '" id="searchform">
-					<div class="form-group">';
-
-			echo $skin->makeSearchInput( [
-				'id' => 'searchInput',
-				'class' => 'search-query form-control',
-				'placeholder' => $skin->getMsg( 'search' )->text()
+		echo $skin->makeSearchButton( 'go', [
+			'id' => 'mw-searchButton',
+			'class' => 'searchButton btn d-none'
 			] );
 
-			echo $skin->makeSearchButton( 'go', [
-				'id' => 'mw-searchButton',
-				'class' => 'searchButton btn hidden'
-				] );
-
-			echo '
-					</div>
-				</form>';
-			if( $context == 'navbar-left' ) {
-				echo '<ul class="nav navbar-nav">';
-			}
-			if( $context == 'navbar-right' ) {
-				echo '<ul class="nav navbar-nav navbar-right">';
-			}
-			if( $context == 'subnav' ) {
-				echo '</li>';
-			}
-
-		} else {
-
-			if( $context == 'subnav' ) {
-				echo '<li class="nav dropdown">';
-			}
-			if( strpos( $context, 'navbar' ) === 0 ) {
-				echo '</ul>';
-			}
-			echo '
-				<form ';
-
-			if( $context == 'navbar-left' ) {
-				echo 'class="navbar-form navbar-left" ';
-			}
-			if( $context == 'navbar-right' ) {
-				echo 'class="navbar-form navbar-right" ';
-			}
-			echo 'action="';
-			$skin->text( 'wgScript' );
-			echo '" id="searchform">
-					<div class="form-inline">';
-
-			echo $skin->makeSearchInput( [
-				'id' => 'searchInput',
-				'class' => 'search-query form-control',
-				'placeholder' => $skin->getMsg( 'search' )->text()
-			] );
-
-			echo $skin->makeSearchButton( 'go', [
-				'id' => 'mw-searchButton',
-				'class' => 'searchButton btn d-none'
-				] );
-
-			echo '
-					</div>
-				</form>';
-			if( $context == 'navbar-left' ) {
-				echo '<ul class="nav navbar-nav">';
-			}
-			if( $context == 'navbar-right' ) {
-				echo '<ul class="nav navbar-nav navbar-right">';
-			}
-			if( $context == 'subnav' ) {
-				echo '</li>';
-			}
-
+		echo '
+				</div>
+			</form>';
+		if( $context == 'navbar-left' ) {
+			echo '<ul class="nav navbar-nav">';
+		}
+		if( $context == 'navbar-right' ) {
+			echo '<ul class="nav navbar-nav navbar-right">';
+		}
+		if( $context == 'subnav' ) {
+			echo '</li>';
 		}
 	}
 
@@ -1520,111 +1223,48 @@ class TweekiTemplate extends BaseTemplate {
 	 * Render standard MediaWiki footer
 	 */
 	public function renderStandardFooter( $options ) {
+		$options = $this->getParsingOptions( 'footer-standard' );
+		$widget_class = 'col-12 col-sm footer-widget';
 
-		// Render Bootstrap 3 Footer
-		if (!$this->isBS4() ) :
-
-			$options = $this->getParsingOptions( 'footer-standard' );
-
-			foreach ( $this->getFooterLinks() as $category => $links ) {
-				if ( $this->checkVisibility( 'footer-' . $category ) ) {
-					echo '<ul id="footer-' . $category . '">';
-					foreach ( $links as $link ) {
-						if ( $this->checkVisibility( 'footer-' . $category . '-' . $link ) ) {
-							echo '<li id="footer-' . $category . '-' . $link . '">';
-							$this->html( $link );
-							echo '</li>';
-						}
-					}
-					echo '</ul>';
-				}
-			}
-			if ( $this->checkVisibility( 'footer-custom' ) ) {
-				if ( wfMessage ( 'tweeki-footer-custom' )->plain() !== "" ) {
-					echo '<ul id="footer-custom">';
-					$this->buildItems( wfMessage ( 'tweeki-footer-custom' )->plain(), $options, 'footer' );
-					echo '</ul>';
-				}
-			}
-			if( version_compare( MW_VERSION, '1.35', '>=' ) ) {
-				$footericons = $this->get('footericons');
-			} else {
-				$footericons = $this->getFooterIcons( "icononly" );
-			}
-			if ( count( $footericons ) > 0 && $this->checkVisibility( 'footer-icons' ) ) {
-				echo '<ul id="footer-icons">';
-				foreach ( $footericons as $blockName => $footerIcons ) {
-					if ( $this->checkVisibility( 'footer-' . $blockName . 'ico' ) ) {
-						echo '<li id="footer-' . htmlspecialchars( $blockName ) . 'ico">';
-						foreach ( $footerIcons as $icon ) {
-							if($this->config->get( 'TweekiSkinFooterIcons' ) ) {
-								echo $this->getSkin()->makeFooterIcon( $icon );
-							} else {
-								echo '<span>' . $this->getSkin()->makeFooterIcon( $icon, 'withoutImage' ) . '</span>';
-							}
-						}
-						echo '</li>';
-					}
-				}
-				echo '</ul>';
-			}
-			echo '<div style="clear:both"></div>';
-
-		// Render Bootstrap 4 Footer
-		else :
-
-			$options = $this->getParsingOptions( 'footer-standard' );
-			$widget_class = 'col-12 col-sm footer-widget';
-
-			foreach ( $this->getFooterLinks() as $category => $links ) {
-				if ( $this->checkVisibility( 'footer-' . $category ) ) {
-					echo '<div class="'.$widget_class.'"><ul id="footer-' . $category . '">';
-					foreach ( $links as $link ) {
-						if ( $this->checkVisibility( 'footer-' . $category . '-' . $link ) ) {
-							echo '<li id="footer-' . $category . '-' . $link . '">';
-							$this->html( $link );
-							echo '</li>';
-						}
-					}
-					echo '</ul></div>';
-				}
-			}
-
-			if ( $this->checkVisibility( 'footer-custom' ) ) {
-				if ( wfMessage ( 'tweeki-footer-custom' )->plain() !== "" ) {
-					echo '<div class="'.$widget_class.'"><ul id="footer-custom">';
-					$this->buildItems( wfMessage ( 'tweeki-footer-custom' )->plain(), $options, 'footer' );
-					echo '</ul></div>';
-				}
-			}
-
-			if( version_compare( MW_VERSION, '1.35', '>=' ) ) {
-				$footericons = $this->get('footericons');
-			} else {
-				$footericons = $this->getFooterIcons( "icononly" );
-			}
-			if ( count( $footericons ) > 0 && $this->checkVisibility( 'footer-icons' ) ) {
-				echo '<div class="'.$widget_class.'"><ul id="footer-icons">';
-				foreach ( $footericons as $blockName => $footerIcons ) {
-					if ( $this->checkVisibility( 'footer-' . $blockName . 'ico' ) ) {
-						echo '<li id="footer-' . htmlspecialchars( $blockName ) . 'ico">';
-						foreach ( $footerIcons as $icon ) {
-							if($this->config->get( 'TweekiSkinFooterIcons' ) ) {
-								echo $this->getSkin()->makeFooterIcon( $icon );
-							} else {
-								echo '<span>' . $this->getSkin()->makeFooterIcon( $icon, 'withoutImage' ) . '</span>';
-							}
-						}
+		foreach ( $this->getFooterLinks() as $category => $links ) {
+			if ( $this->checkVisibility( 'footer-' . $category ) ) {
+				echo '<div class="'.$widget_class.'"><ul id="footer-' . $category . '">';
+				foreach ( $links as $link ) {
+					if ( $this->checkVisibility( 'footer-' . $category . '-' . $link ) ) {
+						echo '<li id="footer-' . $category . '-' . $link . '">';
+						$this->html( $link );
 						echo '</li>';
 					}
 				}
 				echo '</ul></div>';
 			}
+		}
 
-		endif;
-	}
+		if ( $this->checkVisibility( 'footer-custom' ) ) {
+			if ( wfMessage ( 'tweeki-footer-custom' )->plain() !== "" ) {
+				echo '<div class="'.$widget_class.'"><ul id="footer-custom">';
+				$this->buildItems( wfMessage ( 'tweeki-footer-custom' )->plain(), $options, 'footer' );
+				echo '</ul></div>';
+			}
+		}
 
-	public function isBS4() {
-		return $this->config->get( 'TweekiSkinUseBootstrap4' );
+		$footericons = $this->get('footericons');
+		if ( count( $footericons ) > 0 && $this->checkVisibility( 'footer-icons' ) ) {
+			echo '<div class="'.$widget_class.'"><ul id="footer-icons">';
+			foreach ( $footericons as $blockName => $footerIcons ) {
+				if ( $this->checkVisibility( 'footer-' . $blockName . 'ico' ) ) {
+					echo '<li id="footer-' . htmlspecialchars( $blockName ) . 'ico">';
+					foreach ( $footerIcons as $icon ) {
+						if($this->config->get( 'TweekiSkinFooterIcons' ) ) {
+							echo $this->getSkin()->makeFooterIcon( $icon );
+						} else {
+							echo '<span>' . $this->getSkin()->makeFooterIcon( $icon, 'withoutImage' ) . '</span>';
+						}
+					}
+					echo '</li>';
+				}
+			}
+			echo '</ul></div>';
+		}
 	}
 }
