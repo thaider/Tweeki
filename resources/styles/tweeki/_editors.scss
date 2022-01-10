@@ -1,0 +1,15 @@
+/**
+ * VisualEditor
+ */
+
+.ve-ui-toolbar *,
+.ve-ui-overlay * {
+  box-sizing:content-box;
+}
+
+
+// Modals above Navbar
+.oo-ui-windowManager-modal,
+.wikiEditor-toolbar-dialog {
+  z-index: 1031 !important;
+}

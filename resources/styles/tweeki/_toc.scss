@@ -1,0 +1,102 @@
+#sidebar {
+  &-right,
+  &-left {
+    #tweekiTOC {
+      margin-top:25px;
+    }
+
+    #tweekiTOC:first-child {
+      margin-top:0;
+    }
+  }
+
+}
+
+// Hide default TOC in content
+#bodyContent #toc {
+  display: none;
+}
+
+// hide by default and make it visible by javascript only
+#tweekiDropdownTOC {
+  display:none;
+}
+
+#tweekiTOC {
+  font-size: $font-size-sm;
+
+  // hide .toctogglespan, introduced in MW 1.32
+  .toctogglespan,
+  .toctoggle,
+  .tocnumber {
+    display:none;
+  }
+
+  // backwards compatibility for MW < 1.30
+  #toctitle,
+  .toctitle {
+    h2 {
+      font-size: $font-size-sm;
+      font-weight: normal;
+      text-transform: none;
+      position: relative;
+
+      a {
+        @extend .badge;
+
+        display: block;
+        position: absolute;
+        font-size: 0.75rem;
+        right: 0;
+        top: 0;
+        background-color: $gray-200;
+        font-weight: normal;
+      }
+    }
+  }
+
+  #toc {
+    width:100%;
+    display:none;
+
+    a {
+      padding: 0;
+      color: #999;
+
+      &.active,
+      &:hover,
+      &:focus,
+      &:hover {
+        color: #000;
+      }
+    }
+
+    ul {
+      margin: 0 !important;
+
+      & > li {
+        & > ul {
+          display: none;
+          border-left: 1px solid $gray-400;
+          margin: $spacer 0;
+          padding: 0 0 0 $spacer;
+
+          li,
+          a {
+            font-size: 0.75rem;
+            line-height: 0.75rem * 1.5;
+            justify-content: flex-end;
+          }
+        }
+
+        .active + ul {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+#tw-filetoc {
+  margin-bottom: $spacer;
+}
