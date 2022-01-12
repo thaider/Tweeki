@@ -1,0 +1,17 @@
+body #contentwrapper #maincontentwrapper {
+	.oo-ui-textInputWidget .oo-ui-inputWidget-input {
+		@extend .form-control;
+	}
+}
+
+
+// Form elements (e.g. in the upload form)
+.mw-htmlform-field-HTMLTextField input {
+	@extend .form-control;
+}
+.mw-input {
+	textarea,
+	select {
+		@extend .form-control;
+	}
+}

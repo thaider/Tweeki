@@ -10,6 +10,7 @@
 
 // Modals above Navbar
 .oo-ui-windowManager-modal,
-.wikiEditor-toolbar-dialog {
+.wikiEditor-toolbar-dialog,
+.ve-ui-overlay-global {
   z-index: 1031 !important;
 }

@@ -598,29 +598,31 @@ class TweekiTemplate extends BaseTemplate {
 				case 'SIDEBAR':
 					$sidebar = [];
 					foreach ( $this->data['sidebar'] as $name => $content ) {
-						if ( empty ( $content ) ) {
-							if( strpos( $name, '|' ) !== false ) {
-								$parser = MediaWikiServices::getInstance()->getParser();
-								$sidebarItem = TweekiHooks::parseButtonLink( $name, $parser, false );
-								$sidebar[] = $sidebarItem[0];
-								continue;
-							}
-							// navigational keywords
-							$navigation = $this->renderNavigation( $name );
-							if( is_array( $navigation ) ) {
-								if( isset( $navigation[0] ) ) {
-									$sidebar[] = $navigation[0];
+						if( !in_array( $name , ['TOOLBOX', 'SEARCH', 'LANGUAGES'] ) ) {
+							if ( empty ( $content ) ) {
+								if( strpos( $name, '|' ) !== false ) {
+									$parser = MediaWikiServices::getInstance()->getParser();
+									$sidebarItem = TweekiHooks::parseButtonLink( $name, $parser, false );
+									$sidebar[] = $sidebarItem[0];
+									continue;
 								}
-								continue;
+								// navigational keywords
+								$navigation = $this->renderNavigation( $name );
+								if( is_array( $navigation ) ) {
+									if( isset( $navigation[0] ) ) {
+										$sidebar[] = $navigation[0];
+									}
+									continue;
+								}
 							}
+							$msgObj = wfMessage( $name );
+							$name = htmlspecialchars( $msgObj->exists() ? $msgObj->text() : $name );
+							$sidebar[] = [
+									'href' => '#',
+									'text' => $name,
+									'items' => $content
+									];
 						}
-						$msgObj = wfMessage( $name );
-						$name = htmlspecialchars( $msgObj->exists() ? $msgObj->text() : $name );
-						$sidebar[] = [
-								'href' => '#',
-								'text' => $name,
-								'items' => $content
-								];
 					}
 					return $sidebar;
 					break;
@@ -1106,7 +1108,7 @@ class TweekiTemplate extends BaseTemplate {
 				] );
 		echo '</div>
 				<div class="form-group">
-					<button type="submit" name="wpLoginAttempt" tabindex="103" id="wpLoginAttempt2" class="float-right btn btn-secondary btn-block">
+					<button type="submit" name="wpLoginAttempt" tabindex="103" id="wpLoginAttempt2" class="float-right btn btn-primary btn-block">
 						' . $this->getMsg( 'pt-login-button' )->text() . '
 					</button>
 				</div>

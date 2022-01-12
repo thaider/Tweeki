@@ -1,6 +1,16 @@
 input[type=submit], input[type=button] {
   @extend .btn;
   @extend .btn-secondary;
+
+  &[name=wpUpload] {
+    @extend .btn-primary;
+  }
+}
+
+// UI buttons (e.g. in the login form)
+.mw-ui-button.mw-ui-progressive {
+  @extend .btn;
+  @extend .btn-primary;
 }
 
 /*.btn-default:active,
@@ -48,3 +58,39 @@ input[type=submit][disabled], input[type=button][disabled] {
   background-image: none;
 }
 /**/
+
+
+
+body #contentwrapper #maincontentwrapper {
+  .oo-ui-buttonElement {
+    & > * {
+      font-weight: normal !important;
+    }
+  }
+
+  // Buttons on page edit
+  input.oo-ui-buttonElement-button,
+  button.oo-ui-buttonElement-button {
+    @extend .btn;
+    @extend .btn-primary;
+  }
+
+  // Buttons in preferences (e.g. for changing password)
+  label a.oo-ui-buttonElement-button {
+    @extend .btn;
+    @extend .btn-secondary;
+  }
+
+  // Cancel link on page edit
+  .cancelLink .oo-ui-buttonElement-button {
+    @extend .btn-link;
+
+    &:hover,
+    &:active,
+    &.active,
+    &:focus,
+    &.focus {
+      background-color:transparent;
+    }
+  }
+}
