@@ -159,13 +159,15 @@ class TweekiTemplate extends BaseTemplate {
 			<div id="contentwrapper" class="<?php echo $contentclass; ?>">
 
 				<div class="row">
-					<?php if( !$skin->checkEmptiness( 'subnav' ) ) { $skin->renderSubnav( $mainclass ); } ?>
+					<div id="maincontentwrapper" class="<?php echo $mainclass ?>">
+						<?php if( !$skin->checkEmptiness( 'subnav' ) ) { $skin->renderSubnav( $mainclass ); } ?>
 
-					<!-- content -->
-					<div class="<?php echo $mainclass ?>" id="maincontentwrapper" role="main">
-						<?php $skin->renderContent(); ?>
+						<!-- content -->
+						<main role="main">
+							<?php $skin->renderContent(); ?>
+						</main>
+						<!-- /content -->
 					</div>
-					<!-- /content -->
 
 <?php
 					if( !$skin->checkEmptiness( 'sidebar-left' ) ) {
@@ -748,13 +750,13 @@ class TweekiTemplate extends BaseTemplate {
 	/**
 	 * Render Subnavigation
 	 */
-	public function renderSubnav( $class ) {
+	public function renderSubnav() {
 		$options = $this->getParsingOptions( 'subnav' );
 		if( !wfMessage( 'tweeki-subnav' )->isDisabled() && $this->checkVisibility( 'subnav' ) ) { ?>
 			<!-- subnav -->
-			<div id="page-header" class="<?php echo $class; ?>">
+			<div id="page-header">
 				<ul class="<?php $this->msg( 'tweeki-subnav-class' ) ?>">
-				<?php $this->buildItems( wfMessage( 'tweeki-subnav' )->plain(), $options, 'subnav' ); ?>
+					<?php $this->buildItems( wfMessage( 'tweeki-subnav' )->plain(), $options, 'subnav' ); ?>
 				</ul>
 			</div>
 			<!-- /subnav -->
