@@ -575,10 +575,11 @@ class TweekiHooks {
 						]
 					];
 				}
-				$semanticHits = $parser->recursiveTagParse( '{{#ask:' . $semanticQuery . '|link=none}}', false );
+				$semanticHits = $parser->recursiveTagParse( '{{#ask:' . $semanticQuery . '|link=none|format=array}}', false );
 				$semanticHits = explode( ',', $semanticHits );
 				$semanticLinks = [];
 				foreach ( $semanticHits as $semanticHit ) {
+					$semanticHit = rtrim( str_replace( '&lt;PROP&gt;', '|', $semanticHit ), '|' );
 					$semanticLink = TweekiHooks::parseButtonLink( $semanticHit, $parser, $frame );
 					$semanticLinks[] = $semanticLink[0];
 				}
