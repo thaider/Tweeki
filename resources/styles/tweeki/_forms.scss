@@ -2,6 +2,14 @@ body #contentwrapper #maincontentwrapper {
 	.oo-ui-textInputWidget .oo-ui-inputWidget-input {
 		@extend .form-control;
 	}
+
+	.oo-ui-textInputWidget.oo-ui-iconElement .oo-ui-inputWidget-input {
+		padding-left: 2.42857143em;
+	}
+
+	.oo-ui-textInputWidget.oo-ui-indicatorElement .oo-ui-inputWidget-input {
+		padding-right: 28px;
+	}
 }
 
 
