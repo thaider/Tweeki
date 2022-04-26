@@ -264,6 +264,8 @@ class TweekiHooks {
 			$links['editsection']['text'] = $text;
 			$links['editsection']['attribs']['class'] = $class;
 		}
+
+		return false;
 	}
 
 
