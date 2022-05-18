@@ -146,6 +146,8 @@ class TweekiTemplate extends BaseTemplate {
 		$mainclass = 'col-md-' . $main_width;
 		if( $main_offset > 0 ) {
 			$mainclass .= ' offset-md-' . $main_offset;
+		} elseif( $main_width == 12 ) {
+			$mainclass = '';
 		}
 
 		call_user_func_array( $skin->getConfig( 'TweekiSkinNavbarRenderer' ), [ $skin ] );
