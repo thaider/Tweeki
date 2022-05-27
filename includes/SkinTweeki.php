@@ -40,6 +40,7 @@ class SkinTweeki extends SkinTemplate {
 	public function __construct( $options ) {
 		$this->tweekiConfig = \MediaWiki\MediaWikiServices::getInstance()->getConfigFactory()
 			->makeConfig( 'tweeki' );
+		$options['bodyOnly'] = true;
 		parent::__construct( $options );
 	}
 
