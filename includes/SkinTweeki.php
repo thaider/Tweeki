@@ -37,9 +37,10 @@ class SkinTweeki extends SkinTemplate {
 	private $tweekiConfig;
 	private $responsiveMode = false;
 
-	public function __construct() {
+	public function __construct( $options ) {
 		$this->tweekiConfig = \MediaWiki\MediaWikiServices::getInstance()->getConfigFactory()
 			->makeConfig( 'tweeki' );
+		parent::__construct( $options );
 	}
 
 
