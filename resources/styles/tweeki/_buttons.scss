@@ -8,9 +8,11 @@ input[type=submit], input[type=button] {
 }
 
 // UI buttons (e.g. in the login form)
-.mw-ui-button.mw-ui-progressive {
-  @extend .btn;
-  @extend .btn-primary;
+#maincontentwrapper {
+  .mw-ui-button.mw-ui-progressive {
+    @extend .btn;
+    @extend .btn-primary;
+  }
 }
 
 /*.btn-default:active,
