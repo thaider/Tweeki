@@ -10,6 +10,11 @@ body #contentwrapper #maincontentwrapper {
 	.oo-ui-textInputWidget.oo-ui-indicatorElement .oo-ui-inputWidget-input {
 		padding-right: 28px;
 	}
+
+	.mw-ui-checkbox:not(#noop) [type="checkbox"]:enabled:checked + label::before {
+		background-color:$primary;
+		border-color:$primary;
+	}
 }
 
 
@@ -23,3 +28,5 @@ body #contentwrapper #maincontentwrapper {
 		@extend .form-control;
 	}
 }
+
+
