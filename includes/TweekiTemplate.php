@@ -48,9 +48,15 @@ class TweekiTemplate extends BaseTemplate {
 
 		// Remove the watch/unwatch star from the "actions" menu
 		if ( $this->config->get( 'TweekiSkinUseIconWatch' ) ) {
-			$mode = $this->getSkin()->getUser()->isWatched( $this->getSkin()->getRelevantTitle() )
-				? 'unwatch'
-				: 'watch';
+			if ( method_exists( MediaWikiServices::class, 'getWatchlistManager' ) ) {
+				// MediaWiki 1.36+
+				$watchlistManager = MediaWikiServices::getInstance()->getWatchlistManager();
+				$watched = $watchlistManager->isWatched( $this->getSkin()->getUser(), $this->getSkin()->getRelevantTitle() );
+			} else {
+				$watched = $this->getSkin()->getUser()->isWatched( $this->getSkin()->getRelevantTitle() );
+			}
+
+			$mode = $watched ? 'unwatch' : 'watch';
 
 			if ( isset( $this->data['action_urls'][$mode] ) ) {
 				$this->data['watch_urls'][$mode] = $this->data['action_urls'][$mode];
