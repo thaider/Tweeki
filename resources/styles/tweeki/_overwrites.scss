@@ -429,7 +429,7 @@ label > input[type=radio] {
 
 @include media-breakpoint-up(md) {
   .sidebar-sticky {
-    height: calc(100vh - 300px);
+    height: calc(100%);
   }
 }
 
