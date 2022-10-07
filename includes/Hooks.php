@@ -69,6 +69,7 @@ class TweekiHooks {
 		}
 
 		$parser->setFunctionHook( 'tweekihide', 'TweekiHooks::setHiddenElements' );
+		$parser->setFunctionHook( 'tweekinav', 'TweekiHooks::setCustomNavElement' );
 		$parser->setFunctionHook( 'tweekihideexcept', 'TweekiHooks::setHiddenElementsGroups' );
 		$parser->setFunctionHook( 'tweekibodyclass', 'TweekiHooks::addBodyclass' );
 		$parser->setFunctionHook( 'tweekirealname', 'TweekiHooks::renderRealname' );
@@ -454,6 +455,22 @@ class TweekiHooks {
 				}
 			}
 		}
+		return '';
+	}
+
+
+	/**
+	 * Customize a navigational element's content
+	 */
+	static function setCustomNavElement( Parser $parser, $element, ... $content ) {
+		if ( !self::getSkinTweekiSkin() ) {
+			return '';
+		}
+
+		$parser->getOutput()->updateCacheExpiry(0);
+
+		$GLOBALS['wgTweekiSkinCustomNav'][$element] = join( '|', $content );
+
 		return '';
 	}
 

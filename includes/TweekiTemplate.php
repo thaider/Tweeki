@@ -135,8 +135,7 @@ class TweekiTemplate extends BaseTemplate {
 					$left_width = $skin->getConfig( 'TweekiSkinGridLeft' )['leftwidth'];
 					$main_offset = $skin->getConfig( 'TweekiSkinGridLeft' )['mainoffset'];
 					$main_width = $skin->getConfig( 'TweekiSkinGridLeft' )['mainwidth'];
-				}
-				else {
+				} else {
 					$main_offset = $skin->getConfig( 'TweekiSkinGridRight' )['mainoffset'];
 					$main_width = $skin->getConfig( 'TweekiSkinGridRight' )['mainwidth'];
 					$right_offset = $skin->getConfig( 'TweekiSkinGridRight' )['rightoffset'];
@@ -760,6 +759,21 @@ class TweekiTemplate extends BaseTemplate {
 
 
 	/**
+	 * Get a navigational element's content as defined in the respective message or customized with {{#tweekinav}}
+	 * 
+	 * @param $item Element whose content should be returned
+	 * 
+	 * @return String Element's content
+	 */
+	public function getNavContent( $item ) {
+		if( isset( $GLOBALS['wgTweekiSkinCustomNav'][$item] ) ) {
+			return $GLOBALS['wgTweekiSkinCustomNav'][$item];
+		}
+		return wfMessage( 'tweeki-' . $item )->plain();
+	}
+
+
+	/**
 	 * Render Subnavigation
 	 */
 	public function renderSubnav() {
@@ -768,7 +782,7 @@ class TweekiTemplate extends BaseTemplate {
 			<!-- subnav -->
 			<div id="page-header">
 				<ul class="<?php $this->msg( 'tweeki-subnav-class' ) ?>">
-					<?php $this->buildItems( wfMessage( 'tweeki-subnav' )->plain(), $options, 'subnav' ); ?>
+					<?php $this->buildItems( $this->getNavContent( 'subnav' ), $options, 'subnav' ); ?>
 				</ul>
 			</div>
 			<!-- /subnav -->
@@ -826,7 +840,7 @@ class TweekiTemplate extends BaseTemplate {
 
 		$options['wrapperclass'] = 'nav-item';
 		$options['class'] = 'nav-link';
-		$this->buildItems( wfMessage( 'tweeki-' . $element )->plain(), $options, $element );
+		$this->buildItems( $this->getNavContent( $element ), $options, $element );
 	}
 
 
@@ -851,7 +865,7 @@ class TweekiTemplate extends BaseTemplate {
 			<!-- <?php echo $element;?> -->
 
 				<div id="<?php echo $element; ?>" class="<?php echo $classes; ?>">
-					<?php $this->buildItems( wfMessage( 'tweeki-' . $element )->plain(), $options, $element ); ?>
+					<?php $this->buildItems( $this->getNavContent( $element ), $options, $element ); ?>
 				</div>
 
 			<!-- /<?php echo $element;?> -->
@@ -922,7 +936,7 @@ class TweekiTemplate extends BaseTemplate {
 			<footer id="footer" role="contentinfo" class="footer <?php $this->msg( 'tweeki-footer-class' ); ?>"<?php $this->html( 'userlangattributes' ) ?>>
 				<div class="<?php $this->msg( 'tweeki-container-class' ); ?>">
 					<div class="row">
-						<?php $this->buildItems( wfMessage( 'tweeki-footer' )->plain(), $options, 'footer' ); ?>
+						<?php $this->buildItems( $this->getNavContent( 'footer' ), $options, 'footer' ); ?>
 					</div>
 				</div>
 			</footer>
@@ -1221,6 +1235,9 @@ class TweekiTemplate extends BaseTemplate {
 		$brandmsg = wfMessage( 'tweeki-navbar-brand' );
 		if( !$brandmsg->isDisabled() ) {
 			$brand = $brandmsg->text();
+			if( isset( $GLOBALS['wgTweekiSkinCustomNav']['navbar-brand'] ) ) {
+				$brand = htmlspecialchars( $GLOBALS['wgTweekiSkinCustomNav']['navbar-brand'] );
+			}
 			/* is it a file? */
 			$brandimageTitle = Title::newFromText( $brand );
 			if ( ! is_null( $brandimageTitle ) && $brandimageTitle->exists() ) {
