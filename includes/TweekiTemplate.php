@@ -1247,7 +1247,11 @@ class TweekiTemplate extends BaseTemplate {
 					$brand = '<img src="' . $brandimage . '" alt="' . $this->data['sitename'] . '" />';
 				}
 			}
-			echo '<a href="' . htmlspecialchars( $this->data['nav_urls']['mainpage']['href'] ) . '" class="navbar-brand">' . $brand . '</a>';
+			$brandurl = $this->data['nav_urls']['mainpage']['href'];
+			if( isset( $GLOBALS['wgTweekiSkinCustomNav']['navbar-brand-url'] ) ) {
+				$brandurl = Title::newFromText( $GLOBALS['wgTweekiSkinCustomNav']['navbar-brand-url'] )->getLocalURL();
+			}
+			echo '<a href="' . htmlspecialchars( $brandurl ) . '" class="navbar-brand">' . $brand . '</a>';
 		}
 	}
 
