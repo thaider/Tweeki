@@ -156,7 +156,7 @@ class TweekiTemplate extends BaseTemplate {
 		if( $main_offset > 0 ) {
 			$mainclass .= ' offset-md-' . $main_offset;
 		} elseif( $main_width == 12 ) {
-			$mainclass = '';
+			$mainclass = 'col';
 		}
 
 		call_user_func_array( $skin->getConfig( 'TweekiSkinNavbarRenderer' ), [ $skin ] );
@@ -170,7 +170,7 @@ class TweekiTemplate extends BaseTemplate {
 			<div id="contentwrapper" class="<?php echo $contentclass; ?>">
 
 				<div class="row">
-					<div id="maincontentwrapper" class="<?php echo $mainclass ?>">
+					<div id="maincontentwrapper" class="<?php echo $mainclass; ?>">
 						<?php if( !$skin->checkEmptiness( 'subnav' ) ) { $skin->renderSubnav( $mainclass ); } ?>
 
 						<!-- content -->
