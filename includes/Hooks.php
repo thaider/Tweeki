@@ -645,7 +645,7 @@ class TweekiHooks {
 		}
 		else {
 			if ( !is_null( $current_title ) && $current_title instanceof Title ) {
-				$href = $parser->replaceVariables( $href, $frame );
+				$href = trim( $parser->replaceVariables( $href, $frame ) );
 			}
 			else {
 				$href = 'INVALID-HREF/PARSER-BROKEN';
