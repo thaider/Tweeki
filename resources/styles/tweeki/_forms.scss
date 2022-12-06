@@ -27,6 +27,9 @@ body #contentwrapper #maincontentwrapper {
 	select {
 		@extend .form-control;
 	}
+	select {
+		background-color:transparent;
+	}
 }
 
 
