@@ -45,6 +45,8 @@ class TweekiTemplate extends BaseTemplate {
 		if( $GLOBALS['wgTweekiSkinUseRealnames'] == true && $this->data['username'] ) {
 			$this->data['username'] = TweekiHooks::getRealname( $this->data['username'] );
 		}
+		$this->data['advanced'] = MediaWikiServices::getInstance()->getUserOptionsLookup()->getOption( $this->getSkin()->getUser(), 'tweeki-advanced' );
+
 
 		// Remove the watch/unwatch star from the "actions" menu
 		if ( $this->config->get( 'TweekiSkinUseIconWatch' ) ) {
@@ -681,7 +683,7 @@ class TweekiTemplate extends BaseTemplate {
 		if (
 			(
 				!$this->checkVisibilitySetting( $item, $this->config->get( 'TweekiSkinHideNonAdvanced' ) ) ||
-				$this->getSkin()->getUser()->getOption( 'tweeki-advanced' ) // not hidden for non-advanced OR advanced
+				$this->data['advanced'] // not hidden for non-advanced OR advanced
 			) &&
 			(
 				!$this->checkVisibilitySetting( $item, $this->config->get( 'TweekiSkinHideAnon' ) ) ||

@@ -170,7 +170,8 @@ class TweekiHooks {
 			$additionalBodyClasses = [ 'tweeki-animateLayout' ];
 
 			$user = $out->getUser();
-			$additionalBodyClasses[] = $user->getOption( 'tweeki-advanced' ) ? 'tweeki-advanced' : 'tweeki-non-advanced';
+			$userAdvanced = MediaWikiServices::getInstance()->getUserOptionsLookup()->getOption( $user, 'tweeki-advanced' );
+			$additionalBodyClasses[] = $userAdvanced ? 'tweeki-advanced' : 'tweeki-non-advanced';
 			$additionalBodyClasses[] = $user->isRegistered() ? 'tweeki-user-logged-in' : 'tweeki-user-anon';
 			
 			$additionalBodyClasses = array_merge( $additionalBodyClasses, $GLOBALS['wgTweekiSkinAdditionalBodyClasses'] );
