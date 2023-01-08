@@ -52,6 +52,16 @@
 		},
 		"skins.tweeki.styles": {
 			"class": "ResourceLoaderSkinModule",
+		    "features": {
+		        "content-links": true,
+		        "content-thumbnails": true,
+		        "interface-message-box": true,
+		        "interface-category": true,
+		        "content-tables": true,
+		        "i18n-ordered-lists": true,
+		        "i18n-all-lists-margins": true,
+		        "i18n-headings": true
+		    },
 			"position": "top",
 			"styles": {
 				"public/default/css/tweeki.css": {}
@@ -59,6 +69,16 @@
 		},
 		"skins.tweeki.custom.styles": {
 			"class": "ResourceLoaderSkinModule",
+		    "features": {
+		        "content-links": true,
+		        "content-thumbnails": true,
+		        "interface-message-box": true,
+		        "interface-category": true,
+		        "content-tables": true,
+		        "i18n-ordered-lists": true,
+		        "i18n-all-lists-margins": true,
+		        "i18n-headings": true
+		    },
 			"position": "top",
 			"styles": {
 				"public/custom/css/custom.css": {}
