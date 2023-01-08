@@ -1,7 +1,7 @@
 # Tweeki, a Bootstrap based skin for MediaWiki
 
 Tweeki is a skin for **[MediaWiki](http://mediawiki.org/)** (1.35+) based on
-**[Bootstrap](http://getbootstrap.com/)** (v4.6.0). It tries to implement as
+**[Bootstrap](http://getbootstrap.com/)** (v4.6.2). It tries to implement as
 much of Bootstrap's functionality as possible, allowing to use it very easily and with 
 very reduced markup, and features many configuration options.
 
