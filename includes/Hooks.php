@@ -89,7 +89,11 @@ class TweekiHooks {
 			$styles = [];
 
 			// load mediawiki styles
-			$styles[] = 'skins.tweeki.mediawiki.styles';
+			if ( version_compare( MW_VERSION, '1.36', '<' ) ) {
+				$styles[] = 'skins.tweeki.mediawiki.legacy.styles';
+			} else {
+				$styles[] = 'skins.tweeki.mediawiki.styles';
+			}
 
 			// load font awesome
 			$styles[] = 'skins.tweeki.awesome.styles';
