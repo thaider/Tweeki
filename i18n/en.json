@@ -47,6 +47,7 @@
 	"tweeki-toc-top": "to top",
 	"tweeki-personaltools-icon": "user",
 	"tweeki-personaltools-text": "$1",
+	"tweeki-edit": "Edit",
 	"tweeki-edit-icon": "pen",
 	"tweeki-edit-ext": "Edit $1",
 	"tweeki-edit-ext-nav": "<span class='fa fa-pen'></span>",

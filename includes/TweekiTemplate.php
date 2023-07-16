@@ -243,9 +243,17 @@ class TweekiTemplate extends BaseTemplate {
 					$views = $this->data['view_urls'];
 					if(count( $views ) > 0) {
 						unset( $views['view'] );
-						$link = array_shift( $views );
+						if( isset( $views['formedit'] ) ) {
+							$link = $views['formedit'];
+						} else {
+							$link = array_shift( $views );
+						}
 						$link['icon'] = wfMessage( 'tweeki-edit-icon' )->plain();
+						$link['text'] = wfMessage( 'tweeki-edit', $link['text'] )->plain();
 						unset( $link['class'] ); // interferes with btn classing
+						if( $link['id'] == 'ca-ve-edit' ) {
+							$link['id'] = 'ca-edit';
+						}
 						return [ $link ];
 					}
 					return [];
@@ -270,7 +278,12 @@ class TweekiTemplate extends BaseTemplate {
 									'items' => $items
 									];
 							} else {
-								$link = array_shift( $items );
+								if( isset( $items['formedit'] ) ) {
+									$link = $items['formedit'];
+									unset( $items['formedit'] );
+								} else {
+									$link = array_shift( $items );
+								}
 								$button = [
 									'href' => $link['href'],
 									'href_implicit' => false,
