@@ -287,15 +287,15 @@ class TweekiHooks {
 			&& $GLOBALS['wgTweekiSkinImagePageTOCTabs'] == true
 		) {
 			$out = ob_get_clean();
-			$out = str_replace( '<ul id="filetoc">', '<ul id="tw-filetoc" class="nav nav-tabs nav-justified">', $out );
-			$out = str_replace( '<li><a href="#file">', '<li class="active"><a href="#file" class="tab-toggle" data-toggle="tab">', $out );
-			$out = str_replace( '<a href="#filehistory">', '<a href="#filehistory" class="tab-toggle" data-toggle="tab">', $out );
-			$out = str_replace( '<a href="#filelinks">', '<a href="#filelinks" class="tab-toggle" data-toggle="tab">', $out );
-			$out = str_replace( '<a href="#metadata">', '<a href="#metadata" class="tab-toggle" data-toggle="tab">', $out );
-			$out = str_replace( '<div class="fullImageLink" id="file"', '<div class="tab-content"><div id="file" class="tab-pane fade in active"><div class="fullImageLink"', $out );
-			$out = str_replace( '<h2 id="filehistory"', '</div><div id="filehistory" class="tab-pane fade"><h2', $out );
-			$out = str_replace( '<h2 id="filelinks"', '</div><div id="filelinks" class="tab-pane fade"><h2', $out );
-			$out = str_replace( '<h2 id="metadata"', '</div><div id="metadata" class="tab-pane fade"><h2', $out );
+			$out = str_replace( '<ul id="filetoc">', '<ul id="tw-filetoc" class="nav nav-tabs nav-justified" role="tablist">', $out );
+			$out = str_replace( '<li><a href="#file">', '<li class="nav-item"><a href="#file" id="file-tab" class="nav-link active" data-toggle="tab" role="tab" aria-controls="file" aria-selected="true">', $out );
+			$out = str_replace( '<li><a href="#filehistory">', '<li class="nav-item"><a href="#filehistory" id="filehistory-tab" class="nav-link" data-toggle="tab" role="tab" aria-controls="filehistory" aria-selected="false">', $out );
+			$out = str_replace( '<li><a href="#filelinks">', '<li class="nav-item"><a href="#filelinks" id="filelinks-tab" class="nav-link" data-toggle="tab" role="tab" aria-controls="filelinks" aria-selected="false">', $out );
+			$out = str_replace( '<li><a href="#metadata">', '<li class="nav-item"><a href="#metadata" id="metadata-tab" class="nav-link" data-toggle="tab" role="tab" aria-controls="metadata" aria-selected="false">', $out );
+			$out = str_replace( '<div class="fullImageLink" id="file"', '<div class="tab-content"><div id="file" class="tab-pane fade show active" role="tabpanel" aria-labelledby="file-tab"><div class="fullImageLink"', $out );
+			$out = str_replace( '<h2 id="filehistory"', '</div><div id="filehistory" class="tab-pane fade" role="tabpanel" aria-labelledby="filehistory-tab"><h2', $out );
+			$out = str_replace( '<h2 id="filelinks"', '</div><div id="filelinks" class="tab-pane fade" role="tabpanel" aria-labelledby="filelinks-tab"><h2', $out );
+			$out = str_replace( '<h2 id="metadata"', '</div><div id="metadata" class="tab-pane fade" role="tabpanel" aria-labelledby="metadata-tab"><h2', $out );
 			$out = $out . '</div></div>';
 			ob_start();
 			echo $out;
