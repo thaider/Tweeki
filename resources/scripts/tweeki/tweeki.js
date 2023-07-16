@@ -91,8 +91,11 @@ jQuery(document).ready(function ($) {
       $('#toc ul a')
         .addClass('nav-link')
 
+      var offset = $('#contentwrapper').css('padding-top');
+      console.log( offset );
+      $('html, body').css('scroll-padding-top', offset);
       $('body')
-        .scrollspy({target: '#toc ul'});
+        .scrollspy({target: '#toc ul', offset: parseInt( offset ) + 10});
       }
 
     }

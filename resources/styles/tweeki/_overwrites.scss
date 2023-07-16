@@ -49,11 +49,6 @@
 //   }
 // }
 
-html,
-body {
-  scroll-padding-top: 60px;
-}
-
 html {
   height: 100% !important;
 }
@@ -197,8 +192,8 @@ body {
   padding-top: 60px;
 }
 @media (min-width: 768px) {
-  .with-navbar.with-navbar-fixed {
-    padding-top:100px;
+  .with-navbar.with-navbar-fixed #maincontentwrapper {
+    padding-top:30px;
   }
 }
 
