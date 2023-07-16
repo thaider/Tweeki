@@ -84,6 +84,8 @@ class TweekiTemplate extends BaseTemplate {
 		//set 'namespace' and 'title_formatted' variables
 		$this->data['title_formatted'] = $this->data['title'];
 		$this->data['namespace'] = str_replace( "_", " ", $this->getSkin()->getTitle()->getNsText() );
+
+		// the following is obsolete since MW 1.39, namespace and separator have their own spans
 		if( strpos( $this->data['title_formatted'], $this->data['namespace'] . ':' ) === 0 ) {
 			$this->data['title_formatted'] = '<span class="namespace">' . $this->data['namespace'] . ":</span> " . str_replace( $this->data['namespace'] . ':', '', $this->data['title_formatted'] );
 		}

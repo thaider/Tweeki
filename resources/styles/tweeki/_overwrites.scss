@@ -310,8 +310,17 @@ h6:hover .tw-editsection-onhover + .mw-editsection-divider {
   letter-spacing:-.01em;
 }
 
+// obsolete since MW 1.39
 .firstHeading .namespace {
   font-weight:300;
+}
+
+.mw-page-title-namespace {
+  font-weight:300;
+}
+.mw-page-title-separator {
+  font-weight:300;
+  margin-right:( $spacer * .25 );
 }
 
 /* Hide empty portlets */
