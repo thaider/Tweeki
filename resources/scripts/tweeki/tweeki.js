@@ -58,6 +58,10 @@ jQuery(document).ready(function ($) {
   /**
    * TOC
    */
+  // set scroll-padding according to the content's offset
+  var offset = $('#contentwrapper').css('padding-top');
+  $('html, body').css('scroll-padding-top', offset);
+
   // move TOC elsewhere
   if( $( "#tweekiTOC" ).length == 1 && $( "#toc" ).length == 1 ) {
     // toc copies
@@ -91,13 +95,9 @@ jQuery(document).ready(function ($) {
       $('#toc ul a')
         .addClass('nav-link')
 
-      var offset = $('#contentwrapper').css('padding-top');
-      console.log( offset );
-      $('html, body').css('scroll-padding-top', offset);
       $('body')
         .scrollspy({target: '#toc ul', offset: parseInt( offset ) + 10});
       }
-
     }
 
 
