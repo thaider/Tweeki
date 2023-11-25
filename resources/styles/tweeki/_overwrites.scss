@@ -511,11 +511,6 @@ label > input[type=radio] {
 a.mw-selflink {
   color: inherit;
   text-decoration: none;
-
-  @include hover() {
-    color: inherit;
-    text-decoration: none;
-  }
 }
 
 
