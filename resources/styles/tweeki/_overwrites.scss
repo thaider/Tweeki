@@ -373,7 +373,6 @@ label > input[type=radio] {
 
       & > a {
         @extend .badge;
-        @extend .badge-secondary;
 
         position: absolute;
         top: $spacer;
