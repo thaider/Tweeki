@@ -828,7 +828,7 @@ class TweekiTemplate extends BaseTemplate {
 
 						<div id="navbar" class="collapse navbar-collapse">
 							<?php if ( $skin->checkVisibility( 'navbar-left' ) ) { ?>
-								<ul class="navbar-nav mr-auto">
+								<ul class="navbar-nav me-auto">
 									<?php $skin->renderNavbarElement( 'left' ); ?>
 								</ul>
 							<?php } ?>

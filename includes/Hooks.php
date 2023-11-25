@@ -786,7 +786,7 @@ class TweekiHooks {
 					$wrapperclass = 'dropdown';
 				}
 				else {
-					$wrapperclass = 'btn-group mr-2';
+					$wrapperclass = 'btn-group me-2';
 				}
 			}
 
