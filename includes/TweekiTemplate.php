@@ -828,7 +828,7 @@ class TweekiTemplate extends BaseTemplate {
 
 						<div id="navbar" class="collapse navbar-collapse">
 							<?php if ( $skin->checkVisibility( 'navbar-left' ) ) { ?>
-								<ul class="navbar-nav mr-auto">
+								<ul class="navbar-nav me-auto">
 									<?php $skin->renderNavbarElement( 'left' ); ?>
 								</ul>
 							<?php } ?>
@@ -1153,7 +1153,7 @@ class TweekiTemplate extends BaseTemplate {
 				] );
 		echo '</div>
 				<div class="form-group">
-					<button type="submit" name="wpLoginAttempt" tabindex="103" id="wpLoginAttempt2" class="float-right btn btn-primary btn-block">
+					<button type="submit" name="wpLoginAttempt" tabindex="103" id="wpLoginAttempt2" class="float-end btn btn-primary btn-block">
 						' . $this->getMsg( 'pt-login-button' )->text() . '
 					</button>
 				</div>
