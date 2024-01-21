@@ -1258,7 +1258,8 @@ class TweekiTemplate extends BaseTemplate {
 			/* is it a file? */
 			$brandimageTitle = Title::newFromText( $brand );
 			if ( ! is_null( $brandimageTitle ) && $brandimageTitle->exists() ) {
-				$brandimageWikiPage = WikiPage::factory( $brandimageTitle );
+				$wikiPageFactory = MediaWikiServices::getInstance()->getWikiPageFactory();
+				$brandimageWikiPage = $wikiPageFactory->newFromTitle( $brandimageTitle );
 				if ( method_exists( $brandimageWikiPage, 'getFile' ) ) {
 					$brandimage = $brandimageWikiPage->getFile()->getFullUrl();
 					$brand = '<img src="' . $brandimage . '" alt="' . $this->data['sitename'] . '" />';
