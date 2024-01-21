@@ -121,7 +121,8 @@ class TweekiHooks {
 				$styles[] = $customstyle;
 			}
 
-			Hooks::run( 'SkinTweekiStyleModules', [ $skin, &$styles ] );
+			$hookContainer = MediaWikiServices::getInstance()->getHookContainer();
+			$hookContainer->run( 'SkinTweekiStyleModules', [ $skin, &$styles ] );
 
 			$out->addModuleStyles( $styles );
 		}
@@ -180,7 +181,8 @@ class TweekiHooks {
 			
 			$additionalBodyClasses = array_merge( $additionalBodyClasses, $GLOBALS['wgTweekiSkinAdditionalBodyClasses'] );
 
-			Hooks::run( 'SkinTweekiAdditionalBodyClasses', [ $sk, &$additionalBodyClasses ] );
+			$hookContainer = MediaWikiServices::getInstance()->getHookContainer();
+			$hookContainer->run( 'SkinTweekiAdditionalBodyClasses', [ $sk, &$additionalBodyClasses ] );
 
 			if( count( $additionalBodyClasses ) > 0 ) {
 				$bodyAttrs['class'] = $bodyAttrs['class'] . ' ' . preg_replace( "/[^a-zA-Z0-9_\s-]/", "", implode( " ", $additionalBodyClasses ) );

@@ -695,7 +695,8 @@ class TweekiTemplate extends BaseTemplate {
 	 * @param $item String
 	 */
 	public function checkVisibility( $item ) {
-		if (
+		$hookContainer = MediaWikiServices::getInstance()->getHookContainer();
+		return (
 			(
 				!$this->checkVisibilitySetting( $item, $this->config->get( 'TweekiSkinHideNonAdvanced' ) ) ||
 				$this->data['advanced'] // not hidden for non-advanced OR advanced
@@ -712,12 +713,8 @@ class TweekiTemplate extends BaseTemplate {
 			&&
 			!$this->checkVisibilityGroups( $item ) // not hidden for all OR user is in exempted group
 			&&
-			false !== Hooks::run( 'SkinTweekiCheckVisibility', [ $this, $item ] ) // not hidden via hook
-		) {
-			return true;
-		}	else {
-			return false;
-		}
+			false !== $hookContainer->run( 'SkinTweekiCheckVisibility', [ $this, $item ] ) // not hidden via hook
+		);
 	}
 
 
