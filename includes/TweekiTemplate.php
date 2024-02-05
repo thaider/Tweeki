@@ -695,7 +695,8 @@ class TweekiTemplate extends BaseTemplate {
 	 * @param $item String
 	 */
 	public function checkVisibility( $item ) {
-		if (
+		$hookContainer = MediaWikiServices::getInstance()->getHookContainer();
+		return (
 			(
 				!$this->checkVisibilitySetting( $item, $this->config->get( 'TweekiSkinHideNonAdvanced' ) ) ||
 				$this->data['advanced'] // not hidden for non-advanced OR advanced
@@ -712,12 +713,8 @@ class TweekiTemplate extends BaseTemplate {
 			&&
 			!$this->checkVisibilityGroups( $item ) // not hidden for all OR user is in exempted group
 			&&
-			false !== Hooks::run( 'SkinTweekiCheckVisibility', [ $this, $item ] ) // not hidden via hook
-		) {
-			return true;
-		}	else {
-			return false;
-		}
+			false !== $hookContainer->run( 'SkinTweekiCheckVisibility', [ $this, $item ] ) // not hidden via hook
+		);
 	}
 
 
@@ -1258,7 +1255,8 @@ class TweekiTemplate extends BaseTemplate {
 			/* is it a file? */
 			$brandimageTitle = Title::newFromText( $brand );
 			if ( ! is_null( $brandimageTitle ) && $brandimageTitle->exists() ) {
-				$brandimageWikiPage = WikiPage::factory( $brandimageTitle );
+				$wikiPageFactory = MediaWikiServices::getInstance()->getWikiPageFactory();
+				$brandimageWikiPage = $wikiPageFactory->newFromTitle( $brandimageTitle );
 				if ( method_exists( $brandimageWikiPage, 'getFile' ) ) {
 					$brandimage = $brandimageWikiPage->getFile()->getFullUrl();
 					$brand = '<img src="' . $brandimage . '" alt="' . $this->data['sitename'] . '" />';
