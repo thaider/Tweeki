@@ -8,7 +8,7 @@
 	"license-name": "GPL-2.0-or-later",
 	"type": "skin",
 	"requires": {
-		"MediaWiki": ">= 1.35.0"
+		"MediaWiki": ">= 1.39.0"
 	},
 	"ConfigRegistry": {
 		"tweeki": "GlobalVarConfig::newInstance"
@@ -71,14 +71,14 @@
 			}
 		},
 		"skins.tweeki.mediawiki.legacy.styles": {
-			"class": "ResourceLoaderSkinModule",
+			"class": "MediaWiki\\ResourceLoader\\SkinModule",
 			"position": "top",
 			"styles": {
 				"public/legacy/mediawiki/mediawiki.less": {}
 			}
 		},
 		"skins.tweeki.mediawiki.styles": {
-			"class": "ResourceLoaderSkinModule",
+			"class": "MediaWiki\\ResourceLoader\\SkinModule",
 		    "features": {
 		        "content-links": true,
 		        "content-media": true,
