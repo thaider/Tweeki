@@ -1190,7 +1190,8 @@ class TweekiHooks {
 			->getMagicWordFactory()
 			->get( $id );
 		if ( $magicWord->matchAndRemove( $text ) ) {
-			$parser->mOptions->setNumberHeadings( true );
+			return true; // needs reimplementation (with JS?), feature was removed from MW
+			// $parser->mOptions->setNumberHeadings( true );
 		}
 		return true;
 	}
