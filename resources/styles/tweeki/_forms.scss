@@ -11,6 +11,11 @@ body #contentwrapper #maincontentwrapper {
 		padding-right: 28px;
 	}
 
+	.oo-ui-textInputWidget.oo-ui-comboBoxInputWidget .oo-ui-inputWidget-input {
+		border-top-right-radius:0;
+		border-bottom-right-radius:0;
+	}
+
 	.mw-ui-checkbox:not(#noop) [type="checkbox"]:enabled:checked + label::before {
 		background-color:$primary;
 		border-color:$primary;
@@ -33,3 +38,28 @@ body #contentwrapper #maincontentwrapper {
 }
 
 
+// datepicker
+.pfPickerWrapper {
+	display: inline-block;
+}
+.pfDatePicker.oo-ui-textInputWidget {
+	width:200px;
+}
+
+.oo-ui-checkboxInputWidget + t {
+	margin-left:8px;
+}
+
+// ugly hack: without it, checkboxes are only partly clickable
+.oo-ui-checkboxInputWidget {
+	width: 1.42857143em;
+}
+#maincontentwrapper #pfForm select, 
+#maincontentwrapper #pfForm input[type="checkbox"] {
+	width: 100% !important;
+}
+
+
+.multipleTemplateInstance {
+	background-color:$light !important;
+}
