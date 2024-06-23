@@ -165,6 +165,14 @@ body {
   margin-bottom:1em;
   padding-top:.5em;
   padding-bottom:1em;
+
+  a {
+    text-decoration:none;
+
+    &:hover {
+      text-decoration:underline;
+    }
+  }
 }
 
 @include media-breakpoint-up(md) {
@@ -373,7 +381,6 @@ label > input[type=radio] {
 
       & > a {
         @extend .badge;
-        @extend .badge-secondary;
 
         position: absolute;
         top: $spacer;
@@ -512,11 +519,6 @@ label > input[type=radio] {
 a.mw-selflink {
   color: inherit;
   text-decoration: none;
-
-  @include hover() {
-    color: inherit;
-    text-decoration: none;
-  }
 }
 
 
@@ -539,6 +541,6 @@ a.mw-selflink {
   margin-bottom:-5px;
 }
 
-.close {
+.btn-close {
 	cursor:pointer;
 }

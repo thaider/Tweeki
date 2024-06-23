@@ -819,13 +819,13 @@ class TweekiTemplate extends BaseTemplate {
 							$skin->renderBrand();
 						} ?>
 
-						<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+						<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
 							<span class="navbar-toggler-icon"></span>
 						</button>
 
 						<div id="navbar" class="collapse navbar-collapse">
 							<?php if ( $skin->checkVisibility( 'navbar-left' ) ) { ?>
-								<ul class="navbar-nav mr-auto">
+								<ul class="navbar-nav me-auto">
 									<?php $skin->renderNavbarElement( 'left' ); ?>
 								</ul>
 							<?php } ?>
@@ -1064,7 +1064,7 @@ class TweekiTemplate extends BaseTemplate {
 		if( $context == 'sidebar-left' || $context == 'sidebar-right' ) {
 			echo '<div id="tweekiTOC"></div>';
 		} else {
-			echo '<li class="nav dropdown" id="tweekiDropdownTOC"><a id="n-toc" class="dropdown-toggle" data-toggle="dropdown" href="#">' . wfMessage( 'Toc' )->text() . '<span class="caret"></span></a><ul class="dropdown-menu pull-right" role="menu" id="tweekiTOC"><li><a href="#">' . wfMessage( 'tweeki-toc-top' )->text() . '</a></li><li class="divider"></li></ul></li>';
+			echo '<li class="nav dropdown" id="tweekiDropdownTOC"><a id="n-toc" class="dropdown-toggle" data-bs-toggle="dropdown" href="#">' . wfMessage( 'Toc' )->text() . '<span class="caret"></span></a><ul class="dropdown-menu pull-right" role="menu" id="tweekiTOC"><li><a href="#">' . wfMessage( 'tweeki-toc-top' )->text() . '</a></li><li class="divider"></li></ul></li>';
 		}
 	}
 
@@ -1114,7 +1114,7 @@ class TweekiTemplate extends BaseTemplate {
 		if( strpos( $context, 'navbar' ) === 0 ) {
 			$dropdown['class'] .= ' nav-link';
 		}
-		$dropdown['data-toggle'] = 'dropdown';
+		$dropdown['data-bs-toggle'] = 'dropdown';
 		$dropdown['text'] = $this->getMsg( 'tweeki-login' )->text();
 		$dropdown['html'] = $dropdown['text'] . ' <b class="caret"></b>';
 		$dropdown['href'] = '#';
@@ -1150,7 +1150,7 @@ class TweekiTemplate extends BaseTemplate {
 				] );
 		echo '</div>
 				<div class="form-group">
-					<button type="submit" name="wpLoginAttempt" tabindex="103" id="wpLoginAttempt2" class="float-right btn btn-primary btn-block">
+					<button type="submit" name="wpLoginAttempt" tabindex="103" id="wpLoginAttempt2" class="float-end btn btn-primary btn-block">
 						' . $this->getMsg( 'pt-login-button' )->text() . '
 					</button>
 				</div>
