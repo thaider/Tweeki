@@ -91,13 +91,7 @@ class TweekiTemplate extends BaseTemplate {
 		}
 
 		// Output HTML Page
-		if ( version_compare( MW_VERSION, '1.39', '<' ) ) {
-			$this->html( 'headelement' );
-		}
 		call_user_func_array( $this->config->get( 'TweekiSkinPageRenderer' ), [ $this ] );
-		if ( version_compare( MW_VERSION, '1.39', '<' ) ) {
-			$this->printTrail();
-		}
 ?>
 	</body>
 </html>
