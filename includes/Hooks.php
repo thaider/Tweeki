@@ -265,12 +265,9 @@ class TweekiHooks {
 			$skin->getSkinName() == 'tweeki'
 			&& $GLOBALS['wgTweekiSkinCustomEditSectionLink'] == true
 		) {
-			$icon = wfMessage( 'tweeki-editsection-icon' )->inLanguage( $lang )->parse();
-			$text = wfMessage( 'tweeki-editsection-text' )->inLanguage( $lang )->parse();
-			$class = wfMessage( 'tweeki-editsection-class' )->inLanguage( $lang )->parse();
-			$text = new HtmlArmor( $icon . ( ( $icon != '' ) ? ' ' : '' ) . $text );
-			$links['editsection']['text'] = $text;
-			$links['editsection']['attribs']['class'] = $class;
+			$links['editsection']['link-html'] = wfMessage( 'tweeki-editsection-icon' )->inLanguage( $lang )->parse();
+			$links['editsection']['text'] = wfMessage( 'tweeki-editsection-text' )->inLanguage( $lang )->parse();
+			$links['editsection']['attribs']['class'] = wfMessage( 'tweeki-editsection-class' )->inLanguage( $lang )->parse();
 		}
 
 		return false;

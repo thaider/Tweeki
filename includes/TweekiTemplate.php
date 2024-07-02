@@ -631,7 +631,8 @@ class TweekiTemplate extends BaseTemplate {
 						if( !in_array( $name , ['TOOLBOX', 'SEARCH', 'LANGUAGES'] ) ) {
 							if ( empty ( $content ) ) {
 								if( strpos( $name, '|' ) !== false ) {
-									$parser = MediaWikiServices::getInstance()->getParser();
+									$parser = MediaWikiServices::getInstance()->getParserFactory()->create();
+									$parser->setOutputType(Parser::OT_HTML);
 									$sidebarItem = TweekiHooks::parseButtonLink( $name, $parser, false );
 									$sidebar[] = $sidebarItem[0];
 									continue;
@@ -1036,7 +1037,8 @@ class TweekiTemplate extends BaseTemplate {
 	 * @param $customItems array
 	 */
 	private function renderCustomNavigation( &$buttons, &$customItems ) {
-		$parser = MediaWikiServices::getInstance()->getParser();
+		$parser = MediaWikiServices::getInstance()->getParserFactory()->create();
+		$parser->setOutputType(Parser::OT_HTML);
 		$parser->setOptions( ParserOptions::newFromContext( $this->getSkin()->getContext() ) );
 		$parser->setTitle( $this->getSkin()->getTitle() );
 		$parser->clearState();
