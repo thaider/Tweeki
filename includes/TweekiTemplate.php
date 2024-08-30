@@ -820,7 +820,7 @@ class TweekiTemplate extends BaseTemplate {
 							$skin->renderBrand();
 						} ?>
 
-						<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+						<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
 							<span class="navbar-toggler-icon"></span>
 						</button>
 
