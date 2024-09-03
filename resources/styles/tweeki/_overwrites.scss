@@ -395,8 +395,8 @@ label > input[type=radio] {
 
         .table,
         .table.table-bordered {
-          border-left: 0;
-          border-right: 0;
+          border-left-width: 0;
+          border-right-width: 0;
 
           thead,
           tbody {
@@ -404,11 +404,11 @@ label > input[type=radio] {
               th,
               td {
                 &:first-child {
-                  border-left: 0;
+                  border-left-width: 0;
                 }
 
                 &:last-child {
-                  border-right: 0;
+                  border-right-width: 0;
                 }
               }
             }
