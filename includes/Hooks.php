@@ -354,16 +354,14 @@ class TweekiHooks {
 		static::$anchorID++;
 		$parent = $parser->recursiveTagParse( $args['parent'], $frame );
 		$card = '
-			<div class="card">
-				<div class="card-header" id="' . $parent . static::$anchorID . 'Heading">
-					<h2 class="mb-0">
-						<button class="btn btn-link" type="button" data-bs-toggle="collapse" data-parent="#' . $parent . '" data-target="#' . $parent . static::$anchorID . '" aria-expanded="' . ( isset( $args['class'] ) && $args['class'] == 'show' ? 'true' : 'false' ) . '" aria-controls="' . $parent . static::$anchorID . '">
+			<div class="accordion-item">
+				<h2 class="accordion-header" id="' . $parent . static::$anchorID . 'Heading">
+					<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#' . $parent . static::$anchorID . '" aria-expanded="' . ( isset( $args['class'] ) && $args['class'] == 'show' ? 'true' : 'false' ) . '" aria-controls="' . $parent . static::$anchorID . '">
 							' . $parser->recursiveTagParse( $args['heading'], $frame ) . '
-						</button>
-					</h2>
-				</div>
-				<div id="' . $parent . static::$anchorID . '" class="collapse ' . ( isset( $args['class'] ) ? htmlentities( $args['class'] ) : '' ) . '" aria-labelledby="' . $parent . static::$anchorID . 'Heading" data-parent="#' . $parent . '">
-					<div class="card-body">' . $parser->recursiveTagParse( $input, $frame ) . '</div>
+					</button>
+				</h2>
+				<div id="' . $parent . static::$anchorID . '" class="accordion-collapse collapse ' . ( isset( $args['class'] ) ? htmlentities( $args['class'] ) : '' ) . '" ' . (!isset( $args['alwaysopen'] ) ? 'data-bs-parent="#' . $parent . '"' : '' ) . '>
+					<div class="accordion-body">' . $parser->recursiveTagParse( $input, $frame ) . '</div>
 				</div>
 			</div>';
 		return $card;
