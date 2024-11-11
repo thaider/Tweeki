@@ -76,7 +76,7 @@ class TweekiTemplate extends BaseTemplate {
 		}
 
 		if (
-			isset ( $this->config->get( 'GroupPermissions' )['*']['edit'] ) &&
+			isset( $this->config->get( 'GroupPermissions' )['*']['edit'] ) &&
 			$this->config->get( 'GroupPermissions' )['*']['edit']  ||
 			$this->data['loggedin']
 		) {
