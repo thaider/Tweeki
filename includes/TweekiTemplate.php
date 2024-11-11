@@ -75,7 +75,11 @@ class TweekiTemplate extends BaseTemplate {
 			$this->data['userstateclass'] = "user-loggedout";
 		}
 
-		if ( $this->config->get( 'GroupPermissions' )['*']['edit'] || $this->data['loggedin'] ) {
+		if (
+			isset ( $this->config->get( 'GroupPermissions' )['*']['edit'] ) &&
+			$this->config->get( 'GroupPermissions' )['*']['edit']  ||
+			$this->data['loggedin']
+		) {
 			$this->data['userstateclass'] .= " editable";
 		} else {
 			$this->data['userstateclass'] .= " not-editable";
