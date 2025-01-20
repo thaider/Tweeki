@@ -356,7 +356,7 @@ class TweekiHooks {
 		$card = '
 			<div class="accordion-item">
 				<h2 class="accordion-header" id="' . $parent . static::$anchorID . 'Heading">
-					<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#' . $parent . static::$anchorID . '" aria-expanded="' . ( isset( $args['class'] ) && $args['class'] == 'show' ? 'true' : 'false' ) . '" aria-controls="' . $parent . static::$anchorID . '">
+					<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#' . $parent . static::$anchorID . '" aria-expanded="' . ( isset( $args['class'] ) && $args['class'] == 'show' ? 'true' : 'false' ) . '" aria-controls="' . $parent . static::$anchorID . '">
 							' . $parser->recursiveTagParse( $args['heading'], $frame ) . '
 					</button>
 				</h2>
