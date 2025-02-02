@@ -66,7 +66,7 @@ class TweekiTemplate extends BaseTemplate {
 			}
 		}
 		$this->data['pageLanguage'] =
-			$this->getSkin()->getTitle()->getPageViewLanguage()->getHtmlCode();
+			$this->getSkin()->getTitle()->getPageLanguage()->getHtmlCode();
 
 		//set userStateClass
 		if ( $this->data['loggedin'] ) {
@@ -902,7 +902,7 @@ class TweekiTemplate extends BaseTemplate {
 			<?php } ?>
 			<?php if ( $this->checkVisibility( 'firstHeading' ) ) { ?>
 			<h1 id="firstHeading" class="firstHeading page-header" lang="<?php
-				$this->data['pageLanguage'] = $this->getSkin()->getTitle()->getPageViewLanguage()->getHtmlCode();
+				$this->data['pageLanguage'] = $this->getSkin()->getTitle()->getPageLanguage()->getHtmlCode();
 				$this->text( 'pageLanguage' );
 			?>"><span dir="auto"><?php $this->html( 'title_formatted' ) ?></span></h1>
 			<?php } ?>
