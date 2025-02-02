@@ -659,7 +659,7 @@ class TweekiHooks {
 			}
 		}
 
-		if ( preg_match( '/^(?i:' . wfUrlProtocols() . ')/', $href ) ) {
+		if ( preg_match( '/^(?i:' . MediaWikiServices::getInstance()->getUrlUtils()->validProtocols() . ')/', $href ) ) {
 			// Parser::getExternalLinkAttribs won't work here because of the Namespace things
 			if ( $GLOBALS['wgNoFollowLinks'] && !wfMatchesDomainList( $href, $GLOBALS['wgNoFollowDomainExceptions'] ) ) {
 				$extraAttribs['rel'] = 'nofollow';
