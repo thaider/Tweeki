@@ -168,11 +168,11 @@
 			"descriptionmsg": "tweeki-config-footericons"
 		},
 		"TweekiSkinPageRenderer": {
-			"value": "self::renderPage",
+			"value": "TweekiTemplate::renderPage",
 			"descriptionmsg": "tweeki-config-pagerenderer"
 		},
 		"TweekiSkinNavbarRenderer": {
-			"value": "self::renderNavbar",
+			"value": "TweekiTemplate::renderNavbar",
 			"descriptionmsg": "tweeki-config-navbarrenderer"
 		},
 		"TweekiSkinNavigationalElements": {
@@ -181,12 +181,12 @@
 		},
 		"TweekiSkinSpecialElements": {
 			"value": {
-				"FIRSTHEADING": "self::renderFirstHeading",
-				"TOC": "self::renderTOC",
-				"SEARCH": "self::renderSearch",
-				"LOGO": "self::renderLogo",
-				"LOGIN-EXT": "self::renderLoginExt",
-				"FOOTER": "self::renderStandardFooter"
+				"FIRSTHEADING": "TweekiTemplate::renderFirstHeading",
+				"TOC": "TweekiTemplate::renderTOC",
+				"SEARCH": "TweekiTemplate::renderSearch",
+				"LOGO": "TweekiTemplate::renderLogo",
+				"LOGIN-EXT": "TweekiTemplate::renderLoginExt",
+				"FOOTER": "TweekiTemplate::renderStandardFooter"
 			},
 			"descriptionmsg": "tweeki-config-specialelements"
 		},
