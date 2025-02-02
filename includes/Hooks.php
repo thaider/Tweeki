@@ -458,7 +458,7 @@ class TweekiHooks {
 
 		$groups_except = explode( ',', func_get_arg( 1 ) );
 		$userGroupManager = MediaWikiServices::getInstance()->getUserGroupManager();
-		$groups_user = $userGroupManager->getUserEffectiveGroups($parser->getUser());
+		$groups_user = $userGroupManager->getUserEffectiveGroups($parser->getUserIdentity());
 		if( count( array_intersect( $groups_except, $groups_user ) ) == 0 ) {
 			for ( $i = 2; $i < func_num_args(); $i++ ) {
 				if ( in_array ( func_get_arg( $i ), $GLOBALS['wgTweekiSkinHideable'] ) ) {
