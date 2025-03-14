@@ -89,11 +89,7 @@ class TweekiHooks {
 			$styles = [];
 
 			// load mediawiki styles
-			if ( version_compare( MW_VERSION, '1.36', '<' ) ) {
-				$styles[] = 'skins.tweeki.mediawiki.legacy.styles';
-			} else {
-				$styles[] = 'skins.tweeki.mediawiki.styles';
-			}
+			$styles[] = 'skins.tweeki.mediawiki.styles';
 
 			// load font awesome
 			$styles[] = 'skins.tweeki.awesome.styles';
@@ -102,7 +98,7 @@ class TweekiHooks {
 			if( $config->get( 'TweekiSkinCustomStyleModule' ) ) {
 				$styles[] = $config->get( 'TweekiSkinCustomStyleModule' );
 
-			// or: load modules defined by tweeki
+				// or: load modules defined by tweeki
 			} else {
 				if( !$config->get( 'TweekiSkinUseCustomFiles' ) ) {
 					$styles[] = 'skins.tweeki.styles';
@@ -178,7 +174,7 @@ class TweekiHooks {
 			$userAdvanced = MediaWikiServices::getInstance()->getUserOptionsLookup()->getOption( $user, 'tweeki-advanced' );
 			$additionalBodyClasses[] = $userAdvanced ? 'tweeki-advanced' : 'tweeki-non-advanced';
 			$additionalBodyClasses[] = $user->isRegistered() ? 'tweeki-user-logged-in' : 'tweeki-user-anon';
-			
+
 			$additionalBodyClasses = array_merge( $additionalBodyClasses, $GLOBALS['wgTweekiSkinAdditionalBodyClasses'] );
 
 			$hookContainer = MediaWikiServices::getInstance()->getHookContainer();
@@ -266,13 +262,13 @@ class TweekiHooks {
 			&& $GLOBALS['wgTweekiSkinCustomEditSectionLink'] == true
 		) {
 			if ( version_compare( MW_VERSION, '1.40', '<' ) ) {
-                                $icon = wfMessage( 'tweeki-editsection-icon' )->inLanguage( $lang )->parse();
-                                $text = wfMessage( 'tweeki-editsection-text' )->inLanguage( $lang )->parse();
-                                $class = wfMessage( 'tweeki-editsection-class' )->inLanguage( $lang )->parse();
-                                $text = new HtmlArmor( $icon . ( ( $icon != '' ) ? ' ' : '' ) . $text );
-                                $links['editsection']['text'] = $text;
-                                $links['editsection']['attribs']['class'] = $class;
-                        } else {
+				$icon = wfMessage( 'tweeki-editsection-icon' )->inLanguage( $lang )->parse();
+				$text = wfMessage( 'tweeki-editsection-text' )->inLanguage( $lang )->parse();
+				$class = wfMessage( 'tweeki-editsection-class' )->inLanguage( $lang )->parse();
+				$text = new HtmlArmor( $icon . ( ( $icon != '' ) ? ' ' : '' ) . $text );
+				$links['editsection']['text'] = $text;
+				$links['editsection']['attribs']['class'] = $class;
+			} else {
 				$links['editsection']['link-html'] = wfMessage( 'tweeki-editsection-icon' )->inLanguage( $lang )->parse();
 				$links['editsection']['text'] = wfMessage( 'tweeki-editsection-text' )->inLanguage( $lang )->parse();
 				$links['editsection']['attribs']['class'] = wfMessage( 'tweeki-editsection-class' )->inLanguage( $lang )->parse();
@@ -1086,7 +1082,7 @@ class TweekiHooks {
 					$attrs['class'] = $options['link-class'];
 				}
 			}
-			
+
 			// tweeki: pass on active class
 			if ( isset( $item['active'] ) && $item['active'] ) {
 				if ( !isset( $attrs['class'] ) ) {
