@@ -272,21 +272,23 @@ body {
 .mw-editsection {
   vertical-align:middle;
 }
-h1:hover .tw-editsection-onhover,
-h2:hover .tw-editsection-onhover,
-h3:hover .tw-editsection-onhover,
-h4:hover .tw-editsection-onhover,
-h5:hover .tw-editsection-onhover,
-h6:hover .tw-editsection-onhover {
-  display:inline-block;
-}
-h1:hover .tw-editsection-onhover + .mw-editsection-divider,
-h2:hover .tw-editsection-onhover + .mw-editsection-divider,
-h3:hover .tw-editsection-onhover + .mw-editsection-divider,
-h4:hover .tw-editsection-onhover + .mw-editsection-divider,
-h5:hover .tw-editsection-onhover + .mw-editsection-divider,
-h6:hover .tw-editsection-onhover + .mw-editsection-divider {
-  display:inline-block;
+.mw-editable {
+	h1:hover .tw-editsection-onhover,
+	h2:hover .tw-editsection-onhover,
+	h3:hover .tw-editsection-onhover,
+	h4:hover .tw-editsection-onhover,
+	h5:hover .tw-editsection-onhover,
+	h6:hover .tw-editsection-onhover {
+	  display:inline-block;
+	}
+	h1:hover .tw-editsection-onhover + .mw-editsection-divider,
+	h2:hover .tw-editsection-onhover + .mw-editsection-divider,
+	h3:hover .tw-editsection-onhover + .mw-editsection-divider,
+	h4:hover .tw-editsection-onhover + .mw-editsection-divider,
+	h5:hover .tw-editsection-onhover + .mw-editsection-divider,
+	h6:hover .tw-editsection-onhover + .mw-editsection-divider {
+	  display:inline-block;
+	}
 }
 
 /* hide categories */
