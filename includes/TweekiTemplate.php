@@ -68,7 +68,7 @@ class TweekiTemplate extends BaseTemplate {
 			}
 		}
 		$this->data['pageLanguage'] =
-			$this->getSkin()->getTitle()->getPageViewLanguage()->getHtmlCode();
+			$this->getSkin()->getTitle()->getPageLanguage()->getHtmlCode();
 
 		//set userStateClass
 		if ( $this->data['loggedin'] ) {
