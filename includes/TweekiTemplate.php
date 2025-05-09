@@ -22,8 +22,10 @@
  * @ingroup Skins
  */
 
+use MediaWiki\Linker\Linker;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Session\SessionManager;
+use MediaWiki\Title\Title;
 
 /**
  * QuickTemplate subclass for Vector
