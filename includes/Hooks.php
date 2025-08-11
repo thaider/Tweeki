@@ -101,7 +101,7 @@ class TweekiHooks {
 			if( $config->get( 'TweekiSkinCustomStyleModule' ) ) {
 				$styles[] = $config->get( 'TweekiSkinCustomStyleModule' );
 
-			// or: load modules defined by tweeki
+				// or: load modules defined by tweeki
 			} else {
 				if( !$config->get( 'TweekiSkinUseCustomFiles' ) ) {
 					$styles[] = 'skins.tweeki.styles';
@@ -177,7 +177,7 @@ class TweekiHooks {
 			$userAdvanced = MediaWikiServices::getInstance()->getUserOptionsLookup()->getOption( $user, 'tweeki-advanced' );
 			$additionalBodyClasses[] = $userAdvanced ? 'tweeki-advanced' : 'tweeki-non-advanced';
 			$additionalBodyClasses[] = $user->isRegistered() ? 'tweeki-user-logged-in' : 'tweeki-user-anon';
-			
+
 			$additionalBodyClasses = array_merge( $additionalBodyClasses, $GLOBALS['wgTweekiSkinAdditionalBodyClasses'] );
 
 			$hookContainer = MediaWikiServices::getInstance()->getHookContainer();
@@ -295,10 +295,10 @@ class TweekiHooks {
 		) {
 			$out = ob_get_clean();
 			$out = str_replace( '<ul id="filetoc">', '<ul id="tw-filetoc" class="nav nav-tabs nav-justified" role="tablist">', $out );
-			$out = str_replace( '<li><a href="#file">', '<li class="nav-item"><a href="#file" id="file-tab" class="nav-link active" data-toggle="tab" role="tab" aria-controls="file" aria-selected="true">', $out );
-			$out = str_replace( '<li><a href="#filehistory">', '<li class="nav-item"><a href="#filehistory" id="filehistory-tab" class="nav-link" data-toggle="tab" role="tab" aria-controls="filehistory" aria-selected="false">', $out );
-			$out = str_replace( '<li><a href="#filelinks">', '<li class="nav-item"><a href="#filelinks" id="filelinks-tab" class="nav-link" data-toggle="tab" role="tab" aria-controls="filelinks" aria-selected="false">', $out );
-			$out = str_replace( '<li><a href="#metadata">', '<li class="nav-item"><a href="#metadata" id="metadata-tab" class="nav-link" data-toggle="tab" role="tab" aria-controls="metadata" aria-selected="false">', $out );
+			$out = str_replace( '<li><a href="#file">', '<li class="nav-item"><a href="#file" id="file-tab" class="nav-link active" data-bs-toggle="tab" role="tab" aria-controls="file" aria-selected="true">', $out );
+			$out = str_replace( '<li><a href="#filehistory">', '<li class="nav-item"><a href="#filehistory" id="filehistory-tab" class="nav-link" data-bs-toggle="tab" role="tab" aria-controls="filehistory" aria-selected="false">', $out );
+			$out = str_replace( '<li><a href="#filelinks">', '<li class="nav-item"><a href="#filelinks" id="filelinks-tab" class="nav-link" data-bs-toggle="tab" role="tab" aria-controls="filelinks" aria-selected="false">', $out );
+			$out = str_replace( '<li><a href="#metadata">', '<li class="nav-item"><a href="#metadata" id="metadata-tab" class="nav-link" data-bs-toggle="tab" role="tab" aria-controls="metadata" aria-selected="false">', $out );
 			$out = str_replace( '<div class="fullImageLink" id="file"', '<div class="tab-content"><div id="file" class="tab-pane fade show active" role="tabpanel" aria-labelledby="file-tab"><div class="fullImageLink"', $out );
 			$out = str_replace( '<h2 id="filehistory"', '</div><div id="filehistory" class="tab-pane fade" role="tabpanel" aria-labelledby="filehistory-tab"><h2', $out );
 			$out = str_replace( '<h2 id="filelinks"', '</div><div id="filelinks" class="tab-pane fade" role="tabpanel" aria-labelledby="filelinks-tab"><h2', $out );
@@ -353,16 +353,14 @@ class TweekiHooks {
 		static::$anchorID++;
 		$parent = $parser->recursiveTagParse( $args['parent'], $frame );
 		$card = '
-			<div class="card">
-				<div class="card-header" id="' . $parent . static::$anchorID . 'Heading">
-					<h2 class="mb-0">
-						<button class="btn btn-link" type="button" data-toggle="collapse" data-parent="#' . $parent . '" data-target="#' . $parent . static::$anchorID . '" aria-expanded="' . ( isset( $args['class'] ) && $args['class'] == 'show' ? 'true' : 'false' ) . '" aria-controls="' . $parent . static::$anchorID . '">
+			<div class="accordion-item">
+				<h2 class="accordion-header" id="' . $parent . static::$anchorID . 'Heading">
+					<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#' . $parent . static::$anchorID . '" aria-expanded="' . ( isset( $args['class'] ) && $args['class'] == 'show' ? 'true' : 'false' ) . '" aria-controls="' . $parent . static::$anchorID . '">
 							' . $parser->recursiveTagParse( $args['heading'], $frame ) . '
-						</button>
-					</h2>
-				</div>
-				<div id="' . $parent . static::$anchorID . '" class="collapse ' . ( isset( $args['class'] ) ? htmlentities( $args['class'] ) : '' ) . '" aria-labelledby="' . $parent . static::$anchorID . 'Heading" data-parent="#' . $parent . '">
-					<div class="card-body">' . $parser->recursiveTagParse( $input, $frame ) . '</div>
+					</button>
+				</h2>
+				<div id="' . $parent . static::$anchorID . '" class="accordion-collapse collapse ' . ( isset( $args['class'] ) ? htmlentities( $args['class'] ) : '' ) . '" ' . (!isset( $args['alwaysopen'] ) ? 'data-bs-parent="#' . $parent . '"' : '' ) . '>
+					<div class="accordion-body">' . $parser->recursiveTagParse( $input, $frame ) . '</div>
 				</div>
 			</div>';
 		return $card;
@@ -664,7 +662,7 @@ class TweekiHooks {
 			}
 		}
 
-		if ( preg_match( '/^(?i:' . wfUrlProtocols() . ')/', $href ) ) {
+		if ( preg_match( '/^(?i:' . MediaWikiServices::getInstance()->getUrlUtils()->validProtocols() . ')/', $href ) ) {
 			// Parser::getExternalLinkAttribs won't work here because of the Namespace things
 			if ( $GLOBALS['wgNoFollowLinks'] && !wfMatchesDomainList( $href, $GLOBALS['wgNoFollowDomainExceptions'] ) ) {
 				$extraAttribs['rel'] = 'nofollow';
@@ -793,7 +791,7 @@ class TweekiHooks {
 					$wrapperclass = 'dropdown';
 				}
 				else {
-					$wrapperclass = 'btn-group mr-2';
+					$wrapperclass = 'btn-group me-2';
 				}
 			}
 
@@ -809,10 +807,11 @@ class TweekiHooks {
 				'aria-controls',
 				'aria-expanded',
 				'aria-selected',
-				'data-target',
-				'data-dismiss',
-				'data-placement',
-				'data-slide',
+				'aria-label',
+				'data-bs-target',
+				'data-bs-dismiss',
+				'data-bs-placement',
+				'data-bs-slide',
 				'title',
 				'role',
 			];
@@ -823,11 +822,11 @@ class TweekiHooks {
 				}
 			}
 
-			// if data-toggle attribute is set, unset wrapper and add attribute and toggle-class
-			if ( isset( $options['data-toggle'] ) ) {
+			// if data-bs-toggle attribute is set, unset wrapper and add attribute and toggle-class
+			if ( isset( $options['data-bs-toggle'] ) ) {
 				$wrapper = '';
-				$button['data-toggle'] = $options['data-toggle'];
-				$button['class'] .= ' ' . $options['data-toggle'] . '-toggle';
+				$button['data-bs-toggle'] = $options['data-bs-toggle'];
+				$button['class'] .= ' ' . $options['data-bs-toggle'] . '-toggle';
 			}
 
 			// if html is not set, use text and sanitize it
@@ -913,7 +912,7 @@ class TweekiHooks {
 			$caret = [
 				'class' => 'dropdown-toggle dropdown-toggle-split ' . $dropdown['class'],
 				'href' => '#',
-				'data-toggle' => 'dropdown',
+				'data-bs-toggle' => 'dropdown',
 				'html' => '<span class="sr-only">Toggle Dropdown</span>',
 				'aria-haspopup' => 'true'
 			];
@@ -923,7 +922,7 @@ class TweekiHooks {
 		// ordinary dropdown
 		else {
 			$dropdown['class'] .= ' dropdown-toggle';
-			$dropdown['data-toggle'] = 'dropdown';
+			$dropdown['data-bs-toggle'] = 'dropdown';
 			$dropdown['href'] = '#';
 			$dropdown['aria-haspopup'] = 'true';
 			$renderedDropdown .= TweekiHooks::makeLink( $dropdown );
@@ -1087,7 +1086,7 @@ class TweekiHooks {
 					$attrs['class'] = $options['link-class'];
 				}
 			}
-			
+
 			// tweeki: pass on active class
 			if ( isset( $item['active'] ) && $item['active'] ) {
 				if ( !isset( $attrs['class'] ) ) {

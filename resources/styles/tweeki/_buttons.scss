@@ -95,4 +95,36 @@ body #contentwrapper #maincontentwrapper {
       background-color:transparent;
     }
   }
+
+  // Button and icons on page forms
+  input, button {
+    &[name=wpPreview], &[name=wpDiff], &[name=add_section] {
+      @extend .btn-primary;
+    }
+  }
+  .oo-ui-flaggedElement-destructive > .oo-ui-buttonElement-button {
+    @extend .btn-danger;
+  }
+
+  button .oo-ui-iconElement-icon {
+    // Apply fa styles for icons inside buttons
+    display: contents;
+
+    &:before {
+      font-family: "Font Awesome 5 Free";
+      font-weight: $font-weight-bold;
+    }
+
+    &.oo-ui-icon-subtract:before {
+      content: "\f068"; // fa-minus
+    }
+
+    &.oo-ui-icon-add:before {
+      content: "\2b"; // fa-plus
+    }
+
+    &+.oo-ui-labelElement-label::before {
+      content: " ";
+    }
+  }
 }
