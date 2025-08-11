@@ -79,18 +79,18 @@
 		},
 		"skins.tweeki.mediawiki.styles": {
 			"class": "MediaWiki\\ResourceLoader\\SkinModule",
-		    "features": {
-		        "content-links": true,
-		        "content-links-external": true,
-		        "content-media": true,
-		        "interface-message-box": true,
-		        "interface-category": true,
-		        "content-tables": true,
-		        "i18n-ordered-lists": true,
-		        "i18n-all-lists-margins": true,
-		        "i18n-headings": true,
-		        "toc": false
-		    },
+			"features": {
+				"content-links": true,
+				"content-links-external": true,
+				"content-media": true,
+				"interface-message-box": true,
+				"interface-category": true,
+				"content-tables": true,
+				"i18n-ordered-lists": true,
+				"i18n-all-lists-margins": true,
+				"i18n-headings": true,
+				"toc": false
+			},
 			"position": "top",
 			"styles": {
 				"public/legacy/mediawiki/mediawiki.less": {}
