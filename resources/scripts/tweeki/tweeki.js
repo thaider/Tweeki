@@ -6,7 +6,8 @@ jQuery(document).ready(function ($) {
   if(mw.config.get('wgTweekiSkinUseTooltips') === true ) {
     // initialize tooltips
     $(document).ready(function() {
-      $('[data-toggle="tooltip"]').tooltip()
+      $('[data-bs-toggle="tooltip"]').tooltip();
+      $('[data-toggle="tooltip"]').tooltip(); // for backwards compatibility
 
       // Page Forms: tooltips for multiple instance forms
       $('.addAboveButton, .removeButton').tooltip();

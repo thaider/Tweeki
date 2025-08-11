@@ -1,6 +1,6 @@
 {
 	"name": "Tweeki",
-	"version": "4.39.3-dev",
+	"version": "5.43.0-dev",
 	"author": "Tobias Haider",
 	"url": "https://tweeki.kollabor.at",
 	"descriptionmsg": "tweeki-skin-desc",
@@ -8,7 +8,7 @@
 	"license-name": "GPL-2.0-or-later",
 	"type": "skin",
 	"requires": {
-		"MediaWiki": ">= 1.39.0"
+		"MediaWiki": ">= 1.43.0"
 	},
 	"ConfigRegistry": {
 		"tweeki": "GlobalVarConfig::newInstance"
@@ -81,6 +81,7 @@
 			"class": "MediaWiki\\ResourceLoader\\SkinModule",
 		    "features": {
 		        "content-links": true,
+		        "content-links-external": true,
 		        "content-media": true,
 		        "interface-message-box": true,
 		        "interface-category": true,

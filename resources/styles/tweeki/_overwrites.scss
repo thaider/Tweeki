@@ -165,6 +165,14 @@ body {
   margin-bottom:1em;
   padding-top:.5em;
   padding-bottom:1em;
+
+  a {
+    text-decoration:none;
+
+    &:hover {
+      text-decoration:underline;
+    }
+  }
 }
 
 @include media-breakpoint-up(md) {
@@ -264,21 +272,23 @@ body {
 .mw-editsection {
   vertical-align:middle;
 }
-h1:hover .tw-editsection-onhover,
-h2:hover .tw-editsection-onhover,
-h3:hover .tw-editsection-onhover,
-h4:hover .tw-editsection-onhover,
-h5:hover .tw-editsection-onhover,
-h6:hover .tw-editsection-onhover {
-  display:inline-block;
-}
-h1:hover .tw-editsection-onhover + .mw-editsection-divider,
-h2:hover .tw-editsection-onhover + .mw-editsection-divider,
-h3:hover .tw-editsection-onhover + .mw-editsection-divider,
-h4:hover .tw-editsection-onhover + .mw-editsection-divider,
-h5:hover .tw-editsection-onhover + .mw-editsection-divider,
-h6:hover .tw-editsection-onhover + .mw-editsection-divider {
-  display:inline-block;
+.mw-editable {
+	h1:hover .tw-editsection-onhover,
+	h2:hover .tw-editsection-onhover,
+	h3:hover .tw-editsection-onhover,
+	h4:hover .tw-editsection-onhover,
+	h5:hover .tw-editsection-onhover,
+	h6:hover .tw-editsection-onhover {
+	  display:inline-block;
+	}
+	h1:hover .tw-editsection-onhover + .mw-editsection-divider,
+	h2:hover .tw-editsection-onhover + .mw-editsection-divider,
+	h3:hover .tw-editsection-onhover + .mw-editsection-divider,
+	h4:hover .tw-editsection-onhover + .mw-editsection-divider,
+	h5:hover .tw-editsection-onhover + .mw-editsection-divider,
+	h6:hover .tw-editsection-onhover + .mw-editsection-divider {
+	  display:inline-block;
+	}
 }
 
 /* hide categories */
@@ -373,7 +383,6 @@ label > input[type=radio] {
 
       & > a {
         @extend .badge;
-        @extend .badge-secondary;
 
         position: absolute;
         top: $spacer;
@@ -388,8 +397,8 @@ label > input[type=radio] {
 
         .table,
         .table.table-bordered {
-          border-left: 0;
-          border-right: 0;
+          border-left-width: 0;
+          border-right-width: 0;
 
           thead,
           tbody {
@@ -397,11 +406,11 @@ label > input[type=radio] {
               th,
               td {
                 &:first-child {
-                  border-left: 0;
+                  border-left-width: 0;
                 }
 
                 &:last-child {
-                  border-right: 0;
+                  border-right-width: 0;
                 }
               }
             }
@@ -512,11 +521,6 @@ label > input[type=radio] {
 a.mw-selflink {
   color: inherit;
   text-decoration: none;
-
-  @include hover() {
-    color: inherit;
-    text-decoration: none;
-  }
 }
 
 
@@ -539,6 +543,6 @@ a.mw-selflink {
   margin-bottom:-5px;
 }
 
-.close {
+.btn-close {
 	cursor:pointer;
 }
