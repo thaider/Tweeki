@@ -11,7 +11,7 @@
 		"MediaWiki": ">= 1.43.0"
 	},
 	"ConfigRegistry": {
-		"tweeki": "GlobalVarConfig::newInstance"
+		"tweeki": "MediaWiki\\Config\\GlobalVarConfig::newInstance"
 	},
 	"ValidSkinNames": {
 		"tweeki": "Tweeki"
