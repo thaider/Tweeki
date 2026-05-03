@@ -314,7 +314,7 @@ class TweekiHooks {
 	 * Enable use of <toc> tag
 	 */
 	public static function TOC( $input, array $args, Parser $parser, PPFrame $frame ) {
-		if ( !self::getSkinTweekiSkin() ) {
+		if ( !self::getSkinTweekiSkin() || is_null( $input ) ) {
 			return [];
 		}
 		return [ '<div class="tweeki-toc">' . $parser->recursiveTagParse( $input ) . '</div>' ];

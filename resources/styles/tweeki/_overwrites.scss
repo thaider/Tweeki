@@ -546,3 +546,10 @@ a.mw-selflink {
 .btn-close {
 	cursor:pointer;
 }
+
+
+// make img-fluid work with new way how mw uses class argument for images
+.img-fluid img {
+  @extend .img-fluid;
+}
+
