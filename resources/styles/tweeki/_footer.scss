@@ -26,6 +26,10 @@
     li#footer-poweredbyico {
       display: flex;
       flex-direction: column;
+
+      .smw-footer {
+        margin-left: 0;
+      }
     }
   }
 }
