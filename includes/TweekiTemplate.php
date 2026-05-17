@@ -39,7 +39,7 @@ class TweekiTemplate extends BaseTemplate {
 	 * Outputs the entire contents of the (X)HTML page
 	 */
 	public function execute() {
-		$this->data['namespace_urls'] = $this->data['content_navigation']['namespaces'];
+		$this->data['namespace_urls'] = $this->data['content_navigation']['associated-pages'];
 		$this->data['view_urls'] = $this->data['content_navigation']['views'];
 		$this->data['action_urls'] = $this->data['content_navigation']['actions'];
 		$this->data['variant_urls'] = $this->data['content_navigation']['variants'];

@@ -8,7 +8,7 @@
 	"license-name": "GPL-2.0-or-later",
 	"type": "skin",
 	"requires": {
-		"MediaWiki": ">= 1.43.0"
+		"MediaWiki": ">= 1.46.0"
 	},
 	"ConfigRegistry": {
 		"tweeki": "MediaWiki\\Config\\GlobalVarConfig::newInstance"
@@ -51,19 +51,16 @@
 			]
 		},
 		"skins.tweeki.styles": {
-			"position": "top",
 			"styles": {
 				"public/default/css/tweeki.css": {}
 			}
 		},
 		"skins.tweeki.custom.styles": {
-			"position": "top",
 			"styles": {
 				"public/custom/css/custom.css": {}
 			}
 		},
 		"skins.tweeki.externallinks.styles": {
-			"position": "top",
 			"styles": {
 				"public/legacy/css/externallinks.less": {
 					"media": "screen"
@@ -72,7 +69,6 @@
 		},
 		"skins.tweeki.mediawiki.legacy.styles": {
 			"class": "MediaWiki\\ResourceLoader\\SkinModule",
-			"position": "top",
 			"styles": {
 				"public/legacy/mediawiki/mediawiki.less": {}
 			}
@@ -83,27 +79,23 @@
 				"content-links": true,
 				"content-links-external": true,
 				"content-media": true,
-				"interface-message-box": true,
 				"interface-category": true,
 				"content-tables": true,
 				"i18n-ordered-lists": true,
-				"i18n-all-lists-margins": true,
+				"elements": true,
 				"i18n-headings": true,
 				"toc": false
 			},
-			"position": "top",
 			"styles": {
 				"public/legacy/mediawiki/mediawiki.less": {}
 			}
 		},
 		"skins.tweeki.awesome.styles": {
-			"position": "top",
 			"styles": {
 				"public/awesome/css/all.min.css": {}
 			}
 		},
 		"skins.tweeki.scripts": {
-			"position": "bottom",
 			"scripts": [
 				"public/default/js/tweeki.js"
 			],
