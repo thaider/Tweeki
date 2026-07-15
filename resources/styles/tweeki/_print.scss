@@ -1,33 +1,40 @@
 /* Tweeki print styles */
 
 @media print {
-	/* hide most of the unimportant stuff */
-	.noprint,
-	#mw-navigation,
-	#mw-page-base,
-	#mw-head-base,
-	#toc,
-	.sidebar-wrapper,
-	body #footer,
-	#page-header,
-	body #sidebar-left,
-	body #sidebar-right {
-		display:none;
-	}
+  /* hide most of the unimportant stuff */
+  .noprint,
+  #mw-navigation,
+  #mw-page-base,
+  #mw-head-base,
+  #toc,
+  .sidebar-wrapper,
+  body #footer,
+  #page-header,
+  body #sidebar-left,
+  body #sidebar-right,
+  .patrollink {
+    display:none;
+  }
 
-	#maincontentwrapper {
-		max-width:100%;
-		flex:auto;
-	}
+  body {
+    font-size:.75rem;
+  }
 
-	.printfooter {
-		color:#666;
-		font-style:italic;
-		font-size:smaller;
-	}
+  #maincontentwrapper,
+  #contentwrapper {
+    max-width:100%;
+    width:100%;
+    flex:auto;
+  }
 
-	/* print accordions */
-	.collapse {
-		display:block;
-	}
+  .printfooter {
+    color:#666;
+    font-style:italic;
+    font-size:smaller;
+  }
+
+  /* print accordions */
+  .collapse {
+    display:block;
+  }
 }
