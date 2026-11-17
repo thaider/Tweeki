@@ -277,8 +277,6 @@ class TweekiHooks {
 				$links['editsection']['attribs']['class'] = wfMessage( 'tweeki-editsection-class' )->inLanguage( $lang )->parse();
 			}
 		}
-
-		return false;
 	}
 
 
